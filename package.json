@@ -1,6 +1,6 @@
 {
-  "name": "eopf",
-  "version": "0.3.0",
+  "name": "eopf-explorer-landing-page",
+  "version": "0.0.0",
   "type": "module",
   "devDependencies": {
     "@eox/pages-theme-eox": "^0.9.3"
