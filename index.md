@@ -32,7 +32,7 @@ This initiative addresses the critical need for efficient access and visualisati
   landing
   primaryButton="Read more"
   primaryLink="/features/feature-a"
-  tagline="Web Otimized Zarr for EOPF"
+  tagline="Web Optimized Zarr for EOPF"
   title="Data Model Development"
 >
 At the core of our activity is the development of a data model for web-optimised data access.
