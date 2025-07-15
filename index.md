@@ -68,25 +68,25 @@ Read more about the considerations and design principles, as well as the relatio
   <summary>
     <p class="bold">+ What is EOPF?</p>
   </summary>
-    <p class="small-text">The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the [Earth Observation Processor Framework (EOPF)](https://eopf.copernicus.eu/) initiative. The initiative represents a fundamental shift away from traditional, rigid data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
+    <p class="small-text">The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eopf.copernicus.eu/" target="_blank" class="link">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, rigid data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
 </details>
 <details>
   <summary>
     <p class="bold">+ What is Zarr?</p>
   </summary>
-    <p class="small-text">[Zarr](https://zarr.dev/) is a container format for storage of large N-dimensional typed arrays. The development of Zarr is motivated by the need for a simple, transparent, open, and community-driven format that supports high-throughput distributed I/O on different storage systems. </p>
+    <p class="small-text"><a href="https://zarr.dev/" target="_blank" class="link">Zarr</a> is a container format for storage of large N-dimensional typed arrays. The development of Zarr is motivated by the need for a simple, transparent, open, and community-driven format that supports high-throughput distributed I/O on different storage systems. </p>
 </details>
 <details>
   <summary>
     <p class="bold">+ What is GeoZarr?</p>
   </summary>
-    <p class="small-text">[GeoZarr](https://github.com/zarr-developers/geozarr-spec) is an emerging convention to represent geo-spatial data in the Zarr container format.</p>
+    <p class="small-text"><a href="https://github.com/zarr-developers/geozarr-spec" target="_blank" class="link">GeoZarr</a> is an emerging convention to represent geo-spatial data in the Zarr container format.</p>
 </details>
 <details>
   <summary>
     <p class="bold">+ What is Web-Optimized Zarr?</p>
   </summary>
-    <p class="small-text">[Web-optimized Zarr (WOZ)](https://developmentseed.org/geozarr-examples/web-optimized-zarr.html) provides a set of additional recommendations on top of the GeoZarr specification for optimal browser-based analysis and visualization. The specific recommendations are still under development.</p>
+    <p class="small-text"><a href="https://developmentseed.org/geozarr-examples/web-optimized-zarr.html" target="_blank" class="link">Web-optimized Zarr (WOZ)</a> provides a set of additional recommendations on top of the GeoZarr specification for optimal browser-based analysis and visualization. The specific recommendations are still under development.</p>
 </details>
 <details>
   <summary>
@@ -104,7 +104,7 @@ Read more about the considerations and design principles, as well as the relatio
   <summary>
     <p class="bold">+ How is this project related to the EOPF Sentinel Zarr Samples?</p>
   </summary>
-    <p class="small-text">The [EOPF Sentinel Zarr Samples](https://zarr.eopf.copernicus.eu/) platform provides  </p>
+    <p class="small-text">The <a href="https://zarr.eopf.copernicus.eu/" target="_blank" class="link">EOPF Sentinel Zarr Samples</a> platform provides  </p>
 </details>
 <br />
 <br />
