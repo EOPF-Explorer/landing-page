@@ -2,6 +2,10 @@
   "name": "eopf-explorer-landing-page",
   "version": "0.0.0",
   "type": "module",
+  "dependencies": {
+    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@79881d0",
+    "@eox/storytelling": "^1.9.0"
+  },
   "devDependencies": {
     "@eox/pages-theme-eox": "^0.9.4"
   },

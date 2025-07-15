@@ -16,7 +16,7 @@ hero:
       link: /foo
     - theme: secondary
       text: Browse Sentinels
-      link: /bar
+      link: /sentinelexplorer
 footer: false
 ---
 
