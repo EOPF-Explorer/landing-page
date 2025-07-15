@@ -59,7 +59,6 @@ Read more about the considerations and design principles, as well as the relatio
   altButton="Find us on GitHub"
   altLink="https://github.com/eopf-explorer"
   dark
-  style="margin-bottom: 0"
 />
 
 
@@ -107,6 +106,9 @@ Read more about the considerations and design principles, as well as the relatio
   </summary>
     <p class="small-text">The [EOPF Sentinel Zarr Samples](https://zarr.eopf.copernicus.eu/) platform provides  </p>
 </details>
+<br />
+<br />
+<br />
 
 <footer class="full-width large-padding" style="background: #013144">
   <div class="holder large-padding vertical-margin large-margin small-text">
