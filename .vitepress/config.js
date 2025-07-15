@@ -19,7 +19,7 @@ export default defineConfig({
           />
         </svg>
       </i>
-      <span>This page contains pre-release content</span>
+      <span>This is a pre-release version of our website.</span>
     `,
   },
 });
