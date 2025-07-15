@@ -3,3 +3,10 @@
 * {
   font-family: Roboto !important;
 }
+
+@media (max-width: 768px) {
+  header {
+    height: auto;
+    padding-top: 7rem !important;
+  }
+}
