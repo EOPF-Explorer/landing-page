@@ -9,7 +9,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: "Documentation", link: "#" },
-      { text: "Discussion", link: "#" }
+      { text: "Discussion", link: "#" },
     ],
   },
 });
