@@ -35,9 +35,7 @@ This initiative addresses the critical need for efficient access and visualisati
   tagline="Web Optimized Zarr for EOPF"
   title="Data Model Development"
 >
-At the core of our activity is the development of a data model for web-optimised data access.
-
-Read more about the considerations and design principles, as well as the relationship to ongoing community efforts for the GeoZarr and Web-Optimized Zarr (WOZ) conventions.
+At the core of our activity is the development of a data model for web-optimised data access. <br /><br /> Read more about the considerations and design principles, as well as the relationship to ongoing community efforts for the GeoZarr and Web-Optimized Zarr (WOZ) conventions.
 </FeatureSection>
 
 ### Our Goals
