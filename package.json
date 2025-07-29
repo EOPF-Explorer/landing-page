@@ -3,16 +3,20 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@79881d0",
+    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@f546a2c",
     "@eox/storytelling": "^1.9.0"
   },
   "devDependencies": {
-    "@eox/pages-theme-eox": "^0.10.1"
+    "@eox/pages-theme-eox": "^0.10.1",
+    "eslint-plugin-vue": "^10.3.0",
+    "typescript": "^5.8.3",
+    "vue-tsc": "^3.0.3"
   },
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
     "serve": "vitepress serve",
-    "format": "npx prettier --write **/*.{js,css,vue}"
+    "format": "npx prettier --write **/*.{js,css,json}",
+    "check": "vue-tsc --noEmit --skipLibCheck && eslint ."
   }
 }

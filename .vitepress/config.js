@@ -11,6 +11,11 @@ export default defineConfig({
       },
     },
   },
+  vite:{
+    server:{
+      allowedHosts: true,
+    }
+  },
   // Change the page config here
   base: "/landing-page/",
   themeConfig: {

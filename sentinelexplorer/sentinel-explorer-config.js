@@ -1,16 +1,17 @@
+/** @type {import('@eodash/eodash').Eodash} */
 export default {
   id: "demo",
-  options: {
-  },
-  stacEndpoint: "https://eopf-explorer.github.io/sentinel-dataset-exploration-catalog/sentinelexplorer/catalog.json",
+  options: {},
+  stacEndpoint:
+    "https://eopf-explorer.github.io/sentinel-dataset-exploration-catalog/sentinelexplorer/catalog.json",
   brand: {
     noLayout: true,
     name: "Sentinel Explorer Usecase",
     theme: {
       colors: {
-        primary: "#3333",
-        secondary: "#A3A3A3",
-        surface: "#ffff",
+        primary: "#ffff",
+        secondary: "#00c2ff",
+        surface: "#ffffff",
       },
       variables: {
         "surface-opacity": 0.8,
@@ -68,24 +69,25 @@ export default {
             name: "EodashTools",
             properties: {
               layoutTarget: "light",
-              layoutIcon: "M13,3V9H21V3M13,21H21V11H13M3,21H11V15H3M3,13H11V3H3V13Z",
+              showLayoutSwitcher: false,
               itemFilterConfig: {
                 enableHighlighting: false,
                 filterProperties: [
                   {
                     keys: ["title"],
                     title: "Search",
+                    //@ts-expect-error TODO
                     placeholder: "Search by name",
                     type: "text",
-                    expanded : true
-                  }
+                    expanded: true,
+                  },
                 ],
                 aggregateResults: "collection_group",
                 resultType: "cards",
                 subTitleProperty: "subtitle",
                 imageProperty: "thumbnail",
                 style: {
-                  "--select-filter-max-items": 8
+                  "--select-filter-max-items": 8,
                 },
               },
             },
@@ -163,6 +165,7 @@ export default {
         },
         {
           defineWidget: (selectedSTAC) =>
+            //@ts-expect-error defined in eodash
             window.eodashStore.actions.includesProcess(selectedSTAC)
               ? {
                   id: "Processes",
@@ -222,7 +225,7 @@ export default {
                     title: "Search",
                     placeholder: "Search by name",
                     type: "text",
-                    expanded : true
+                    expanded: true,
                   },
                 ],
                 aggregateResults: "collection_group",
@@ -230,7 +233,7 @@ export default {
                 subTitleProperty: "subtitle",
                 imageProperty: "thumbnail",
                 style: {
-                  "--select-filter-max-items": 8
+                  "--select-filter-max-items": 8,
                 },
               },
             },
@@ -256,15 +259,15 @@ export default {
                     title: "Search",
                     placeholder: "Search by name",
                     type: "text",
-                    expanded : true
-                  }
+                    expanded: true,
+                  },
                 ],
                 aggregateResults: "collection_group",
                 resultType: "cards",
                 subTitleProperty: "subtitle",
                 imageProperty: "thumbnail",
                 style: {
-                  "--select-filter-max-items": 8
+                  "--select-filter-max-items": 8,
                 },
                 filtersTitle: "Select an indicator to compare",
                 resultsTitle: "",
