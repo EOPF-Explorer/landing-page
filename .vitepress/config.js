@@ -4,12 +4,24 @@ import baseConfig from "@eox/pages-theme-eox/config";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends: baseConfig("eopf"),
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: (el) => el.includes("-"),
+      },
+    },
+  },
+  vite:{
+    server:{
+      allowedHosts: true,
+    }
+  },
   // Change the page config here
   base: "/",
   themeConfig: {
     nav: [
-      { text: "Documentation", link: "#" },
-      { text: "Discussion", link: "#" },
+      { text: "Data Model", link: "/foo" },
+      { text: "Browse Sentinels", link: "/sentinelexplorer" },
     ],
     newsBanner: `
       <i class="small">
