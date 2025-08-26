@@ -17,7 +17,7 @@ export default defineConfig({
     }
   },
   // Change the page config here
-  base: "/landing-page/",
+  base: "/",
   themeConfig: {
     nav: [
       { text: "Data Model", link: "/foo" },
