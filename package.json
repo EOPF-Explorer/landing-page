@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@f546a2c",
+    "@eodash/eodash": "^5.1.0",
     "@eox/storytelling": "^1.9.0"
   },
   "devDependencies": {
