@@ -1,16 +1,24 @@
 @import url("/fonts/Exo_2/exo2.css");
 @import url("/fonts/Open_Sans/opensans.css");
 
-:root{
-  --vp-font-family-base: 'Open Sans', sans-serif;
+:root {
+  --vp-font-family-base: "Open Sans", sans-serif;
+}
+.news-banner {
+  top: calc(var(--vp-nav-height) - 10px) !important;
 }
 
 body {
-  font-family:  'Open Sans', sans-serif !important;
+  font-family: "Open Sans", sans-serif !important;
 }
 
-h1,h2,h3,h4,h5,h6 {
-  font-family: 'Exo 2', sans-serif !important;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Exo 2", sans-serif !important;
 }
 
 @media (max-width: 768px) {
