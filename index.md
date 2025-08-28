@@ -13,10 +13,10 @@ hero:
   actions:
     - theme: brand
       text: Data Model
-      link: /foo
-    - theme: secondary
-      text: Browse Sentinels
-      link: /bar
+      link: https://github.com/EOPF-Explorer/data-model
+    # - theme: secondary
+    #   text: Browse Sentinels
+    #   link: /bar
 footer: false
 ---
 
@@ -31,7 +31,7 @@ This initiative addresses the critical need for efficient access and visualisati
   image="media/web-optimized-zarr.png"
   landing
   primaryButton="Read more"
-  primaryLink="/features/feature-a"
+  primaryLink="https://github.com/EOPF-Explorer/data-model"
   tagline="Web Optimized Zarr for EOPF"
   title="Data Model Development"
 >
@@ -52,10 +52,8 @@ At the core of our activity is the development of a data model for web-optimised
 <CTASection
   title="Join the discussion!"
   tagline="This is a community-driven project, and we welcome your feedback and contributions."
-  primaryButton="Contact us"
-  primaryLink="/foo/bar"
-  altButton="Find us on GitHub"
-  altLink="https://github.com/eopf-explorer"
+  primaryButton="Find us on GitHub"
+  primaryLink="https://github.com/eopf-explorer"
   dark
 />
 
@@ -108,7 +106,7 @@ At the core of our activity is the development of a data model for web-optimised
 <br />
 <br />
 
-<footer class="full-width large-padding" style="background: #013144">
+<footer class="full-width large-padding" style="background: #003047">
   <div class="holder large-padding vertical-margin large-margin small-text">
     <div class="grid white-text">
       <div class="s12 m6 l3">
