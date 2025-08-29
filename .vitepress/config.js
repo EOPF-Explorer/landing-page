@@ -8,8 +8,8 @@ export default defineConfig({
   base: "/",
   themeConfig: {
     nav: [
-      { text: "Documentation", link: "#" },
-      { text: "Discussion", link: "#" },
+      // { text: "Documentation", link: "#" },
+      // { text: "Discussion", link: "#" },
     ],
     newsBanner: `
       <i class="small">
@@ -19,7 +19,52 @@ export default defineConfig({
           />
         </svg>
       </i>
-      <span>This is a pre-release version of our website</span>
+      <span>This is a pre-release version. Launching in September 2025.</span>
     `,
+  },
+  transformHead({ head }){
+    return [
+      [
+          'link',
+          {
+            rel: 'preload',
+            href: "/fonts/Exo2-VariableFont_wght.ttf",
+            as: 'font',
+            type: 'font/ttf',
+            crossorigin: ''
+          }
+        ],
+        [
+          'link',
+          {
+            rel: 'preload',
+            href: "/fonts/Exo2-Italic-VariableFont_wght.ttf",
+            as: 'font',
+            type: 'font/ttf',
+            crossorigin: ''
+          }
+        ],
+        [
+          'link',
+          {
+            rel: 'preload',
+            href: "/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf",
+            as: 'font',
+            type: 'font/ttf',
+            crossorigin: ''
+          }
+        ],
+        [
+          'link',
+          {
+            rel: 'preload',
+            href: "/fonts/OpenSans-VariableFont_wdth,wght.ttf",
+            as: 'font',
+            type: 'font/ttf',
+            crossorigin: ''
+          }
+        ]
+
+    ]
   },
 });
