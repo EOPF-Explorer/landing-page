@@ -4,6 +4,10 @@
 :root {
   --vp-font-family-base: "Open Sans", sans-serif;
 }
+header img.background-image {
+  opacity: 0.9 !important;
+}
+
 .news-banner {
   top: calc(var(--vp-nav-height) - 10px) !important;
 }

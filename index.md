@@ -1,14 +1,13 @@
 ---
 layout: home
 hero:
-  name: Welcome!
   text: EOPF Sentinel Zarr Explorer
   tagline: Cloud-native data access and visualisation for the Earth Observation Processor Framework
   # image:
   #   src: http://picsum.photos/800/600
   #   alt: Hero Image
-  background:
-    src: "data:image/svg+xml,%3Csvg width='200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='200' height='100' fill='%23013144' /%3E%3C/svg%3E"
+  background: 
+    src: ./assets/globe-hero.jpg
     alt: Background Image
   actions:
     - theme: brand
