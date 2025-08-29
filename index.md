@@ -14,9 +14,9 @@ hero:
     - theme: brand
       text: Data Model
       link: https://github.com/EOPF-Explorer/data-model
-    # - theme: secondary
-    #   text: Browse Sentinels
-    #   link: /bar
+    - theme: secondary
+      text: Web Map Tiles Service
+      linkt: https://github.com/EOPF-Explorer/titiler-eopf
 footer: false
 ---
 
@@ -51,7 +51,7 @@ At the core of our activity is the development of a data model for web-optimised
 
 <CTASection
   title="Join the discussion!"
-  tagline="This is a community-driven project, and we welcome your feedback and contributions."
+  tagline="We welcome your feedback and contributions."
   primaryButton="Find us on GitHub"
   primaryLink="https://github.com/eopf-explorer"
   dark
@@ -64,7 +64,7 @@ At the core of our activity is the development of a data model for web-optimised
   <summary>
     <p class="bold">+ What is EOPF?</p>
   </summary>
-    <p class="small-text">The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eopf.copernicus.eu/" target="_blank" class="link">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, rigid data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
+    <p class="small-text">The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eopf.copernicus.eu/" target="_blank" class="link">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, download-based data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
 </details>
 <details>
   <summary>
@@ -100,7 +100,8 @@ At the core of our activity is the development of a data model for web-optimised
   <summary>
     <p class="bold">+ How is this project related to the EOPF Sentinel Zarr Samples?</p>
   </summary>
-    <p class="small-text">The <a href="https://zarr.eopf.copernicus.eu/" target="_blank" class="link">EOPF Sentinel Zarr Samples</a> platform provides  </p>
+    <p class="small-text">The <a href="https://zarr.eopf.copernicus.eu/" target="_blank" class="link">EOPF Sentinel Zarr Samples</a> platform provides reference Sentinels products in the harmonised EOPF data format.</p>
+    <p class="small-text">We are closely following this reference, providing feedback based on our learning from review and client implementation, and using the sample products as a basis for our web-optimised version.</p>
 </details>
 <br />
 <br />
