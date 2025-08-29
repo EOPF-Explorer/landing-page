@@ -14,9 +14,9 @@ hero:
     - theme: brand
       text: Data Model
       link: https://github.com/EOPF-Explorer/data-model
-    - theme: secondary
+    - theme: brand
       text: Web Map Tiles Service
-      linkt: https://github.com/EOPF-Explorer/titiler-eopf
+      link: https://github.com/EOPF-Explorer/titiler-eopf
 footer: false
 ---
 
