@@ -19,7 +19,7 @@ export default defineConfig({
           />
         </svg>
       </i>
-      <span>This is a pre-release version</span>
+      <span>This is a pre-release version. Launching in September 2025.</span>
     `,
   },
   transformHead({ head }){
