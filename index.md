@@ -7,7 +7,7 @@ hero:
   #   src: http://picsum.photos/800/600
   #   alt: Hero Image
   background: 
-    src: ./assets/globe-hero.jpg
+    src: /assets/globe-hero.jpg
     alt: Background Image
   actions:
     - theme: brand
