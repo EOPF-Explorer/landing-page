@@ -1,22 +1,21 @@
 ---
 layout: home
 hero:
-  name: Welcome!
   text: EOPF Sentinel Zarr Explorer
   tagline: Cloud-native data access and visualisation for the Earth Observation Processor Framework
   # image:
   #   src: http://picsum.photos/800/600
   #   alt: Hero Image
-  background:
-    src: "data:image/svg+xml,%3Csvg width='200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='200' height='100' fill='%23013144' /%3E%3C/svg%3E"
+  background: 
+    src: /assets/globe-hero.jpg
     alt: Background Image
   actions:
     - theme: brand
       text: Data Model
-      link: /foo
-    - theme: secondary
-      text: Browse Sentinels
-      link: /sentinelexplorer
+      link: https://github.com/EOPF-Explorer/data-model
+    - theme: brand
+      text: Web Map Tiles Service
+      link: https://github.com/EOPF-Explorer/titiler-eopf
 footer: false
 ---
 
@@ -31,7 +30,7 @@ This initiative addresses the critical need for efficient access and visualisati
   image="media/web-optimized-zarr.png"
   landing
   primaryButton="Read more"
-  primaryLink="/features/feature-a"
+  primaryLink="https://github.com/EOPF-Explorer/data-model"
   tagline="Web Optimized Zarr for EOPF"
   title="Data Model Development"
 >
@@ -51,11 +50,9 @@ At the core of our activity is the development of a data model for web-optimised
 
 <CTASection
   title="Join the discussion!"
-  tagline="This is a community-driven project, and we welcome your feedback and contributions."
-  primaryButton="Contact us"
-  primaryLink="/foo/bar"
-  altButton="Find us on GitHub"
-  altLink="https://github.com/eopf-explorer"
+  tagline="We welcome your feedback and contributions."
+  primaryButton="Find us on GitHub"
+  primaryLink="https://github.com/eopf-explorer"
   dark
 />
 
@@ -66,7 +63,7 @@ At the core of our activity is the development of a data model for web-optimised
   <summary>
     <p class="bold">+ What is EOPF?</p>
   </summary>
-    <p class="small-text">The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eopf.copernicus.eu/" target="_blank" class="link">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, rigid data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
+    <p class="small-text">The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eopf.copernicus.eu/" target="_blank" class="link">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, download-based data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
 </details>
 <details>
   <summary>
@@ -102,13 +99,14 @@ At the core of our activity is the development of a data model for web-optimised
   <summary>
     <p class="bold">+ How is this project related to the EOPF Sentinel Zarr Samples?</p>
   </summary>
-    <p class="small-text">The <a href="https://zarr.eopf.copernicus.eu/" target="_blank" class="link">EOPF Sentinel Zarr Samples</a> platform provides  </p>
+    <p class="small-text">The <a href="https://zarr.eopf.copernicus.eu/" target="_blank" class="link">EOPF Sentinel Zarr Samples</a> platform provides reference Sentinels products in the harmonised EOPF data format.</p>
+    <p class="small-text">We are closely following this reference, providing feedback based on our learning from review and client implementation, and using the sample products as a basis for our web-optimised version.</p>
 </details>
 <br />
 <br />
 <br />
 
-<footer class="full-width large-padding" style="background: #013144">
+<footer class="full-width large-padding" style="background: #003047">
   <div class="holder large-padding vertical-margin large-margin small-text">
     <div class="grid white-text">
       <div class="s12 m6 l3">
