@@ -35,7 +35,7 @@ export default defineConfig({
       <span>This is a pre-release version. Launching in September 2025.</span>
     `,
   },
-  transformHead({ head }){
+  transformHead(){
     return [
       [
           'link',

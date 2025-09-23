@@ -3,7 +3,7 @@ layout: page
 footer: false
 ---
 <script setup>
-    import configURL from "./sentinel-explorer-config.js?url"
+    const config = async() => await import("./sentinel-explorer-config").then(async m => await m["default"])
 </script>
 <style>
 .VPContent {
@@ -20,4 +20,4 @@ footer: false
 }
 </style>
 
-<eo-dash style="display: block;height: calc(100dvh - var(--vp-nav-height) - 38px)" .config="configURL"></eo-dash>
+<eo-dash style="display: block;height: calc(100dvh - var(--vp-nav-height) - 38px)" .config="config"></eo-dash>
