@@ -30,7 +30,7 @@ This initiative addresses the critical need for efficient access and visualisati
   image="media/web-optimized-zarr.png"
   landing
   primaryButton="Read more"
-  primaryLink="https://github.com/EOPF-Explorer/data-model"
+  primaryLink="https://eopf-explorer.github.io/data-model/"
   tagline="Web Optimized Zarr for EOPF"
   title="Data Model Development"
 >
