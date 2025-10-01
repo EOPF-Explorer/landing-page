@@ -16,7 +16,6 @@ export default {
       await import ("@eox/chart");
       await import ("@eox/jsonform");
       await import ("@eox/layercontrol");
-      await import ("@eox/ui");
     }
   },
 };

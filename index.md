@@ -25,6 +25,31 @@ The Sentinel Zarr Explorer project aims to develop and operate visualisation sof
 This initiative addresses the critical need for efficient access and visualisation of Sentinel data as ESA transitions to the new EOPF Zarr format for Copernicus Earth Observation data.
 
 
+<div class="large-space"></div>
+
+### Engaging Visualizations & Interactive Features
+
+Navigate through our engaging visualizations to experience how EOPF Sentinel Zarr facilitates effortless exploration of Sentinel data right in your browser.
+
+
+<client-only>
+  <eox-itemfilter
+    :items="items"
+    titleProperty="title"
+    imageProperty="image"
+    subTitleProperty="subtitle"
+    resultType="cards"
+    @select="handleResultClick"
+    style="--select-filter-max-items: 10"
+    class="large-margin bottom-margin"
+  >
+    <h6 slot="filterstitle" class="large large-margin vertical-margin top-padding"></h6>
+    <h6 slot="resultstitle" class="large large-margin vertical-margin top-padding"></h6>
+  </eox-itemfilter>
+</client-only>
+
+<div class="large-space"></div>
+
 <FeatureSection
   icon="mdi-application-brackets-outline"
   image="media/web-optimized-zarr.png"
@@ -56,31 +81,6 @@ At the core of our activity is the development of a data model for web-optimised
   dark
 />
 
-
-<div class="large-space"></div>
-
-### Engaging Visualizations & Interactive Features
-
-Navigate through our engaging visualizations to experience how EOPF Sentinel Zarr facilitates effortless exploration of Sentinel data right in your browser.
-
-
-<client-only>
-  <eox-itemfilter
-    :items="items"
-    titleProperty="title"
-    imageProperty="image"
-    subTitleProperty="subtitle"
-    aggregateResults="theme"
-    :filterProperties="filterProps"
-    resultType="cards"
-    @select="handleResultClick"
-    style="--select-filter-max-items: 10"
-    class="large-margin bottom-margin"
-  >
-    <h6 slot="filterstitle" class="small vertical-margin">Filter Stories:</h6>
-    <h6 slot="resultstitle" class="large large-margin vertical-margin top-padding"></h6>
-  </eox-itemfilter>
-</client-only>
 
 <div class="large-space"></div>
 
@@ -196,22 +196,23 @@ const { theme } = useData();
 const router = useRouter();
 const items = ref([]);
 
-const filterProps = [{
-  "keys": [
-    "title",
-    "subtitle",
-    "theme"
-  ],
-  "title": "By keyword",
-  "type": "text",
-  "placeholder": "Search in title or subtitle",
-  "expanded": true
-}, {
-  "key": 'theme',
-  "title": 'By theme',
-  expanded: true
-}
-];
+// disbaled for now, will be enabled when more stories are added
+// const filterProps = [{
+//   "keys": [
+//     "title",
+//     "subtitle",
+//     "theme"
+//   ],
+//   "title": "By keyword",
+//   "type": "text",
+//   "placeholder": "Search in title or subtitle",
+//   "expanded": true
+// }, {
+//   "key": 'theme',
+//   "title": 'By theme',
+//   expanded: true
+// }
+// ];
 
 onMounted(async () => {
   try {
@@ -235,10 +236,12 @@ const handleResultClick = (evt) => {
 <style>
   eox-itemfilter {
     --form-flex-direction: row;
+    --filter-display:none
   }
   @media (max-width: 768px) {
     eox-itemfilter {
       --form-flex-direction: column;
+      --filter-display:none
     }
   }
 </style>
