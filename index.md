@@ -190,8 +190,6 @@ import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
 import { trackEvent } from "@eox/pages-theme-eox/src/helpers.js";
-import "@eox/itemfilter"
-import "@eox/layout"
 
 const { theme } = useData();
 
