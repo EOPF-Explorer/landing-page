@@ -57,6 +57,33 @@ At the core of our activity is the development of a data model for web-optimised
 />
 
 
+<div class="large-space"></div>
+
+### Engaging Visualizations & Interactive Features
+
+Navigate through our engaging visualizations to experience how EOPF Sentinel Zarr facilitates effortless exploration of Sentinel data right in your browser.
+
+
+<client-only>
+  <eox-itemfilter
+    :items="items"
+    titleProperty="title"
+    imageProperty="image"
+    subTitleProperty="subtitle"
+    aggregateResults="theme"
+    :filterProperties="filterProps"
+    resultType="cards"
+    @select="handleResultClick"
+    style="--select-filter-max-items: 10"
+    class="large-margin bottom-margin"
+  >
+    <h6 slot="filterstitle" class="small vertical-margin">Filter Stories:</h6>
+    <h6 slot="resultstitle" class="large large-margin vertical-margin top-padding"></h6>
+  </eox-itemfilter>
+</client-only>
+
+<div class="large-space"></div>
+
 ### Frequently Asked Questions
 <br />
 <details open>
@@ -160,5 +187,60 @@ At the core of our activity is the development of a data model for web-optimised
 
 <script setup>
 import { useData } from 'vitepress';
+import { ref, onMounted } from 'vue';
+import { withBase, useRouter } from 'vitepress';
+import { trackEvent } from "@eox/pages-theme-eox/src/helpers.js";
+import "@eox/itemfilter"
+import "@eox/layout"
+
 const { theme } = useData();
+
+const router = useRouter();
+const items = ref([]);
+
+const filterProps = [{
+  "keys": [
+    "title",
+    "subtitle",
+    "theme"
+  ],
+  "title": "By keyword",
+  "type": "text",
+  "placeholder": "Search in title or subtitle",
+  "expanded": true
+}, {
+  "key": 'theme',
+  "title": 'By theme',
+  expanded: true
+}
+];
+
+onMounted(async () => {
+  try {
+    const response = await fetch('https://eopf-explorer.github.io/narratives/narratives.json');
+    const results = await response.json();
+    results.forEach((res)=>{res.image = 'https://eopf-explorer.github.io/narratives/'+res.image});
+    items.value = results;
+  } catch (error) {
+    console.error('Error fetching JSON:', error);
+  }
+});
+
+// Click event handler
+const handleResultClick = (evt) => {
+  const sections = evt.detail.file.split("/");
+  const filename = sections[sections.length-1].split(".")[0];
+  trackEvent(['stories', 'select', filename]);
+  router.go(withBase(`/story?id=${filename}`));
+};
 </script>
+<style>
+  eox-itemfilter {
+    --form-flex-direction: row;
+  }
+  @media (max-width: 768px) {
+    eox-itemfilter {
+      --form-flex-direction: column;
+    }
+  }
+</style>

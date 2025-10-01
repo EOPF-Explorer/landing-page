@@ -6,6 +6,11 @@ export default defineConfig({
   extends: baseConfig("eopf"),
   // Change the page config here
   base: "/",
+  vite:{
+    server: {
+      allowedHosts:true,
+    }
+  },
   themeConfig: {
     nav: [
       // { text: "Documentation", link: "#" },
