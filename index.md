@@ -27,9 +27,9 @@ This initiative addresses the critical need for efficient access and visualisati
 
 <div class="large-space"></div>
 
-### Engaging Visualizations & Interactive Features
+### Dynamic Data Visualisation and Storytelling
 
-Navigate through our engaging visualizations to experience how EOPF Sentinel Zarr facilitates effortless exploration of Sentinel data right in your browser.
+Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data and embedding of visualisations into stories and feature maps, straight from the products in cloud storage.
 
 
 <client-only>
