@@ -25,6 +25,31 @@ The Sentinel Zarr Explorer project aims to develop and operate visualisation sof
 This initiative addresses the critical need for efficient access and visualisation of Sentinel data as ESA transitions to the new EOPF Zarr format for Copernicus Earth Observation data.
 
 
+<div class="large-space"></div>
+
+### Dynamic Data Visualisation and Storytelling
+
+Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data and embedding of visualisations into stories and feature maps, straight from the products in cloud storage.
+
+
+<client-only>
+  <eox-itemfilter
+    :items="items"
+    titleProperty="title"
+    imageProperty="image"
+    subTitleProperty="subtitle"
+    resultType="cards"
+    @select="handleResultClick"
+    style="--select-filter-max-items: 10"
+    class="large-margin bottom-margin"
+  >
+    <h6 slot="filterstitle" class="large large-margin vertical-margin top-padding"></h6>
+    <h6 slot="resultstitle" class="large large-margin vertical-margin top-padding"></h6>
+  </eox-itemfilter>
+</client-only>
+
+<div class="large-space"></div>
+
 <FeatureSection
   icon="mdi-application-brackets-outline"
   image="media/web-optimized-zarr.png"
@@ -56,6 +81,8 @@ At the core of our activity is the development of a data model for web-optimised
   dark
 />
 
+
+<div class="large-space"></div>
 
 ### Frequently Asked Questions
 <br />
@@ -160,5 +187,61 @@ At the core of our activity is the development of a data model for web-optimised
 
 <script setup>
 import { useData } from 'vitepress';
+import { ref, onMounted } from 'vue';
+import { withBase, useRouter } from 'vitepress';
+import { trackEvent } from "@eox/pages-theme-eox/src/helpers.js";
+
 const { theme } = useData();
+
+const router = useRouter();
+const items = ref([]);
+
+// disbaled for now, will be enabled when more stories are added
+// const filterProps = [{
+//   "keys": [
+//     "title",
+//     "subtitle",
+//     "theme"
+//   ],
+//   "title": "By keyword",
+//   "type": "text",
+//   "placeholder": "Search in title or subtitle",
+//   "expanded": true
+// }, {
+//   "key": 'theme',
+//   "title": 'By theme',
+//   expanded: true
+// }
+// ];
+
+onMounted(async () => {
+  try {
+    const response = await fetch('https://eopf-explorer.github.io/narratives/narratives.json');
+    const results = await response.json();
+    results.forEach((res)=>{res.image = 'https://eopf-explorer.github.io/narratives/'+res.image});
+    items.value = results;
+  } catch (error) {
+    console.error('Error fetching JSON:', error);
+  }
+});
+
+// Click event handler
+const handleResultClick = (evt) => {
+  const sections = evt.detail.file.split("/");
+  const filename = sections[sections.length-1].split(".")[0];
+  trackEvent(['stories', 'select', filename]);
+  router.go(withBase(`/story?id=${filename}`));
+};
 </script>
+<style>
+  eox-itemfilter {
+    --form-flex-direction: row;
+    --filter-display:none
+  }
+  @media (max-width: 768px) {
+    eox-itemfilter {
+      --form-flex-direction: column;
+      --filter-display:none
+    }
+  }
+</style>
