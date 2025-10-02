@@ -21,4 +21,3 @@ layout: false
 </style> -->
 <NavBar></NavBar>
 <eo-dash style="display: block;height: calc(100dvh - var(--vp-nav-height))" .config="config"></eo-dash>
-<!-- <eo-dash style="height:calc(100dvh - 64px);display: block" .config="config"></eo-dash> -->
