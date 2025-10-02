@@ -1,11 +1,11 @@
 ---
-layout: page
-footer: false
+layout: false
 ---
+
 <script setup>
     const config = async() => await import("./sentinel-explorer-config").then(async m => await m["default"])
 </script>
-<style>
+<!-- <style>
 .VPContent {
     padding: 0 !important;
     margin: 0 !important
@@ -18,6 +18,7 @@ footer: false
     padding-top: 38px !important;
     max-width: 100% !important
 }
-</style>
-
-<eo-dash style="display: block;height: calc(100dvh - var(--vp-nav-height) - 38px)" .config="config"></eo-dash>
+</style> -->
+<NavBar></NavBar>
+<eo-dash style="display: block;height: calc(100dvh - var(--vp-nav-height))" .config="config"></eo-dash>
+<!-- <eo-dash style="height:calc(100dvh - 64px);display: block" .config="config"></eo-dash> -->

@@ -2,21 +2,28 @@
   "name": "eopf-explorer-landing-page",
   "version": "0.0.0",
   "type": "module",
-  "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@e91ea17",
-    "@eox/storytelling": "^1.9.4"
-  },
-  "devDependencies": {
-    "@eox/pages-theme-eox": "^0.10.1",
-    "eslint-plugin-vue": "^10.5.0",
-    "typescript": "^5.9.2",
-    "vue-tsc": "^3.0.7"
-  },
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
     "serve": "vitepress serve",
     "format": "npx prettier --write **/*.{js,css,json}",
     "check": "vue-tsc --noEmit --skipLibCheck && eslint ."
+  },
+  "dependencies": {
+    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@2524ae5",
+    "@eox/chart": "^1.0.1",
+    "@eox/elements-utils": "^1.1.0",
+    "@eox/itemfilter": "^1.11.0",
+    "@eox/jsonform": "^1.4.2",
+    "@eox/layercontrol": "^1.1.3",
+    "@eox/layout": "^1.0.0",
+    "@eox/map": "^1.26.0",
+    "@eox/storytelling": "^1.9.5"
+  },
+  "devDependencies": {
+    "@eox/pages-theme-eox": "^0.10.1",
+    "eslint-plugin-vue": "^10.5.0",
+    "typescript": "^5.9.2",
+    "vue-tsc": "^3.0.7"
   }
 }

@@ -3,9 +3,9 @@ import { getBaseConfig } from "@eodash/eodash/templates";
 export default getBaseConfig({
   id: "eopf",
   stacEndpoint: {
-    endpoint: "https://api.explorer.eopf.copernicus.eu/stac/",
+    endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
     api: true,
-    rasterEndpoint: " https://api.explorer.eopf.copernicus.eu/tiler/",
+    rasterEndpoint: " https://api.explorer.eopf.copernicus.eu/raster/",
   },
   brand: {
     name: "Sentinel Explorer",
@@ -22,8 +22,12 @@ export default getBaseConfig({
     },
     theme: {
       colors: {
-        primary: "#009bdb",
-        secondary: "#00ae9d",
+        primary: "#001925",
+        secondary: "#009bdb",
+      },
+      variables: {
+        "surface-opacity": 0.6,
+        "primary-opacity": 0.6,
       },
     },
     logo: "https://hub-brands.eox.at/eopf/eopf-explorer-white.svg",
