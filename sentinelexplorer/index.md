@@ -19,5 +19,12 @@ layout: false
     max-width: 100% !important
 }
 </style> -->
+<style scoped>
+eo-dash {
+  --primary: #003047 !important;
+  --secondary: #00ae9d !important;
+  --on-primary: #ffff !important
+}
+</style>
 <NavBar></NavBar>
 <eo-dash style="display: block;height: calc(100dvh - var(--vp-nav-height))" .config="config"></eo-dash>
