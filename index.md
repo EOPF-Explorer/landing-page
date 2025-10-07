@@ -11,44 +11,10 @@ hero:
     alt: Background Image
   actions:
     - theme: brand
-      text: Data Model
-      link: https://github.com/EOPF-Explorer/data-model
-    - theme: brand
-      text: Web Map Tiles Service
-      link: https://github.com/EOPF-Explorer/titiler-eopf
+      text: NDVI Story
+      link: /story/?id=ndvi
 footer: false
 ---
-
-### About the Project
-The Sentinel Zarr Explorer project aims to develop and operate visualisation software and services for the European Space Agency's (ESA) Earth Observation Processor Framework (EOPF). 
-
-This initiative addresses the critical need for efficient access and visualisation of Sentinel data as ESA transitions to the new EOPF Zarr format for Copernicus Earth Observation data.
-
-
-<div class="large-space"></div>
-
-### Dynamic Data Visualisation and Storytelling
-
-Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data and embedding of visualisations into stories and feature maps, straight from the products in cloud storage.
-
-
-<client-only>
-  <eox-itemfilter
-    :items="items"
-    titleProperty="title"
-    imageProperty="image"
-    subTitleProperty="subtitle"
-    resultType="cards"
-    @select="handleResultClick"
-    style="--select-filter-max-items: 10"
-    class="large-margin bottom-margin"
-  >
-    <h6 slot="filterstitle" class="large large-margin vertical-margin top-padding"></h6>
-    <h6 slot="resultstitle" class="large large-margin vertical-margin top-padding"></h6>
-  </eox-itemfilter>
-</client-only>
-
-<div class="large-space"></div>
 
 <FeatureSection
   icon="mdi-application-brackets-outline"
@@ -63,7 +29,54 @@ At the core of our activity is the development of a data model for web-optimised
 </FeatureSection>
 
 
-<h3 class="center-align">Why Zarr</h3>
+
+<div class="story-wrapper">
+<div class="story-col">
+
+<h4> Dynamic Data Visualisation and Storytelling</h4>
+<br>
+<p>
+Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data and embedding of visualisations into stories and feature maps, straight from the products in cloud storage.
+</p>
+<!-- <button style="margin-top:20px">NDVI Story</button> -->
+</div>
+
+<div class="story-col" >
+<client-only>
+  <eox-itemfilter
+    :items="items"
+    titleProperty="title"
+    imageProperty="image"
+    subTitleProperty="subtitle"
+    resultType="cards"
+    @select="handleResultClick"
+    style="--select-filter-max-items: 10;--_margin:0px;--card-height:25rem"
+    class="large-margin bottom-margin"
+  >
+    <h6 slot="filterstitle" class="large large-margin vertical-margin top-padding"></h6>
+    <h6 slot="resultstitle" class="large large-margin vertical-margin top-padding"></h6>
+  </eox-itemfilter>
+</client-only>
+</div>
+</div>
+
+<div class="large-space"></div>
+
+
+<FeatureSection
+  icon="mdi-compass"
+  image="media/cloudless.png"
+  landing
+  primaryButton="Open Explorer"
+  primaryLink="/todo"
+  tagline="Explore sentinel data in real time"
+  title="Sentinels Browser"
+>
+Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical imagery. Change color maps, adjust contrast, and zoom in instantly- powered by Zarr dynamic tiling.
+</FeatureSection>
+
+
+<h4 class="center-align">Why Zarr</h4>
 <Table
 :headers="['Features', 'Zarr','SAFE']"
 :data="tableData"/>
@@ -310,4 +323,15 @@ const tableData = [
       --filter-display:none
     }
   }
+
+.story-wrapper{
+  display:flex;
+  height:100%;
+  padding: 20px
+}
+.story-col{
+  flex: 1;
+  align-items:center;
+  justify-items:center;
+}
 </style>
