@@ -62,27 +62,14 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
 At the core of our activity is the development of a data model for web-optimised data access. <br /><br /> Read more about the considerations and design principles, as well as the relationship to ongoing community efforts for the GeoZarr and Web-Optimized Zarr (WOZ) conventions.
 </FeatureSection>
 
-### Our Goals
 
-1. **Develop visualization software** that provides millisecond response times for interactive exploration of Sentinel EOPF Zarr data
-2. **Operate a comprehensive visualization service** demonstrating the capabilities and efficiency of the new EOPF Zarr format
-3. **Build community adoption** through open-source tools, documentation, and user engagement activities
-4. **Provide performance benchmarks** demonstrating the efficiency and scalability of the Zarr format
-5. **Create integration showcases** with existing Earth Observation tools and workflows
-6. **Deliver comprehensive documentation** including user manuals, API documentation, and technical guides
-7. **Establish a sustainable service** with monitoring, maintenance, and user support capabilities
-
-
-<CTASection
-  title="Join the discussion!"
-  tagline="We welcome your feedback and contributions."
-  primaryButton="Find us on GitHub"
-  primaryLink="https://github.com/eopf-explorer"
-  dark
-/>
-
+<h3 class="center-align">Why Zarr</h3>
+<Table
+:headers="['Features', 'Zarr','SAFE']"
+:data="tableData"/>
 
 <div class="large-space"></div>
+
 
 ### Frequently Asked Questions
 <br />
@@ -132,6 +119,15 @@ At the core of our activity is the development of a data model for web-optimised
 <br />
 <br />
 <br />
+
+
+<CTASection style="margin-bottom:0px"
+  title="Join the discussion!"
+  tagline="We welcome your feedback and contributions."
+  primaryButton="Find us on GitHub"
+  primaryLink="https://github.com/eopf-explorer"
+  dark
+/>
 
 <footer class="full-width large-padding" style="background: #003047">
   <div class="holder large-padding vertical-margin large-margin small-text">
@@ -186,6 +182,7 @@ At the core of our activity is the development of a data model for web-optimised
 </footer>
 
 <script setup>
+import Table from "./.vitepress/components/Table.vue"
 import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
@@ -232,6 +229,75 @@ const handleResultClick = (evt) => {
   trackEvent(['stories', 'select', filename]);
   router.go(withBase(`/story?id=${filename}`));
 };
+const tick = `<button class="transparent square"><img src="/assets/checkmark.svg"/></button>`
+const cross = `<button class="transparent square"><img src="/assets/crossmark.svg"/></button>`
+
+const tableData = [
+  {
+    summary: {
+      'Features': 'Data Structure',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: `Learn more: Sentinel SAFE format (SentiWiki) Zarr Documentation ,ESA EOPF GitHub – Data Model`,
+  },
+  {
+    summary: {
+      'Features': 'Access',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Detailed information about access methods and their implications...,',
+  },
+  {
+    summary: {
+      'Features': 'Performance',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Performance benchmarks and technical details...',
+  },
+  {
+    summary: {
+      'Features': 'Scalability',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Scalability comparison and use cases...',
+  },
+  {
+    summary: {
+      'Features': 'Metadata Handling',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Metadata structure examples and parsing information...',
+  },
+  {
+    summary: {
+      'Features': 'Cloud Readiness',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Cloud deployment strategies and best practices...',
+  },
+  {
+    summary: {
+      'Features': 'Visualization',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Visualization tools and integration examples...',
+  },
+  {
+    summary: {
+      'Features': 'Interoperability',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Integration examples and ecosystem compatibility...',
+  }
+]
 </script>
 <style>
   eox-itemfilter {
