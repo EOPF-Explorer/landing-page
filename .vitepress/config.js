@@ -13,7 +13,7 @@ export default defineConfig({
   },
   themeConfig: {
     nav: [
-      // { text: "Documentation", link: "#" },
+      { text: "Documentation", link: "https://eopf-explorer.github.io/data-model/" },
       // { text: "Discussion", link: "#" },
     ],
   },
