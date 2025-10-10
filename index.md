@@ -242,8 +242,8 @@ const handleResultClick = (evt) => {
   trackEvent(['stories', 'select', filename]);
   router.go(withBase(`/story?id=${filename}`));
 };
-const tick = `<button class="transparent square"><img src="/assets/checkmark.svg"/></button>`
-const cross = `<button class="transparent square"><img src="/assets/crossmark.svg"/></button>`
+const tick = `<button class="transparent square"><img src="${withBase('/assets/checkmark.svg')}"/></button>`
+const cross = `<button class="transparent square"><img src="${withBase('/assets/crossmark.svg')}"/></button>`
 
 const tableData = [
   {
