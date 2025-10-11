@@ -11,23 +11,25 @@ hero:
     alt: Background Image
   actions:
     - theme: brand
+      text: Explore Data
+      link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
+    - theme: brand
       text: NDVI Story
       link: /story/?id=ndvi
 footer: false
 ---
 
 <FeatureSection
-  icon="mdi-application-brackets-outline"
-  image="media/web-optimized-zarr.png"
+  icon="monitor-screenshot"
+  image="media/exploration-journey.png"
   landing
   primaryButton="Read more"
   primaryLink="https://eopf-explorer.github.io/data-model/"
-  tagline="Web Optimized Zarr for EOPF"
-  title="Data Model Development"
+  tagline="Building Visualisation Capacity"
+  title="Explore Copernicus Sentinel Data"
 >
-At the core of our activity is the development of a data model for web-optimised data access. <br /><br /> Read more about the considerations and design principles, as well as the relationship to ongoing community efforts for the GeoZarr and Web-Optimized Zarr (WOZ) conventions.
+Embark on a progressive visualization journey that guides you from initial discovery to advanced analysis. Begin by exploring data catalogs through searching browsers that reveal Sentinel datasets at a glance. Move seamlessly into screening capabilities where you can experiment with band combinations, color formulations, and custom arithmetic expressions to unlock spectral, polarization or any variables insights. Advance to sophisticated analysis workflows using openEO clients for prototyping, dynamic web maps with on-the-fly reprojection, and interactive time-series exploration. Finally, dive into compelling showcases that demonstrate real-world applications—from flood delineation and burnt area mapping to spectral indices and collaborative workspaces—all powered by cloud-native visualization technologies. Each step along this journey is designed to meet you where you are, whether you're casually browsing for inspiration or developing complex geospatial workflows, with modular tools you can compose and customize for your specific needs.
 </FeatureSection>
-
 
 
 <div class="story-wrapper">
