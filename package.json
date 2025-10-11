@@ -10,12 +10,12 @@
     "check": "vue-tsc --noEmit --skipLibCheck && eslint ."
   },
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@243",
+    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@4606738",
     "@eox/chart": "^1.0.1",
     "@eox/elements-utils": "^1.1.0",
     "@eox/itemfilter": "^1.12.0",
     "@eox/jsonform": "^1.4.2",
-    "@eox/layercontrol": "^1.1.3",
+    "@eox/layercontrol": "1.2.2-dev.1760104411.0",
     "@eox/layout": "^1.0.0",
     "@eox/map": "^1.26.0",
     "@eox/storytelling": "^1.9.5"
@@ -24,6 +24,6 @@
     "@eox/pages-theme-eox": "^0.10.1",
     "eslint-plugin-vue": "^10.5.0",
     "typescript": "^5.9.3",
-    "vue-tsc": "^3.1.0"
+    "vue-tsc": "^3.1.1"
   }
 }

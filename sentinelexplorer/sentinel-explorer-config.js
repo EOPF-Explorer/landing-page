@@ -1,6 +1,6 @@
-import { compare } from "@eodash/eodash/templates";
 import { mdiMapSearch } from "@mdi/js";
-export default {
+
+export default /*** @type {import("@eodash/eodash").Eodash} */ ({
   id: "eopf",
   stacEndpoint: {
     endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
@@ -56,16 +56,20 @@ export default {
         widget: {
           name: "EodashMap",
           properties: {
+            zoomToExtent: true,
             enableCompare: true,
             btns: {
               enableZoom: true,
               enableExportMap: true,
               enableChangeProjection: true,
               enableCompareIndicators: {
-                fallbackTemplate: "expert",
+                fallbackTemplate: "explore",
+                itemFilterConfig: {
+                  imageProperty: "assets.thumbnail.href",
+                },
               },
-              enableBackToPOIs: true,
-              enableSearch: true,
+              enableBackToPOIs: false,
+              enableSearch: false,
             },
             btnsPosition: {
               x: "12/9/9",
@@ -80,25 +84,9 @@ export default {
           id: "Layercontrol",
           type: "internal",
           title: "Layers",
-          layout: { x: "9/9/10", y: 6, w: "3/3/2", h: 5 },
+          layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 12 },
           widget: {
             name: "EodashLayerControl",
-          },
-        },
-        {
-          //@ts-expect-error todo
-          defineWidget: (selectedSTAC) => {
-            return selectedSTAC
-              ? {
-                  id: "Information",
-                  title: "Information",
-                  layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 6 },
-                  type: "internal",
-                  widget: {
-                    name: "EodashStacInfo",
-                  },
-                }
-              : null;
           },
         },
         {
@@ -108,23 +96,11 @@ export default {
           layout: { x: 0, y: 0, w: "3/3/2", h: 12 },
           widget: {
             name: "EodashItemCatalog",
-            properties:{
+            properties: {
               layoutTarget: "expert",
-            }
+            },
           },
         },
-        // {
-        //   defineWidget: (selectedSTAC) =>
-        //     includesProcess(selectedSTAC) && {
-        //       id: "Processes",
-        //       type: "internal",
-        //       title: "Processes",
-        //       layout: { x: "9/9/10", y: 6, w: "3/3/2", h: 5 },
-        //       widget: {
-        //         name: "EodashProcess",
-        //       },
-        //     },
-        // },
       ],
     },
     expert: {
@@ -149,17 +125,20 @@ export default {
         widget: {
           name: "EodashMap",
           properties: {
-            enableCompare: true,
             zoomToExtent: true,
+            enableCompare: true,
             btns: {
               enableZoom: true,
               enableExportMap: true,
               enableChangeProjection: true,
               enableCompareIndicators: {
-                fallbackTemplate: "expert",
+                fallbackTemplate: "explore",
+                itemFilterConfig: {
+                  imageProperty: "assets.thumbnail.href",
+                },
               },
-              enableBackToPOIs: true,
-              enableSearch: true,
+              enableBackToPOIs: false,
+              enableSearch: false,
             },
             btnsPosition: {
               x: "12/9/9",
@@ -183,7 +162,7 @@ export default {
               itemFilterConfig: {
                 resultType: "cards",
                 subTitleProperty: "subtitle",
-                imageProperty: "thumbnail",
+                imageProperty: "assets.thumbnail.href",
                 aggregateResults: "collection_group",
               },
             },
@@ -193,33 +172,184 @@ export default {
           id: "Layercontrol",
           type: "internal",
           title: "Layers",
-          layout: { x: 0, y: 1, w: "3/3/2", h: 11 },
+          layout: { x: 0, y: 1, w: "3/3/2", h: 7 },
           widget: {
             name: "EodashLayerControl",
           },
         },
         {
-          //@ts-expect-error todo
           defineWidget: (selectedSTAC) => {
             return selectedSTAC
               ? {
                   id: "Information",
                   title: "Information",
-                  layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 6 },
+                  layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 8 },
                   type: "internal",
                   widget: {
                     name: "EodashStacInfo",
+                    body: ["description"],
+                    featured: [
+                      "satellite",
+                      "sensor",
+                      "agency",
+                      "extent",
+                      "providers",
+                      "assets",
+                      "links",
+                    ],
                   },
                 }
               : null;
           },
         },
         {
-          //@ts-expect-error todo
           defineWidget: (selectedSTAC) => {
             return selectedSTAC
               ? {
-                  id: "expert-datepicker",
+                  id: "expert-datetime",
+                  type: "internal",
+                  layout: { x: 1, y: 8, w: 10, h: 3 },
+                  title: "Time Slider",
+                  widget: {
+                    name: "EodashTimeSlider",
+                    properties: {
+                      filters: [
+                        {
+                          key: "eo:cloud_cover",
+                          title: "Cloud Coverage %",
+                          type: "range",
+                          expanded: true,
+                          min: 0,
+                          max: 100,
+                          step: 5,
+                          state: {
+                            min: 0,
+                            max: 100,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                }
+              : null;
+          },
+        },
+      ],
+    },
+    compare: {
+      gap: 16,
+      loading: {
+        id: Symbol(),
+        type: "web-component",
+        widget: {
+          // https://uiball.com/ldrs/
+          link: "https://cdn.jsdelivr.net/npm/ldrs/dist/auto/mirage.js",
+          tagName: "l-mirage",
+          properties: {
+            class: "align-self-center justify-self-center",
+            size: "120",
+            speed: "2.5",
+            color: "#004170",
+          },
+        },
+      },
+      background: {
+        id: "background-map",
+        type: "internal",
+        widget: {
+          name: "EodashMap",
+          properties: {
+            zoomToExtent: true,
+            enableCompare: true,
+            btns: {
+              enableZoom: true,
+              enableExportMap: true,
+              enableChangeProjection: true,
+              enableCompareIndicators: {
+                fallbackTemplate: "explore",
+                itemFilterConfig: {
+                  imageProperty: "assets.thumbnail.href",
+                },
+              },
+              enableBackToPOIs: false,
+              enableSearch: false,
+            },
+            btnsPosition: {
+              x: "12/9/9",
+              y: 2,
+              gap: 24,
+            },
+          },
+        },
+      },
+      widgets: [
+        {
+          id: "Tools",
+          type: "internal",
+          title: "Tools",
+          layout: { x: 0, y: 0, w: "3/3/2", h: 1 },
+          widget: {
+            name: "EodashTools",
+            properties: {
+              showLayoutSwitcher: false,
+              itemFilterConfig: {
+                resultType: "cards",
+                filtersTitle: "Select an indicator",
+                resultsTitle: "",
+                subTitleProperty: "subtitle",
+                imageProperty: "assets.thumbnail.href",
+              },
+            },
+          },
+        },
+        // compare indicators
+        {
+          id: "CompareTools",
+          type: "internal",
+          title: "Tools",
+          layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 1 },
+          widget: {
+            name: "EodashTools",
+            properties: {
+              showLayoutSwitcher: false,
+              indicatorBtnText: "Select second indicator",
+              itemFilterConfig: {
+                enableCompare: true,
+                resultType: "cards",
+                filtersTitle: "Select an indicator to compare",
+                resultsTitle: "",
+                subTitleProperty: "subtitle",
+                imageProperty: "assets.thumbnail.href",
+              },
+            },
+          },
+        },
+        {
+          id: "layercontrol",
+          type: "internal",
+          title: "Layers",
+          layout: { x: 0, y: 1, w: "3/3/2", h: 11 },
+          widget: {
+            name: "EodashLayerControl",
+          },
+        },
+        {
+          id: "CompareLayerControl",
+          title: "Comparison Layers",
+          layout: { x: "9/9/10", y: 1, w: "3/3/2", h: 11 },
+          type: "internal",
+          widget: {
+            name: "EodashLayerControl",
+            properties: {
+              map: "second",
+            },
+          },
+        },
+        {
+          defineWidget: (selectedSTAC) => {
+            return selectedSTAC
+              ? {
+                  id: "expert-Datepicker",
                   type: "internal",
                   layout: { x: 4, y: 7, w: 4, h: 5 },
                   title: "Date",
@@ -227,7 +357,7 @@ export default {
                     name: "EodashDatePicker",
                     properties: {
                       hintText: `<b>Hint:</b> closest available date is displayed <br />
-                            on map (see Analysis Layers)`,
+                                on map (see Analysis Layers)`,
                       toggleCalendar: true,
                     },
                   },
@@ -235,20 +365,7 @@ export default {
               : null;
           },
         },
-        // {
-        //   defineWidget: (selectedSTAC) =>
-        //     includesProcess(selectedSTAC) && {
-        //       id: "Processes",
-        //       type: "internal",
-        //       title: "Processes",
-        //       layout: { x: "9/9/10", y: 6, w: "3/3/2", h: 5 },
-        //       widget: {
-        //         name: "EodashProcess",
-        //       },
-        //     },
-        // },
       ],
     },
-    compare,
   },
-};
+});

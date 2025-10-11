@@ -19,7 +19,7 @@ export default defineConfig({
   },
   themeConfig: {
     nav: [
-      { text: "Browse Sentinels", link: "/sentinelexplorer" },
+      { text: "Browse Sentinels", link: "/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a" },
       // { text: "Documentation", link: "#" },
       // { text: "Discussion", link: "#" },
     ],
