@@ -4,7 +4,13 @@ import baseConfig from "@eox/pages-theme-eox/config";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends: baseConfig("eopf"),
-  // Change the page config here
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: (el) => el.includes("-"),
+      },
+    },
+  },
   base: "/",
   vite:{
     server: {
@@ -13,11 +19,12 @@ export default defineConfig({
   },
   themeConfig: {
     nav: [
+      { text: "Browse Sentinels", link: "/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a" },
       { text: "Documentation", link: "https://eopf-explorer.github.io/data-model/" },
-      // { text: "Discussion", link: "#" },
+      { text: "Discussion", link: "https://discourse.eopf.copernicus.eu/" },
     ],
   },
-  transformHead({ head }){
+  transformHead(){
     return [
       [
           'link',
