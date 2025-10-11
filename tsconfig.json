@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "target": "esnext",
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom", "DOM.Iterable"]
+  },
+  "exclude": ["node_modules", "public", "**/dist/**", ".vitpress/cache"],
+  "include": ["**/*.js", "**/*.ts", "**/*.vue", "**/*.md"],
+  "vueCompilerOptions": {
+    "vitePressExtensions": [".md"]
+  }
+}

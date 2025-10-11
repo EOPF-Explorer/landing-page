@@ -8,10 +8,10 @@ export default {
     EOX.enhanceApp({ app, router, siteData });
     
     if (!import.meta.env.SSR) {
+      await import("@eodash/eodash/webcomponent");
       await import("@eox/storytelling");
       await import("@eox/layout");
       await import("@eox/itemfilter");
-      await import ("@eox/map");
       await import ("@eox/map/src/plugins/advancedLayersAndSources");
       await import ("@eox/chart");
       await import ("@eox/jsonform");
