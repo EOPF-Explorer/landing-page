@@ -14,7 +14,7 @@ hero:
       text: Explore Data
       link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
     - theme: brand
-      text: NDVI Story
+      text: View Storytelling Example
       link: /story/?id=ndvi
 footer: false
 ---
