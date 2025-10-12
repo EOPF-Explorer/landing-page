@@ -23,12 +23,9 @@ footer: false
   icon="monitor-screenshot"
   image="media/exploration-journey.png"
   landing
-  primaryButton="Read more"
-  primaryLink="https://eopf-explorer.github.io/data-model/"
   tagline="Building Visualisation Capacity"
-  title="Explore Copernicus Sentinel Data"
 >
-Embark on a progressive visualization journey that guides you from initial discovery to advanced analysis. Begin by exploring data catalogs through searching browsers that reveal Sentinel datasets at a glance. Move seamlessly into screening capabilities where you can experiment with band combinations, color formulations, and custom arithmetic expressions to unlock spectral, polarization or any variables insights. Advance to sophisticated analysis workflows using openEO clients for prototyping, dynamic web maps with on-the-fly reprojection, and interactive time-series exploration. Finally, dive into compelling showcases that demonstrate real-world applications—from flood delineation and burnt area mapping to spectral indices and collaborative workspaces—all powered by cloud-native visualization technologies. Each step along this journey is designed to meet you where you are, whether you're casually browsing for inspiration or developing complex geospatial workflows, with modular tools you can compose and customize for your specific needs.
+<strong>Embark on a progressive visualization journey</strong> from discovery to advanced analysis. Start by exploring Sentinel data catalogs with intuitive browsers, then experiment with band combinations, color formulations, and custom expressions to unlock spectral insights. Advance to sophisticated workflows using openEO clients, dynamic web maps, and interactive time-series tools. Finally, explore compelling real-world showcases—from flood delineation and burnt area mapping to collaborative workspaces—all powered by cloud-native technologies. Whether you're browsing for inspiration or building complex geospatial applications, our modular tools adapt to your needs at every step.
 </FeatureSection>
 
 
