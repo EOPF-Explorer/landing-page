@@ -14,7 +14,7 @@ hero:
       text: Explore Data
       link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
     - theme: brand
-      text: View Storytelling Example
+      text: Read Example EO Story
       link: /story/?id=ndvi
 footer: false
 ---
@@ -25,7 +25,13 @@ footer: false
   landing
   tagline="Building Visualisation Capacity"
 >
-<strong>Embark on a progressive visualization journey</strong> from discovery to advanced analysis. Start by exploring Sentinel data catalogs with intuitive browsers, then experiment with band combinations, color formulations, and custom expressions to unlock spectral insights. Advance to sophisticated workflows using openEO clients, dynamic web maps, and interactive time-series tools. Finally, explore compelling real-world showcases—from flood delineation and burnt area mapping to collaborative workspaces—all powered by cloud-native technologies. Whether you're browsing for inspiration or building complex geospatial applications, our modular tools adapt to your needs at every step.
+Cloud-native and visualisation-enhanced EOPF Sentinel products power many aspects of Earth observation data discovery and analysis. Begin by exploring data catalogs through standard clients like [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser) that reveal Sentinel scenes at a glance.
+
+To screen products more closely, you can [experiment](/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a) with band combinations, color formulations, and custom arithmetic expressions to unlock spectral, polarization or any variables insights.
+
+Sophisticated analysis workflows can be built from [openEO](https://openeo.org/) clients for prototyping, dynamic web maps with on-the-fly reprojection, and interactive time-series exploration.
+
+Compelling [showcases](story/?id=ndvi) demonstrate real-world applications – from flood delineation and burnt area mapping to spectral indices and collaborative workspaces – all powered by cloud-native visualization technologies.
 </FeatureSection>
 
 
