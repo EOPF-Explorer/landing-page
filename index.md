@@ -11,27 +11,43 @@ hero:
     alt: Background Image
   actions:
     - theme: brand
-      text: Data Model
-      link: https://github.com/EOPF-Explorer/data-model
+      text: Explore Data
+      link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
     - theme: brand
-      text: Web Map Tiles Service
-      link: https://github.com/EOPF-Explorer/titiler-eopf
+      text: Read Example Story
+      link: /story/?id=ndvi
 footer: false
 ---
 
-### About the Project
-The Sentinel Zarr Explorer project aims to develop and operate visualisation software and services for the European Space Agency's (ESA) Earth Observation Processor Framework (EOPF). 
+<FeatureSection
+  icon="monitor-screenshot"
+  image="media/exploration-journey.png"
+  landing
+  tagline="Building Visualisation Capacity"
+>
 
-This initiative addresses the critical need for efficient access and visualisation of Sentinel data as ESA transitions to the new EOPF Zarr format for Copernicus Earth Observation data.
+Cloud-native and visualisation-enhanced EOPF Sentinel products power many aspects of Earth observation data discovery and analysis. Begin by exploring data catalogs through standard clients like [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser) that reveal Sentinel scenes at a glance.
+
+To screen products more closely, you can [experiment](/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a) with band combinations, color formulations, and custom arithmetic expressions to unlock spectral, polarization or any variables insights.
+
+Sophisticated analysis workflows can be built from [openEO](https://openeo.org/) clients for prototyping, dynamic web maps with on-the-fly reprojection, and interactive time-series exploration.
+
+Compelling [showcases](story/?id=ndvi) demonstrate real-world applications – from flood delineation and burnt area mapping to spectral indices and collaborative workspaces – all powered by cloud-native visualization technologies.
+</FeatureSection>
 
 
-<div class="large-space"></div>
+<div class="story-wrapper">
+<div class="story-col">
 
-### Dynamic Data Visualisation and Storytelling
-
+<h4> Dynamic Data Visualisation and Storytelling</h4>
+<br>
+<p>
 Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data and embedding of visualisations into stories and feature maps, straight from the products in cloud storage.
+</p>
+<!-- <button style="margin-top:20px">NDVI Story</button> -->
+</div>
 
-
+<div class="story-col" >
 <client-only>
   <eox-itemfilter
     :items="items"
@@ -40,49 +56,39 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
     subTitleProperty="subtitle"
     resultType="cards"
     @select="handleResultClick"
-    style="--select-filter-max-items: 10"
+    style="--select-filter-max-items: 10;--_margin:0px;--card-height:25rem"
     class="large-margin bottom-margin"
   >
     <h6 slot="filterstitle" class="large large-margin vertical-margin top-padding"></h6>
     <h6 slot="resultstitle" class="large large-margin vertical-margin top-padding"></h6>
   </eox-itemfilter>
 </client-only>
+</div>
+</div>
 
 <div class="large-space"></div>
+
 
 <FeatureSection
-  icon="mdi-application-brackets-outline"
-  image="media/web-optimized-zarr.png"
+  icon="mdi-compass"
+  image="media/cloudless.png"
   landing
-  primaryButton="Read more"
-  primaryLink="https://eopf-explorer.github.io/data-model/"
-  tagline="Web Optimized Zarr for EOPF"
-  title="Data Model Development"
+  primaryButton="Open Explorer"
+  primaryLink="/todo"
+  tagline="Explore sentinel data in real time"
+  title="Sentinels Browser"
 >
-At the core of our activity is the development of a data model for web-optimised data access. <br /><br /> Read more about the considerations and design principles, as well as the relationship to ongoing community efforts for the GeoZarr and Web-Optimized Zarr (WOZ) conventions.
+Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical imagery. Change color maps, adjust contrast, and zoom in instantly- powered by Zarr dynamic tiling.
 </FeatureSection>
 
-### Our Goals
 
-1. **Develop visualization software** that provides millisecond response times for interactive exploration of Sentinel EOPF Zarr data
-2. **Operate a comprehensive visualization service** demonstrating the capabilities and efficiency of the new EOPF Zarr format
-3. **Build community adoption** through open-source tools, documentation, and user engagement activities
-4. **Provide performance benchmarks** demonstrating the efficiency and scalability of the Zarr format
-5. **Create integration showcases** with existing Earth Observation tools and workflows
-6. **Deliver comprehensive documentation** including user manuals, API documentation, and technical guides
-7. **Establish a sustainable service** with monitoring, maintenance, and user support capabilities
-
-
-<CTASection
-  title="Join the discussion!"
-  tagline="We welcome your feedback and contributions."
-  primaryButton="Find us on GitHub"
-  primaryLink="https://github.com/eopf-explorer"
-  dark
-/>
-
+<h4 class="center-align">Why Zarr</h4>
+<Table
+:headers="['Features', 'Zarr','SAFE']"
+:data="tableData"/>
 
 <div class="large-space"></div>
+
 
 ### Frequently Asked Questions
 <br />
@@ -132,6 +138,15 @@ At the core of our activity is the development of a data model for web-optimised
 <br />
 <br />
 <br />
+
+
+<CTASection style="margin-bottom:0px"
+  title="Join the discussion!"
+  tagline="We welcome your feedback and contributions."
+  primaryButton="Visit the EOPF Forum"
+  primaryLink="https://discourse.eopf.copernicus.eu/"
+  dark
+/>
 
 <footer class="full-width large-padding" style="background: #003047">
   <div class="holder large-padding vertical-margin large-margin small-text">
@@ -186,6 +201,7 @@ At the core of our activity is the development of a data model for web-optimised
 </footer>
 
 <script setup>
+import Table from "./.vitepress/components/Table.vue"
 import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
@@ -232,6 +248,75 @@ const handleResultClick = (evt) => {
   trackEvent(['stories', 'select', filename]);
   router.go(withBase(`/story?id=${filename}`));
 };
+const tick = `<button class="transparent square"><img src="${withBase('/assets/checkmark.svg')}"/></button>`
+const cross = `<button class="transparent square"><img src="${withBase('/assets/crossmark.svg')}"/></button>`
+
+const tableData = [
+  {
+    summary: {
+      'Features': 'Data Structure',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: `Learn more: Sentinel SAFE format (SentiWiki) Zarr Documentation ,ESA EOPF GitHub – Data Model`,
+  },
+  {
+    summary: {
+      'Features': 'Access',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Detailed information about access methods and their implications...,',
+  },
+  {
+    summary: {
+      'Features': 'Performance',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Performance benchmarks and technical details...',
+  },
+  {
+    summary: {
+      'Features': 'Scalability',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Scalability comparison and use cases...',
+  },
+  {
+    summary: {
+      'Features': 'Metadata Handling',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Metadata structure examples and parsing information...',
+  },
+  {
+    summary: {
+      'Features': 'Cloud Readiness',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Cloud deployment strategies and best practices...',
+  },
+  {
+    summary: {
+      'Features': 'Visualization',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Visualization tools and integration examples...',
+  },
+  {
+    summary: {
+      'Features': 'Interoperability',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Integration examples and ecosystem compatibility...',
+  }
+]
 </script>
 <style>
   eox-itemfilter {
@@ -244,4 +329,15 @@ const handleResultClick = (evt) => {
       --filter-display:none
     }
   }
+
+.story-wrapper{
+  display:flex;
+  height:100%;
+  padding: 20px
+}
+.story-col{
+  flex: 1;
+  align-items:center;
+  justify-items:center;
+}
 </style>
