@@ -25,6 +25,7 @@ footer: false
   landing
   tagline="Building Visualisation Capacity"
 >
+
 Cloud-native and visualisation-enhanced EOPF Sentinel products power many aspects of Earth observation data discovery and analysis. Begin by exploring data catalogs through standard clients like [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser) that reveal Sentinel scenes at a glance.
 
 To screen products more closely, you can [experiment](/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a) with band combinations, color formulations, and custom arithmetic expressions to unlock spectral, polarization or any variables insights.
