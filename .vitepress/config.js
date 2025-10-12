@@ -19,8 +19,8 @@ export default defineConfig({
   },
   themeConfig: {
     nav: [
-      { text: "Search Data", link: "https://api.explorer.eopf.copernicus.eu/browser" },
-      { text: "Browse Sentinels", link: "/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a" },
+      { text: "Data Catalog", link: "https://api.explorer.eopf.copernicus.eu/browser" },
+      { text: "Dynamic Browser", link: "/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a" },
       { text: "Documentation", link: "https://eopf-explorer.github.io/data-model/" },
       { text: "Discussion", link: "https://discourse.eopf.copernicus.eu/" },
     ],
