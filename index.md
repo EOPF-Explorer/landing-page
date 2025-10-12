@@ -139,8 +139,8 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 <CTASection style="margin-bottom:0px"
   title="Join the discussion!"
   tagline="We welcome your feedback and contributions."
-  primaryButton="Find us on GitHub"
-  primaryLink="https://github.com/eopf-explorer"
+  primaryButton="Visit the EOPF Forum"
+  primaryLink="https://discourse.eopf.copernicus.eu/"
   dark
 />
 
