@@ -82,10 +82,10 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 </FeatureSection>
 
 
-<h4 class="center-align">Why Zarr</h4>
+<!-- <h4 class="center-align">Why Zarr</h4>
 <Table
 :headers="['Features', 'Zarr','SAFE']"
-:data="tableData"/>
+:data="tableData"/> -->
 
 <div class="large-space"></div>
 
@@ -139,6 +139,17 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 <br />
 <br />
 
+#### Acknowledgments
+
+EOPF Explorer is a project funded by the European Space Agency (ESA) and developed by a consortium led by Development Seed and EOX. We gratefully acknowledge the contributions of the open-source community and our external experts who make this project possible.
+
+Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire geospatial open-source ecosystem.
+
+<!-- logos section -->
+<p style="text-align:start">
+<a style="display:inline" href="https://developmentseed.org/" target="_blank"><img :src="withBase('/media/devseed-logo.svg')" style="width:8.5rem; padding:1rem;display:inline; "/></a> <a style="display:inline;" href="https://eox.at/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/EOX-logo.svg')"/></a>
+</p>
+
 
 <CTASection style="margin-bottom:0px"
   title="Join the discussion!"
@@ -157,7 +168,9 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
       </div>
       <div class="s12 m6 l3">
         <h6>Menu</h6>
+        <client-only>
         <p v-for="nav in theme.nav"><a :href="nav.link" class="link">{{nav.text}}</a></p>
+        </client-only>
       </div>
       <div class="s12 m6 l3">
         <h6>Credits</h6>
@@ -176,22 +189,22 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
       :logos='[
         {
           alt: "Programme of the European Union Logo",
-          image: "media/eu-logo-white.png",
+          image: "/media/eu-logo-white.png",
           link: "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/programmes",
         },
         {
           alt: "Copernicus Logo",
-          image: "media/copernicus-logo-white.png",
+          image: "/media/copernicus-logo-white.png",
           link: "https://www.copernicus.eu/en",
         },
         {
           alt: "EOF Logo",
-          image: "media/eof-logo-white.png",
+          image: "/media/eof-logo-white.png",
           link: "https://eof.esa.int/",
         },
         {
           alt: "ESA Co-funded Logo",
-          image: "media/esa-cofunded-white.png",
+          image: "/media/esa-cofunded-white.png",
           link: "https://www.esa.int/",
         },
       ]'
@@ -201,15 +214,17 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 </footer>
 
 <script setup>
-import Table from "./.vitepress/components/Table.vue"
+// import Table from "./.vitepress/components/Table.vue"
 import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
+//@ts-expect-error
 import { trackEvent } from "@eox/pages-theme-eox/src/helpers.js";
 
 const { theme } = useData();
 
 const router = useRouter();
+/** @type {import("vue").Ref<any[]>} */
 const items = ref([]);
 
 // disbaled for now, will be enabled when more stories are added
@@ -233,6 +248,7 @@ const items = ref([]);
 onMounted(async () => {
   try {
     const response = await fetch('https://eopf-explorer.github.io/narratives/narratives.json');
+    /** @type {any[]} */
     const results = await response.json();
     results.forEach((res)=>{res.image = 'https://eopf-explorer.github.io/narratives/'+res.image});
     items.value = results;
@@ -242,81 +258,84 @@ onMounted(async () => {
 });
 
 // Click event handler
+/**
+ * @param {CustomEvent} evt 
+ */
 const handleResultClick = (evt) => {
   const sections = evt.detail.file.split("/");
   const filename = sections[sections.length-1].split(".")[0];
   trackEvent(['stories', 'select', filename]);
   router.go(withBase(`/story?id=${filename}`));
 };
-const tick = `<button class="transparent square"><img src="${withBase('/assets/checkmark.svg')}"/></button>`
-const cross = `<button class="transparent square"><img src="${withBase('/assets/crossmark.svg')}"/></button>`
+// const tick = `<button class="transparent square"><img src="${withBase('/assets/checkmark.svg')}"/></button>`
+// const cross = `<button class="transparent square"><img src="${withBase('/assets/crossmark.svg')}"/></button>`
 
-const tableData = [
-  {
-    summary: {
-      'Features': 'Data Structure',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: `Learn more: Sentinel SAFE format (SentiWiki) Zarr Documentation ,ESA EOPF GitHub – Data Model`,
-  },
-  {
-    summary: {
-      'Features': 'Access',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Detailed information about access methods and their implications...,',
-  },
-  {
-    summary: {
-      'Features': 'Performance',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Performance benchmarks and technical details...',
-  },
-  {
-    summary: {
-      'Features': 'Scalability',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Scalability comparison and use cases...',
-  },
-  {
-    summary: {
-      'Features': 'Metadata Handling',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Metadata structure examples and parsing information...',
-  },
-  {
-    summary: {
-      'Features': 'Cloud Readiness',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Cloud deployment strategies and best practices...',
-  },
-  {
-    summary: {
-      'Features': 'Visualization',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Visualization tools and integration examples...',
-  },
-  {
-    summary: {
-      'Features': 'Interoperability',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Integration examples and ecosystem compatibility...',
-  }
-]
+// const tableData = [
+//   {
+//     summary: {
+//       'Features': 'Data Structure',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: `Learn more: Sentinel SAFE format (SentiWiki) Zarr Documentation ,ESA EOPF GitHub – Data Model`,
+//   },
+//   {
+//     summary: {
+//       'Features': 'Access',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Detailed information about access methods and their implications...,',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Performance',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Performance benchmarks and technical details...',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Scalability',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Scalability comparison and use cases...',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Metadata Handling',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Metadata structure examples and parsing information...',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Cloud Readiness',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Cloud deployment strategies and best practices...',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Visualization',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Visualization tools and integration examples...',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Interoperability',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Integration examples and ecosystem compatibility...',
+//   }
+// ]
 </script>
 <style>
   eox-itemfilter {
@@ -329,15 +348,34 @@ const tableData = [
       --filter-display:none
     }
   }
-
-.story-wrapper{
-  display:flex;
-  height:100%;
-  padding: 20px
+.story-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
 }
-.story-col{
+
+.story-col {
   flex: 1;
-  align-items:center;
-  justify-items:center;
+  flex-direction: auto;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .story-wrapper {
+    flex-direction: column;
+  }
+  
+  .story-col {
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-wrapper {
+    padding: 10px;
+    gap: 10px;
+  }
 }
 </style>
