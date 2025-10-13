@@ -139,9 +139,15 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 <br />
 <br />
 
+#### Acknowledgments
+
+EOPF Explorer is a project funded by the European Space Agency (ESA) and developed by a consortium led by Development Seed and EOX. We gratefully acknowledge the contributions of the open-source community and our external experts who make this project possible.
+
+Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire geospatial open-source ecosystem.
+
 <!-- logos section -->
 <p style="text-align:start">
-powered by <a style="display:inline" href="https://developmentseed.org/" target="_blank"><img :src="withBase('/media/devseed-logo.svg')" style="width:8.5rem; padding:1rem;display:inline; "/></a> <a style="display:inline;" href="https://eox.at/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/EOX-logo.svg')"/></a>
+<a style="display:inline" href="https://developmentseed.org/" target="_blank"><img :src="withBase('/media/devseed-logo.svg')" style="width:8.5rem; padding:1rem;display:inline; "/></a> <a style="display:inline;" href="https://eox.at/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/EOX-logo.svg')"/></a>
 </p>
 
 
