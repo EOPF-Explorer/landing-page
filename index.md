@@ -82,10 +82,10 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 </FeatureSection>
 
 
-<h4 class="center-align">Why Zarr</h4>
+<!-- <h4 class="center-align">Why Zarr</h4>
 <Table
 :headers="['Features', 'Zarr','SAFE']"
-:data="tableData"/>
+:data="tableData"/> -->
 
 <div class="large-space"></div>
 
@@ -162,7 +162,9 @@ powered by <a style="display:inline" href="https://developmentseed.org/" target=
       </div>
       <div class="s12 m6 l3">
         <h6>Menu</h6>
+        <client-only>
         <p v-for="nav in theme.nav"><a :href="nav.link" class="link">{{nav.text}}</a></p>
+        </client-only>
       </div>
       <div class="s12 m6 l3">
         <h6>Credits</h6>
@@ -206,15 +208,17 @@ powered by <a style="display:inline" href="https://developmentseed.org/" target=
 </footer>
 
 <script setup>
-import Table from "./.vitepress/components/Table.vue"
+// import Table from "./.vitepress/components/Table.vue"
 import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
+//@ts-expect-error
 import { trackEvent } from "@eox/pages-theme-eox/src/helpers.js";
 
 const { theme } = useData();
 
 const router = useRouter();
+/** @type {import("vue").Ref<any[]>} */
 const items = ref([]);
 
 // disbaled for now, will be enabled when more stories are added
@@ -238,6 +242,7 @@ const items = ref([]);
 onMounted(async () => {
   try {
     const response = await fetch('https://eopf-explorer.github.io/narratives/narratives.json');
+    /** @type {any[]} */
     const results = await response.json();
     results.forEach((res)=>{res.image = 'https://eopf-explorer.github.io/narratives/'+res.image});
     items.value = results;
@@ -247,81 +252,84 @@ onMounted(async () => {
 });
 
 // Click event handler
+/**
+ * @param {CustomEvent} evt 
+ */
 const handleResultClick = (evt) => {
   const sections = evt.detail.file.split("/");
   const filename = sections[sections.length-1].split(".")[0];
   trackEvent(['stories', 'select', filename]);
   router.go(withBase(`/story?id=${filename}`));
 };
-const tick = `<button class="transparent square"><img src="${withBase('/assets/checkmark.svg')}"/></button>`
-const cross = `<button class="transparent square"><img src="${withBase('/assets/crossmark.svg')}"/></button>`
+// const tick = `<button class="transparent square"><img src="${withBase('/assets/checkmark.svg')}"/></button>`
+// const cross = `<button class="transparent square"><img src="${withBase('/assets/crossmark.svg')}"/></button>`
 
-const tableData = [
-  {
-    summary: {
-      'Features': 'Data Structure',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: `Learn more: Sentinel SAFE format (SentiWiki) Zarr Documentation ,ESA EOPF GitHub – Data Model`,
-  },
-  {
-    summary: {
-      'Features': 'Access',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Detailed information about access methods and their implications...,',
-  },
-  {
-    summary: {
-      'Features': 'Performance',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Performance benchmarks and technical details...',
-  },
-  {
-    summary: {
-      'Features': 'Scalability',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Scalability comparison and use cases...',
-  },
-  {
-    summary: {
-      'Features': 'Metadata Handling',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Metadata structure examples and parsing information...',
-  },
-  {
-    summary: {
-      'Features': 'Cloud Readiness',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Cloud deployment strategies and best practices...',
-  },
-  {
-    summary: {
-      'Features': 'Visualization',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Visualization tools and integration examples...',
-  },
-  {
-    summary: {
-      'Features': 'Interoperability',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'Integration examples and ecosystem compatibility...',
-  }
-]
+// const tableData = [
+//   {
+//     summary: {
+//       'Features': 'Data Structure',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: `Learn more: Sentinel SAFE format (SentiWiki) Zarr Documentation ,ESA EOPF GitHub – Data Model`,
+//   },
+//   {
+//     summary: {
+//       'Features': 'Access',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Detailed information about access methods and their implications...,',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Performance',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Performance benchmarks and technical details...',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Scalability',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Scalability comparison and use cases...',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Metadata Handling',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Metadata structure examples and parsing information...',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Cloud Readiness',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Cloud deployment strategies and best practices...',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Visualization',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Visualization tools and integration examples...',
+//   },
+//   {
+//     summary: {
+//       'Features': 'Interoperability',
+//       'SAFE': cross,
+//       'Zarr': tick,
+//     },
+//     content: 'Integration examples and ecosystem compatibility...',
+//   }
+// ]
 </script>
 <style>
   eox-itemfilter {
@@ -347,7 +355,7 @@ const tableData = [
   justify-content: flex-start;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .story-wrapper {
     flex-direction: column;
   }

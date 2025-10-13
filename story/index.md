@@ -53,7 +53,9 @@ powered by <a style="display:inline" href="https://developmentseed.org/" target=
       </div>
       <div class="s12 m6 l3">
         <h6>Menu</h6>
+        <client-only>
         <p v-for="nav in theme.nav"><a :href="nav.link" class="link">{{nav.text}}</a></p>
+        </client-only>
       </div>
       <div class="s12 m6 l3">
         <h6>Credits</h6>
