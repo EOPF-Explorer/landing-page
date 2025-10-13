@@ -139,6 +139,11 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 <br />
 <br />
 
+<!-- logos section -->
+<p style="text-align:start">
+powered by <a style="display:inline" href="https://developmentseed.org/" target="_blank"><img :src="withBase('/media/devseed-logo.svg')" style="width:8.5rem; padding:1rem;display:inline; "/></a> <a style="display:inline;" href="https://eox.at/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/EOX-logo.svg')"/></a>
+</p>
+
 
 <CTASection style="margin-bottom:0px"
   title="Join the discussion!"
@@ -176,22 +181,22 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
       :logos='[
         {
           alt: "Programme of the European Union Logo",
-          image: "media/eu-logo-white.png",
+          image: "/media/eu-logo-white.png",
           link: "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/programmes",
         },
         {
           alt: "Copernicus Logo",
-          image: "media/copernicus-logo-white.png",
+          image: "/media/copernicus-logo-white.png",
           link: "https://www.copernicus.eu/en",
         },
         {
           alt: "EOF Logo",
-          image: "media/eof-logo-white.png",
+          image: "/media/eof-logo-white.png",
           link: "https://eof.esa.int/",
         },
         {
           alt: "ESA Co-funded Logo",
-          image: "media/esa-cofunded-white.png",
+          image: "/media/esa-cofunded-white.png",
           link: "https://www.esa.int/",
         },
       ]'
@@ -329,15 +334,34 @@ const tableData = [
       --filter-display:none
     }
   }
-
-.story-wrapper{
-  display:flex;
-  height:100%;
-  padding: 20px
+.story-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
 }
-.story-col{
+
+.story-col {
   flex: 1;
-  align-items:center;
-  justify-items:center;
+  flex-direction: auto;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+  .story-wrapper {
+    flex-direction: column;
+  }
+  
+  .story-col {
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-wrapper {
+    padding: 10px;
+    gap: 10px;
+  }
 }
 </style>
