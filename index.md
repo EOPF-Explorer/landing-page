@@ -74,7 +74,7 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
   image="media/cloudless.png"
   landing
   primaryButton="Open Explorer"
-  primaryLink="/todo"
+  primaryLink="/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a"
   tagline="Explore sentinel data in real time"
   title="Sentinels Browser"
 >
