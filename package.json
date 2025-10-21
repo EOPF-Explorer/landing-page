@@ -10,7 +10,7 @@
     "check": "vue-tsc --noEmit --skipLibCheck && eslint ."
   },
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@4606738",
+    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@0a7ffe2",
     "@eox/chart": "^1.0.1",
     "@eox/elements-utils": "^1.1.0",
     "@eox/itemfilter": "^1.12.0",

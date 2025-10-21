@@ -3,7 +3,7 @@ layout: false
 ---
 
 <script setup>
-    const config = async() => await import("./sentinel-explorer-config").then(async m => await m["default"])
+    const config = async() => (await import("./sentinel-explorer-config")).default
 </script>
 <!-- <style>
 .VPContent {
@@ -27,4 +27,6 @@ eo-dash {
 }
 </style>
 <NavBar></NavBar>
+<ClientOnly>
 <eo-dash style="display: block;height: calc(100dvh - var(--vp-nav-height))" .config="config"></eo-dash>
+</ClientOnly>
