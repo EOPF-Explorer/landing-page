@@ -51,15 +51,15 @@ import { ref } from "vue";
  */
 
 // Props
-const props = defineProps({
-  /** @type {string[]} Array of column header names */
+defineProps({
   headers: {
+    /** @type {import('vue').PropType<string[]>} Array of column header names */
     type: Array,
     required: true,
     default: () => [],
   },
-  /** @type {TableRowData[]} Array of row data objects with summary and content */
   data: {
+    /** @type {import("vue").PropType<TableRowData[]>} Array of row data objects with summary and content */
     type: Array,
     required: true,
     default: () => [],
@@ -68,7 +68,10 @@ const props = defineProps({
 
 // State for tracking expanded rows
 const expandedRows = ref(new Set());
-
+/**
+ * 
+ * @param {number} index 
+ */
 // Toggle row expansion
 const toggleRow = (index) => {
   if (expandedRows.value.has(index)) {

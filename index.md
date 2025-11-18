@@ -21,6 +21,10 @@ footer: false
 
 <CardsGallery sectionTitle="Building Visualisation Capacity" :cards="cardsContent"/>
 
+<div class="large-space"></div>
+<div class="large-space"></div>
+
+
 <div class="story-wrapper">
 <div class="story-col">
 
