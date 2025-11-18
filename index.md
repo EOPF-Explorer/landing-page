@@ -19,22 +19,7 @@ hero:
 footer: false
 ---
 
-<FeatureSection
-  icon="monitor-screenshot"
-  image="media/exploration-journey.png"
-  landing
-  tagline="Building Visualisation Capacity"
->
-
-Cloud-native and visualisation-enhanced EOPF Sentinel products power many aspects of Earth observation data discovery and analysis. Begin by exploring data catalogs through standard clients like [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser) that reveal Sentinel scenes at a glance.
-
-To screen products more closely, you can [experiment](/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a) with band combinations, color formulations, and custom arithmetic expressions to unlock spectral, polarization or any variables insights.
-
-Sophisticated analysis workflows can be built from [openEO](https://openeo.org/) clients for prototyping, dynamic web maps with on-the-fly reprojection, and interactive time-series exploration.
-
-Compelling [showcases](story/?id=ndvi) demonstrate real-world applications – from flood delineation and burnt area mapping to spectral indices and collaborative workspaces – all powered by cloud-native visualization technologies.
-</FeatureSection>
-
+<CardsGallery sectionTitle="Building Visualisation Capacity" :cards="cardsContent"/>
 
 <div class="story-wrapper">
 <div class="story-col">
@@ -214,13 +199,14 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
 </footer>
 
 <script setup>
+import CardsGallery from "./.vitepress/components/CardsGallery.vue"
 // import Table from "./.vitepress/components/Table.vue"
 import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
 //@ts-expect-error
 import { trackEvent } from "@eox/pages-theme-eox/src/helpers.js";
-
+import { cardsContent } from "./.vitepress/utils/content"
 const { theme } = useData();
 
 const router = useRouter();
