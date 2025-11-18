@@ -9,7 +9,7 @@
       <p class="content">
         <slot>{{ content }}</slot>
       </p>
-      <a v-if="link" :href="link.href" class="link">
+      <a v-if="link" :href="link.href" target="_blank" class="link">
         {{ link.text }} <span class="arrow">&gt;</span>
       </a>
     </div>
