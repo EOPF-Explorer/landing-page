@@ -1,3 +1,5 @@
+import { withBase } from 'vitepress';
+
 const discoveryIcon = `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M23.7201 17.3332V26.6665H5.05339V7.99984H11.7467C11.8134 7.05317 12.0401 6.15984 12.3867 5.33317H5.05339C3.58672 5.33317 2.38672 6.53317 2.38672 7.99984V26.6665C2.38672 28.1332 3.58672 29.3332 5.05339 29.3332H23.7201C25.1867 29.3332 26.3867 28.1332 26.3867 26.6665V19.9998L23.7201 17.3332ZM21.7201 23.9998H7.05339L10.7201 19.2932L13.3334 22.4398L17.0001 17.7198L21.7201 23.9998ZM25.4534 11.8532C26.0401 10.9198 26.3867 9.83984 26.3867 8.6665C26.3867 5.3465 23.7067 2.6665 20.3867 2.6665C17.0667 2.6665 14.3867 5.3465 14.3867 8.6665C14.3867 11.9865 17.0667 14.6665 20.3734 14.6665C21.5467 14.6665 22.64 14.3198 23.56 13.7332L27.7201 17.8932L29.6134 15.9998L25.4534 11.8532ZM20.3867 11.9998C18.5467 11.9998 17.0534 10.5065 17.0534 8.6665C17.0534 6.8265 18.5467 5.33317 20.3867 5.33317C22.2267 5.33317 23.7201 6.8265 23.7201 8.6665C23.7201 10.5065 22.2267 11.9998 20.3867 11.9998Z" fill="black"/>
 </svg>`;
@@ -60,3 +62,74 @@ export const cardsContent = [
     }
   },
 ];
+
+
+const tick = `<button class="transparent square"><img src="${withBase('/assets/checkmark.svg')}"/></button>`
+const cross = `<button class="transparent square"><img src="${withBase('/assets/crossmark.svg')}"/></button>`
+
+export const tableData = [
+  {
+    summary: {
+      'Features': 'Data Structure',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: `Learn more: Sentinel SAFE format (SentiWiki) Zarr Documentation ,ESA EOPF GitHub – Data Model`,
+  },
+  {
+    summary: {
+      'Features': 'Access',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Detailed information about access methods and their implications...,',
+  },
+  {
+    summary: {
+      'Features': 'Performance',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Performance benchmarks and technical details...',
+  },
+  {
+    summary: {
+      'Features': 'Scalability',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Scalability comparison and use cases...',
+  },
+  {
+    summary: {
+      'Features': 'Metadata Handling',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Metadata structure examples and parsing information...',
+  },
+  {
+    summary: {
+      'Features': 'Cloud Readiness',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Cloud deployment strategies and best practices...',
+  },
+  {
+    summary: {
+      'Features': 'Visualization',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Visualization tools and integration examples...',
+  },
+  {
+    summary: {
+      'Features': 'Interoperability',
+      'SAFE': cross,
+      'Zarr': tick,
+    },
+    content: 'Integration examples and ecosystem compatibility...',
+  }
+]
