@@ -5,7 +5,7 @@ export default [
   ...eox,
   ...pluginVue.configs["flat/essential"],
   {
-    ignores: ["public/", "dist/", "**/cache/**"],
+    ignores: ["public/", "**/dist/**", "**/cache/**"],
   },
   {
     files: ["**/*.vue", "**/*.js"],

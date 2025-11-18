@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+//@ts-expect-error does not have types
 import baseConfig from "@eox/pages-theme-eox/config";
 
 // https://vitepress.dev/reference/site-config

@@ -7,7 +7,7 @@
     "build": "vitepress build",
     "serve": "vitepress serve",
     "format": "npx prettier --write **/*.{js,css,json,vue}",
-    "check": "vue-tsc --noEmit --skipLibCheck && eslint ."
+    "check": "vue-tsc && eslint ."
   },
   "dependencies": {
     "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@0a7ffe2",
