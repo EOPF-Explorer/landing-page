@@ -23,18 +23,18 @@ const showcasesIcon = `<svg width="32" height="32" viewBox="0 0 32 32" fill="non
 export const cardsContent = [
   {
     content: "Cloud-native and visualisation-enhanced EOPF Sentinel products power many aspects of Earth observation data discovery and analysis. Begin by exploring data clients catalogs through standard clients like Stack Browser that reveal Sentinel scenes at a glance.",
-    id: "1",
+    id: Symbol(),
     title: "Discovery",
-    icon: discoveryIcon,
+    icon:{ html: discoveryIcon},
     link:{
         text:"Stac Browser",
         href:"https://api.explorer.eopf.copernicus.eu/browser"
     }
   },
   {
-    icon: screeningIcon,
+    icon:{ html: screeningIcon},
     content: "To screen products more closely, you can experiment with band combinations, color formulations, and custom arithmetic expressions to unlock spectral, polarization or any variables insights.",
-    id: "2",
+    id: Symbol(),
     title: "Screening",
     link:{
         text:"Experiment",
@@ -42,9 +42,9 @@ export const cardsContent = [
     }
   },
   {
-    icon: analysisIcon,
+    icon:{ html: analysisIcon},
     content: "Sophisticated analysis workflows can be built from Open EO clients for prototyping, dynamic web maps with on-the-fly reprojection, and interactive time-series exploration.",
-    id: "3",
+    id: Symbol(),
     title: "Analysis",
     link:{
         text:"Open EO",
@@ -52,9 +52,9 @@ export const cardsContent = [
     }
   },
   {
-    icon: showcasesIcon,
+    icon:{ html: showcasesIcon},
     content: "Compelling showcases demonstrate real-world applications – from flood delineation and burnt area mapping to spectral indices and collaborative workspaces – all powered by cloud-native visualization technologies.",
-    id: "3",
+    id: Symbol(),
     title: "Showcases",
     link:{
         text:"Showcases",

@@ -19,7 +19,9 @@ hero:
 footer: false
 ---
 
-<CardsGallery sectionTitle="Building Visualisation Capacity" :cards="cardsContent"/>
+<h3 style="margin-top:24px;z-index:2" class="text-center" >Building Visualisation Capacity</h3>
+<FeaturesGallery style="margin-top:-64px" background="surface surface-bg" sectionTitle=" " :cards="cardsContent"/>
+
 
 <div class="large-space"></div>
 <div class="large-space"></div>
@@ -72,7 +74,7 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 
 
 <h4 class="center-align">Why Zarr</h4>
-<Table
+<DataTable
 :headers="['Features', 'Zarr','SAFE']"
 :data="tableData"/>
 
@@ -144,7 +146,7 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
   title="Join the discussion!"
   tagline="We welcome your feedback and contributions."
   primaryButton="Visit the EOPF Forum"
-  primaryLink="https://discourse.eopf.copernicus.eu/"
+  primaryLink="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17"
   dark
 />
 
@@ -203,8 +205,6 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
 </footer>
 
 <script setup>
-import CardsGallery from "./.vitepress/components/CardsGallery.vue"
-import Table from "./.vitepress/components/Table.vue"
 import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
@@ -259,6 +259,9 @@ const handleResultClick = (evt) => {
 };
 </script>
 <style>
+  .text-center {
+    text-align:center
+  }
   eox-itemfilter {
     --form-flex-direction: row;
     --filter-display:none

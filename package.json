@@ -6,7 +6,7 @@
     "dev": "vitepress dev --port 8009",
     "build": "vitepress build",
     "serve": "vitepress serve",
-    "format": "npx prettier --write **/*.{js,css,json,vue}",
+    "format": "npx prettier --write **/*.{js,css,json}",
     "check": "vue-tsc && eslint ."
   },
   "dependencies": {
@@ -21,7 +21,7 @@
     "@eox/storytelling": "^1.9.5"
   },
   "devDependencies": {
-    "@eox/pages-theme-eox": "^0.10.1",
+    "@eox/pages-theme-eox": "^0.11.1",
     "eslint-plugin-vue": "^10.5.0",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.1.1"
