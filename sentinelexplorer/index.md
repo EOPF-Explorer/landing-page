@@ -4,7 +4,10 @@ footer: false
 ---
 
 <script setup>
-    const config = async() => (await import("./sentinel-explorer-config")).default
+  if (document.querySelector(".layout-home")) {
+    window.location.reload();
+  }
+  const config = async() => (await import("./sentinel-explorer-config")).default
 </script>
 
 <style scoped>
