@@ -18,7 +18,7 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom", "DOM.Iterable"]
   },
-  "exclude": ["node_modules", "public", "**/dist/**", ".vitpress/cache"],
+  "exclude": ["node_modules", "public", "**/dist/**", ".vitepress/cache"],
   "include": ["**/*.js", "**/*.ts", "**/*.vue", "**/*.md"],
   "vueCompilerOptions": {
     "vitePressExtensions": [".md"]

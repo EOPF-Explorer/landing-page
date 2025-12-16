@@ -5,7 +5,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
   stacEndpoint: {
     endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
     api: true,
-    rasterEndpoint: " https://api.explorer.eopf.copernicus.eu/raster/",
+    rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
   },
   brand: {
     name: "Sentinel Explorer",

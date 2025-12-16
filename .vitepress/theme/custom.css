@@ -31,3 +31,25 @@ h6 {
     padding-top: 7rem !important;
   }
 }
+
+/* Move navigation buttons to the right */
+
+.top-nav nav.nav-desktop {
+  justify-content: space-between;
+}
+
+.top-nav nav.nav-desktop > .space {
+  display: none;
+}
+
+.top-nav nav.nav-desktop > nav:has(ul) {
+  margin-left: auto;
+}
+
+.top-nav nav.nav-desktop > .max {
+  flex: 0;
+}
+
+.top-nav nav.nav-desktop > nav.actions {
+  margin-left: 1rem;
+}

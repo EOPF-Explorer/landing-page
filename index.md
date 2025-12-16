@@ -19,21 +19,12 @@ hero:
 footer: false
 ---
 
-<FeatureSection
-  icon="monitor-screenshot"
-  image="media/exploration-journey.png"
-  landing
-  tagline="Building Visualisation Capacity"
->
+<h3 style="margin-top:24px;z-index:2" class="text-center" >Building Visualisation Capacity</h3>
+<FeaturesGallery style="margin-top:-64px" background="surface surface-bg" sectionTitle=" " :cards="cardsContent"/>
 
-Cloud-native and visualisation-enhanced EOPF Sentinel products power many aspects of Earth observation data discovery and analysis. Begin by exploring data catalogs through standard clients like [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser) that reveal Sentinel scenes at a glance.
 
-To screen products more closely, you can [experiment](/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a) with band combinations, color formulations, and custom arithmetic expressions to unlock spectral, polarization or any variables insights.
-
-Sophisticated analysis workflows can be built from [openEO](https://openeo.org/) clients for prototyping, dynamic web maps with on-the-fly reprojection, and interactive time-series exploration.
-
-Compelling [showcases](story/?id=ndvi) demonstrate real-world applications – from flood delineation and burnt area mapping to spectral indices and collaborative workspaces – all powered by cloud-native visualization technologies.
-</FeatureSection>
+<div class="large-space"></div>
+<div class="large-space"></div>
 
 
 <div class="story-wrapper">
@@ -82,10 +73,10 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 </FeatureSection>
 
 
-<!-- <h4 class="center-align">Why Zarr</h4>
-<Table
-:headers="['Features', 'Zarr','SAFE']"
-:data="tableData"/> -->
+<h4 class="center-align">Why Zarr</h4>
+<DataTable
+:headers="['Features', 'Zarr (EOPF Explorer)', 'Zarr (EOPF Sample Service)', 'SAFE']"
+:data="tableData"/>
 
 <div class="large-space"></div>
 
@@ -155,7 +146,7 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
   title="Join the discussion!"
   tagline="We welcome your feedback and contributions."
   primaryButton="Visit the EOPF Forum"
-  primaryLink="https://discourse.eopf.copernicus.eu/"
+  primaryLink="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17"
   dark
 />
 
@@ -175,8 +166,6 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
       <div class="s12 m6 l3">
         <h6>Credits</h6>
         <p><a href="https://www.esa.int/" target="_blank" class="link">European Space Agency (ESA)</a></p>
-        <p><a href="https://explorer.eopf.copernicus.eu/image-credits/" target="_blank" class="link">Image and Video Credits</a></p>
-        <p><a href="https://explorer.eopf.copernicus.eu/privacy-policy/" target="_blank" class="link">Privacy Policy</a></p>
       </div>
       <div class="s12 m6 l3">
         <h6>Useful links</h6>
@@ -214,13 +203,12 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
 </footer>
 
 <script setup>
-// import Table from "./.vitepress/components/Table.vue"
 import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
 //@ts-expect-error
 import { trackEvent } from "@eox/pages-theme-eox/src/helpers.js";
-
+import { cardsContent,tableData } from "./.vitepress/utils/content"
 const { theme } = useData();
 
 const router = useRouter();
@@ -267,77 +255,11 @@ const handleResultClick = (evt) => {
   trackEvent(['stories', 'select', filename]);
   router.go(withBase(`/story?id=${filename}`));
 };
-// const tick = `<button class="transparent square"><img src="${withBase('/assets/checkmark.svg')}"/></button>`
-// const cross = `<button class="transparent square"><img src="${withBase('/assets/crossmark.svg')}"/></button>`
-
-// const tableData = [
-//   {
-//     summary: {
-//       'Features': 'Data Structure',
-//       'SAFE': cross,
-//       'Zarr': tick,
-//     },
-//     content: `Learn more: Sentinel SAFE format (SentiWiki) Zarr Documentation ,ESA EOPF GitHub – Data Model`,
-//   },
-//   {
-//     summary: {
-//       'Features': 'Access',
-//       'SAFE': cross,
-//       'Zarr': tick,
-//     },
-//     content: 'Detailed information about access methods and their implications...,',
-//   },
-//   {
-//     summary: {
-//       'Features': 'Performance',
-//       'SAFE': cross,
-//       'Zarr': tick,
-//     },
-//     content: 'Performance benchmarks and technical details...',
-//   },
-//   {
-//     summary: {
-//       'Features': 'Scalability',
-//       'SAFE': cross,
-//       'Zarr': tick,
-//     },
-//     content: 'Scalability comparison and use cases...',
-//   },
-//   {
-//     summary: {
-//       'Features': 'Metadata Handling',
-//       'SAFE': cross,
-//       'Zarr': tick,
-//     },
-//     content: 'Metadata structure examples and parsing information...',
-//   },
-//   {
-//     summary: {
-//       'Features': 'Cloud Readiness',
-//       'SAFE': cross,
-//       'Zarr': tick,
-//     },
-//     content: 'Cloud deployment strategies and best practices...',
-//   },
-//   {
-//     summary: {
-//       'Features': 'Visualization',
-//       'SAFE': cross,
-//       'Zarr': tick,
-//     },
-//     content: 'Visualization tools and integration examples...',
-//   },
-//   {
-//     summary: {
-//       'Features': 'Interoperability',
-//       'SAFE': cross,
-//       'Zarr': tick,
-//     },
-//     content: 'Integration examples and ecosystem compatibility...',
-//   }
-// ]
 </script>
 <style>
+  .text-center {
+    text-align:center
+  }
   eox-itemfilter {
     --form-flex-direction: row;
     --filter-display:none
