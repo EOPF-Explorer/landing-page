@@ -75,7 +75,7 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 
 <h4 class="center-align">Why Zarr</h4>
 <DataTable
-:headers="['Features', 'Zarr','SAFE']"
+:headers="['Features', 'Zarr (EOPF Explorer)', 'Zarr (EOPF Sample Service)', 'SAFE']"
 :data="tableData"/>
 
 <div class="large-space"></div>

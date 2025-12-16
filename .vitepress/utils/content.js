@@ -70,66 +70,74 @@ const cross = `<button class="transparent square"><img src="${withBase('/assets/
 export const tableData = [
   {
     summary: {
-      'Features': 'Data Structure',
+      'Features': 'Harmonised container format across all Sentinels',
+      'Zarr (EOPF Explorer)': tick,
+      'Zarr (EOPF Sample Service)': tick,
       'SAFE': cross,
-      'Zarr': tick,
     },
-    content: `SAFE uses traditional file-based hierarchy with multiple XML metadata files and binary data in separate directories. <a href="https://sentiwiki.copernicus.eu/web/safe-format">Sentinel SAFE format (SentiWiki)</a><br/><br/>Zarr employs a modern array storage format with self-describing chunked arrays, enabling more efficient data organization and access patterns. <a href="https://zarr.readthedocs.io/">Zarr Documentation</a>, <a href="https://eopf-toolkit.github.io/eopf-101/02_about_eopf_zarr/21_what_is_zarr.html">EOPF Toolkit 101 – What is Zarr?</a>`,
+    content: 'EOPF introduces Zarr as the common container format for all Sentinel missions, reducing the need for product-specific client software for loading the data. <a href="https://sentiwiki.copernicus.eu/web/safe-format">SAFE</a> products have different internal structures between Sentinel products and data file formats.',
   },
   {
     summary: {
-      'Features': 'Access',
+      'Features': 'Efficient network access',
+      'Zarr (EOPF Explorer)': tick,
+      'Zarr (EOPF Sample Service)': tick,
       'SAFE': cross,
-      'Zarr': tick,
     },
-    content: 'SAFE requires downloading entire product files before accessing specific bands or regions, limiting efficiency for partial data analysis.<br/><br/>Zarr supports HTTP range requests and selective reading of chunks, enabling direct access to specific spatial regions, temporal slices, or spectral bands without downloading complete datasets. <a href="https://eopf-toolkit.github.io/eopf-101/04_eopf_and_stac/44_eopf_stac_xarray_tutorial.html">EOPF Toolkit 101 – Accessing EOPF Zarr with xarray</a>',
+    content: '<a href="https://zarr.readthedocs.io/">Zarr</a> is a <a href="https://guide.cloudnativegeo.org/zarr/intro.html">Cloud-Native</a> container format with self-describing chunked arrays that allows for reading metadata and dimensionality without loading the whole product. Read more: <a href="https://eopf-toolkit.github.io/eopf-101/02_about_eopf_zarr/21_what_is_zarr.html">EOPF Toolkit 101 – What is Zarr?</a>.<br/><br/>The <a href="https://sentiwiki.copernicus.eu/web/safe-format">Sentinel SAFE format (SentiWiki)</a> uses traditional file-based hierarchy with multiple XML metadata files and binary data in separate directories.',
   },
   {
     summary: {
-      'Features': 'Performance',
+      'Features': 'Data chunking for efficient random access',
+      'Zarr (EOPF Explorer)': tick,
+      'Zarr (EOPF Sample Service)': tick,
       'SAFE': cross,
-      'Zarr': tick,
     },
-    content: 'SAFE performance is constrained by sequential file access and decompression of entire files.<br/><br/>Zarr delivers superior performance through optimized chunking strategies, parallel I/O operations, and built-in compression algorithms (Blosc, LZ4, Zstd) that reduce data transfer times and memory usage. <a href="https://eopf-toolkit.github.io/eopf-101/03_about_chunking/31_zarr_chunking_intro.html">An Introduction to Zarr Chunking</a>',
+    content: 'Zarr provides superior data access performance through optimised chunking strategies, parallel I/O operations, and built-in compression algorithms (Blosc, LZ4, Zstd) that reduce data transfer times and memory usage. Read more: <a href="https://eopf-toolkit.github.io/eopf-101/03_about_chunking/31_zarr_chunking_intro.html">An Introduction to Zarr Chunking</a>.<br/><br/>SAFE loading performance is constrained by sequential file access and decompression of entire product archives.',
   },
   {
     summary: {
-      'Features': 'Scalability',
+      'Features': 'Scalable data loading',
+      'Zarr (EOPF Explorer)': tick,
+      'Zarr (EOPF Sample Service)': tick,
       'SAFE': cross,
-      'Zarr': tick,
     },
-    content: 'SAFE scalability is limited by monolithic file structures that require complete product downloads.<br/><br/>Zarr scales horizontally through distributed chunk storage, enabling seamless integration with cloud storage systems, distributed computing frameworks (Dask, Xarray), and analysis-ready data architectures.',
+    content: 'Zarr data loading scales horizontally with distributed chunk storage, enabling seamless integration with cloud storage systems, distributed computing frameworks (Dask, Xarray), and analysis-ready data architectures.<br/><br/>SAFE archives often need to be loaded as complete zipped products from a single access point.',
   },
   {
     summary: {
-      'Features': 'Metadata Handling',
+      'Features': 'Discoverable metadata',
+      'Zarr (EOPF Explorer)': tick,
+      'Zarr (EOPF Sample Service)': tick,
       'SAFE': cross,
-      'Zarr': tick,
     },
-    content: 'SAFE metadata is distributed across multiple XML files with complex parsing requirements and limited extensibility.<br/><br/>Zarr stores metadata as JSON attributes directly within the array structure, providing programmatic access, version control compatibility, and flexible schema evolution.',
-  },
-  {
-    summary: {
-      'Features': 'Cloud Readiness',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'SAFE was designed for file-based storage systems and requires adaptation for cloud environments through proxy services or complete file downloads.<br/><br/>Zarr is natively cloud-optimized, supporting object storage protocols (S3, GCS, Azure Blob), serverless computing, and streaming data access patterns.',
-  },
-  {
-    summary: {
-      'Features': 'Visualization',
-      'SAFE': cross,
-      'Zarr': tick,
-    },
-    content: 'SAFE visualization requires preprocessing and full data extraction before rendering.<br/><br/>Zarr enables progressive visualization with on-demand loading, multi-resolution pyramids, and direct integration with web-based visualization libraries (Observable, Jupyter widgets, TileDB), supporting interactive exploration at multiple scales. Start with the <a href="https://eopf-explorer.github.io/sentinel-explorer/">EOPF Sentinel Explorer</a> to browse EOPF Sentinel data.',
+    content: 'Zarr stores metadata as JSON attributes directly within the array structure, providing programmatic access, version control compatibility, and flexible schema evolution.<br/><br/>SAFE metadata is distributed across multiple XML files which are harder to discover and parse.',
   },
   {
     summary: {
       'Features': 'Interoperability',
+      'Zarr (EOPF Explorer)': tick,
+      'Zarr (EOPF Sample Service)': tick,
       'SAFE': cross,
-      'Zarr': tick,
     },
-    content: 'SAFE interoperability depends on specialized ESA tooling and format-specific libraries.<br/><br/>Zarr offers broad ecosystem integration with Python (NumPy, Pandas, Xarray), <a href="https://eopf-toolkit.github.io/eopf-101/05_zarr_tools/51_eopf_stac_r.html">R</a>, Julia, JavaScript, and cloud-native technologies, providing standardized APIs across multiple programming languages and data science workflows.',
-  }
+    content: 'Zarr offers a broad ecosystem integration with Python (NumPy, Pandas, Xarray), <a href="https://eopf-toolkit.github.io/eopf-101/05_zarr_tools/51_eopf_stac_r.html">R</a>, Julia, JavaScript, and cloud-native technologies, providing standardised APIs across multiple programming languages and data science workflows.<br/><br/>SAFE product reading depends on specialised ESA tooling and product-specific libraries.',
+  },
+  {
+    summary: {
+      'Features': 'Progressive visualisation',
+      'Zarr (EOPF Explorer)': tick,
+      'Zarr (EOPF Sample Service)': cross,
+      'SAFE': cross,
+    },
+    content: 'Zarr enables progressive visualisation with random access and direct integration with web-based visualization libraries (Observable, Jupyter widgets, TileDB).<br/><br/>EOPF Explorer Zarr is using a chunking strategy particularly suitable for area visualisation such as web maps and includes multi-resolution pyramids (multiscales) for interactive exploration at multiple zoom levels. Check out the <a href="https://explorer.eopf.copernicus.eu/sentinelexplorer/">EOPF Sentinel Explorer</a> to visualise EOPF Sentinel data right off distribution-grade products.<br/><br/>SAFE visualization requires preprocessing and full data extraction before rendering.',
+  },
+  {
+    summary: {
+      'Features': 'Following Zarr Community Conventions',
+      'Zarr (EOPF Explorer)': tick,
+      'Zarr (EOPF Sample Service)': cross,
+      'SAFE': cross,
+    },
+    content: 'EOPF Explorer Zarr is relying on <a href="https://zarr.dev/conventions/">Zarr Conventions</a> for defining <a href=""https://github.com/zarr-developers/geozarr-spec?tab=readme-ov-file#conventions>geospatial-data-specific features in GeoZarr</a>, in particular georeference and . This means that the data format is recognised and discoverable by the community, which will hopefully lead to wider adoption by other data producers and software client libaries.<br/><br/>OPF Sample Service Zarr currently uses a bespoke format for encoding geospatial and multiscales information.',
+  },
 ]
