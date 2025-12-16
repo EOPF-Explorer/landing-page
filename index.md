@@ -166,8 +166,6 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
       <div class="s12 m6 l3">
         <h6>Credits</h6>
         <p><a href="https://www.esa.int/" target="_blank" class="link">European Space Agency (ESA)</a></p>
-        <p><a href="https://explorer.eopf.copernicus.eu/image-credits/" target="_blank" class="link">Image and Video Credits</a></p>
-        <p><a href="https://explorer.eopf.copernicus.eu/privacy-policy/" target="_blank" class="link">Privacy Policy</a></p>
       </div>
       <div class="s12 m6 l3">
         <h6>Useful links</h6>
