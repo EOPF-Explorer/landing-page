@@ -1,32 +1,32 @@
 ---
-layout: false
+layout: page
+footer: false
 ---
 
 <script setup>
-    const config = async() => (await import("./sentinel-explorer-config")).default
+  if (document.querySelector(".layout-home")) {
+    window.location.reload();
+  }
+  const config = async() => (await import("./sentinel-explorer-config")).default
 </script>
-<!-- <style>
-.VPContent {
-    padding: 0 !important;
-    margin: 0 !important
-}
-.VPPage {
-    margin: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    padding-bottom: 0 !important;
-    padding-top: 38px !important;
-    max-width: 100% !important
-}
-</style> -->
+
 <style scoped>
 eo-dash {
   --primary: #003047 !important;
   --secondary: #00ae9d !important;
-  --on-primary: #ffff !important
+  --on-primary: #ffff !important;
+  display: block;
+  height: calc(100dvh - var(--vp-nav-height));
+  width: 100%;
 }
 </style>
-<NavBar></NavBar>
+<style>
+  .VPPage:has(eo-dash) {
+    padding: 0;
+    max-width: unset;
+  }
+</style>
+
 <ClientOnly>
-<eo-dash style="display: block;height: calc(100dvh - var(--vp-nav-height))" .config="config"></eo-dash>
+<eo-dash .config="config"></eo-dash>
 </ClientOnly>
