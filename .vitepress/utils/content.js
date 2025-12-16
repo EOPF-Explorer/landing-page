@@ -74,7 +74,7 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: `Learn more: Sentinel SAFE format (SentiWiki) Zarr Documentation ,ESA EOPF GitHub – Data Model`,
+    content: `SAFE uses traditional file-based hierarchy with multiple XML metadata files and binary data in separate directories. <a href="https://sentiwiki.copernicus.eu/web/safe-format">Sentinel SAFE format (SentiWiki)</a><br/><br/>Zarr employs a modern array storage format with self-describing chunked arrays, enabling more efficient data organization and access patterns. <a href="https://zarr.readthedocs.io/">Zarr Documentation</a>, <a href="https://eopf-toolkit.github.io/eopf-101/02_about_eopf_zarr/21_what_is_zarr.html">EOPF Toolkit 101 – What is Zarr?</a>`,
   },
   {
     summary: {
@@ -82,7 +82,7 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'Detailed information about access methods and their implications...,',
+    content: 'SAFE requires downloading entire product files before accessing specific bands or regions, limiting efficiency for partial data analysis.<br/><br/>Zarr supports HTTP range requests and selective reading of chunks, enabling direct access to specific spatial regions, temporal slices, or spectral bands without downloading complete datasets.',
   },
   {
     summary: {
@@ -90,7 +90,7 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'Performance benchmarks and technical details...',
+    content: 'SAFE performance is constrained by sequential file access and decompression of entire files.<br/><br/>Zarr delivers superior performance through optimized chunking strategies, parallel I/O operations, and built-in compression algorithms (Blosc, LZ4, Zstd) that reduce data transfer times and memory usage.',
   },
   {
     summary: {
@@ -98,7 +98,7 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'Scalability comparison and use cases...',
+    content: 'SAFE scalability is limited by monolithic file structures that require complete product downloads.<br/><br/>Zarr scales horizontally through distributed chunk storage, enabling seamless integration with cloud storage systems, distributed computing frameworks (Dask, Xarray), and analysis-ready data architectures.',
   },
   {
     summary: {
@@ -106,7 +106,7 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'Metadata structure examples and parsing information...',
+    content: 'SAFE metadata is distributed across multiple XML files with complex parsing requirements and limited extensibility.<br/><br/>Zarr stores metadata as JSON attributes directly within the array structure, providing programmatic access, version control compatibility, and flexible schema evolution.',
   },
   {
     summary: {
@@ -114,7 +114,7 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'Cloud deployment strategies and best practices...',
+    content: 'SAFE was designed for file-based storage systems and requires adaptation for cloud environments through proxy services or complete file downloads.<br/><br/>Zarr is natively cloud-optimized, supporting object storage protocols (S3, GCS, Azure Blob), serverless computing, and streaming data access patterns.',
   },
   {
     summary: {
@@ -122,7 +122,7 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'Visualization tools and integration examples...',
+    content: 'SAFE visualization requires preprocessing and full data extraction before rendering.<br/><br/>Zarr enables progressive visualization with on-demand loading, multi-resolution pyramids, and direct integration with web-based visualization libraries (Observable, Jupyter widgets, TileDB), supporting interactive exploration at multiple scales.',
   },
   {
     summary: {
@@ -130,6 +130,6 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'Integration examples and ecosystem compatibility...',
+    content: 'SAFE interoperability depends on specialized ESA tooling and format-specific libraries.<br/><br/>Zarr offers broad ecosystem integration with Python (NumPy, Pandas, Xarray), R, Julia, JavaScript, and cloud-native technologies, providing standardized APIs across multiple programming languages and data science workflows.',
   }
 ]
