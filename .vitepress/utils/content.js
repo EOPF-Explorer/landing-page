@@ -82,7 +82,7 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'SAFE requires downloading entire product files before accessing specific bands or regions, limiting efficiency for partial data analysis.<br/><br/>Zarr supports HTTP range requests and selective reading of chunks, enabling direct access to specific spatial regions, temporal slices, or spectral bands without downloading complete datasets.',
+    content: 'SAFE requires downloading entire product files before accessing specific bands or regions, limiting efficiency for partial data analysis.<br/><br/>Zarr supports HTTP range requests and selective reading of chunks, enabling direct access to specific spatial regions, temporal slices, or spectral bands without downloading complete datasets. <a href="https://eopf-toolkit.github.io/eopf-101/04_eopf_and_stac/44_eopf_stac_xarray_tutorial.html">EOPF Toolkit 101 – Accessing EOPF Zarr with xarray</a>',
   },
   {
     summary: {
@@ -90,7 +90,7 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'SAFE performance is constrained by sequential file access and decompression of entire files.<br/><br/>Zarr delivers superior performance through optimized chunking strategies, parallel I/O operations, and built-in compression algorithms (Blosc, LZ4, Zstd) that reduce data transfer times and memory usage.',
+    content: 'SAFE performance is constrained by sequential file access and decompression of entire files.<br/><br/>Zarr delivers superior performance through optimized chunking strategies, parallel I/O operations, and built-in compression algorithms (Blosc, LZ4, Zstd) that reduce data transfer times and memory usage. <a href="https://eopf-toolkit.github.io/eopf-101/03_about_chunking/31_zarr_chunking_intro.html">An Introduction to Zarr Chunking</a>',
   },
   {
     summary: {
@@ -122,7 +122,7 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'SAFE visualization requires preprocessing and full data extraction before rendering.<br/><br/>Zarr enables progressive visualization with on-demand loading, multi-resolution pyramids, and direct integration with web-based visualization libraries (Observable, Jupyter widgets, TileDB), supporting interactive exploration at multiple scales.',
+    content: 'SAFE visualization requires preprocessing and full data extraction before rendering.<br/><br/>Zarr enables progressive visualization with on-demand loading, multi-resolution pyramids, and direct integration with web-based visualization libraries (Observable, Jupyter widgets, TileDB), supporting interactive exploration at multiple scales. Start with the <a href="https://eopf-explorer.github.io/sentinel-explorer/">EOPF Sentinel Explorer</a> to browse EOPF Sentinel data.',
   },
   {
     summary: {
@@ -130,6 +130,6 @@ export const tableData = [
       'SAFE': cross,
       'Zarr': tick,
     },
-    content: 'SAFE interoperability depends on specialized ESA tooling and format-specific libraries.<br/><br/>Zarr offers broad ecosystem integration with Python (NumPy, Pandas, Xarray), R, Julia, JavaScript, and cloud-native technologies, providing standardized APIs across multiple programming languages and data science workflows.',
+    content: 'SAFE interoperability depends on specialized ESA tooling and format-specific libraries.<br/><br/>Zarr offers broad ecosystem integration with Python (NumPy, Pandas, Xarray), <a href="https://eopf-toolkit.github.io/eopf-101/05_zarr_tools/51_eopf_stac_r.html">R</a>, Julia, JavaScript, and cloud-native technologies, providing standardized APIs across multiple programming languages and data science workflows.',
   }
 ]
