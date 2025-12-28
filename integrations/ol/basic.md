@@ -390,11 +390,11 @@ const map = new Map({
 
 ## Next Steps
 
-Continue to the [True Color example](/integrations/ol/true-color) to see proper band scaling and color correction.
+Continue to the [False Color example](/integrations/ol/false-color) to see infrared band combinations for vegetation analysis.
 
 <div class="navigation">
   <div></div>
-  <span><strong>1 of 5</strong> - Basic Setup</span>
-  <a href="/integrations/ol/true-color" class="nav-button">Next: True Color →</a>
+  <span><strong>1 of 4</strong> - Basic Setup</span>
+  <a href="/integrations/ol/false-color" class="nav-button">Next: False Color →</a>
 </div>
 

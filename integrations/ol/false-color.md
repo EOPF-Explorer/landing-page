@@ -184,18 +184,87 @@ const layer = new TileLayer({
   color: white;
 }
 
+.nav-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
 pre {
   background: #f6f8fa;
+  color: #24292e;
   padding: 16px;
   border-radius: 4px;
   overflow-x: auto;
   font-size: 14px;
   line-height: 1.4;
-  margin: 0;
+  margin: 16px 0;
+  border: 1px solid #e1e4e8;
 }
 
 code {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background: #f6f8fa;
+  color: #24292e;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+/* Light theme syntax highlighting */
+pre code {
+  background: transparent;
+  color: #24292e;
+  padding: 0;
+}
+
+/* Ensure VitePress copy buttons are visible */
+.vp-code-group .copy,
+.vp-doc div[class*="language-"] .copy {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+/* Style the copy button */
+.vp-code-group .copy,
+.vp-doc div[class*="language-"] .copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--vp-code-copy-code-bg, #f6f8fa);
+  border: 1px solid var(--vp-code-copy-code-border-color, #e1e4e8);
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 2;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add clipboard icon */
+.vp-code-group .copy::before,
+.vp-doc div[class*="language-"] .copy::before {
+  content: "📋";
+  font-size: 16px;
+}
+
+/* Alternative CSS-only clipboard icon */
+.vp-code-group .copy::after,
+.vp-doc div[class*="language-"] .copy::after {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") no-repeat center;
+  mask-size: contain;
+  position: absolute;
+}
+
+/* Hide language labels under tabs */
+.vp-code-group span.lang,
+.vp-doc div[class*="language-"] span.lang {
+  display: none !important;
 }
 </style>
 
@@ -253,7 +322,7 @@ The SWIR band (1610nm) is particularly useful because:
 - Different vegetation types have distinct SWIR signatures
 
 <div class="navigation">
-  <a href="/integrations/ol/true-color" class="nav-button">← Previous: True Color</a>
-  <span><strong>3 of 5</strong> - False Color</span>
+  <a href="/integrations/ol/basic" class="nav-button">← Previous: Basic Setup</a>
+  <span><strong>2 of 4</strong> - False Color Infrared</span>
   <a href="/integrations/ol/ndvi" class="nav-button">Next: NDVI →</a>
 </div>
