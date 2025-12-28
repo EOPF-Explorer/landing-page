@@ -51,18 +51,29 @@
     "tags": ["screening", "web-mapping", "visualization", "geozarr"],
     "category": "Screening",
     "type": "software",
-    "link": "",
+    "link": "https://deploy-preview-17194--ol-site.netlify.app/en/latest/examples/geozarr-stretch.html",
     "featured": false
   },
   {
     "id": "openeo-web-editor",
     "title": "OpenEO Web editor",
     "description": "Build sophisticated analysis workflows with cloud-based processing.",
-    "image": "https://dataspace.copernicus.eu/sites/default/files/styles/logo_medium/public/media/logo/2023-06/openeo_logo.png",
+    "image": "assets/openeo-logo.png",
     "tags": ["analysis", "workflow", "openeo", "cloud-processing"],
     "category": "Analysis",
     "type": "service",
     "link": "https://editor.openeo.org/?server=https%3A%2F%2Fapi.explorer.eopf.copernicus.eu%2Fopeneo%2F",
     "featured": true
+  },
+  {
+    "id": "openlayers-story",
+    "title": "View EOPF Zarr with OpenLayers",
+    "description": "A story on how to visualize Sentinel Zarr data using OpenLayers with GeoZarr support.",
+    "image": "assets/openlayers-story.png",
+    "tags": ["screening", "web-mapping", "visualization", "geozarr"],
+    "category": "Screening",
+    "type": "software",
+    "link": "",
+    "featured": false
   }
 ]
