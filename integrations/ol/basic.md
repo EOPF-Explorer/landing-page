@@ -80,60 +80,6 @@ function initializeMap() {
   }
 }
 
-function copyCode() {
-  const code = `import Map from 'ol/Map.js';
-import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js';
-import TileLayer from 'ol/layer/WebGLTile.js';
-import GeoZarr from 'ol/source/GeoZarr.js';
-import OSM from 'ol/source/OSM.js';
-
-// EOPF Zarr URL from STAC Browser
-const zarrUrl = '${zarrUrl}';
-
-// Create GeoZarr source
-const source = new GeoZarr({
-  url: zarrUrl,
-  group: 'measurements/reflectance',
-  bands: ['b04', 'b03', 'b02'], // RGB
-});
-
-// Initialize map with OSM base layer
-const map = new Map({
-  layers: [
-    new TileLayer({
-      source: new OSM(),
-    }),
-    new TileLayer({
-      source,
-      style: {
-        gamma: 1.5,
-        color: [
-          'color',
-          ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
-          ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255],
-          ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255],
-          [
-            'case',
-            ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
-            0,
-            1,
-          ],
-        ],
-      },
-    }),
-  ],
-  target: 'map',
-  view: getView(
-    source,
-    withLowerResolutions(1),
-    withHigherResolutions(2),
-    withExtentCenter(),
-    withZoom(2),
-  ),
-});`
-  
-  navigator.clipboard.writeText(code)
-}
 </script>
 
 <style scoped>
@@ -219,38 +165,82 @@ const map = new Map({
 }
 
 pre {
-  background: #1e1e1e;
-  color: #f8f8f2;
+  background: #f6f8fa;
+  color: #24292e;
   padding: 16px;
   border-radius: 4px;
   overflow-x: auto;
   font-size: 14px;
   line-height: 1.4;
   margin: 16px 0;
-  border: 1px solid #333;
+  border: 1px solid #e1e4e8;
 }
 
 code {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  background: #1e1e1e;
-  color: #f8f8f2;
+  background: #f6f8fa;
+  color: #24292e;
   padding: 2px 4px;
   border-radius: 3px;
 }
 
-/* Dark theme syntax highlighting */
+/* Light theme syntax highlighting */
 pre code {
   background: transparent;
-  color: #f8f8f2;
+  color: #24292e;
   padding: 0;
 }
 
-/* Basic syntax highlighting for dark theme */
-pre .keyword { color: #569cd6; }
-pre .string { color: #ce9178; }
-pre .comment { color: #6a9955; }
-pre .number { color: #b5cea8; }
-pre .function { color: #dcdcaa; }
+/* Ensure VitePress copy buttons are visible */
+.vp-code-group .copy,
+.vp-doc div[class*="language-"] .copy {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+/* Style the copy button */
+.vp-code-group .copy,
+.vp-doc div[class*="language-"] .copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--vp-code-copy-code-bg, #f6f8fa);
+  border: 1px solid var(--vp-code-copy-code-border-color, #e1e4e8);
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 2;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add clipboard icon */
+.vp-code-group .copy::before,
+.vp-doc div[class*="language-"] .copy::before {
+  content: "📋";
+  font-size: 16px;
+}
+
+/* Alternative CSS-only clipboard icon */
+.vp-code-group .copy::after,
+.vp-doc div[class*="language-"] .copy::after {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") no-repeat center;
+  mask-size: contain;
+  position: absolute;
+}
+
+/* Hide language labels under tabs */
+.vp-code-group span.lang,
+.vp-doc div[class*="language-"] span.lang {
+  display: none !important;
+}
 </style>
 
 # OpenLayers - Basic Map Setup <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px;" />
@@ -271,7 +261,6 @@ This example shows the minimal configuration needed to load and display EOPF Zar
   <div ref="mapRef" class="map-container"></div>
   
   <div class="code-section">
-    <button @click="copyCode" class="copy-button">📋 Copy Code</button>
     <p>This example demonstrates basic OpenLayers configuration with:</p>
     <ul>
       <li><strong>OSM Base Layer</strong> - Provides geographic context</li>
@@ -287,7 +276,7 @@ This example shows the minimal configuration needed to load and display EOPF Zar
 
 ::: code-group
 
-```html
+```html [index.html]
 <!DOCTYPE html>
 <html>
 <head>
@@ -307,7 +296,7 @@ This example shows the minimal configuration needed to load and display EOPF Zar
 </html>
 ```
 
-```javascript
+```javascript [main.js]
 import Map from 'ol/Map.js';
 import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js';
 import TileLayer from 'ol/layer/WebGLTile.js';
@@ -366,7 +355,7 @@ const map = new Map({
 });
 ```
 
-```json
+```json [package.json]
 {
   "dependencies": {
     "ol": "10.7.1-dev"
