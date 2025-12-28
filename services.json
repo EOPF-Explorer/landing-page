@@ -44,6 +44,17 @@
     "featured": false
   },
   {
+    "id": "openlayers-geozarr",
+    "title": "OpenLayers",
+    "description": "Web mapping library with GeoZarr support for visualizing Sentinel Zarr using Zarr conventions.",
+    "image": "assets/openlayers-logo.png",
+    "tags": ["screening", "web-mapping", "visualization", "geozarr"],
+    "category": "Screening",
+    "type": "software",
+    "link": "",
+    "featured": false
+  },
+  {
     "id": "openeo-web-editor",
     "title": "OpenEO Web editor",
     "description": "Build sophisticated analysis workflows with cloud-based processing.",
