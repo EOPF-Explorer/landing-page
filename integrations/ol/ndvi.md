@@ -36,7 +36,7 @@ function initializeMap() {
       const source = new GeoZarr({
         url: zarrUrl,
         group: 'measurements/reflectance',
-        bands: ['b08', 'b04'], // NIR, Red
+        bands: ['b05', 'b04'], // NIR, Red
       })
 
       map = new Map({
@@ -48,16 +48,11 @@ function initializeMap() {
             source,
             style: {
               color: [
-                'case',
-                ['>', 
-                  ['/', 
-                    ['-', ['band', 1], ['band', 2]], 
-                    ['+', ['band', 1], ['band', 2]]
-                  ], 
-                  0.3
-                ],
-                [0, 200, 0, 255], // Green for vegetation
-                [200, 100, 0, 255] // Brown for non-vegetation
+                'array',
+                ['*', ['band', 1], 255], // R = NIR * 255
+                ['*', ['band', 1], 255], // G = NIR * 255  
+                ['*', ['band', 1], 255], // B = NIR * 255
+                255 // Alpha = 255
               ],
             },
           }),
@@ -83,7 +78,7 @@ const layer = new TileLayer({
   source: new GeoZarr({
     url: zarrUrl,
     group: 'measurements/reflectance',
-    bands: ['b08', 'b04'], // NIR, Red
+    bands: ['b05', 'b04'], // NIR, Red
   }),
   style: {
     color: [
@@ -291,10 +286,96 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
       <li><strong>NIR Band</strong> - Near-infrared (B08, 842nm)</li>
       <li><strong>Red Band</strong> - Red light (B04, 665nm)</li>
       <li><strong>Real-time Calculation</strong> - NDVI = (NIR - Red) / (NIR + Red)</li>
-      <li><strong>Threshold Classification</strong> - Green for vegetation (NDVI > 0.3)</li>
+      <li><strong>Linear Color Scale</strong> - Yellow to green for NDVI range -0.6 to 0.8</li>
     </ul>
   </div>
 </div>
+
+:::code-group
+
+```html [HTML]
+<div id="map" style="width: 100%; height: 500px;"></div>
+```
+
+```javascript [JavaScript]
+import Map from 'ol/Map.js';
+import View from 'ol/View.js';
+import TileLayer from 'ol/layer/Tile.js';
+import { fromLonLat } from 'ol/proj.js';
+import { GeoZarr } from 'ol-zarr';
+
+// NDVI calculation using WebGL expressions
+const map = new Map({
+  target: 'map',
+  layers: [
+    new TileLayer({
+      source: new GeoZarr({
+        url: 'https://sentinel2-data.s3.amazonaws.com/tiles/32/S/KJ/2023/8/7/0/zarr',
+        group: 'measurements/reflectance',
+        bands: ['b05', 'b04'], // NIR, Red
+      }),
+      style: {
+        color: [
+          'case',
+          // NDVI < -0.2 (water, clouds) - Blue
+          ['<', 
+            ['/', 
+              ['-', ['band', 1], ['band', 2]], 
+              ['+', ['band', 1], ['band', 2]]
+            ], 
+            -0.2
+          ],
+          [0, 100, 255, 255], // Blue for water
+          // NDVI < 0.2 (bare soil, rock) - Brown  
+          ['<', 
+            ['/', 
+              ['-', ['band', 1], ['band', 2]], 
+              ['+', ['band', 1], ['band', 2]]
+            ], 
+            0.2
+          ],
+          [139, 69, 19, 255], // Brown for bare soil
+          // NDVI < 0.5 (sparse vegetation) - Yellow
+          ['<', 
+            ['/', 
+              ['-', ['band', 1], ['band', 2]], 
+              ['+', ['band', 1], ['band', 2]]
+            ], 
+            0.5
+          ],
+          [255, 255, 0, 255], // Yellow for sparse vegetation
+          // NDVI >= 0.5 (dense vegetation) - Green
+          [0, 255, 0, 255] // Green for dense vegetation
+        ],
+      },
+    }),
+  ],
+  view: new View({
+    center: fromLonLat([2.35, 48.85]),
+    zoom: 12,
+  }),
+});
+```
+
+```json [Configuration]
+{
+  "bands": {
+    "nir": "b05",
+    "red": "b04"
+  },
+  "formula": "(NIR - Red) / (NIR + Red)",
+  "colorScale": {
+    "type": "linear",
+    "range": [-0.6, 0.8],
+    "colors": {
+      "low": [255, 255, 0, 255],
+      "high": [0, 255, 0, 255]
+    }
+  }
+}
+```
+
+:::
 
 ## NDVI Formula
 
@@ -313,12 +394,8 @@ Where:
 <div class="ndvi-legend">
   <h3>NDVI Value Legend</h3>
   <div class="legend-item">
-    <div class="legend-color" style="background-color: rgb(0, 200, 0);"></div>
-    <span><strong>Green</strong> - Healthy vegetation (NDVI > 0.3)</span>
-  </div>
-  <div class="legend-item">
-    <div class="legend-color" style="background-color: rgb(200, 100, 0);"></div>
-    <span><strong>Brown</strong> - Non-vegetation or stressed vegetation (NDVI ≤ 0.3)</span>
+    <div class="legend-color" style="background: linear-gradient(to right, yellow, lime);"></div>
+    <span><strong>Yellow to Green</strong> - Linear scale from NDVI -0.6 (yellow) to 0.8 (green)</span>
   </div>
 </div>
 
