@@ -59,6 +59,17 @@ function createItemCard(item) {
     'Showcases': '🌟'
   }
   
+  const buttonLabels = {
+    'service': 'Open Service',
+    'software': 'Discover',
+    'showcase': 'Explore'
+  }
+  
+  const isComingSoon = !item.link || item.link === '#' || item.link === ''
+  const buttonLabel = isComingSoon ? 'Coming Soon' : (buttonLabels[item.type] || 'Open')
+  const buttonClass = isComingSoon ? 'card-link coming-soon' : 'card-link'
+  const buttonAction = isComingSoon ? 'onclick="return false;"' : `href="${item.link}" target="_blank"`
+  
   return `
     <div class="service-card ${item.featured ? 'featured' : ''}">
       <img src="${item.image}" alt="${item.title}" class="card-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -76,8 +87,8 @@ function createItemCard(item) {
         <div class="card-meta">
           <span class="card-type">${item.type}</span>
         </div>
-        <a href="${item.link}" target="_blank" class="card-link">
-          ${item.link.startsWith('http') ? 'Open Service' : 'Explore'}
+        <a ${buttonAction} class="${buttonClass}">
+          ${buttonLabel}
         </a>
       </div>
     </div>
@@ -289,8 +300,9 @@ Discover the comprehensive suite of services and software available for Earth ob
 .card-image {
   width: 100%;
   height: 180px;
-  object-fit: cover;
-  background: #f0f0f0;
+  object-fit: contain;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e7ef;
 }
 
 .card-image:not(img) {
@@ -373,10 +385,20 @@ Discover the comprehensive suite of services and software available for Earth ob
   font-weight: 600;
   font-size: 0.9rem;
   transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .card-link:hover {
   background: #1f3a5f;
+}
+
+.card-link.coming-soon {
+  background: #ff9500;
+  cursor: default;
+}
+
+.card-link.coming-soon:hover {
+  background: #ff9500;
 }
 
 .empty-state {
