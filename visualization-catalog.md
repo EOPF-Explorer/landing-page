@@ -300,9 +300,8 @@ Discover the comprehensive suite of services and software available for Earth ob
 .card-image {
   width: 100%;
   height: 180px;
-  object-fit: contain;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e0e7ef;
+  object-fit: cover;
+  background: #f0f0f0;
 }
 
 .card-image:not(img) {
