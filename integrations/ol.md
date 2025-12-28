@@ -4,457 +4,16 @@ layout: page
 ---
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
-import Map from 'ol/Map.js'
-import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js'
-import TileLayer from 'ol/layer/WebGLTile.js'
-import GeoZarr from 'ol/source/GeoZarr.js'
-import OSM from 'ol/source/OSM.js'
-import 'ol/ol.css'
+import { ref, onMounted } from 'vue'
 
 const webglSupport = ref(null)
-const basicMapRef = ref()
-const trueColorMapRef = ref()
-const falseColorMapRef = ref()
-const ndviMapRef = ref()
-const contrastMapRef = ref()
 
-// Contrast controls
-const contrastMin = ref(0.0)
-const contrastMax = ref(0.5)
-
-let basicMap = null
-let trueColorMap = null
-let falseColorMap = null
-let ndviMap = null
-let contrastMap = null
-let contrastLayer = null
-
-// Sample EOPF Zarr URL - using the same as the official example
-const sampleZarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2B_MSIL2A_20251115T091139_N0511_R050_T35SLU_20251115T111807.zarr'
-
-onMounted(async () => {
+onMounted(() => {
   // Check WebGL support
   const canvas = document.createElement('canvas')
   const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
   webglSupport.value = gl !== null
-
-  // Initialize maps if WebGL is supported
-  if (webglSupport.value) {
-    nextTick(() => {
-      initializeMaps()
-    })
-  }
 })
-
-function initializeMaps() {
-  // Initialize basic map
-  if (basicMapRef.value) {
-    try {
-      const source = new GeoZarr({
-        url: sampleZarrUrl,
-        group: 'measurements/reflectance',
-        bands: ['b04', 'b03', 'b02'],
-      })
-
-      basicMap = new Map({
-        layers: [
-          new TileLayer({
-            source: new OSM(),
-          }),
-          new TileLayer({
-            source,
-            style: {
-              gamma: 1.5,
-              color: [
-                'color',
-                ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
-                ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255],
-                ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255],
-                [
-                  'case',
-                  ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
-                  0,
-                  1,
-                ],
-              ],
-            },
-          }),
-        ],
-        target: basicMapRef.value,
-        view: getView(
-          source,
-          withLowerResolutions(1),
-          withHigherResolutions(2),
-          withExtentCenter(),
-          withZoom(2),
-        ),
-      })
-    } catch (error) {
-      console.error('Failed to initialize basic map:', error)
-    }
-  }
-
-  // Initialize true color map
-  if (trueColorMapRef.value) {
-    try {
-      const source = new GeoZarr({
-        url: sampleZarrUrl,
-        group: 'measurements/reflectance',
-        bands: ['b04', 'b03', 'b02'],
-      })
-
-      trueColorMap = new Map({
-        layers: [
-          new TileLayer({
-            source: new OSM(),
-          }),
-          new TileLayer({
-            source,
-            style: {
-              gamma: 1.5,
-              color: [
-                'color',
-                ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
-                ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255],
-                ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255],
-                [
-                  'case',
-                  ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
-                  0,
-                  1,
-                ],
-              ],
-            },
-          }),
-        ],
-        target: trueColorMapRef.value,
-        view: getView(
-          source,
-          withLowerResolutions(1),
-          withHigherResolutions(2),
-          withExtentCenter(),
-          withZoom(2),
-        ),
-      })
-    } catch (error) {
-      console.error('Failed to initialize true color map:', error)
-    }
-  }
-
-  // Initialize false color map
-  if (falseColorMapRef.value) {
-    try {
-      const source = new GeoZarr({
-        url: sampleZarrUrl,
-        group: 'measurements/reflectance',
-        bands: ['b11', 'b04', 'b03'],
-      })
-
-      falseColorMap = new Map({
-        layers: [
-          new TileLayer({
-            source: new OSM(),
-          }),
-          new TileLayer({
-            source,
-            style: {
-              gamma: 1.5,
-              color: [
-                'color',
-                ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
-                ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255],
-                ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255],
-                [
-                  'case',
-                  ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
-                  0,
-                  1,
-                ],
-              ],
-            },
-          }),
-        ],
-        target: falseColorMapRef.value,
-        view: getView(
-          source,
-          withLowerResolutions(1),
-          withHigherResolutions(2),
-          withExtentCenter(),
-          withZoom(2),
-        ),
-      })
-    } catch (error) {
-      console.error('Failed to initialize false color map:', error)
-    }
-  }
-
-  // Initialize NDVI map
-  if (ndviMapRef.value) {
-    try {
-      const source = new GeoZarr({
-        url: sampleZarrUrl,
-        group: 'measurements/reflectance',
-        bands: ['b08', 'b04'],
-      })
-
-      ndviMap = new Map({
-        layers: [
-          new TileLayer({
-            source: new OSM(),
-          }),
-          new TileLayer({
-            source,
-            style: {
-              color: [
-                'case',
-                ['>', 
-                  ['/', 
-                    ['-', ['band', 1], ['band', 2]], 
-                    ['+', ['band', 1], ['band', 2]]
-                  ], 
-                  0.3
-                ],
-                [0, 200, 0, 255],
-                [200, 100, 0, 255]
-              ],
-            },
-          }),
-        ],
-        target: ndviMapRef.value,
-        view: getView(
-          source,
-          withLowerResolutions(1),
-          withHigherResolutions(2),
-          withExtentCenter(),
-          withZoom(2),
-        ),
-      })
-    } catch (error) {
-      console.error('Failed to initialize NDVI map:', error)
-    }
-  }
-
-  // Initialize contrast map
-  if (contrastMapRef.value) {
-    try {
-      const source = new GeoZarr({
-        url: sampleZarrUrl,
-        group: 'measurements/reflectance',
-        bands: ['b04', 'b03', 'b02'],
-      })
-
-      contrastLayer = new TileLayer({
-        source,
-        style: {
-          variables: {
-            contrastMin: contrastMin.value,
-            contrastMax: contrastMax.value,
-          },
-          color: [
-            'color',
-            ['interpolate', ['linear'], ['band', 1], ['var', 'contrastMin'], 0, ['var', 'contrastMax'], 255],
-            ['interpolate', ['linear'], ['band', 2], ['var', 'contrastMin'], 0, ['var', 'contrastMax'], 255],
-            ['interpolate', ['linear'], ['band', 3], ['var', 'contrastMin'], 0, ['var', 'contrastMax'], 255],
-            [
-              'case',
-              ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
-              0,
-              255,
-            ],
-          ],
-        },
-      })
-
-      contrastMap = new Map({
-        layers: [
-          new TileLayer({
-            source: new OSM(),
-          }),
-          contrastLayer,
-        ],
-        target: contrastMapRef.value,
-        view: getView(
-          source,
-          withLowerResolutions(1),
-          withHigherResolutions(2),
-          withExtentCenter(),
-          withZoom(2),
-        ),
-      })
-    } catch (error) {
-      console.error('Failed to initialize contrast map:', error)
-    }
-  }
-}
-
-function updateContrast() {
-  if (contrastLayer) {
-    contrastLayer.updateStyleVariables({
-      contrastMin: contrastMin.value,
-      contrastMax: contrastMax.value,
-    })
-  }
-}
-
-function copyCode(code) {
-  navigator.clipboard.writeText(code).then(() => {
-    // Visual feedback could be added here
-  })
-}
-
-// Code samples for copying
-const basicMapCode = `import Map from 'ol/Map.js';
-import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js';
-import TileLayer from 'ol/layer/WebGLTile.js';
-import GeoZarr from 'ol/source/GeoZarr.js';
-import OSM from 'ol/source/OSM.js';
-
-// EOPF Zarr URL from STAC Browser
-const zarrUrl = '${sampleZarrUrl}';
-
-// Create GeoZarr source
-const source = new GeoZarr({
-  url: zarrUrl,
-  group: 'measurements/reflectance',
-  bands: ['b04', 'b03', 'b02'], // RGB
-});
-
-// Initialize map with OSM base layer
-const map = new Map({
-  layers: [
-    new TileLayer({
-      source: new OSM(),
-    }),
-    new TileLayer({
-      source,
-      style: {
-        gamma: 1.5,
-        color: [
-          'color',
-          ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
-          ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255],
-          ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255],
-          [
-            'case',
-            ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
-            0,
-            1,
-          ],
-        ],
-      },
-    }),
-  ],
-  target: 'map',
-  view: getView(
-    source,
-    withLowerResolutions(1),
-    withHigherResolutions(2),
-    withExtentCenter(),
-    withZoom(2),
-  ),
-});`
-
-const trueColorCode = `// True color with gamma correction and interpolation
-const layer = new TileLayer({
-  source: new GeoZarr({
-    url: zarrUrl,
-    group: 'measurements/reflectance',
-    bands: ['b04', 'b03', 'b02'],
-  }),
-  style: {
-    gamma: 1.5, // Brighten the image
-    color: [
-      'color',
-      ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255], // Red
-      ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255], // Green
-      ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255], // Blue
-      [
-        'case',
-        ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
-        0, // Transparent for zero values
-        1, // Opaque for non-zero values
-      ],
-    ],
-  },
-});`
-
-const falseColorCode = `// False color infrared
-const layer = new TileLayer({
-  source: new GeoZarr({
-    url: zarrUrl,
-    group: 'measurements/reflectance', 
-    bands: ['b11', 'b04', 'b03'], // SWIR, Red, Green
-  }),
-  style: {
-    gamma: 1.5,
-    color: [
-      'color',
-      ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255], // SWIR as red
-      ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255], // Red as green
-      ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255], // Green as blue
-      [
-        'case',
-        ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
-        0,
-        1,
-      ],
-    ],
-  },
-});`
-
-const ndviCode = `// NDVI calculation
-const layer = new TileLayer({
-  source: new GeoZarr({
-    url: zarrUrl,
-    group: 'measurements/reflectance',
-    bands: ['b08', 'b04'], // NIR, Red
-  }),
-  style: {
-    color: [
-      'case',
-      // NDVI > 0.3 = vegetation (green)
-      ['>', 
-        ['/', 
-          ['-', ['band', 1], ['band', 2]], 
-          ['+', ['band', 1], ['band', 2]]
-        ], 
-        0.3
-      ],
-      [0, 200, 0, 255], // Green for vegetation
-      [200, 100, 0, 255] // Brown for non-vegetation
-    ],
-  },
-});`
-
-const contrastCode = `// Dynamic contrast stretching
-const layer = new TileLayer({
-  source: source,
-  style: {
-    variables: {
-      contrastMin: 0.0,
-      contrastMax: 0.5,
-    },
-    color: [
-      'color',
-      ['interpolate', ['linear'], ['band', 1], ['var', 'contrastMin'], 0, ['var', 'contrastMax'], 255],
-      ['interpolate', ['linear'], ['band', 2], ['var', 'contrastMin'], 0, ['var', 'contrastMax'], 255],
-      ['interpolate', ['linear'], ['band', 3], ['var', 'contrastMin'], 0, ['var', 'contrastMax'], 255],
-      [
-        'case',
-        ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
-        0,
-        255,
-      ],
-    ],
-  },
-});
-
-// Update contrast
-layer.updateStyleVariables({
-  contrastMin: newMin,
-  contrastMax: newMax,
-});`
 </script>
 
 <style scoped>
@@ -476,65 +35,116 @@ layer.updateStyleVariables({
   margin: 16px 0;
 }
 
-.demo-section {
-  margin: 24px 0;
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.example-card {
   border: 1px solid #e1e4e8;
   border-radius: 8px;
-  overflow: hidden;
+  padding: 20px;
+  background: #fafbfc;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.map-container {
-  width: 100%;
-  height: 400px;
-  position: relative;
+.example-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.code-section {
-  background: #f6f8fa;
-  padding: 16px;
-  border-top: 1px solid #e1e4e8;
-}
-
-.copy-button {
-  background: #0366d6;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
+.example-title {
+  font-size: 18px;
+  font-weight: 600;
   margin-bottom: 12px;
+  color: #24292e;
+}
+
+.example-description {
+  color: #586069;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.example-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 16px;
+}
+
+.example-features li {
+  padding: 4px 0;
+  color: #586069;
   font-size: 14px;
 }
 
-.copy-button:hover {
-  background: #0256cc;
+.example-features li:before {
+  content: "✓";
+  color: #28a745;
+  font-weight: bold;
+  margin-right: 8px;
 }
 
-.controls {
-  padding: 16px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e1e4e8;
-}
-
-.controls label {
-  display: block;
-  margin-bottom: 12px;
+.example-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #0366d6;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
   font-weight: 500;
+  transition: background 0.2s;
 }
 
-.controls input[type="range"] {
-  width: 200px;
-  margin: 0 8px;
+.example-link:hover {
+  background: #0256cc;
+  color: white;
+}
+
+.overview-section {
+  background: #f6f8fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: 24px;
+  margin: 24px 0;
+}
+
+.quick-start {
+  background: #e7f3ff;
+  border: 1px solid #b3d7ff;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 24px 0;
+}
+
+.installation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.installation-method {
+  background: #f8f9fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.installation-method h4 {
+  margin: 0 0 12px 0;
+  color: #24292e;
 }
 
 pre {
   background: #f6f8fa;
-  padding: 16px;
+  padding: 12px;
   border-radius: 4px;
   overflow-x: auto;
-  font-size: 14px;
-  line-height: 1.4;
-  margin: 0;
+  font-size: 13px;
+  margin: 8px 0;
 }
 
 code {
@@ -546,7 +156,7 @@ code {
 
 ## Overview
 
-This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted satellite data using the experimental GeoZarr support in OpenLayers 10.7.1-dev. **All examples below are live, interactive demonstrations** running directly in your browser.
+This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted satellite data using the experimental GeoZarr support in OpenLayers 10.7.1-dev. Each example is presented on a separate page for optimal performance.
 
 <div v-if="webglSupport === false" class="warning">
 ⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
@@ -556,149 +166,109 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 ✅ **WebGL Supported**: Your browser supports WebGL and can render GeoZarr data.
 </div>
 
+<div class="overview-section">
+<h3>🎯 What You'll Learn</h3>
+<p>These interactive examples demonstrate real-world applications of OpenLayers with EOPF's Sentinel-2 data, covering everything from basic setup to advanced image processing techniques. Each example includes live demonstrations, complete code samples, and detailed explanations.</p>
+
+<p><strong>Sample Data:</strong> Sentinel-2 L2A scene over southern Spain (December 18, 2025) - <a href="https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251218T110359_N0511_R094_T30SUF_20251218T115223">View in STAC Browser</a></p>
+</div>
+
 ## Interactive Examples
 
-### 1. Basic Map Setup
+<div class="examples-grid">
+  <div class="example-card">
+    <div class="example-title">1. Basic Map Setup</div>
+    <div class="example-description">
+      Learn the fundamental configuration needed to load and display EOPF Zarr data with OpenLayers.
+    </div>
+    <ul class="example-features">
+      <li>Minimal configuration</li>
+      <li>OSM base layer integration</li>
+      <li>Automatic extent fitting</li>
+      <li>WebGL rendering</li>
+    </ul>
+    <a href="/integrations/ol/basic" class="example-link">View Example →</a>
+  </div>
 
-Here's a live example of loading EOPF Zarr data with minimal configuration:
+  <div class="example-card">
+    <div class="example-title">2. True Color Visualization</div>
+    <div class="example-description">
+      Create natural-looking imagery with proper band scaling, gamma correction, and color enhancement.
+    </div>
+    <ul class="example-features">
+      <li>RGB band mapping</li>
+      <li>Reflectance scaling</li>
+      <li>Gamma correction</li>
+      <li>Transparency handling</li>
+    </ul>
+    <a href="/integrations/ol/true-color" class="example-link">View Example →</a>
+  </div>
 
-<div v-if="webglSupport" class="demo-section">
-  <div ref="basicMapRef" class="map-container"></div>
-  
-  <div class="code-section">
-    <button @click="copyCode(basicMapCode)" class="copy-button">📋 Copy Code</button>
-    <pre><code>{{ basicMapCode }}</code></pre>
+  <div class="example-card">
+    <div class="example-title">3. False Color Infrared</div>
+    <div class="example-description">
+      Enhance vegetation analysis and land cover mapping using infrared bands for better feature discrimination.
+    </div>
+    <ul class="example-features">
+      <li>SWIR band utilization</li>
+      <li>Vegetation enhancement</li>
+      <li>Land cover analysis</li>
+      <li>Spectral interpretation</li>
+    </ul>
+    <a href="/integrations/ol/false-color" class="example-link">View Example →</a>
+  </div>
+
+  <div class="example-card">
+    <div class="example-title">4. NDVI Calculation</div>
+    <div class="example-description">
+      Perform real-time vegetation index calculations directly in the browser using WebGL expressions.
+    </div>
+    <ul class="example-features">
+      <li>Real-time NDVI calculation</li>
+      <li>Vegetation classification</li>
+      <li>Agricultural applications</li>
+      <li>Environmental monitoring</li>
+    </ul>
+    <a href="/integrations/ol/ndvi" class="example-link">View Example →</a>
+  </div>
+
+  <div class="example-card">
+    <div class="example-title">5. Interactive Contrast</div>
+    <div class="example-description">
+      Dynamically adjust image contrast and brightness using interactive controls and style variables.
+    </div>
+    <ul class="example-features">
+      <li>Dynamic contrast stretching</li>
+      <li>Interactive sliders</li>
+      <li>Real-time updates</li>
+      <li>Image enhancement</li>
+    </ul>
+    <a href="/integrations/ol/contrast" class="example-link">View Example →</a>
   </div>
 </div>
 
-### 2. True Color Visualization
+## Quick Start
 
-Apply proper scaling for natural color rendering:
-
-<div v-if="webglSupport" class="demo-section">
-  <div ref="trueColorMapRef" class="map-container"></div>
-  
-  <div class="code-section">
-    <button @click="copyCode(trueColorCode)" class="copy-button">📋 Copy Code</button>
-    <pre><code>{{ trueColorCode }}</code></pre>
-  </div>
-</div>
-
-### 3. False Color Infrared
-
-Use infrared bands for vegetation and land cover analysis:
-
-<div v-if="webglSupport" class="demo-section">
-  <div ref="falseColorMapRef" class="map-container"></div>
-  
-  <div class="code-section">
-    <button @click="copyCode(falseColorCode)" class="copy-button">📋 Copy Code</button>
-    <pre><code>{{ falseColorCode }}</code></pre>
-  </div>
-</div>
-
-### 4. NDVI Calculation
-
-Calculate vegetation indices directly in the browser:
-
-<div v-if="webglSupport" class="demo-section">
-  <div ref="ndviMapRef" class="map-container"></div>
-  
-  <div class="code-section">
-    <button @click="copyCode(ndviCode)" class="copy-button">📋 Copy Code</button>
-    <pre><code>{{ ndviCode }}</code></pre>
-  </div>
-</div>
-
-### 5. Interactive Contrast Stretching
-
-Adjust contrast dynamically to enhance visualization:
-
-<div v-if="webglSupport" class="demo-section">
-  <div ref="contrastMapRef" class="map-container"></div>
-  
-  <div class="controls">
-    <label>
-      Contrast Min: 
-      <input 
-        v-model.number="contrastMin" 
-        type="range" 
-        min="0" 
-        max="0.5" 
-        step="0.01"
-        @input="updateContrast"
-      />
-      {{ contrastMin }}
-    </label>
-    <label>
-      Contrast Max: 
-      <input 
-        v-model.number="contrastMax" 
-        type="range" 
-        min="0.1" 
-        max="1.0" 
-        step="0.01"
-        @input="updateContrast"
-      />
-      {{ contrastMax }}
-    </label>
-  </div>
-  
-  <div class="code-section">
-    <button @click="copyCode(contrastCode)" class="copy-button">📋 Copy Code</button>
-    <pre><code>{{ contrastCode }}</code></pre>
-  </div>
+<div class="quick-start">
+<h3>🚀 Get Started in 5 Minutes</h3>
+<p>Ready to dive in? Start with the <a href="/integrations/ol/basic">Basic Setup example</a> to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.</p>
 </div>
 
 ## Installation
 
-### NPM Installation (Recommended)
+<div class="installation-grid">
+  <div class="installation-method">
+    <h4>NPM (Recommended)</h4>
+    <pre><code>npm install ol@10.7.1-dev stac-js@^0.1.2</code></pre>
+    <p>Used in our examples for best performance and build optimization.</p>
+  </div>
 
-The page uses locally installed OpenLayers and STAC-js libraries:
-
-```bash
-npm install ol@10.7.1-dev stac-js@^0.1.2
-```
-
-```javascript
-import Map from 'ol/Map.js';
-import TileLayer from 'ol/layer/WebGLTile.js';
-import GeoZarr from 'ol/source/GeoZarr.js';
-import View from 'ol/View.js';
-import 'ol/ol.css';
-```
-
-### CDN Approach (Alternative)
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@10.7.1-dev/ol.css" />
-  <script src="https://cdn.jsdelivr.net/npm/ol@10.7.1-dev/dist/ol.js"></script>
-</head>
-<body>
-  <div id="map" style="height: 400px;"></div>
-  <script>
-    // Your OpenLayers code here
-  </script>
-</body>
-</html>
-```
-
-### NPM Installation
-
-```bash
-npm install ol@10.7.1-dev
-```
-
-```javascript
-import Map from 'ol/Map.js';
-import TileLayer from 'ol/layer/WebGLTile.js';
-import GeoZarr from 'ol/source/GeoZarr.js';
-import View from 'ol/View.js';
-import 'ol/ol.css';
-```
+  <div class="installation-method">
+    <h4>CDN (Quick Testing)</h4>
+    <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/ol@10.7.1-dev/dist/ol.js"&gt;&lt;/script&gt;</code></pre>
+    <p>Perfect for quick prototypes and testing.</p>
+  </div>
+</div>
 
 ## STAC Browser Integration
 
@@ -735,7 +305,7 @@ async function loadZarrFromSTAC(itemId) {
 }
 
 // Usage
-loadZarrFromSTAC('S2B_MSIL2A_20251115T091139_N0511_R050_T35SLU_20251115T111807')
+loadZarrFromSTAC('S2B_MSIL2A_20251218T110359_N0511_R094_T30SUF_20251218T115223')
   .then(zarrUrl => {
     // Initialize your map with the Zarr URL
     const source = new GeoZarr({
@@ -746,134 +316,42 @@ loadZarrFromSTAC('S2B_MSIL2A_20251115T091139_N0511_R050_T35SLU_20251115T111807')
   });
 ```
 
-## Advanced Styling
+## Advanced Topics
 
-### Band Math Expressions
+### Performance Optimization
 
-```javascript
-// Enhanced Vegetation Index (EVI)
-const eviStyle = {
-  color: [
-    'case',
-    ['>', 
-      ['/', 
-        ['*', 2.5, ['-', ['band', 1], ['band', 2]]], 
-        ['+', ['band', 1], ['*', 6, ['band', 2]], ['*', -7.5, ['band', 3]], 1]
-      ], 
-      0.3
-    ],
-    [0, 0.8, 0, 1], // High vegetation
-    [0.8, 0.4, 0, 1] // Low vegetation
-  ]
-};
+- **Tile Caching**: Configure appropriate cache sizes
+- **Preloading**: Set preload levels for smoother panning
+- **Resolution Management**: Use multiscale data effectively
 
-// Water Detection (NDWI)
-const ndwiStyle = {
-  color: [
-    'case',
-    ['>', 
-      ['/', 
-        ['-', ['band', 2], ['band', 4]], 
-        ['+', ['band', 2], ['band', 4]]
-      ], 
-      0.3
-    ],
-    [0, 0, 0.8, 1], // Water
-    [0.5, 0.3, 0.1, 1] // Land
-  ]
-};
-```
+### Styling Techniques
 
-### Multi-temporal Analysis
+- **Band Math**: Create custom indices and calculations
+- **Color Mapping**: Apply scientific color schemes
+- **Conditional Rendering**: Show different visualizations based on data values
 
-```javascript
-// Compare two time periods
-const beforeSource = new GeoZarr({
-  url: 'path/to/before.zarr',
-  group: 'measurements/reflectance',
-  bands: ['b08', 'b04'],
-});
+### Integration Patterns
 
-const afterSource = new GeoZarr({
-  url: 'path/to/after.zarr', 
-  group: 'measurements/reflectance',
-  bands: ['b08', 'b04'],
-});
+- **Vector Overlays**: Combine with administrative boundaries
+- **Time Series**: Animate temporal data
+- **Multi-source**: Blend different satellite datasets
 
-// Layer showing change detection
-const changeLayer = new TileLayer({
-  source: beforeSource, // Primary source
-  style: {
-    color: [
-      'case',
-      ['>', 
-        ['-', 
-          // NDVI after
-          ['/', ['-', ['band', 1], ['band', 2]], ['+', ['band', 1], ['band', 2]]],
-          // NDVI before (would need additional logic to access)
-          ['/', ['-', ['band', 3], ['band', 4]], ['+', ['band', 3], ['band', 4]]]
-        ], 
-        0.1
-      ],
-      [0, 0.8, 0, 1], // Vegetation increase
-      [0.8, 0, 0, 1]  // Vegetation decrease
-    ]
-  }
-});
-```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **CORS Errors**: Ensure the Zarr data is accessible from your domain
-2. **Loading Failures**: Check browser console for network errors
-3. **Performance Issues**: Consider reducing data resolution or implementing progressive loading
-4. **Memory Usage**: Monitor browser memory, especially with large datasets
-
-### Browser Compatibility
+## Browser Compatibility
 
 - **Chrome 80+**: Full support
-- **Firefox 75+**: Full support
+- **Firefox 75+**: Full support  
 - **Safari 14+**: Limited support (some style expressions may not work)
 - **Edge 80+**: Full support
 
-### Version Notes
+## Version Notes
 
 ⚠️ **Development Version**: OpenLayers 10.7.1-dev contains experimental GeoZarr support that may change. For production use, wait for the stable 10.8.0 release.
 
-## Performance Optimization
-
-### WebGL Optimization
-
-```javascript
-// Enable pixel ratio optimization
-const layer = new TileLayer({
-  source: zarrSource,
-  style: styleConfig,
-  preload: 2, // Preload surrounding tiles
-  useInterimTilesOnError: false
-});
-```
-
-### Caching
-
-```javascript
-// Enable tile caching
-const source = new GeoZarr({
-  url: zarrUrl,
-  cacheSize: 128, // Increase cache size
-  transition: 250,
-  group: 'measurements/reflectance',
-  bands: ['b04', 'b03', 'b02'],
-});
-```
-
 ## Next Steps
 
-1. **Explore EOPF Data**: Browse available datasets in the [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
-2. **Custom Styling**: Experiment with different band combinations and mathematical expressions
-3. **Integration**: Combine with other OpenLayers features like vector overlays and controls
-4. **Performance**: Optimize for your specific use case and data volume
+1. **Start with Examples**: Work through each example to understand the capabilities
+2. **Explore EOPF Data**: Browse available datasets in the [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
+3. **Custom Applications**: Build your own satellite data applications
+4. **Community**: Join discussions and contribute to the growing EOPF ecosystem
 
 For more advanced features and the latest updates, follow the [OpenLayers development](https://github.com/openlayers/openlayers) and [EOPF Explorer project](https://github.com/EOPF-Explorer).
