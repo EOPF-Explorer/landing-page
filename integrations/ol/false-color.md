@@ -297,6 +297,99 @@ This example demonstrates false color infrared visualization, which is excellent
   </div>
 </div>
 
+## Code Implementation
+
+::: code-group
+
+```html [index.html]
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OpenLayers False Color Infrared Example</title>
+  <link rel="stylesheet" href="node_modules/ol/ol.css">
+  <style>
+    .map {
+      height: 500px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="map" class="map"></div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
+```
+
+```javascript [main.js]
+import Map from 'ol/Map.js';
+import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js';
+import TileLayer from 'ol/layer/WebGLTile.js';
+import GeoZarr from 'ol/source/GeoZarr.js';
+import OSM from 'ol/source/OSM.js';
+
+// EOPF Zarr URL from STAC Browser
+const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20251218T110359_N0511_R094_T30SUF_20251218T115223.zarr';
+
+// Create GeoZarr source for false color infrared
+const source = new GeoZarr({
+  url: zarrUrl,
+  group: 'measurements/reflectance',  // Zarr group path
+  bands: ['b11', 'b04', 'b03'],       // SWIR, Red, Green band mapping
+});
+
+// Initialize map with false color infrared visualization
+const map = new Map({
+  layers: [
+    // Base layer for geographic context
+    new TileLayer({
+      source: new OSM(),
+    }),
+    // False color infrared layer
+    new TileLayer({
+      source,
+      style: {
+        gamma: 1.5,  // Gamma correction for brightness
+        color: [
+          'color',
+          // Red channel (Band 11 - SWIR)
+          ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
+          // Green channel (Band 4 - Red)
+          ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255],
+          // Blue channel (Band 3 - Green)
+          ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255],
+          // Alpha channel (transparency for no-data values)
+          [
+            'case',
+            ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
+            0,  // Transparent if all bands are 0
+            1,  // Opaque otherwise
+          ],
+        ],
+      },
+    }),
+  ],
+  target: 'map',
+  view: getView(
+    source,
+    withLowerResolutions(1),   // Add 1 lower resolution level
+    withHigherResolutions(2),  // Add 2 higher resolution levels  
+    withExtentCenter(),        // Center view on data extent
+    withZoom(2),              // Set initial zoom level
+  ),
+});
+```
+
+```json [package.json]
+{
+  "dependencies": {
+    "ol": "10.7.1-dev"
+  }
+}
+```
+
+:::
+
 ## Applications
 
 ### Vegetation Analysis
