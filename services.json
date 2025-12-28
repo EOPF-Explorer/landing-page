@@ -1,0 +1,189 @@
+[
+  {
+    "id": "stac-browser",
+    "title": "EOPF Explorer STAC Browser",
+    "description": "EOPF Sentinel Zarr catalog browser revealing Sentinel scenes at a glance.",
+    "image": "https://stacspec.org/public/images-original/STAC-01.png",
+    "tags": ["discovery", "catalog", "sentinel", "metadata"],
+    "category": "Discovery",
+    "type": "service",
+    "link": "https://api.explorer.eopf.copernicus.eu/browser",
+    "featured": true
+  },
+  {
+    "id": "sentinel-explorer",
+    "title": "Sentinels Explorer",
+    "description": "Interactive viewer for Sentinel-1 radar and Sentinel-2 optical imagery.",
+    "image": "/assets/sentinel-explorer.svg",
+    "tags": ["discovery", "interactive", "zarr", "sentinel-1", "sentinel-2"],
+    "category": "Discovery",
+    "type": "service",
+    "link": "/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a",
+    "featured": true
+  },
+  {
+    "id": "eopf-catalog",
+    "title": "EOPF Data Catalog",
+    "description": "Standard catalog interface for EOPF Sentinel Zarr products discovery.",
+    "image": "/assets/eopf-catalog.svg",
+    "tags": ["discovery", "eopf", "zarr", "catalog"],
+    "category": "Discovery",
+    "type": "service",
+    "link": "https://zarr.eopf.copernicus.eu/",
+    "featured": false
+  },
+  {
+    "id": "band-combination-tool",
+    "title": "Band Combination Tool",
+    "description": "Experiment with RGB combinations and custom color formulations.",
+    "image": "/assets/band-combination-tool.svg",
+    "tags": ["screening", "bands", "rgb", "visualization", "color"],
+    "category": "Screening",
+    "type": "software",
+    "link": "https://bands.eopf.copernicus.eu/",
+    "featured": true
+  },
+  {
+    "id": "spectral-indices",
+    "title": "Spectral Indices Calculator",
+    "description": "Calculate NDVI, EVI, and other vegetation indices from Sentinel data.",
+    "image": "/assets/spectral-indices.svg",
+    "tags": ["screening", "ndvi", "evi", "vegetation", "indices"],
+    "category": "Screening",
+    "type": "software",
+    "link": "https://indices.eopf.copernicus.eu/",
+    "featured": true
+  },
+  {
+    "id": "arithmetic-expressions",
+    "title": "Custom Arithmetic Expressions",
+    "description": "Build custom band math expressions for advanced spectral analysis.",
+    "image": "/assets/arithmetic-expressions.svg",
+    "tags": ["screening", "arithmetic", "expressions", "band-math"],
+    "category": "Screening",
+    "type": "software",
+    "link": "https://expressions.eopf.copernicus.eu/",
+    "featured": false
+  },
+  {
+    "id": "polarization-analyzer",
+    "title": "Polarization Analyzer",
+    "description": "Analyze SAR polarization data with advanced visualization techniques.",
+    "image": "/assets/polarization-analyzer.svg",
+    "tags": ["screening", "sar", "polarization", "radar"],
+    "category": "Screening",
+    "type": "software",
+    "link": "https://polarization.eopf.copernicus.eu/",
+    "featured": false
+  },
+  {
+    "id": "openeo-client",
+    "title": "OpenEO Web Client",
+    "description": "Build sophisticated analysis workflows with cloud-based processing.",
+    "image": "/assets/openeo-client.svg",
+    "tags": ["analysis", "workflow", "openeo", "cloud-processing"],
+    "category": "Analysis",
+    "type": "service",
+    "link": "https://openeo.org/",
+    "featured": true
+  },
+  {
+    "id": "dynamic-web-maps",
+    "title": "Dynamic Web Maps",
+    "description": "Interactive web maps with on-the-fly reprojection and visualization.",
+    "image": "/assets/dynamic-web-maps.svg",
+    "tags": ["analysis", "web-maps", "reprojection", "interactive"],
+    "category": "Analysis",
+    "type": "service",
+    "link": "https://maps.eopf.copernicus.eu/",
+    "featured": true
+  },
+  {
+    "id": "time-series-explorer",
+    "title": "Time Series Explorer",
+    "description": "Interactive exploration of temporal patterns in Earth observation data.",
+    "image": "/assets/time-series-explorer.svg",
+    "tags": ["analysis", "time-series", "temporal", "interactive"],
+    "category": "Analysis",
+    "type": "software",
+    "link": "https://timeseries.eopf.copernicus.eu/",
+    "featured": true
+  },
+  {
+    "id": "jupyter-notebooks",
+    "title": "Jupyter Notebook Environment",
+    "description": "Cloud-hosted Jupyter environment for custom analysis workflows.",
+    "image": "/assets/jupyter-notebooks.svg",
+    "tags": ["analysis", "jupyter", "notebooks", "python", "prototyping"],
+    "category": "Analysis",
+    "type": "service",
+    "link": "https://notebooks.eopf.copernicus.eu/",
+    "featured": false
+  },
+  {
+    "id": "flood-delineation-showcase",
+    "title": "Flood Delineation Showcase",
+    "description": "Real-world flood mapping using Sentinel-1 SAR data and cloud visualization.",
+    "image": "/assets/flood-delineation.svg",
+    "tags": ["showcase", "flood", "mapping", "sar", "emergency"],
+    "category": "Showcases",
+    "type": "showcase",
+    "link": "https://showcase.eopf.copernicus.eu/flood",
+    "featured": true
+  },
+  {
+    "id": "burnt-area-mapping",
+    "title": "Burnt Area Mapping",
+    "description": "Wildfire impact assessment using spectral indices and change detection.",
+    "image": "/assets/burnt-area-mapping.svg",
+    "tags": ["showcase", "wildfire", "burnt-area", "change-detection"],
+    "category": "Showcases",
+    "type": "showcase",
+    "link": "https://showcase.eopf.copernicus.eu/wildfire",
+    "featured": true
+  },
+  {
+    "id": "agricultural-monitoring",
+    "title": "Agricultural Monitoring",
+    "description": "Crop health monitoring using vegetation indices and time-series analysis.",
+    "image": "/assets/agricultural-monitoring.svg",
+    "tags": ["showcase", "agriculture", "crop-health", "ndvi", "monitoring"],
+    "category": "Showcases",
+    "type": "showcase",
+    "link": "https://showcase.eopf.copernicus.eu/agriculture",
+    "featured": true
+  },
+  {
+    "id": "urban-growth-analysis",
+    "title": "Urban Growth Analysis",
+    "description": "Track urban expansion patterns using multi-temporal Sentinel-2 data.",
+    "image": "/assets/urban-growth-analysis.svg",
+    "tags": ["showcase", "urban", "growth", "change-detection", "planning"],
+    "category": "Showcases",
+    "type": "showcase",
+    "link": "https://showcase.eopf.copernicus.eu/urban",
+    "featured": false
+  },
+  {
+    "id": "collaborative-workspace",
+    "title": "Collaborative Workspace",
+    "description": "Shared workspace for collaborative Earth observation analysis and visualization.",
+    "image": "/assets/collaborative-workspace.svg",
+    "tags": ["showcase", "collaboration", "workspace", "sharing", "team"],
+    "category": "Showcases",
+    "type": "service",
+    "link": "https://workspace.eopf.copernicus.eu/",
+    "featured": false
+  },
+  {
+    "id": "water-quality-monitoring",
+    "title": "Water Quality Monitoring",
+    "description": "Monitor water bodies using optical water quality indicators from Sentinel-2.",
+    "image": "/assets/water-quality-monitoring.svg",
+    "tags": ["showcase", "water-quality", "monitoring", "lakes", "rivers"],
+    "category": "Showcases",
+    "type": "showcase",
+    "link": "https://showcase.eopf.copernicus.eu/water",
+    "featured": false
+  }
+]
