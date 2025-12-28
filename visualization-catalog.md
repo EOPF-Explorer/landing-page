@@ -41,26 +41,24 @@ function filterItems() {
 }
 
 function renderCatalog() {
-  const categories = ['Discovery', 'Screening', 'Analysis', 'Showcases']
+  const grid = document.getElementById('services-grid')
+  if (!grid) return
   
-  categories.forEach(category => {
-    const grid = document.getElementById(category.toLowerCase() + '-grid')
-    const section = document.getElementById(category.toLowerCase() + '-section')
-    if (!grid || !section) return
-    
-    const categoryItems = filteredItems.value.filter(item => item.category === category)
-    
-    if (categoryItems.length === 0) {
-      grid.innerHTML = '<div class="empty-state">No items found in this category</div>'
-      section.style.display = 'block'
-    } else {
-      section.style.display = 'block'
-      grid.innerHTML = categoryItems.map(item => createItemCard(item)).join('')
-    }
-  })
+  if (filteredItems.value.length === 0) {
+    grid.innerHTML = '<div class="empty-state">No items found matching your filters</div>'
+  } else {
+    grid.innerHTML = filteredItems.value.map(item => createItemCard(item)).join('')
+  }
 }
 
 function createItemCard(item) {
+  const categoryEmojis = {
+    'Discovery': '🧭',
+    'Screening': '🔬', 
+    'Analysis': '📊',
+    'Showcases': '🌟'
+  }
+  
   return `
     <div class="service-card ${item.featured ? 'featured' : ''}">
       <img src="${item.image}" alt="${item.title}" class="card-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -72,11 +70,11 @@ function createItemCard(item) {
         <h3 class="card-title">${item.title}</h3>
         <p class="card-description">${item.description}</p>
         <div class="card-tags">
+          <span class="category-tag">${categoryEmojis[item.category]} ${item.category}</span>
           ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
         </div>
         <div class="card-meta">
           <span class="card-type">${item.type}</span>
-          <span class="card-category">${item.category}</span>
         </div>
         <a href="${item.link}" target="_blank" class="card-link">
           ${item.link.startsWith('http') ? 'Open Service' : 'Explore'}
@@ -152,30 +150,8 @@ Discover the comprehensive suite of services and software available for Earth ob
   </div>
 </div>
 
-<div class="category-sections">
-  <div class="category-section" id="discovery-section">
-    <h2 class="category-title">🧭 Discovery</h2>
-    <p class="category-description">Cloud-native and visualization-enhanced EOPF Sentinel products power data discovery. Explore catalogs and browse Sentinel scenes at a glance.</p>
-    <div class="category-grid" id="discovery-grid"></div>
-  </div>
-  
-  <div class="category-section" id="screening-section">
-    <h2 class="category-title">🔬 Screening</h2>
-    <p class="category-description">Experiment with band combinations, color formulations, and custom arithmetic expressions to unlock spectral, polarization, and variable insights.</p>
-    <div class="category-grid" id="screening-grid"></div>
-  </div>
-  
-  <div class="category-section" id="analysis-section">
-    <h2 class="category-title">📊 Analysis</h2>
-    <p class="category-description">Build sophisticated analysis workflows with OpenEO clients, dynamic web maps with on-the-fly reprojection, and interactive time-series exploration.</p>
-    <div class="category-grid" id="analysis-grid"></div>
-  </div>
-  
-  <div class="category-section" id="showcases-section">
-    <h2 class="category-title">🌟 Showcases</h2>
-    <p class="category-description">Compelling real-world applications from flood delineation and burnt area mapping to spectral indices and collaborative workspaces.</p>
-    <div class="category-grid" id="showcases-grid"></div>
-  </div>
+<div class="services-container">
+  <div class="services-grid" id="services-grid"></div>
 </div>
 
 <style>
@@ -264,31 +240,12 @@ Discover the comprehensive suite of services and software available for Earth ob
   font-weight: 500;
 }
 
-.category-sections {
+.services-container {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.category-section {
-  margin: 3rem 0;
-}
-
-.category-title {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  color: #2a4d7a;
-  border-bottom: 2px solid #e0e7ef;
-  padding-bottom: 0.5rem;
-}
-
-.category-description {
-  color: #666;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.category-grid {
+.services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
@@ -370,6 +327,16 @@ Discover the comprehensive suite of services and software available for Earth ob
   margin-bottom: 1rem;
 }
 
+.category-tag {
+  background: #2a4d7a;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
 .tag {
   background: #e0e7ef;
   color: #2a4d7a;
@@ -429,7 +396,7 @@ Discover the comprehensive suite of services and software available for Earth ob
     align-items: center;
   }
   
-  .category-grid {
+  .services-grid {
     grid-template-columns: 1fr;
   }
   
