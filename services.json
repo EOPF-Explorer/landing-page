@@ -46,7 +46,7 @@
   {
     "id": "openlayers-geozarr",
     "title": "OpenLayers",
-    "description": "Web mapping library with GeoZarr support for visualizing Sentinel Zarr using Zarr conventions.",
+    "description": "Web mapping library with GeoZarr support for visualizing Sentinel Zarr in the browser using Zarr conventions.",
     "image": "assets/openlayers-logo.png",
     "tags": ["screening", "web-mapping", "visualization", "geozarr"],
     "category": "Screening",
