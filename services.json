@@ -45,14 +45,14 @@
   },
   {
     "id": "openlayers-geozarr",
-    "title": "OpenLayers",
-    "description": "Web mapping library with GeoZarr support for visualizing Sentinel Zarr in the browser using Zarr conventions.",
+    "title": "OpenLayers GeoZarr Support",
+    "description": "Web mapping library implementing draft GeoZarr conventions for browser-based visualization of EOPF Sentinel Zarr data. Supports multiscales, proj:, and spatial: conventions with direct STAC Browser integration.",
     "image": "assets/openlayers-logo.png",
-    "tags": ["screening", "web-mapping", "visualization", "geozarr"],
+    "tags": ["screening", "web-mapping", "visualization", "geozarr", "conventions", "stac"],
     "category": "Screening",
     "type": "software",
-    "link": "https://deploy-preview-17194--ol-site.netlify.app/en/latest/examples/geozarr-stretch.html",
-    "featured": false
+    "link": "/integrations/ol",
+    "featured": true
   },
   {
     "id": "openeo-web-editor",
