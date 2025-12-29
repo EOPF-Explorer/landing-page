@@ -243,16 +243,12 @@ pre code {
 }
 </style>
 
-# OpenLayers - Basic Map Setup <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px;" />
+# OpenLayers - Basic Map Setup <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
 
 This example shows the minimal configuration needed to load and display EOPF Zarr data with OpenLayers.
 
 <div v-if="webglSupport === false" class="warning">
 ⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
-</div>
-
-<div v-if="webglSupport === true" class="success">
-✅ **WebGL Supported**: Your browser supports WebGL and can render GeoZarr data.
 </div>
 
 ## Live Demo
@@ -358,7 +354,8 @@ const map = new Map({
 ```json [package.json]
 {
   "dependencies": {
-    "ol": "10.7.1-dev"
+    "ol": "dev",
+    "zarrita": "^0.5.4"
   }
 }
 ```
@@ -394,7 +391,7 @@ Continue to the [False Color example](/integrations/ol/false-color) to see infra
 
 <div class="navigation">
   <div></div>
-  <span><strong>1 of 4</strong> - Basic Setup</span>
-  <a href="/integrations/ol/false-color" class="nav-button">Next: False Color →</a>
+  <span><strong>1 of 3</strong> - Basic Setup</span>
+  <a href="/integrations/ol/ndvi" class="nav-button">Next: NDVI →</a>
 </div>
 

@@ -417,6 +417,6 @@ Experiment with the sliders above:
 
 <div class="navigation">
   <a href="/integrations/ol/ndvi" class="nav-button">← Previous: NDVI</a>
-  <span><strong>4 of 4</strong> - Interactive Contrast</span>
+  <span><strong>3 of 3</strong> - Interactive Contrast</span>
   <a href="/integrations/ol" class="nav-button">Back to Overview →</a>
 </div>

@@ -4,7 +4,8 @@ layout: page
 ---
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, watch } from 'vue'
+import { scale as chromaScale } from 'chroma-js'
 import Map from 'ol/Map.js'
 import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js'
 import TileLayer from 'ol/layer/WebGLTile.js'
@@ -15,8 +16,63 @@ import 'ol/ol.css'
 const webglSupport = ref(null)
 const mapRef = ref()
 let map = null
+let ndviLayer = null
+
+// Interactive NDVI controls
+const minColor = ref('#8B4513')  // Brown
+const maxColor = ref('#00FF00')  // Green  
+const minValue = ref(-0.5)
+const maxValue = ref(0.7)
 
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20251218T110359_N0511_R094_T30SUF_20251218T115223.zarr'
+
+// NDVI color scale configuration  
+const segments = 10
+const defaultMinColor = '#8B4513'  // Brown
+const defaultMaxColor = '#00FF00'  // Green
+const defaultMinValue = -0.5
+const defaultMaxValue = 0.7
+
+function getVariables() {
+  const variables = {}
+  const scale = chromaScale([minColor.value, maxColor.value]).mode('lab')
+  const delta = (maxValue.value - minValue.value) / segments
+
+  for (let i = 0; i <= segments; ++i) {
+    const color = scale(i / segments).rgb()
+    const value = minValue.value + i * delta
+    variables[`value${i}`] = value
+    variables[`red${i}`] = color[0]
+    variables[`green${i}`] = color[1]
+    variables[`blue${i}`] = color[2]
+  }
+  return variables
+}
+
+function colors() {
+  const stops = []
+  for (let i = 0; i <= segments; ++i) {
+    stops[i * 2] = ['var', `value${i}`]
+    const red = ['var', `red${i}`]
+    const green = ['var', `green${i}`]
+    const blue = ['var', `blue${i}`]
+    stops[i * 2 + 1] = ['color', red, green, blue]
+  }
+  return stops
+}
+
+// NDVI calculation expression
+const ndvi = [
+  '/',
+  ['-', ['band', 2], ['band', 1]], // NIR - Red
+  ['+', ['band', 2], ['band', 1]], // NIR + Red
+]
+
+function updateColors() {
+  if (ndviLayer) {
+    ndviLayer.updateStyleVariables(getVariables())
+  }
+}
 
 onMounted(async () => {
   const canvas = document.createElement('canvas')
@@ -30,6 +86,9 @@ onMounted(async () => {
   }
 })
 
+// Watch for changes to update colors
+watch([minColor, maxColor, minValue, maxValue], updateColors)
+
 function initializeMap() {
   if (mapRef.value) {
     try {
@@ -38,24 +97,19 @@ function initializeMap() {
         group: 'measurements/reflectance',
         bands: ['b05', 'b04'], // NIR, Red
       })
-
+      ndviLayer = new TileLayer({
+        source: source,
+        style: {
+          variables: getVariables(),
+          color: ['interpolate', ['linear'], ndvi, ...colors()],
+        },
+      })
       map = new Map({
         layers: [
           new TileLayer({
             source: new OSM(),
           }),
-          new TileLayer({
-            source,
-            style: {
-              color: [
-                'array',
-                ['*', ['band', 1], 255], // R = NIR * 255
-                ['*', ['band', 1], 255], // G = NIR * 255  
-                ['*', ['band', 1], 255], // B = NIR * 255
-                255 // Alpha = 255
-              ],
-            },
-          }),
+          ndviLayer,
         ],
         target: mapRef.value,
         view: getView(
@@ -70,34 +124,6 @@ function initializeMap() {
       console.error('Failed to initialize map:', error)
     }
   }
-}
-
-function copyCode() {
-  const code = `// NDVI calculation
-const layer = new TileLayer({
-  source: new GeoZarr({
-    url: zarrUrl,
-    group: 'measurements/reflectance',
-    bands: ['b05', 'b04'], // NIR, Red
-  }),
-  style: {
-    color: [
-      'case',
-      // NDVI > 0.3 = vegetation (green)
-      ['>', 
-        ['/', 
-          ['-', ['band', 1], ['band', 2]], 
-          ['+', ['band', 1], ['band', 2]]
-        ], 
-        0.3
-      ],
-      [0, 200, 0, 255], // Green for vegetation
-      [200, 100, 0, 255] // Brown for non-vegetation
-    ],
-  },
-});`
-  
-  navigator.clipboard.writeText(code)
 }
 </script>
 
@@ -131,6 +157,49 @@ const layer = new TileLayer({
   width: 100%;
   height: 500px;
   position: relative;
+}
+
+.controls {
+  background: #f8f9fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.controls table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.controls td {
+  padding: 8px 12px;
+  vertical-align: middle;
+}
+
+.controls td:first-child {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.controls input[type="range"] {
+  width: 100%;
+  margin: 0 8px;
+}
+
+.controls input[type="color"] {
+  width: 40px;
+  height: 30px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.controls .data {
+  text-align: center;
+  font-family: monospace;
+  font-size: 14px;
+  min-width: 50px;
 }
 
 .code-section {
@@ -270,17 +339,12 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
 ⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for GeoZarr visualization and NDVI calculation.
 </div>
 
-<div v-if="webglSupport === true" class="success">
-✅ **WebGL Supported**: Your browser can perform real-time NDVI calculations.
-</div>
-
 ## Live Demo
 
 <div v-if="webglSupport" class="demo-section">
   <div ref="mapRef" class="map-container"></div>
   
   <div class="code-section">
-    <button @click="copyCode" class="copy-button">📋 Copy Code</button>
     <p>This example demonstrates NDVI calculation with:</p>
     <ul>
       <li><strong>NIR Band</strong> - Near-infrared (B08, 842nm)</li>
@@ -291,6 +355,24 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
   </div>
 </div>
 
+<div class="controls">
+  <h3>NDVI Visualization Controls</h3>
+  <table>
+    <tr>
+      <td>Min NDVI</td>
+      <td><input type="range" v-model.number="minValue" min="-1.0" max="-0.1" step="0.01" /></td>
+      <td class="data">{{ minValue.toFixed(1) }}</td>
+      <td><input type="color" v-model="minColor" /></td>
+    </tr>
+    <tr>
+      <td>Max NDVI</td>
+      <td><input type="range" v-model.number="maxValue" min="0.1" max="1.0" step="0.01" /></td>
+      <td class="data">{{ maxValue.toFixed(1) }}</td>
+      <td><input type="color" v-model="maxColor" /></td>
+    </tr>
+  </table>
+</div>
+
 :::code-group
 
 ```html [HTML]
@@ -298,58 +380,70 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
 ```
 
 ```javascript [JavaScript]
+import { scale as chromaScale } from 'chroma-js';
 import Map from 'ol/Map.js';
+import TileLayer from 'ol/layer/WebGLTile.js';
 import View from 'ol/View.js';
-import TileLayer from 'ol/layer/Tile.js';
 import { fromLonLat } from 'ol/proj.js';
 import { GeoZarr } from 'ol-zarr';
 
-// NDVI calculation using WebGL expressions
+const segments = 10;
+const defaultMinColor = '#8B4513';  // Brown
+const defaultMaxColor = '#00FF00';  // Green
+const defaultMinValue = -0.5;
+const defaultMaxValue = 0.7;
+
+function getVariables() {
+  const variables = {};
+  const scale = chromaScale([defaultMinColor, defaultMaxColor]).mode('lab');
+  const delta = (defaultMaxValue - defaultMinValue) / segments;
+
+  for (let i = 0; i <= segments; ++i) {
+    const color = scale(i / segments).rgb();
+    const value = defaultMinValue + i * delta;
+    variables[`value${i}`] = value;
+    variables[`red${i}`] = color[0];
+    variables[`green${i}`] = color[1];
+    variables[`blue${i}`] = color[2];
+  }
+  return variables;
+}
+
+function colors() {
+  const stops = [];
+  for (let i = 0; i <= segments; ++i) {
+    stops[i * 2] = ['var', `value${i}`];
+    const red = ['var', `red${i}`];
+    const green = ['var', `green${i}`];
+    const blue = ['var', `blue${i}`];
+    stops[i * 2 + 1] = ['color', red, green, blue];
+  }
+  return stops;
+}
+
+const ndvi = [
+  '/',
+  ['-', ['band', 2], ['band', 1]], // NIR - Red
+  ['+', ['band', 2], ['band', 1]], // NIR + Red
+];
+
+const source = new GeoZarr({
+  url: 'https://sentinel2-data.s3.amazonaws.com/tiles/32/S/KJ/2023/8/7/0/zarr',
+  group: 'measurements/reflectance',
+  bands: ['b04', 'b05'], // Red, NIR
+});
+
+const layer = new TileLayer({
+  style: {
+    variables: getVariables(),
+    color: ['interpolate', ['linear'], ndvi, ...colors()],
+  },
+  source: source,
+});
+
 const map = new Map({
   target: 'map',
-  layers: [
-    new TileLayer({
-      source: new GeoZarr({
-        url: 'https://sentinel2-data.s3.amazonaws.com/tiles/32/S/KJ/2023/8/7/0/zarr',
-        group: 'measurements/reflectance',
-        bands: ['b05', 'b04'], // NIR, Red
-      }),
-      style: {
-        color: [
-          'case',
-          // NDVI < -0.2 (water, clouds) - Blue
-          ['<', 
-            ['/', 
-              ['-', ['band', 1], ['band', 2]], 
-              ['+', ['band', 1], ['band', 2]]
-            ], 
-            -0.2
-          ],
-          [0, 100, 255, 255], // Blue for water
-          // NDVI < 0.2 (bare soil, rock) - Brown  
-          ['<', 
-            ['/', 
-              ['-', ['band', 1], ['band', 2]], 
-              ['+', ['band', 1], ['band', 2]]
-            ], 
-            0.2
-          ],
-          [139, 69, 19, 255], // Brown for bare soil
-          // NDVI < 0.5 (sparse vegetation) - Yellow
-          ['<', 
-            ['/', 
-              ['-', ['band', 1], ['band', 2]], 
-              ['+', ['band', 1], ['band', 2]]
-            ], 
-            0.5
-          ],
-          [255, 255, 0, 255], // Yellow for sparse vegetation
-          // NDVI >= 0.5 (dense vegetation) - Green
-          [0, 255, 0, 255] // Green for dense vegetation
-        ],
-      },
-    }),
-  ],
+  layers: [layer],
   view: new View({
     center: fromLonLat([2.35, 48.85]),
     zoom: 12,
@@ -431,7 +525,7 @@ Using OpenLayers WebGL expressions for NDVI calculation provides:
 - **Scalable visualization** - Hardware-accelerated rendering
 
 <div class="navigation">
-  <a href="/integrations/ol/false-color" class="nav-button">← Previous: False Color</a>
-  <span><strong>3 of 4</strong> - NDVI Calculation</span>
+  <a href="/integrations/ol/basic" class="nav-button">← Previous: Basic Map Setup and band combination</a>
+  <span><strong>2 of 3</strong> - NDVI Calculation</span>
   <a href="/integrations/ol/contrast" class="nav-button">Next: Contrast →</a>
 </div>
