@@ -227,7 +227,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
   </div>
 
   <div class="example-card">
-    <div class="example-title">3. NDVI Calculation</div>
+    <div class="example-title">2. NDVI Calculation</div>
     <div class="example-description">
       Perform real-time vegetation index calculations directly in the browser using WebGL expressions.
     </div>
@@ -241,7 +241,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
   </div>
 
   <div class="example-card">
-    <div class="example-title">4. Interactive Contrast</div>
+    <div class="example-title">3. Interactive Contrast</div>
     <div class="example-description">
       Dynamically adjust image contrast and brightness using interactive controls and style variables.
     </div>
