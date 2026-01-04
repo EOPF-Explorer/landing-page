@@ -387,7 +387,7 @@ const map = new Map({
 
 ## Next Steps
 
-Continue to the [False Color example](/integrations/ol/false-color) to see infrared band combinations for vegetation analysis.
+Continue to the [NDVI example](/integrations/ol/ndvi) to see infrared band combinations for vegetation analysis.
 
 <div class="navigation">
   <div></div>
