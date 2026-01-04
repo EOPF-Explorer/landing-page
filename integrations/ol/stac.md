@@ -622,6 +622,48 @@ pre {
   margin: 16px 0;
   border: 1px solid #e1e4e8;
 }
+
+/* Light theme syntax highlighting */
+pre code {
+  background: transparent;
+  color: #24292e;
+  padding: 0;
+}
+
+/* Ensure VitePress copy buttons are visible */
+.vp-code-group .copy,
+.vp-doc div[class*="language-"] .copy {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.demo-section {
+  margin: 24px 0;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.code-section {
+  background: #f6f8fa;
+  padding: 16px;
+  border-top: 1px solid #e1e4e8;
+}
+
+.copy-button {
+  background: #0366d6;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.copy-button:hover {
+  background: #0256cc;
+}
 </style>
 
 # STAC Catalog Integration
@@ -631,14 +673,6 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
 <div class="warning" v-if="webglSupport === false">
   <strong>⚠️ WebGL Not Supported:</strong> Your browser doesn't support WebGL, which is required for this example.
 </div>
-
-## Features
-
-- **Spatial Search**: Draw bounding box on the map to define search area
-- **Temporal Filtering**: Select date range for time-based search
-- **STAC Integration**: Query EOPF's STAC catalog using stac-js
-- **Scene Visualization**: Display footprints and load RGB imagery
-- **Interactive Results**: Browse and load up to 10 matching scenes
 
 <div class="demo-container">
 
@@ -709,98 +743,323 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
   </div>
 </div>
 
-## Implementation Details
+## Features
 
-### STAC API Integration
+- **Spatial Search**: Draw bounding box on the map to define search area
+- **Temporal Filtering**: Select date range for time-based search
+- **STAC Integration**: Query EOPF's STAC catalog using stac-js
+- **Scene Visualization**: Display footprints and load RGB imagery
+- **Interactive Results**: Browse and load up to 10 matching scenes
 
-The search uses direct HTTP requests to query the EOPF STAC catalog:
+## Code Implementation
 
-```javascript
-const stacUrl = new URL("https://api.explorer.eopf.copernicus.eu/stac/search");
-stacUrl.searchParams.set("bbox", `${minLon},${minLat},${maxLon},${maxLat}`);
-stacUrl.searchParams.set(
-  "datetime",
-  `${startDate}T00:00:00Z/${endDate}T23:59:59Z`
-);
-stacUrl.searchParams.set("collections", "sentinel-2-l2a");
-stacUrl.searchParams.set("limit", "10");
+::: code-group
 
-const response = await fetch(stacUrl);
-const searchResponse = await response.json();
+```html [HTML Template]
+<template>
+  <div class="demo-container">
+    <div class="controls-panel">
+      <div class="compact-controls">
+        <div class="control-group compact">
+          <label for="start-date">Start Date:</label>
+          <div class="date-input-container">
+            <input 
+              id="start-date" 
+              type="date" 
+              v-model="startDate"
+              :max="endDate"
+            />
+            <span class="date-icon">📅</span>
+          </div>
+        </div>
+        <div class="control-group compact">
+          <label for="end-date">End Date:</label>
+          <div class="date-input-container">
+            <input 
+              id="end-date" 
+              type="date" 
+              v-model="endDate"
+              :min="startDate"
+            />
+            <span class="date-icon">📅</span>
+          </div>
+        </div>
+        <div class="button-group compact">
+          <button 
+            @click="searchSTAC" 
+            :disabled="isSearching || !selectedBbox"
+            class="btn btn-primary"
+          >
+            {{ isSearching ? 'Searching...' : 'Search STAC' }}
+          </button>
+          <button @click="clearAll" class="btn btn-secondary">
+            Clear All
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div ref="mapRef" class="map-container"></div>
+
+    <div v-if="searchResults.length > 0" class="results-panel">
+      <h3>Search Results ({{ searchResults.length }} scenes found)</h3>
+      <p>Loading satellite imagery automatically...</p>
+    </div>
+  </div>
+</template>
 ```
 
-### Loading Zarr Data
-
-When a scene is selected, the code extracts the reflectance asset URL and creates a GeoZarr source:
-
-```javascript
-const reflectanceAsset = stacItem.assets?.reflectance;
-const zarrUrl = reflectanceAsset.href;
-
-const source = new GeoZarr({
-  url: zarrUrl,
-  bands: ["b04", "b03", "b02"], // RGB bands
-});
-```
-
-### Key Libraries Used
-
-- **Fetch API**: Direct HTTP requests to STAC catalog
-- **OpenLayers**: Mapping and visualization
-- **GeoZarr source**: Cloud-optimized Zarr data loading
-
-## Code Examples
-
-### Complete Vue Component Setup
-
-```vue
-<script setup>
-import { ref, onMounted, nextTick } from "vue";
-import Map from "ol/Map.js";
-import TileLayer from "ol/layer/WebGLTile.js";
-import VectorLayer from "ol/layer/Vector.js";
-import GeoZarr from "ol/source/GeoZarr.js";
-import VectorSource from "ol/source/Vector.js";
-import OSM from "ol/source/OSM.js";
-import { Draw } from "ol/interaction.js";
-
-// Search STAC catalog
+```javascript [STAC Search Function]
 async function searchSTAC() {
-  const [minLon, minLat, maxLon, maxLat] = selectedBbox.value;
+  if (!selectedBbox.value || !startDate.value || !endDate.value) {
+    alert('Please draw a bounding box and select dates')
+    return
+  }
 
-  const stacUrl = new URL(
-    "https://api.explorer.eopf.copernicus.eu/stac/search"
-  );
-  stacUrl.searchParams.set("bbox", `${minLon},${minLat},${maxLon},${maxLat}`);
-  stacUrl.searchParams.set(
-    "datetime",
-    `${startDate.value}T00:00:00Z/${endDate.value}T23:59:59Z`
-  );
-  stacUrl.searchParams.set("collections", "sentinel-2-l2a");
-  stacUrl.searchParams.set("limit", "10");
+  isSearching.value = true
+  searchResults.value = []
 
-  const response = await fetch(stacUrl);
-  const searchResponse = await response.json();
-  // Process results...
+  try {
+    // Clear previous results
+    footprintsLayer.getSource().clear()
+    clearDataLayers()
+
+    const [minLon, minLat, maxLon, maxLat] = selectedBbox.value
+
+    // Build STAC API URL with search parameters
+    const stacUrl = new URL('https://api.explorer.eopf.copernicus.eu/stac/search')
+    stacUrl.searchParams.set('bbox', `${minLon},${minLat},${maxLon},${maxLat}`)
+    stacUrl.searchParams.set('datetime', `${startDate.value}T00:00:00Z/${endDate.value}T23:59:59Z`)
+    stacUrl.searchParams.set('collections', 'sentinel-2-l2a')
+    stacUrl.searchParams.set('limit', '10')
+    
+    console.log('Fetching from:', stacUrl.toString())
+    
+    const response = await fetch(stacUrl)
+    if (!response.ok) {
+      throw new Error(`STAC API error: ${response.status}`)
+    }
+    
+    const searchResponse = await response.json()
+    
+    if (searchResponse.features && searchResponse.features.length > 0) {
+      searchResults.value = searchResponse.features
+      displayFootprints(searchResponse.features)
+    } else {
+      console.log('No results found')
+      searchResults.value = []
+    }
+  } catch (error) {
+    console.error('Search error:', error)
+    alert('Search failed: ' + error.message)
+  } finally {
+    isSearching.value = false
+  }
 }
-</script>
 ```
 
-### Error Handling
+```javascript [Scene Loading Function]
+async function loadScene(stacItem) {
+  try {
+    // Find reflectance asset or store link
+    let zarrAsset = stacItem.assets?.reflectance
+    let zarrUrl
+    
+    if (zarrAsset) {
+      zarrUrl = zarrAsset.href
+    } else {
+      const storeLink = stacItem.links?.find(link => link.rel === 'store')
+      if (storeLink) {
+        zarrUrl = storeLink.href
+      } else {
+        console.error('No Zarr data found in STAC item:', stacItem)
+        return
+      }
+    }
 
-The example includes comprehensive error handling:
+    // Configure GeoZarr source
+    let sourceConfig
+    
+    if (zarrAsset && zarrUrl.includes('/measurements/reflectance')) {
+      // Direct reflectance asset - split URL and group
+      const baseUrl = zarrUrl.replace('/measurements/reflectance', '')
+      sourceConfig = {
+        url: baseUrl,
+        group: 'measurements/reflectance',
+        bands: ['b04', 'b03', 'b02'] // RGB bands
+      }
+    } else {
+      // Store link - use with group parameter
+      sourceConfig = {
+        url: zarrUrl,
+        group: 'measurements/reflectance',
+        bands: ['b04', 'b03', 'b02']
+      }
+    }
+    
+    const source = new GeoZarr(sourceConfig)
 
-- STAC API connection issues
-- Missing Zarr assets in STAC items
-- WebGL compatibility checks
-- Search parameter validation
+    // Create WebGL tile layer with RGB styling
+    const dataLayer = new TileLayer({
+      source,
+      style: {
+        gamma: 1.5,
+        color: [
+          'color',
+          ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
+          ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255],
+          ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255],
+          [
+            'case',
+            ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
+            0,
+            1,
+          ],
+        ],
+      },
+    })
 
-## Next Steps
+    // Add layer to map
+    map.addLayer(dataLayer)
+    currentDataLayers.push(dataLayer)
+    
+  } catch (error) {
+    console.error('Failed to load scene:', error)
+  }
+}
+```
 
-1. **Customize Collections**: Modify the search to include different satellite collections
-2. **Advanced Filtering**: Add cloud cover percentage or other metadata filters
-3. **Batch Loading**: Implement loading multiple scenes simultaneously
-4. **Export Functionality**: Add options to export search results or images
-5. **Performance Optimization**: Implement caching and progressive loading
+```javascript [Map Initialization]
+function initializeMap() {
+  if (mapRef.value) {
+    try {
+      // Create base layers
+      const osmLayer = new TileLayer({
+        source: new OSM(),
+      })
 
-This example provides a foundation for building sophisticated Earth observation applications that combine STAC metadata discovery with interactive visualization capabilities.
+      // Vector layer for bounding box selection
+      const bboxSource = new VectorSource()
+      boundingBoxLayer = new VectorLayer({
+        source: bboxSource,
+        style: new Style({
+          stroke: new Stroke({
+            color: '#3399CC',
+            width: 2,
+            lineDash: [10, 10]
+          }),
+          fill: new Fill({
+            color: 'rgba(51, 153, 204, 0.1)'
+          })
+        })
+      })
+
+      // Vector layer for search result footprints
+      const footprintsSource = new VectorSource()
+      footprintsLayer = new VectorLayer({
+        source: footprintsSource,
+        style: new Style({
+          stroke: new Stroke({
+            color: '#ff6b35',
+            width: 2
+          }),
+          fill: new Fill({
+            color: 'rgba(255, 107, 53, 0.1)'
+          })
+        })
+      })
+
+      map = new Map({
+        layers: [osmLayer, boundingBoxLayer, footprintsLayer],
+        target: mapRef.value,
+        view: new View({
+          center: [260000, 6250000], // Paris in Web Mercator
+          zoom: 8
+        })
+      })
+
+      // Add draw interaction for bbox selection
+      drawInteraction = new Draw({
+        source: bboxSource,
+        type: 'Circle',
+        geometryFunction: createBox()
+      })
+
+      map.addInteraction(drawInteraction)
+
+      // Handle bbox selection
+      drawInteraction.on('drawend', function(event) {
+        // Keep only the latest bbox
+        const allFeatures = bboxSource.getFeatures()
+        if (allFeatures.length > 1) {
+          for (let i = 0; i < allFeatures.length - 1; i++) {
+            bboxSource.removeFeature(allFeatures[i])
+          }
+        }
+        
+        const extent = event.feature.getGeometry().getExtent()
+        const bbox = transformExtent(extent, 'EPSG:3857', 'EPSG:4326')
+        selectedBbox.value = bbox
+      })
+
+    } catch (error) {
+      console.error('Failed to initialize map:', error)
+    }
+  }
+}
+```
+
+```javascript [Vue Component Setup]
+import { ref, onMounted, nextTick } from 'vue'
+import Map from 'ol/Map.js'
+import View from 'ol/View.js'
+import TileLayer from 'ol/layer/WebGLTile.js'
+import VectorLayer from 'ol/layer/Vector.js'
+import GeoZarr from 'ol/source/GeoZarr.js'
+import VectorSource from 'ol/source/Vector.js'
+import OSM from 'ol/source/OSM.js'
+import { Draw } from 'ol/interaction.js'
+import { createBox } from 'ol/interaction/Draw.js'
+import { Feature } from 'ol'
+import { Polygon } from 'ol/geom.js'
+import { Style, Stroke, Fill } from 'ol/style.js'
+import { transformExtent } from 'ol/proj.js'
+
+// Reactive state
+const webglSupport = ref(null)
+const mapRef = ref()
+const startDate = ref('')
+const endDate = ref('')
+const isSearching = ref(false)
+const searchResults = ref([])
+const selectedBbox = ref(null)
+
+// Map objects
+let map = null
+let drawInteraction = null
+let boundingBoxLayer = null
+let footprintsLayer = null
+let currentDataLayers = []
+
+onMounted(async () => {
+  // Check WebGL support
+  const canvas = document.createElement('canvas')
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+  webglSupport.value = gl !== null
+
+  // Set default dates (last 30 days)
+  const today = new Date()
+  const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000))
+  
+  endDate.value = today.toISOString().split('T')[0]
+  startDate.value = thirtyDaysAgo.toISOString().split('T')[0]
+
+  if (webglSupport.value) {
+    nextTick(() => {
+      initializeMap()
+    })
+  }
+})
+```
+
+:::

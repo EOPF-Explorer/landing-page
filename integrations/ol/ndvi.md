@@ -463,18 +463,6 @@ const map = new Map({
 
 :::
 
-## NDVI Formula
-
-The Normalized Difference Vegetation Index is calculated as:
-
-```
-NDVI = (NIR - Red) / (NIR + Red)
-```
-
-Where:
-- **NIR** = Near-infrared reflectance (Band 8)
-- **Red** = Red reflectance (Band 4)
-
 ## Interpretation
 
 <div class="ndvi-legend">
