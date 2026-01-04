@@ -637,6 +637,24 @@ pre code {
   opacity: 1 !important;
 }
 
+/* Style the copy button */
+.vp-code-group .copy,
+.vp-doc div[class*="language-"] .copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--vp-code-copy-code-bg, #f6f8fa);
+  border: 1px solid var(--vp-code-copy-code-border-color, #e1e4e8);
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 2;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
 .demo-section {
   margin: 24px 0;
   border: 1px solid #e1e4e8;
@@ -663,6 +681,32 @@ pre code {
 
 .copy-button:hover {
   background: #0256cc;
+}
+
+/* Add clipboard icon */
+.vp-code-group .copy::before,
+.vp-doc div[class*="language-"] .copy::before {
+  content: "📋";
+  font-size: 16px;
+}
+
+/* Alternative CSS-only clipboard icon */
+.vp-code-group .copy::after,
+.vp-doc div[class*="language-"] .copy::after {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") no-repeat center;
+  mask-size: contain;
+  position: absolute;
+}
+
+/* Hide language labels under tabs */
+.vp-code-group span.lang,
+.vp-doc div[class*="language-"] span.lang {
+  display: none !important;
 }
 </style>
 
@@ -755,7 +799,7 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
 
 ::: code-group
 
-```html [HTML Template]
+```html [Template]
 <template>
   <div class="demo-container">
     <div class="controls-panel">
@@ -809,7 +853,7 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
 </template>
 ```
 
-```javascript [STAC Search Function]
+```javascript [Search]
 async function searchSTAC() {
   if (!selectedBbox.value || !startDate.value || !endDate.value) {
     alert('Please draw a bounding box and select dates')
@@ -858,7 +902,7 @@ async function searchSTAC() {
 }
 ```
 
-```javascript [Scene Loading Function]
+```javascript [Load Scene]
 async function loadScene(stacItem) {
   try {
     // Find reflectance asset or store link
@@ -929,7 +973,7 @@ async function loadScene(stacItem) {
 }
 ```
 
-```javascript [Map Initialization]
+```javascript [Map Setup]
 function initializeMap() {
   if (mapRef.value) {
     try {
@@ -1009,7 +1053,7 @@ function initializeMap() {
 }
 ```
 
-```javascript [Vue Component Setup]
+```javascript [Imports]
 import { ref, onMounted, nextTick } from 'vue'
 import Map from 'ol/Map.js'
 import View from 'ol/View.js'
