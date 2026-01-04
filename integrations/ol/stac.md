@@ -235,6 +235,15 @@ function displayFootprints(features) {
   if (features.length > 0) {
     const extent = footprintsSource.getExtent()
     map.getView().fit(extent, { padding: [50, 50, 50, 50] })
+    
+    // Auto-load all scenes after displaying footprints
+    console.log('Auto-loading all scenes...')
+    features.forEach((stacItem, index) => {
+      // Add slight delay between loading scenes to avoid overwhelming the system
+      setTimeout(() => {
+        loadScene(stacItem)
+      }, index * 500)
+    })
   }
 }
 
@@ -255,15 +264,13 @@ async function loadScene(stacItem) {
         console.log('Using store link:', zarrUrl)
       } else {
         console.error('No suitable Zarr data found in STAC item:', stacItem)
-        alert('No Zarr data available for this scene')
         return
       }
     }
 
     console.log('Loading Zarr data from:', zarrUrl)
 
-    // For reflectance assets, the URL already includes /measurements/reflectance
-    // For store links, we need to add the group path
+    // Simple configuration - use the Zarr URL directly
     let sourceConfig
     
     if (zarrAsset && zarrUrl.includes('/measurements/reflectance')) {
@@ -272,29 +279,26 @@ async function loadScene(stacItem) {
       sourceConfig = {
         url: baseUrl,
         group: 'measurements/reflectance',
-        // Add back bands to avoid style errors
-        bands: ['b04', 'b03', 'b02'], // RGB bands
+        bands: ['b04', 'b03', 'b02']
       }
-      console.log('Using base URL with group:', baseUrl, 'group: measurements/reflectance')
     } else {
       // Store link - use with group parameter
       sourceConfig = {
         url: zarrUrl,
         group: 'measurements/reflectance',
-        // Add back bands to avoid style errors
-        bands: ['b04', 'b03', 'b02'], // RGB bands
+        bands: ['b04', 'b03', 'b02']
       }
-      console.log('Using store URL with group:', zarrUrl, 'group: measurements/reflectance')
     }
     
-    console.log('Source config (without bands):', sourceConfig)
+    console.log('Creating GeoZarr source with config:', sourceConfig)
     
     const source = new GeoZarr(sourceConfig)
 
-    // Create tile layer exactly as in basic example
+    // Create tile layer with WebGL styling like the basic example
     const dataLayer = new TileLayer({
       source,
       style: {
+        gamma: 1.5,
         color: [
           'color',
           ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
@@ -310,84 +314,14 @@ async function loadScene(stacItem) {
       },
     })
 
-    // Add error handling for source loading
-    source.on('error', function(event) {
-      console.error('GeoZarr source error event:', event)
-      console.error('Source error details:', {
-        source: source,
-        state: source.getState(),
-        extent: source.getExtent(),
-        projection: source.getProjection()
-      })
-      alert('Failed to load satellite data. The Zarr data may not be available.')
-      map.removeLayer(dataLayer)
-      const index = currentDataLayers.indexOf(dataLayer)
-      if (index > -1) {
-        currentDataLayers.splice(index, 1)
-      }
-    })
-
-    // Add to map and track for cleanup
+    // Add the layer to map
     map.addLayer(dataLayer)
     currentDataLayers.push(dataLayer)
-
-    // Wait for source to be ready before updating view
-    source.on('change', function() {
-      const state = source.getState()
-      console.log('GeoZarr source state changed:', state)
-      if (state === 'ready') {
-        console.log('GeoZarr source is ready!')
-        console.log('Source details:', {
-          extent: source.getExtent(),
-          projection: source.getProjection(),
-          tileGrid: source.getTileGrid(),
-          state: source.getState()
-        })
-        
-        // Now update the view using getView like in basic example
-        try {
-          const newView = getView(
-            source,
-            withLowerResolutions(1),
-            withHigherResolutions(2),
-            withExtentCenter(),
-            withZoom(2)
-          )
-          map.setView(newView)
-          console.log('View updated to fit source extent')
-        } catch (error) {
-          console.error('Failed to update view with getView:', error)
-          // Fallback to manual extent fitting
-          const sourceExtent = source.getExtent()
-          if (sourceExtent && !sourceExtent.includes(Infinity) && !sourceExtent.includes(-Infinity)) {
-            console.log('Fitting view to source extent manually:', sourceExtent)
-            map.getView().fit(sourceExtent, { padding: [50, 50, 50, 50], maxZoom: 12 })
-          }
-        }
-      } else if (state === 'error') {
-        console.error('GeoZarr source entered error state!')
-        console.error('Source configuration was:', sourceConfig)
-        console.error('Current source details:', {
-          state: source.getState(),
-          hasGetExtent: typeof source.getExtent === 'function',
-          hasGetProjection: typeof source.getProjection === 'function'
-        })
-        try {
-          if (typeof source.getExtent === 'function') {
-            console.error('Source extent:', source.getExtent())
-          }
-          if (typeof source.getProjection === 'function') {
-            console.error('Source projection:', source.getProjection())
-          }
-        } catch (e) {
-          console.error('Error getting source details in error state:', e)
-        }
-      }
-    })
+    
+    console.log('Added layer to map for scene:', stacItem.id)
 
   } catch (error) {
     console.error('Failed to load scene:', error)
-    alert('Failed to load scene: ' + error.message)
   }
 }
 
@@ -583,6 +517,15 @@ function formatDate(dateString) {
   font-size: 12px;
 }
 
+.loading-info {
+  margin-top: 12px;
+  padding: 10px;
+  background: #f0f8ff;
+  border: 1px solid #b3d7ff;
+  border-radius: 4px;
+  color: #0066cc;
+}
+
 .instructions {
   background: #e7f3ff;
   border: 1px solid #b3d7ff;
@@ -693,29 +636,9 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
 
   <div v-if="searchResults.length > 0" class="results-panel">
     <h3>Search Results ({{ searchResults.length }} scenes found)</h3>
-    <div class="results-grid">
-      <div 
-        v-for="result in searchResults" 
-        :key="result.id"
-        class="result-card"
-      >
-        <div class="result-title">{{ result.id }}</div>
-        <div class="result-meta">
-          <div><strong>Date:</strong> {{ formatDate(result.properties.datetime) }}</div>
-          <div><strong>Collection:</strong> {{ result.collection }}</div>
-          <div v-if="result.properties['eo:cloud_cover']">
-            <strong>Cloud Cover:</strong> {{ Math.round(result.properties['eo:cloud_cover']) }}%
-          </div>
-        </div>
-        <div class="result-actions">
-          <button 
-            @click="loadScene(result)"
-            class="btn btn-primary btn-small"
-          >
-            Load Scene
-          </button>
-        </div>
-      </div>
+    <p>Loading satellite imagery automatically...</p>
+    <div class="loading-info">
+      <em>Scene footprints are displayed in orange. Satellite imagery will load progressively.</em>
     </div>
   </div>
 
