@@ -516,5 +516,5 @@ Where:
 <div class="navigation">
   <a href="/integrations/ol/basic" class="nav-button">← Previous: Basic Map Setup and band combination</a>
   <span><strong>2 of 3</strong> - NDVI Calculation</span>
-  <a href="/integrations/ol/contrast" class="nav-button">Next: Contrast →</a>
+  <a href="/integrations/ol/stac" class="nav-button">Next: STAC Integration →</a>
 </div>

@@ -241,16 +241,16 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
   </div>
 
   <div class="example-card">
-    <div class="example-title">3. Interactive Contrast</div>
+    <div class="example-title">3. STAC Catalog Integration</div>
     <div class="example-description">
-      Dynamically adjust image contrast and brightness using interactive controls and style variables.
+      Search and visualize Sentinel data from EOPF's STAC catalog using spatial-temporal filters.
     </div>
     <ul class="example-features">
-      <li>Dynamic contrast stretching</li>
-      <li>Interactive sliders</li>
-      <li>Real-time updates</li>
-      <li>Image enhancement</li>
+      <li>STAC API integration</li>
+      <li>Spatial-temporal search</li>
+      <li>Scene footprints display</li>
+      <li>Interactive data discovery</li>
     </ul>
-    <a href="/integrations/ol/contrast" class="example-link">View Example →</a>
+    <a href="/integrations/ol/stac" class="example-link">View Example →</a>
   </div>
 </div>
