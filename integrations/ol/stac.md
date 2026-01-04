@@ -348,7 +348,11 @@ function clearAll() {
 }
 
 function formatDate(dateString) {
-  return new Date(dateString).toLocaleDateString()
+  return new Date(dateString).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit', 
+    year: 'numeric'
+  })
 }
 </script>
 
@@ -399,9 +403,29 @@ function formatDate(dateString) {
   margin-bottom: 20px;
 }
 
+.compact-controls {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
 .control-group {
   display: flex;
   flex-direction: column;
+}
+
+.control-group.compact {
+  flex: 0 0 auto;
+  min-width: 180px;
+}
+
+.button-group.compact {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 18px; /* Align with input fields */
 }
 
 .control-group label {
@@ -410,11 +434,42 @@ function formatDate(dateString) {
   color: #24292e;
 }
 
+.date-input-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
 .control-group input {
-  padding: 8px;
+  padding: 8px 35px 8px 12px;
   border: 1px solid #d1d5da;
   border-radius: 4px;
   font-size: 14px;
+  background: white;
+  color: #24292e;
+  min-width: 150px;
+  width: 100%;
+}
+
+.control-group input:focus {
+  outline: none;
+  border-color: #0366d6;
+  box-shadow: 0 0 0 2px rgba(3, 102, 214, 0.1);
+}
+
+.control-group input[type="date"] {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.date-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  color: #6c757d;
 }
 
 .button-group {
@@ -517,6 +572,13 @@ function formatDate(dateString) {
   font-size: 12px;
 }
 
+.date-display {
+  font-size: 12px;
+  color: #586069;
+  margin-top: 4px;
+  font-style: italic;
+}
+
 .loading-info {
   margin-top: 12px;
   padding: 10px;
@@ -579,53 +641,53 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
 - **Interactive Results**: Browse and load up to 10 matching scenes
 
 <div class="demo-container">
-  <div class="instructions">
-    <h3>How to Use:</h3>
-    <ol class="steps-list">
-      <li><strong>Draw Search Area:</strong> Click and drag on the map to draw a bounding box</li>
-      <li><strong>Set Date Range:</strong> Select start and end dates for your search</li>
-      <li><strong>Search:</strong> Click "Search STAC" to query the catalog</li>
-      <li><strong>View Results:</strong> Scene footprints will appear on the map</li>
-      <li><strong>Load Images:</strong> Click "Load Scene" to display RGB imagery</li>
-    </ol>
-  </div>
 
   <div class="controls-panel">
-    <div class="controls-grid">
-      <div class="control-group">
+    <div class="compact-controls">
+      <div class="control-group compact">
         <label for="start-date">Start Date:</label>
-        <input 
-          id="start-date" 
-          type="date" 
-          v-model="startDate"
-          :max="endDate"
-        />
+        <div class="date-input-container">
+          <input 
+            id="start-date" 
+            type="date" 
+            v-model="startDate"
+            :max="endDate"
+            title="Select start date for search"
+          />
+          <span class="date-icon">📅</span>
+        </div>
+        <div class="date-display">{{ startDate ? formatDate(startDate + 'T00:00:00Z') : 'Not selected' }}</div>
       </div>
-      <div class="control-group">
+      <div class="control-group compact">
         <label for="end-date">End Date:</label>
-        <input 
-          id="end-date" 
-          type="date" 
-          v-model="endDate"
-          :min="startDate"
-          :max="new Date().toISOString().split('T')[0]"
-        />
+        <div class="date-input-container">
+          <input 
+            id="end-date" 
+            type="date" 
+            v-model="endDate"
+            :min="startDate"
+            :max="new Date().toISOString().split('T')[0]"
+            title="Select end date for search"
+          />
+          <span class="date-icon">📅</span>
+        </div>
+        <div class="date-display">{{ endDate ? formatDate(endDate + 'T00:00:00Z') : 'Not selected' }}</div>
       </div>
-    </div>
-    <div class="button-group">
-      <button 
-        @click="searchSTAC" 
-        :disabled="isSearching || !selectedBbox"
-        class="btn btn-primary"
-      >
-        {{ isSearching ? 'Searching...' : 'Search STAC' }}
-      </button>
-      <button 
-        @click="clearAll"
-        class="btn btn-secondary"
-      >
-        Clear All
-      </button>
+      <div class="button-group compact">
+        <button 
+          @click="searchSTAC" 
+          :disabled="isSearching || !selectedBbox"
+          class="btn btn-primary"
+        >
+          {{ isSearching ? 'Searching...' : 'Search STAC' }}
+        </button>
+        <button 
+          @click="clearAll"
+          class="btn btn-secondary"
+        >
+          Clear All
+        </button>
+      </div>
     </div>
     <div v-if="!selectedBbox" class="warning">
       <strong>Draw a bounding box:</strong> Click and drag on the map to define your search area.
