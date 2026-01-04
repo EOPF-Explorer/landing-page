@@ -16,7 +16,7 @@ const webglSupport = ref(null)
 const mapRef = ref()
 let map = null
 
-// Updated EOPF Zarr URL
+// EOPF Zarr URL (root store only, no group path)
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20251218T110359_N0511_R094_T30SUF_20251218T115223.zarr'
 
 onMounted(async () => {
@@ -299,7 +299,7 @@ import TileLayer from 'ol/layer/WebGLTile.js';
 import GeoZarr from 'ol/source/GeoZarr.js';
 import OSM from 'ol/source/OSM.js';
 
-// EOPF Zarr URL from STAC Browser
+// EOPF Zarr URL from STAC Browser (root store only, no group path)
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20251218T110359_N0511_R094_T30SUF_20251218T115223.zarr';
 
 // Create GeoZarr source

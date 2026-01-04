@@ -6,7 +6,7 @@ layout: page
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 import Map from 'ol/Map.js'
-import View from 'ol/View.js'
+import View, { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js'
 import TileLayer from 'ol/layer/WebGLTile.js'
 import VectorLayer from 'ol/layer/Vector.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
@@ -116,13 +116,17 @@ function initializeMap() {
 
       // Handle draw end event
       drawInteraction.on('drawend', function(event) {
-        // Clear previous bbox (but keep the new one)
-        const newFeature = event.feature
-        bboxSource.clear()
-        bboxSource.addFeature(newFeature)
+        // Clear previous bbox - the new feature is automatically added by the interaction
+        const allFeatures = bboxSource.getFeatures()
+        if (allFeatures.length > 1) {
+          // Remove all but the last feature (the newly drawn one)
+          for (let i = 0; i < allFeatures.length - 1; i++) {
+            bboxSource.removeFeature(allFeatures[i])
+          }
+        }
         
         // Get the drawn extent
-        const extent = newFeature.getGeometry().getExtent()
+        const extent = event.feature.getGeometry().getExtent()
         const bbox = transformExtent(extent, 'EPSG:3857', 'EPSG:4326')
         selectedBbox.value = bbox
         
@@ -236,30 +240,61 @@ function displayFootprints(features) {
 
 async function loadScene(stacItem) {
   try {
-    // Find reflectance asset in STAC item - this contains the Zarr store with all bands
-    const reflectanceAsset = stacItem.assets?.reflectance
+    // Find reflectance asset or fallback to other Zarr assets
+    let zarrAsset = stacItem.assets?.reflectance
+    let zarrUrl
     
-    if (!reflectanceAsset) {
-      console.error('No reflectance asset found in STAC item:', stacItem)
-      alert('No reflectance data available for this scene')
-      return
+    if (zarrAsset) {
+      zarrUrl = zarrAsset.href
+      console.log('Using reflectance asset:', zarrUrl)
+    } else {
+      // Fallback: look for other Zarr assets or use the store link
+      const storeLink = stacItem.links?.find(link => link.rel === 'store')
+      if (storeLink) {
+        zarrUrl = storeLink.href
+        console.log('Using store link:', zarrUrl)
+      } else {
+        console.error('No suitable Zarr data found in STAC item:', stacItem)
+        alert('No Zarr data available for this scene')
+        return
+      }
     }
-
-    const zarrUrl = reflectanceAsset.href
 
     console.log('Loading Zarr data from:', zarrUrl)
 
-    // Create GeoZarr source - no need to specify group since the reflectance asset points directly to the reflectance group
-    const source = new GeoZarr({
-      url: zarrUrl,
-      bands: ['b04', 'b03', 'b02'], // RGB bands
-    })
+    // For reflectance assets, the URL already includes /measurements/reflectance
+    // For store links, we need to add the group path
+    let sourceConfig
+    
+    if (zarrAsset && zarrUrl.includes('/measurements/reflectance')) {
+      // Direct reflectance asset - remove the group path and use group parameter
+      const baseUrl = zarrUrl.replace('/measurements/reflectance', '')
+      sourceConfig = {
+        url: baseUrl,
+        group: 'measurements/reflectance',
+        // Add back bands to avoid style errors
+        bands: ['b04', 'b03', 'b02'], // RGB bands
+      }
+      console.log('Using base URL with group:', baseUrl, 'group: measurements/reflectance')
+    } else {
+      // Store link - use with group parameter
+      sourceConfig = {
+        url: zarrUrl,
+        group: 'measurements/reflectance',
+        // Add back bands to avoid style errors
+        bands: ['b04', 'b03', 'b02'], // RGB bands
+      }
+      console.log('Using store URL with group:', zarrUrl, 'group: measurements/reflectance')
+    }
+    
+    console.log('Source config (without bands):', sourceConfig)
+    
+    const source = new GeoZarr(sourceConfig)
 
-    // Create tile layer
+    // Create tile layer exactly as in basic example
     const dataLayer = new TileLayer({
       source,
       style: {
-        gamma: 1.5,
         color: [
           'color',
           ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
@@ -273,12 +308,82 @@ async function loadScene(stacItem) {
           ],
         ],
       },
-      opacity: 0.8
+    })
+
+    // Add error handling for source loading
+    source.on('error', function(event) {
+      console.error('GeoZarr source error event:', event)
+      console.error('Source error details:', {
+        source: source,
+        state: source.getState(),
+        extent: source.getExtent(),
+        projection: source.getProjection()
+      })
+      alert('Failed to load satellite data. The Zarr data may not be available.')
+      map.removeLayer(dataLayer)
+      const index = currentDataLayers.indexOf(dataLayer)
+      if (index > -1) {
+        currentDataLayers.splice(index, 1)
+      }
     })
 
     // Add to map and track for cleanup
     map.addLayer(dataLayer)
     currentDataLayers.push(dataLayer)
+
+    // Wait for source to be ready before updating view
+    source.on('change', function() {
+      const state = source.getState()
+      console.log('GeoZarr source state changed:', state)
+      if (state === 'ready') {
+        console.log('GeoZarr source is ready!')
+        console.log('Source details:', {
+          extent: source.getExtent(),
+          projection: source.getProjection(),
+          tileGrid: source.getTileGrid(),
+          state: source.getState()
+        })
+        
+        // Now update the view using getView like in basic example
+        try {
+          const newView = getView(
+            source,
+            withLowerResolutions(1),
+            withHigherResolutions(2),
+            withExtentCenter(),
+            withZoom(2)
+          )
+          map.setView(newView)
+          console.log('View updated to fit source extent')
+        } catch (error) {
+          console.error('Failed to update view with getView:', error)
+          // Fallback to manual extent fitting
+          const sourceExtent = source.getExtent()
+          if (sourceExtent && !sourceExtent.includes(Infinity) && !sourceExtent.includes(-Infinity)) {
+            console.log('Fitting view to source extent manually:', sourceExtent)
+            map.getView().fit(sourceExtent, { padding: [50, 50, 50, 50], maxZoom: 12 })
+          }
+        }
+      } else if (state === 'error') {
+        console.error('GeoZarr source entered error state!')
+        console.error('Source configuration was:', sourceConfig)
+        console.error('Current source details:', {
+          state: source.getState(),
+          hasGetExtent: typeof source.getExtent === 'function',
+          hasGetProjection: typeof source.getProjection === 'function'
+        })
+        try {
+          if (typeof source.getExtent === 'function') {
+            console.error('Source extent:', source.getExtent())
+          }
+          if (typeof source.getProjection === 'function') {
+            console.error('Source projection:', source.getProjection())
+          }
+        } catch (e) {
+          console.error('Error getting source details in error state:', e)
+        }
+      }
+    })
 
   } catch (error) {
     console.error('Failed to load scene:', error)
@@ -626,14 +731,17 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
 The search uses direct HTTP requests to query the EOPF STAC catalog:
 
 ```javascript
-const stacUrl = new URL('https://api.explorer.eopf.copernicus.eu/stac/search')
-stacUrl.searchParams.set('bbox', `${minLon},${minLat},${maxLon},${maxLat}`)
-stacUrl.searchParams.set('datetime', `${startDate}T00:00:00Z/${endDate}T23:59:59Z`)
-stacUrl.searchParams.set('collections', 'sentinel-2-l2a')
-stacUrl.searchParams.set('limit', '10')
+const stacUrl = new URL("https://api.explorer.eopf.copernicus.eu/stac/search");
+stacUrl.searchParams.set("bbox", `${minLon},${minLat},${maxLon},${maxLat}`);
+stacUrl.searchParams.set(
+  "datetime",
+  `${startDate}T00:00:00Z/${endDate}T23:59:59Z`
+);
+stacUrl.searchParams.set("collections", "sentinel-2-l2a");
+stacUrl.searchParams.set("limit", "10");
 
-const response = await fetch(stacUrl)
-const searchResponse = await response.json()
+const response = await fetch(stacUrl);
+const searchResponse = await response.json();
 ```
 
 ### Loading Zarr Data
@@ -641,13 +749,13 @@ const searchResponse = await response.json()
 When a scene is selected, the code extracts the reflectance asset URL and creates a GeoZarr source:
 
 ```javascript
-const reflectanceAsset = stacItem.assets?.reflectance
-const zarrUrl = reflectanceAsset.href
+const reflectanceAsset = stacItem.assets?.reflectance;
+const zarrUrl = reflectanceAsset.href;
 
 const source = new GeoZarr({
   url: zarrUrl,
-  bands: ['b04', 'b03', 'b02'], // RGB bands
-})
+  bands: ["b04", "b03", "b02"], // RGB bands
+});
 ```
 
 ### Key Libraries Used
@@ -662,27 +770,32 @@ const source = new GeoZarr({
 
 ```vue
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
-import Map from 'ol/Map.js'
-import TileLayer from 'ol/layer/WebGLTile.js'
-import VectorLayer from 'ol/layer/Vector.js'
-import GeoZarr from 'ol/source/GeoZarr.js'
-import VectorSource from 'ol/source/Vector.js'
-import OSM from 'ol/source/OSM.js'
-import { Draw } from 'ol/interaction.js'
+import { ref, onMounted, nextTick } from "vue";
+import Map from "ol/Map.js";
+import TileLayer from "ol/layer/WebGLTile.js";
+import VectorLayer from "ol/layer/Vector.js";
+import GeoZarr from "ol/source/GeoZarr.js";
+import VectorSource from "ol/source/Vector.js";
+import OSM from "ol/source/OSM.js";
+import { Draw } from "ol/interaction.js";
 
 // Search STAC catalog
 async function searchSTAC() {
-  const [minLon, minLat, maxLon, maxLat] = selectedBbox.value
-  
-  const stacUrl = new URL('https://api.explorer.eopf.copernicus.eu/stac/search')
-  stacUrl.searchParams.set('bbox', `${minLon},${minLat},${maxLon},${maxLat}`)
-  stacUrl.searchParams.set('datetime', `${startDate.value}T00:00:00Z/${endDate.value}T23:59:59Z`)
-  stacUrl.searchParams.set('collections', 'sentinel-2-l2a')
-  stacUrl.searchParams.set('limit', '10')
-  
-  const response = await fetch(stacUrl)
-  const searchResponse = await response.json()
+  const [minLon, minLat, maxLon, maxLat] = selectedBbox.value;
+
+  const stacUrl = new URL(
+    "https://api.explorer.eopf.copernicus.eu/stac/search"
+  );
+  stacUrl.searchParams.set("bbox", `${minLon},${minLat},${maxLon},${maxLat}`);
+  stacUrl.searchParams.set(
+    "datetime",
+    `${startDate.value}T00:00:00Z/${endDate.value}T23:59:59Z`
+  );
+  stacUrl.searchParams.set("collections", "sentinel-2-l2a");
+  stacUrl.searchParams.set("limit", "10");
+
+  const response = await fetch(stacUrl);
+  const searchResponse = await response.json();
   // Process results...
 }
 </script>
