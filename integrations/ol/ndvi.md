@@ -95,7 +95,7 @@ function initializeMap() {
       const source = new GeoZarr({
         url: zarrUrl,
         group: 'measurements/reflectance',
-        bands: ['b05', 'b04'], // NIR, Red
+        bands: ['b04', 'b8a'], // Red, NIR
       })
       ndviLayer = new TileLayer({
         source: source,
@@ -347,7 +347,7 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
   <div class="code-section">
     <p>This example demonstrates NDVI calculation with:</p>
     <ul>
-      <li><strong>NIR Band</strong> - Near-infrared (B08, 842nm)</li>
+      <li><strong>NIR Band</strong> - Near-infrared (b8a, 842nm)</li>
       <li><strong>Red Band</strong> - Red light (B04, 665nm)</li>
       <li><strong>Real-time Calculation</strong> - NDVI = (NIR - Red) / (NIR + Red)</li>
       <li><strong>Linear Color Scale</strong> - Yellow to green for NDVI range -0.6 to 0.8</li>
@@ -430,7 +430,7 @@ const ndvi = [
 const source = new GeoZarr({
   url: 'https://sentinel2-data.s3.amazonaws.com/tiles/32/S/KJ/2023/8/7/0/zarr',
   group: 'measurements/reflectance',
-  bands: ['b04', 'b05'], // Red, NIR
+  bands: ['b04', 'b8a'], // Red, NIR
 });
 
 const layer = new TileLayer({
@@ -451,20 +451,12 @@ const map = new Map({
 });
 ```
 
-```json [Configuration]
+```json [package.json]
 {
-  "bands": {
-    "nir": "b05",
-    "red": "b04"
-  },
-  "formula": "(NIR - Red) / (NIR + Red)",
-  "colorScale": {
-    "type": "linear",
-    "range": [-0.6, 0.8],
-    "colors": {
-      "low": [255, 255, 0, 255],
-      "high": [0, 255, 0, 255]
-    }
+  "dependencies": {
+    "ol": "dev",
+    "zarrita": "^0.5.4",
+    "chroma-js": "^3.2.0"
   }
 }
 ```
@@ -494,6 +486,7 @@ Where:
 </div>
 
 ### NDVI Ranges
+
 - **0.8 to 1.0** - Dense healthy vegetation
 - **0.5 to 0.8** - Moderate vegetation
 - **0.2 to 0.5** - Sparse vegetation
@@ -503,26 +496,22 @@ Where:
 ## Applications
 
 ### Agriculture
+
 - **Crop health monitoring** - Identify stressed areas
 - **Yield prediction** - Correlate NDVI with crop productivity
 - **Irrigation planning** - Target water application
 
 ### Environmental Monitoring
+
 - **Deforestation detection** - Monitor forest cover changes
 - **Drought assessment** - Track vegetation stress
 - **Phenology studies** - Seasonal vegetation cycles
 
 ### Urban Planning
+
 - **Green space assessment** - Quantify urban vegetation
 - **Heat island mapping** - Identify cooling vegetation
 - **Development impact** - Monitor vegetation loss
-
-## Performance Benefits
-
-Using OpenLayers WebGL expressions for NDVI calculation provides:
-- **Real-time processing** - No server-side computation needed
-- **Interactive exploration** - Pan and zoom without delays
-- **Scalable visualization** - Hardware-accelerated rendering
 
 <div class="navigation">
   <a href="/integrations/ol/basic" class="nav-button">← Previous: Basic Map Setup and band combination</a>

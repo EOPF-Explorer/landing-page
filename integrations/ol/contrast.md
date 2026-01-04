@@ -316,10 +316,6 @@ This example demonstrates dynamic contrast adjustment using OpenLayers style var
 ⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for interactive contrast adjustment.
 </div>
 
-<div v-if="webglSupport === true" class="success">
-✅ **WebGL Supported**: Your browser can perform real-time contrast adjustments.
-</div>
-
 ## Live Demo
 
 <div v-if="webglSupport" class="demo-section">

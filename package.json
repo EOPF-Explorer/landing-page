@@ -20,7 +20,7 @@
     "@eox/map": "^1.26.3",
     "@eox/storytelling": "^1.9.8",
     "chroma-js": "^3.2.0",
-    "ol": "dev",
+    "ol": "^10.7.1-dev.1767511985622",
     "stac-js": "^0.1.2",
     "zarrita": "^0.5.4"
   },
