@@ -673,8 +673,6 @@ document.getElementById("draw-button").onclick = () => {
 
 ### Next Steps
 
-- **RGB Visualization**: Learn about [band combinations and color enhancement](/integrations/titiler/rgb)
-- **NDVI Calculations**: Explore [vegetation indices and expressions](/integrations/titiler/ndvi)
 - **API Documentation**: Check the [complete API reference](https://api.explorer.eopf.copernicus.eu/raster/api.html) for advanced cropping options
 
 <div class="warning">

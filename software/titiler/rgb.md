@@ -413,8 +413,8 @@ const trueColorUrl = buildTileUrl(
 
 ### Next Steps
 
-- **NDVI Calculations**: Learn [server-side vegetation index calculations](/integrations/titiler/ndvi)
-- **Spatial Operations**: Explore [cropping and spatial filtering](/integrations/titiler/crop)
+- **NDVI Calculations**: Learn [server-side vegetation index calculations](./ndvi)
+- **Spatial Operations**: Explore [cropping and spatial filtering](./crop)
 - **STAC Integration**: Browse available datasets in the [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
 
 <div class="warning">
