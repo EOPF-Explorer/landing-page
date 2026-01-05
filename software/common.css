@@ -475,8 +475,7 @@ pre code {
 }
 
 /* VitePress copy button styling */
-.vp-code-group .copy,
-.vp-doc div[class*="language-"] .copy {
+.copy {
   display: flex !important;
   align-items: center;
   justify-content: center;
@@ -494,22 +493,23 @@ pre code {
   transition: background-color 0.2s ease;
 }
 
-.vp-code-group .copy:hover,
-.vp-doc div[class*="language-"] .copy:hover {
+.copy:hover {
   background-color: var(--vp-code-copy-code-hover-bg, #e1e4e8);
 }
 
 /* Copy button icons */
-.vp-code-group .copy::before,
-.vp-doc div[class*="language-"] .copy::before {
+.copy::before {
   content: "📋";
   font-size: 16px;
   line-height: 1;
 }
 
+.copy.copied::before {
+  content: "✅"; 
+}
+
 /* Hide language labels in code blocks */
-.vp-code-group span.lang,
-.vp-doc div[class*="language-"] span.lang {
+span.lang {
   display: none !important;
 }
 
