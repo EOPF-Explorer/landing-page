@@ -155,7 +155,7 @@ function initializeMap() {
 }
 </script>
 
-# OpenLayers - NDVI Calculation <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
+## OpenLayers - NDVI Calculation <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
 
 This example demonstrates real-time calculation of the Normalized Difference Vegetation Index (NDVI) directly in the browser using WebGL expressions.
 
@@ -163,7 +163,7 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
 ⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for GeoZarr visualization and NDVI calculation.
 </div>
 
-## Live Demo
+### Live Demo
 
 <div v-if="webglSupport" class="demo-section">
   <div ref="mapRef" class="map-container"></div>
@@ -287,17 +287,16 @@ const map = new Map({
 
 :::
 
-## Interpretation
+### Interpretation
 
 <div class="ndvi-legend">
-  <h3>NDVI Value Legend</h3>
   <div class="legend-item">
     <div class="legend-color" style="background: linear-gradient(to right, yellow, lime);"></div>
     <span><strong>Yellow to Green</strong> - Linear scale from NDVI -0.6 (yellow) to 0.8 (green)</span>
   </div>
 </div>
 
-### NDVI Ranges
+**NDVI Ranges**
 
 - **0.8 to 1.0** - Dense healthy vegetation
 - **0.5 to 0.8** - Moderate vegetation
@@ -305,25 +304,22 @@ const map = new Map({
 - **0.0 to 0.2** - Rock, sand, or snow
 - **-1.0 to 0.0** - Water, clouds, or snow
 
-## Applications
+### Applications
 
-### Agriculture
+- **Agriculture**
+  - **Crop health monitoring** - Identify stressed areas
+  - **Yield prediction** - Correlate NDVI with crop productivity
+  - **Irrigation planning** - Target water application
 
-- **Crop health monitoring** - Identify stressed areas
-- **Yield prediction** - Correlate NDVI with crop productivity
-- **Irrigation planning** - Target water application
+- **Environmental Monitoring**
+  - **Deforestation detection** - Monitor forest cover changes
+  - **Drought assessment** - Track vegetation stress
+  - **Phenology studies** - Seasonal vegetation cycles
 
-### Environmental Monitoring
-
-- **Deforestation detection** - Monitor forest cover changes
-- **Drought assessment** - Track vegetation stress
-- **Phenology studies** - Seasonal vegetation cycles
-
-### Urban Planning
-
-- **Green space assessment** - Quantify urban vegetation
-- **Heat island mapping** - Identify cooling vegetation
-- **Development impact** - Monitor vegetation loss
+- **Urban Planning**
+  - **Green space assessment** - Quantify urban vegetation
+  - **Heat island mapping** - Identify cooling vegetation
+  - **Development impact** - Monitor vegetation loss
 
 <div class="navigation">
   <a href="/integrations/ol/basic" class="nav-button">← Previous: Basic Map Setup and band combination</a>

@@ -501,7 +501,7 @@ function formatDate(dateString) {
 }
 </style>
 
-# OpenLayers - STAC Catalog <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
+## OpenLayers - STAC Catalog <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
 
 This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTemporal Asset Catalog) API to search and visualize Sentinel-2 data using spatial-temporal filters.
 
@@ -578,7 +578,7 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
   </div>
 </div>
 
-## Features
+### Features
 
 - **Spatial Search**: Draw bounding box on the map to define search area
 - **Temporal Filtering**: Select date range for time-based search
@@ -586,7 +586,7 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
 - **Scene Visualization**: Display footprints and load RGB imagery
 - **Interactive Results**: Browse and load up to 10 matching scenes
 
-## Code Implementation
+### Code Implementation
 
 ::: code-group
 

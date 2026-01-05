@@ -109,7 +109,7 @@ function initializeMap() {
 
 </script>
 
-# OpenLayers - Basic Map Setup <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
+## OpenLayers - Basic Map Setup <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
 
 This example shows the minimal configuration needed to load and display EOPF Zarr data with OpenLayers.
 
@@ -117,7 +117,7 @@ This example shows the minimal configuration needed to load and display EOPF Zar
 ⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
 </div>
 
-## Live Demo
+### Live Demo
 
 <div v-if="webglSupport" class="demo-section">
   <div ref="mapRef" class="map-container"></div>
@@ -134,7 +134,7 @@ This example shows the minimal configuration needed to load and display EOPF Zar
   </div>
 </div>
 
-## Code Implementation
+### Code Implementation
 
 ::: code-group
 
@@ -235,14 +235,14 @@ const map = new Map({
 
 :::
 
-## Key Features
+### Key Features
 
 - **Automatic Extent Fitting**: The map automatically centers on the data
 - **WebGL Rendering**: Hardware-accelerated rendering for smooth performance
 - **Multiscales Support**: Leverages [Multiscales Zarr conventions](https://github.com/zarr-conventions/multiscales) for pyramid levels access
 - **Transparency**: Zero values are rendered as transparent
 
-## Configuration Details
+### Configuration Details
 
 **Band Mapping**
 
@@ -261,7 +261,7 @@ const map = new Map({
 - `withLowerResolutions(1)` and `withHigherResolutions(2)` enable zoom levels beyond the native resolution
 - `withZoom(2)` sets a reasonable initial zoom level
 
-## Next Steps
+### Next Steps
 
 Continue to the [NDVI example](/integrations/ol/ndvi) to see infrared band combinations for vegetation analysis.
 

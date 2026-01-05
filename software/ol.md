@@ -71,19 +71,19 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 
 <div class="installation-grid">
   <div class="installation-method">
-    <h4>NPM (Recommended)</h4>
+    <strong>NPM (Recommended)</strong>
     <pre><code>npm install ol@dev stac-js@^0.1.2</code></pre>
     <p>Used in our examples for best performance and build optimization.</p>
   </div>
 
   <div class="installation-method">
-    <h4>CDN (Quick Testing)</h4>
+    <strong>CDN (Quick Testing)</strong>
     <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/ol@dev/dist/ol.js"&gt;&lt;/script&gt;</code></pre>
     <p>Perfect for quick prototypes and testing.</p>
   </div>
 </div>
 
-### Version Notes
+**Version Notes**
 
 ⚠️ **Development Version**: OpenLayers tag **dev** (10.7.1-dev) contains experimental unreleased GeoZarr support that may change. For production use, wait for the stable 10.8.0 release.
 

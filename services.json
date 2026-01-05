@@ -51,7 +51,7 @@
     "tags": ["screening", "web-mapping", "visualization", "geozarr", "conventions", "stac"],
     "category": "Screening",
     "type": "software",
-    "link": "/integrations/ol",
+    "link": "./software/ol",
     "featured": true
   },
   {
