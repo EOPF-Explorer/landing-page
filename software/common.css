@@ -504,8 +504,11 @@ pre code {
   line-height: 1;
 }
 
-.copy.copied::before {
-  content: "✅"; 
+.copied::before {
+  content: "✓";
+  font-size: 16px;
+  color: green;
+  position: absolute;
 }
 
 /* Hide language labels in code blocks */
