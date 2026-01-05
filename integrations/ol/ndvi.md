@@ -3,18 +3,10 @@ title: OpenLayers - NDVI Calculation
 layout: page
 ---
 
-<script>
-// Load common utilities
-const script = document.createElement('script')
-script.src = '../common.js'
-document.head.appendChild(script)
-
-// Load common CSS
-const link = document.createElement('link')
-link.rel = 'stylesheet'
-link.href = '../common.css'
-document.head.appendChild(link)
-</script>
+<style>
+/* Import common CSS first to avoid FOUC */
+@import '../common.css';
+</style>
 
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
@@ -88,6 +80,13 @@ function updateColors() {
 }
 
 onMounted(async () => {
+  // Load common utilities on client-side only
+  if (typeof window !== 'undefined') {
+    const script = document.createElement('script')
+    script.src = '../common.js'
+    document.head.appendChild(script)
+  }
+  
   // Wait for common utilities to load
   await waitForCommonUtilities()
   

@@ -3,13 +3,6 @@ title: OpenLayers - Basic Setup
 layout: page
 ---
 
-<script>
-// Load common utilities
-const script = document.createElement('script')
-script.src = '../common.js'
-document.head.appendChild(script)
-</script>
-
 <style>
 /* Import common CSS first to avoid FOUC */
 @import '../common.css';
@@ -32,6 +25,13 @@ let map = null
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20251218T110359_N0511_R094_T30SUF_20251218T115223.zarr'
 
 onMounted(async () => {
+  // Load common utilities on client-side only
+  if (typeof window !== 'undefined') {
+    const script = document.createElement('script')
+    script.src = '../common.js'
+    document.head.appendChild(script)
+  }
+  
   // Wait for common utilities to load
   await waitForCommonUtilities()
   

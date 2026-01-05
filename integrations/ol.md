@@ -3,13 +3,6 @@ title: OpenLayers Integration
 layout: page
 ---
 
-<script>
-// Load common utilities
-const script = document.createElement('script')
-script.src = './common.js'
-document.head.appendChild(script)
-</script>
-
 <style>
 /* Import common CSS first to avoid FOUC */
 @import './common.css';
@@ -20,10 +13,34 @@ import { ref, onMounted } from 'vue'
 
 const webglSupport = ref(null)
 
-onMounted(() => {
+onMounted(async () => {
+  // Load common utilities on client-side only
+  if (typeof window !== 'undefined') {
+    const script = document.createElement('script')
+    script.src = './common.js'
+    document.head.appendChild(script)
+  }
+  
+  // Wait for common utilities to load
+  await waitForCommonUtilities()
+  
   // Check WebGL support using common utility
   webglSupport.value = window.checkWebGLSupport()
 })
+
+// Helper function to wait for common utilities to load
+function waitForCommonUtilities() {
+  return new Promise((resolve) => {
+    const checkUtilities = () => {
+      if (window.checkWebGLSupport && window.waitForOpenLayers) {
+        resolve()
+      } else {
+        setTimeout(checkUtilities, 50)
+      }
+    }
+    checkUtilities()
+  })
+}
 </script>
 
 ## OpenLayers Integration <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
@@ -93,7 +110,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       <li>Automatic extent fitting</li>
       <li>WebGL rendering</li>
     </ul>
-    <a href="./basic" class="example-link">View Example →</a>
+    <a href="./ol/basic" class="example-link">View Example →</a>
   </div>
 
   <div class="example-card">
@@ -107,7 +124,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       <li>Agricultural applications</li>
       <li>Environmental monitoring</li>
     </ul>
-    <a href="./ndvi" class="example-link">View Example →</a>
+    <a href="./ol/ndvi" class="example-link">View Example →</a>
   </div>
 
   <div class="example-card">
@@ -121,6 +138,6 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       <li>Scene footprints display</li>
       <li>Interactive data discovery</li>
     </ul>
-    <a href="./stac" class="example-link">View Example →</a>
+    <a href="./ol/stac" class="example-link">View Example →</a>
   </div>
 </div>

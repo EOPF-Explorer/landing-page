@@ -3,13 +3,6 @@ title: OpenLayers - STAC Catalog Integration
 layout: page
 ---
 
-<script>
-// Load common utilities
-const script = document.createElement('script')
-script.src = '../common.js'
-document.head.appendChild(script)
-</script>
-
 <style>
 /* Import common CSS first to avoid FOUC */
 @import '../common.css';
@@ -50,6 +43,13 @@ const searchResults = ref([])
 const selectedBbox = ref(null)
 
 onMounted(async () => {
+  // Load common utilities on client-side only
+  if (typeof window !== 'undefined') {
+    const script = document.createElement('script')
+    script.src = '../common.js'
+    document.head.appendChild(script)
+  }
+  
   // Wait for common utilities to load
   await waitForCommonUtilities()
   
