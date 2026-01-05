@@ -14,8 +14,8 @@ hero:
       text: Explore Data
       link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
     - theme: brand
-      text: Visualization Catalog
-      link: /visualization-catalog
+      text: Software & Services
+      link: /software-services
     - theme: brand
       text: Read Example Story
       link: /story/?id=ndvi
