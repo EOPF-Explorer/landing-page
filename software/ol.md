@@ -64,7 +64,7 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 
 <div class="quick-start">
 <h3>🚀 Get Started in 5 Minutes</h3>
-<p>Ready to dive in? Start with the <a href="/integrations/ol/basic">Basic Setup example</a> to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.</p>
+<p>Ready to dive in? Start with the <a href="./ol/basic">Basic Setup example</a> to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.</p>
 </div>
 
 ### Installation

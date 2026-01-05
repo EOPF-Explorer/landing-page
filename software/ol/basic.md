@@ -263,10 +263,10 @@ const map = new Map({
 
 ### Next Steps
 
-Continue to the [NDVI example](/integrations/ol/ndvi) to see infrared band combinations for vegetation analysis.
+Continue to the [NDVI example](./ndvi) to see infrared band combinations for vegetation analysis.
 
 <div class="navigation">
   <div></div>
   <span><strong>1 of 3</strong> - Basic Setup</span>
-  <a href="/integrations/ol/ndvi" class="nav-button">Next: NDVI →</a>
+  <a href="./ndvi" class="nav-button">Next: NDVI →</a>
 </div>

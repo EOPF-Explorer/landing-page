@@ -322,7 +322,7 @@ const map = new Map({
   - **Development impact** - Monitor vegetation loss
 
 <div class="navigation">
-  <a href="/integrations/ol/basic" class="nav-button">← Previous: Basic Map Setup and band combination</a>
+  <a href="./basic" class="nav-button">← Previous: Basic Map Setup and band combination</a>
   <span><strong>2 of 3</strong> - NDVI Calculation</span>
-  <a href="/integrations/ol/stac" class="nav-button">Next: STAC Integration →</a>
+  <a href="./stac" class="nav-button">Next: STAC Integration →</a>
 </div>

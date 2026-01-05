@@ -897,9 +897,9 @@ onMounted(async () => {
 })
 ```
 <div class="navigation">
-  <a href="/integrations/ol/ndvi" class="nav-button">← Previous: NDVI Calculation</a>
+  <a href="./ndvi" class="nav-button">← Previous: NDVI Calculation</a>
   <span><strong>3 of 3</strong> - STAC Integration</span>
-  <a href="/integrations/ol" class="nav-button">Back to overview →</a>
+  <a href="../ol" class="nav-button">Back to overview →</a>
 </div>
 
 :::
