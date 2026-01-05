@@ -26,9 +26,9 @@ onMounted(() => {
 })
 </script>
 
-# OpenLayers Integration <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## OpenLayers Integration <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
-## Overview
+### Overview
 
 This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted satellite data using the experimental GeoZarr support in OpenLayers 10.7.1-dev. Each example is presented on a separate page for optimal performance.
 
@@ -37,20 +37,20 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 </div>
 
 <div class="overview-section">
-<h3>🎯 What You'll Learn</h3>
+<h4>🎯 What You'll Learn</h4>
 <p>This page describes the resources to use OpenLayers with EOPF's Sentinel data with interactive examples that demonstrate real-world applications of OpenLayers with EOPF's Sentinel-2 data, covering everything from basic setup to advanced image processing techniques.</p>
 
 <p><strong>Sample Data</strong> used here are avalable in <a href="https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a">the Sentinel-2 L2A collection in STAC Browser</a></p>
 </div>
 
-## Quick Start
+### Quick Start
 
 <div class="quick-start">
 <h3>🚀 Get Started in 5 Minutes</h3>
 <p>Ready to dive in? Start with the <a href="/integrations/ol/basic">Basic Setup example</a> to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.</p>
 </div>
 
-## Installation
+### Installation
 
 <div class="installation-grid">
   <div class="installation-method">
@@ -66,11 +66,11 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
   </div>
 </div>
 
-## Version Notes
+### Version Notes
 
 ⚠️ **Development Version**: OpenLayers tag **dev** (10.7.1-dev) contains experimental unreleased GeoZarr support that may change. For production use, wait for the stable 10.8.0 release.
 
-## Next Steps
+### Next Steps
 
 1. **Start with Examples**: Work through each [examples](#interactive-examples) to understand the capabilities
 2. **Explore EOPF Data**: Browse available datasets in the [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
@@ -79,7 +79,7 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 
 For more advanced features and the latest updates, follow the [OpenLayers development](https://github.com/openlayers/openlayers) and [EOPF Explorer project](https://github.com/EOPF-Explorer) on GitHub.
 
-## Interactive Examples
+### Interactive Examples
 
 <div class="examples-grid">
   <div class="example-card">
