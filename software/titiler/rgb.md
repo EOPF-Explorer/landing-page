@@ -46,8 +46,8 @@ const bandCombinations = {
     description: 'Short-wave infrared composite for geology and urban analysis',
     variables: [
       '/measurements/reflectance:b11',
-      '/measurements/reflectance:b04',
-      '/measurements/reflectance:b03'
+      '/measurements/reflectance:b08',
+      '/measurements/reflectance:b04'
     ],
     rescale: '0,0.4',
     colorFormula: 'gamma rgb 1.5, saturation 1.3'
@@ -190,11 +190,11 @@ watch(selectedBands, updateTileLayer)
 }
 </style>
 
-# RGB Visualization with Titiler
+## TiTiler - RGB Visualization <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 This example demonstrates how to create RGB band combinations using Titiler's tile service with EOPF Sentinel-2 data. The server handles all image processing and returns optimized tiles for web mapping applications.
 
-## Interactive Example
+### Interactive Example
 
 <div class="controls">
   <div class="control-group">
@@ -223,9 +223,9 @@ This example demonstrates how to create RGB band combinations using Titiler's ti
   </button>
 </div>
 
-## Key Concepts
+### Key Concepts
 
-### Variable Format
+**Variable Format**
 
 Titiler uses specific paths to reference bands in Zarr data in the form of `group:variable`. For Sentinel-2 reflectance data, the relevant group is `/measurements/reflectance`. Example band paths:
 
@@ -234,7 +234,7 @@ Titiler uses specific paths to reference bands in Zarr data in the form of `grou
 /measurements/reflectance:b11  # SWIR band (20m resolution)
 ```
 
-### Color Enhancement
+**Color Enhancement**
 
 The `color_formula` parameter applies color corrections:
 
@@ -242,18 +242,18 @@ The `color_formula` parameter applies color corrections:
 - **Sigmoidal contrast**: `sigmoidal rgb 6 0.1` - Enhances contrast
 - **Saturation**: `saturation 1.2` - Boosts color intensity
 
-### Rescaling
+**Rescaling**
 
 The `rescale` parameter normalizes reflectance values:
 
 - `0,1` - Full reflectance range (0-100%)
 - `0,0.3` - Compressed range for better contrast
 
-## Implementation Code
+### Implementation Code
 
-### Basic OpenLayers Integration
+::: code-group
 
-```javascript
+```javascript [OpenLayers Integration]
 import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
@@ -285,9 +285,7 @@ const map = new Map({
 });
 ```
 
-### Dynamic Band Switching
-
-```javascript
+```javascript [Dynamic Band Switching]
 function updateBandCombination(variables, rescale, colorFormula) {
   const params = new URLSearchParams();
 
@@ -302,9 +300,105 @@ function updateBandCombination(variables, rescale, colorFormula) {
 
   tileLayer.getSource().setUrl(newUrl);
 }
+
+// Example usage for different band combinations
+const bandConfigs = {
+  trueColor: {
+    variables: ['/measurements/reflectance:b04', '/measurements/reflectance:b03', '/measurements/reflectance:b02'],
+    rescale: '0,1',
+    colorFormula: 'gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2'
+  },
+  falseColor: {
+    variables: ['/measurements/reflectance:b08', '/measurements/reflectance:b04', '/measurements/reflectance:b03'],
+    rescale: '0,0.3',
+    colorFormula: 'gamma rgb 1.2, saturation 1.1'
+  }
+};
+
+// Switch to false color
+updateBandCombination(
+  bandConfigs.falseColor.variables,
+  bandConfigs.falseColor.rescale,
+  bandConfigs.falseColor.colorFormula
+);
 ```
 
-## API Parameters
+```javascript [Leaflet Integration]
+import L from 'leaflet';
+
+// Create Leaflet map
+const map = L.map('map').setView([45.8, 12.3], 11);
+
+// Add base layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+// Build Titiler URL
+const tileUrl =
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251218T110359_N0511_R094_T32VLK_20251218T115223/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "variables=/measurements/reflectance:b04&" +
+  "variables=/measurements/reflectance:b03&" +
+  "variables=/measurements/reflectance:b02&" +
+  "rescale=0,1&" +
+  "color_formula=gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2";
+
+// Add Titiler layer
+const sentinelLayer = L.tileLayer(tileUrl, {
+  opacity: 0.8,
+  attribution: 'Data: Copernicus Sentinel-2 | Processing: EOPF'
+});
+
+sentinelLayer.addTo(map);
+```
+
+```javascript [API Direct Usage]
+// Direct API calls for custom processing
+const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster';
+const collection = 'sentinel-2-l2a';
+const itemId = 'S2B_MSIL2A_20251218T110359_N0511_R094_T32VLK_20251218T115223';
+
+async function getTileInfo() {
+  const response = await fetch(
+    `${baseUrl}/collections/${collection}/items/${itemId}/tiles`
+  );
+  const tilesets = await response.json();
+  console.log('Available tilesets:', tilesets);
+  return tilesets;
+}
+
+async function getItemMetadata() {
+  const response = await fetch(
+    `${baseUrl}/collections/${collection}/items/${itemId}`
+  );
+  const metadata = await response.json();
+  console.log('Item metadata:', metadata);
+  return metadata;
+}
+
+// Build custom tile URL
+function buildTileUrl(variables, rescale, colorFormula) {
+  const params = new URLSearchParams();
+  
+  variables.forEach(variable => {
+    params.append('variables', variable);
+  });
+  
+  params.set('rescale', rescale);
+  params.set('color_formula', colorFormula);
+  
+  return `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${params.toString()}`;
+}
+
+// Usage
+const trueColorUrl = buildTileUrl(
+  ['/measurements/reflectance:b04', '/measurements/reflectance:b03', '/measurements/reflectance:b02'],
+  '0,1',
+  'gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2'
+);
+```
+
+:::
+
+### API Parameters
 
 | Parameter       | Description                      | Example                         |
 | --------------- | -------------------------------- | ------------------------------- |
@@ -317,7 +411,7 @@ function updateBandCombination(variables, rescale, colorFormula) {
 💡 <strong>Tip</strong>: Use the <a href="https://api.explorer.eopf.copernicus.eu/raster/api.html" target="_blank">interactive API documentation</a> to explore all available parameters and test different combinations.
 </div>
 
-## Next Steps
+### Next Steps
 
 - **NDVI Calculations**: Learn [server-side vegetation index calculations](/integrations/titiler/ndvi)
 - **Spatial Operations**: Explore [cropping and spatial filtering](/integrations/titiler/crop)
@@ -325,4 +419,10 @@ function updateBandCombination(variables, rescale, colorFormula) {
 
 <div class="warning">
 ⚠️ <strong>Performance Note</strong>: Titiler generates tiles on-demand. Initial requests may be slower while tiles are computed and cached.
+</div>
+
+<div class="navigation">
+  <div></div>
+  <span><strong>1 of 3</strong> - RGB Visualization</span>
+  <a href="./ndvi" class="nav-button">Next: NDVI →</a>
 </div>
