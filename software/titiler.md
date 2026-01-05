@@ -265,7 +265,7 @@ This guide demonstrates how to use Titiler-EOPF, a specialized tile server that 
 
 <div class="quick-start">
 <h3>🚀 Get Started in 5 Minutes</h3>
-<p>Ready to dive in? Start with the <a href="/integrations/titiler/rgb">RGB Visualization example</a> to see Titiler serving EOPF tiles in a web map, then explore NDVI calculations and spatial cropping techniques.</p>
+<p>Ready to dive in? Start with the <a href="/titiler/rgb">RGB Visualization example</a> to see Titiler serving EOPF tiles in a web map, then explore NDVI calculations and spatial cropping techniques.</p>
 </div>
 
 ## API Documentation
@@ -336,7 +336,7 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
       <li>Color enhancement formulas</li>
       <li>Web mapping integration</li>
     </ul>
-    <a href="/integrations/titiler/rgb" class="example-link">View Example →</a>
+    <a href="./titiler/rgb" class="example-link">View Example →</a>
   </div>
 
   <div class="example-card">
@@ -350,7 +350,7 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
       <li>Custom color mapping</li>
       <li>Environmental monitoring</li>
     </ul>
-    <a href="/integrations/titiler/ndvi" class="example-link">View Example →</a>
+    <a href="./titiler/ndvi" class="example-link">View Example →</a>
   </div>
 
   <div class="example-card">
@@ -364,7 +364,7 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
       <li>Coordinate system handling</li>
       <li>Export capabilities</li>
     </ul>
-    <a href="/integrations/titiler/crop" class="example-link">View Example →</a>
+    <a href="./titiler/crop" class="example-link">View Example →</a>
   </div>
 </div>
 

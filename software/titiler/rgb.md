@@ -3,18 +3,10 @@ title: RGB Visualization with Titiler
 layout: page
 ---
 
-<script>
-// Load common utilities
-const script = document.createElement('script')
-script.src = '../common.js'
-document.head.appendChild(script)
-
-// Load common CSS
-const link = document.createElement('link')
-link.rel = 'stylesheet'
-link.href = '../common.css'
-document.head.appendChild(link)
-</script>
+<style>
+/* Import common CSS first to avoid FOUC */
+@import '../common.css';
+</style>
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
@@ -98,6 +90,16 @@ function waitForOpenLayers() {
 }
 
 onMounted(async () => {
+  // Load common utilities on client-side only
+  if (typeof window !== 'undefined') {
+    const script = document.createElement('script')
+    script.src = '../common.js'
+    document.head.appendChild(script)
+  }
+  
+  // Wait for common utilities to load
+  await waitForCommonUtilities()
+
   // Wait for OpenLayers to be available
   await waitForOpenLayers()
   
@@ -136,6 +138,20 @@ onMounted(async () => {
     })
   })
 })
+
+// Helper function to wait for common utilities to load
+function waitForCommonUtilities() {
+  return new Promise((resolve) => {
+    const checkUtilities = () => {
+      if (window.checkWebGLSupport && window.waitForOpenLayers) {
+        resolve()
+      } else {
+        setTimeout(checkUtilities, 50)
+      }
+    }
+    checkUtilities()
+  })
+}
 
 // Watch for band combination changes
 import { watch } from 'vue'
@@ -191,7 +207,6 @@ This example demonstrates how to create RGB band combinations using Titiler's ti
   </div>
   
   <div class="band-info" v-if="bandCombinations[selectedBands]">
-    <h4>{{ bandCombinations[selectedBands].name }}</h4>
     <p>{{ bandCombinations[selectedBands].description }}</p>
     <div class="band-variables">{{ bandCombinations[selectedBands].variables.join('\n') }}</div>
   </div>

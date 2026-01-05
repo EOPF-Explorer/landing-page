@@ -579,8 +579,8 @@ updateVegetationIndex(
 
 ## Next Steps
 
-- **Spatial Operations**: Learn about [cropping and area extraction](/integrations/titiler/crop)
-- **RGB Visualization**: Explore [band combinations and color enhancement](/integrations/titiler/rgb)
+- **Spatial Operations**: Learn about [cropping and area extraction](./crop)
+- **RGB Visualization**: Explore [band combinations and color enhancement](./rgb)
 - **Advanced Expressions**: Check the [API documentation](https://api.explorer.eopf.copernicus.eu/raster/api.html) for more complex mathematical operations
 
 <div class="warning">

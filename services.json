@@ -40,7 +40,7 @@
     "tags": ["screening", "arithmetic", "expressions", "band-math"],
     "category": "Screening",
     "type": "software",
-    "link": "/integrations/titiler",
+    "link": "./software/titiler",
     "featured": false
   },
   {

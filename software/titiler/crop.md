@@ -185,4 +185,535 @@ onMounted(async () => {
   // Initialize draw interaction
   drawInteraction = new Draw({
     source: drawSource,
-    type: 'Circle',\n    geometryFunction: window.ol.interaction.Draw.createBox()\n  })\n  \n  drawInteraction.on('drawend', (event) => {\n    drawSource.clear() // Clear previous drawings\n    updateCropFromFeature(event.feature)\n    disableDrawing()\n  })\n  \n  // Create map\n  map.value = new Map({\n    target: mapContainer.value,\n    layers: [\n      new TileLayer({\n        source: new OSM()\n      }),\n      drawLayer\n    ],\n    view: new View({\n      center: fromLonLat([12.3, 45.8]), // Venice area\n      zoom: 11\n    })\n  })\n})\n\n// Watch for changes\nimport { watch } from 'vue'\nwatch(cropCoordinates, () => {\n  // Could update a preview layer here if needed\n}, { deep: true })\n</script>\n\n<script>\n// Load OpenLayers from CDN if not already loaded\nif (typeof window.ol === 'undefined') {\n  const script = document.createElement('script')\n  script.src = 'https://cdn.jsdelivr.net/npm/ol@9.1.0/dist/ol.js'\n  script.async = true\n  document.head.appendChild(script)\n  \n  const link = document.createElement('link')\n  link.rel = 'stylesheet'\n  link.href = 'https://cdn.jsdelivr.net/npm/ol@9.1.0/ol.css'\n  document.head.appendChild(link)\n}\n</script>\n\n<style scoped>\n.map-container {\n  width: 100%;\n  height: 500px;\n  margin: 20px 0;\n  border: 1px solid #ccc;\n  border-radius: 8px;\n  overflow: hidden;\n}\n\n.controls {\n  background: #f8f9fa;\n  padding: 20px;\n  border-radius: 8px;\n  margin: 20px 0;\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n}\n\n.control-group {\n  margin-bottom: 16px;\n}\n\n.control-group label {\n  display: block;\n  font-weight: 600;\n  margin-bottom: 8px;\n  color: #24292e;\n}\n\n.control-group select,\n.control-group input {\n  width: 100%;\n  padding: 8px 12px;\n  border: 1px solid #d1d5da;\n  border-radius: 6px;\n  font-size: 14px;\n}\n\n.coordinate-inputs {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 8px;\n}\n\n.coordinate-inputs input {\n  font-size: 12px;\n}\n\n.coordinate-label {\n  font-size: 12px;\n  color: #586069;\n  margin-bottom: 4px;\n}\n\n.drawing-controls {\n  display: flex;\n  gap: 10px;\n  margin-top: 10px;\n}\n\n.btn {\n  padding: 8px 16px;\n  border: 1px solid #d1d5da;\n  border-radius: 6px;\n  background: white;\n  cursor: pointer;\n  font-size: 14px;\n  transition: background 0.2s;\n}\n\n.btn-primary {\n  background: #0366d6;\n  color: white;\n  border-color: #0366d6;\n}\n\n.btn-primary:hover {\n  background: #0256cc;\n}\n\n.btn:hover {\n  background: #f6f8fa;\n}\n\n.btn:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.crop-results {\n  background: #fff;\n  border: 1px solid #e1e4e8;\n  border-radius: 8px;\n  padding: 20px;\n  margin: 24px 0;\n}\n\n.crop-results h3 {\n  margin: 0 0 16px 0;\n  color: #24292e;\n}\n\n.result-grid {\n  display: grid;\n  grid-template-columns: 1fr auto;\n  gap: 20px;\n  align-items: start;\n}\n\n.preview-image {\n  max-width: 100%;\n  border-radius: 6px;\n  border: 1px solid #e1e4e8;\n}\n\n.download-section {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n\n.download-btn {\n  background: #28a745;\n  color: white;\n  text-decoration: none;\n  padding: 10px 16px;\n  border-radius: 6px;\n  text-align: center;\n  font-weight: 500;\n  transition: background 0.2s;\n}\n\n.download-btn:hover {\n  background: #1e7e34;\n  text-decoration: none;\n  color: white;\n}\n\n.url-section {\n  background: #f8f9fa;\n  padding: 20px;\n  border-radius: 8px;\n  margin: 24px 0;\n}\n\n.url-section h3 {\n  margin: 0 0 12px 0;\n  color: #24292e;\n}\n\n.url-display {\n  background: #24292e;\n  color: #f6f8fa;\n  padding: 12px;\n  border-radius: 6px;\n  font-family: monospace;\n  font-size: 11px;\n  word-break: break-all;\n  margin: 12px 0;\n  max-height: 100px;\n  overflow-y: auto;\n}\n\n.copy-button {\n  background: #0366d6;\n  color: white;\n  border: none;\n  padding: 8px 16px;\n  border-radius: 6px;\n  cursor: pointer;\n  font-size: 14px;\n}\n\n.copy-button:hover {\n  background: #0256cc;\n}\n\n.info {\n  background: #d1ecf1;\n  border: 1px solid #b6d4fe;\n  color: #0c5460;\n  padding: 12px;\n  border-radius: 4px;\n  margin: 16px 0;\n}\n\n.warning {\n  background: #fff3cd;\n  border: 1px solid #ffeaa7;\n  color: #856404;\n  padding: 12px;\n  border-radius: 4px;\n  margin: 16px 0;\n}\n\ncode {\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  background: #f6f8fa;\n  padding: 2px 6px;\n  border-radius: 3px;\n  font-size: 0.9em;\n}\n\npre {\n  background: #f6f8fa;\n  padding: 16px;\n  border-radius: 6px;\n  overflow-x: auto;\n  margin: 16px 0;\n}\n\n@media (max-width: 768px) {\n  .controls {\n    grid-template-columns: 1fr;\n  }\n  \n  .result-grid {\n    grid-template-columns: 1fr;\n  }\n}\n</style>\n\n# Spatial Cropping with Titiler\n\nThis example demonstrates how to extract specific areas from satellite scenes using Titiler's spatial operations. You can crop data using bounding boxes or draw custom areas directly on the map.\n\n## Interactive Example\n\n<div class=\"controls\">\n  <div>\n    <div class=\"control-group\">\n      <label for=\"band-select\">Visualization:</label>\n      <select id=\"band-select\" v-model=\"selectedBands\">\n        <option value=\"rgb-true\">True Color RGB</option>\n        <option value=\"ndvi\">NDVI Vegetation Index</option>\n      </select>\n    </div>\n    \n    <div class=\"control-group\">\n      <label>Crop Area (Lon/Lat):</label>\n      <div class=\"coordinate-inputs\">\n        <div>\n          <div class=\"coordinate-label\">Min Longitude</div>\n          <input type=\"number\" v-model.number=\"cropCoordinates.minLon\" step=\"0.001\" />\n        </div>\n        <div>\n          <div class=\"coordinate-label\">Min Latitude</div>\n          <input type=\"number\" v-model.number=\"cropCoordinates.minLat\" step=\"0.001\" />\n        </div>\n        <div>\n          <div class=\"coordinate-label\">Max Longitude</div>\n          <input type=\"number\" v-model.number=\"cropCoordinates.maxLon\" step=\"0.001\" />\n        </div>\n        <div>\n          <div class=\"coordinate-label\">Max Latitude</div>\n          <input type=\"number\" v-model.number=\"cropCoordinates.maxLat\" step=\"0.001\" />\n        </div>\n      </div>\n    </div>\n  </div>\n  \n  <div>\n    <div class=\"control-group\">\n      <label>Interactive Drawing:</label>\n      <p style=\"font-size: 14px; color: #586069; margin: 8px 0;\">Draw a rectangle on the map to define the crop area.</p>\n      <div class=\"drawing-controls\">\n        <button class=\"btn btn-primary\" @click=\"enableDrawing()\" :disabled=\"isDrawing\">\n          {{ isDrawing ? 'Drawing...' : '📏 Draw Rectangle' }}\n        </button>\n        <button class=\"btn\" @click=\"clearDrawing()\">\n          🗑️ Clear\n        </button>\n        <button class=\"btn\" @click=\"disableDrawing()\" v-if=\"isDrawing\">\n          ❌ Cancel\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div ref=\"mapContainer\" class=\"map-container\"></div>\n\n<div class=\"crop-results\">\n  <h3>🖼️ Crop Preview & Download</h3>\n  <div class=\"result-grid\">\n    <div>\n      <img :src=\"buildPreviewUrl()\" alt=\"Crop Preview\" class=\"preview-image\" @error=\"$event.target.style.display='none'\" />\n    </div>\n    <div class=\"download-section\">\n      <a :href=\"buildBboxUrl()\" class=\"download-btn\" target=\"_blank\">\n        📥 Download Full Resolution\n      </a>\n      <a :href=\"buildPreviewUrl()\" class=\"download-btn\" target=\"_blank\">\n        🖼️ Download Preview (512px)\n      </a>\n    </div>\n  </div>\n</div>\n\n<div class=\"url-section\">\n  <h3>🔗 Crop API URL</h3>\n  <p>This URL returns the cropped data as a GeoTIFF or image:</p>\n  <div class=\"url-display\">{{ buildBboxUrl() }}</div>\n  <button class=\"copy-button\" @click=\"navigator.clipboard?.writeText(buildBboxUrl())\">\n    📋 Copy URL\n  </button>\n</div>\n\n## Key Concepts\n\n### Spatial Operations\nTitiler supports several spatial operations for data extraction:\n\n#### 1. Bounding Box Crop\n```\n/crop?bbox=minx,miny,maxx,maxy\n```\nExtracts a rectangular area defined by geographic coordinates.\n\n#### 2. Feature-Based Crop\n```\n/crop?geom={\"type\":\"Polygon\",\"coordinates\":[[[...]]]}\n```\nCrops using complex geometries (polygons, multi-polygons).\n\n#### 3. Preview Generation\n```\n/preview?bbox=minx,miny,maxx,maxy&max_size=512\n```\nGenerates web-friendly previews with size constraints.\n\n### Coordinate Systems\nAll coordinates use **WGS84 (EPSG:4326)** longitude/latitude format:\n- **Longitude**: East-West position (-180 to +180)\n- **Latitude**: North-South position (-90 to +90)\n\nTitiler automatically reprojects to the data's native coordinate system.\n\n### Output Formats\nCropped data can be returned in multiple formats:\n- **GeoTIFF**: Full-resolution georeferenced data\n- **PNG**: Web-ready images with transparency\n- **JPEG**: Compressed images for smaller file sizes\n\n## Implementation Code\n\n### Basic Bounding Box Crop\n\n```javascript\n// Define crop area\nconst bbox = {\n  minLon: 12.2,\n  minLat: 45.7,\n  maxLon: 12.4,\n  maxLat: 45.9\n}\n\n// Build crop URL\nconst cropUrl = `https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/${itemId}/crop?` +\n  `bbox=${bbox.minLon},${bbox.minLat},${bbox.maxLon},${bbox.maxLat}&` +\n  `variables=/measurements/reflectance/r10m:b04&` +\n  `variables=/measurements/reflectance/r10m:b03&` +\n  `variables=/measurements/reflectance/r10m:b02&` +\n  `rescale=0,1`\n\n// Download or display the cropped data\nfetch(cropUrl)\n  .then(response => response.blob())\n  .then(blob => {\n    // Handle the downloaded image/data\n    const url = URL.createObjectURL(blob)\n    // Display or save the cropped result\n  })\n```\n\n### Interactive Drawing with OpenLayers\n\n```javascript\nimport { Draw } from 'ol/interaction'\nimport { Vector as VectorLayer } from 'ol/layer'\nimport { Vector as VectorSource } from 'ol/source'\n\n// Setup drawing interaction\nconst drawSource = new VectorSource()\nconst drawInteraction = new Draw({\n  source: drawSource,\n  type: 'Circle',\n  geometryFunction: ol.interaction.Draw.createBox()\n})\n\n// Handle draw completion\ndrawInteraction.on('drawend', (event) => {\n  const extent = event.feature.getGeometry().getExtent()\n  const [minLon, minLat] = ol.proj.toLonLat([extent[0], extent[1]])\n  const [maxLon, maxLat] = ol.proj.toLonLat([extent[2], extent[3]])\n  \n  // Use coordinates for crop operation\n  const bbox = `${minLon},${minLat},${maxLon},${maxLat}`\n  performCrop(bbox)\n})\n\n// Add to map when drawing is enabled\nmap.addInteraction(drawInteraction)\n```\n\n### Polygon-Based Cropping\n\n```javascript\n// Define a complex polygon geometry\nconst polygon = {\n  \"type\": \"Polygon\",\n  \"coordinates\": [[\n    [12.2, 45.7],\n    [12.4, 45.7],\n    [12.4, 45.9],\n    [12.3, 45.95],\n    [12.2, 45.9],\n    [12.2, 45.7]\n  ]]\n}\n\n// Crop using geometry\nconst cropUrl = `https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/${itemId}/crop?` +\n  `geom=${encodeURIComponent(JSON.stringify(polygon))}&` +\n  `variables=/measurements/reflectance/r10m:b04&` +\n  `rescale=0,1`\n```\n\n## API Parameters\n\n| Parameter | Description | Example |\n|-----------|-------------|----------|\n| `bbox` | Bounding box as minx,miny,maxx,maxy | `12.2,45.7,12.4,45.9` |\n| `geom` | GeoJSON geometry for complex shapes | `{\"type\":\"Polygon\",...}` |\n| `max_size` | Maximum output dimension (preview) | `512`, `1024` |\n| `format` | Output format | `png`, `jpeg`, `tiff` |\n| `variables` | Band selection (same as tiles) | `/measurements/reflectance/r10m:b04` |\n| `expression` | Mathematical expressions | NDVI, EVI calculations |\n| `rescale` | Value normalization | `0,1`, `-1,1` |\n\n## Use Cases\n\n### 1. Agricultural Field Analysis\n```javascript\n// Extract a specific agricultural field\nconst fieldBbox = \"12.234,45.678,12.245,45.689\"\nconst ndviUrl = `${baseUrl}/collections/${collection}/items/${item}/crop?` +\n  `bbox=${fieldBbox}&` +\n  `expression=...ndvi_expression...&` +\n  `colormap_name=rdylgn`\n```\n\n### 2. Urban Area Monitoring\n```javascript\n// Monitor urban development with false color\nconst cityArea = \"12.1,45.6,12.5,46.0\"\nconst urbanUrl = `${baseUrl}/collections/${collection}/items/${item}/crop?` +\n  `bbox=${cityArea}&` +\n  `variables=/measurements/reflectance/r10m:b08,/measurements/reflectance/r10m:b04,/measurements/reflectance/r10m:b03`\n```\n\n### 3. Environmental Impact Assessment\n```javascript\n// Extract area around infrastructure project\nconst projectArea = {...} // Complex polygon\nconst impactUrl = `${baseUrl}/collections/${collection}/items/${item}/crop?` +\n  `geom=${encodeURIComponent(JSON.stringify(projectArea))}`\n```\n\n<div class=\"info\">\n💡 **Tip**: Use the preview endpoint with `max_size=512` for quick web previews, then the full crop endpoint for high-resolution analysis.\n</div>\n\n## Next Steps\n\n- **RGB Visualization**: Learn about [band combinations and color enhancement](/integrations/titiler/rgb)\n- **NDVI Calculations**: Explore [vegetation indices and expressions](/integrations/titiler/ndvi)  \n- **API Documentation**: Check the [complete API reference](https://api.explorer.eopf.copernicus.eu/raster/api.html) for advanced cropping options\n\n<div class=\"warning\">\n⚠️ **Size Limits**: Large crop areas may take longer to process. Consider using the preview endpoint for initial exploration.\n</div>
+    type: 'Circle',
+    geometryFunction: window.ol.interaction.Draw.createBox()
+  })
+  
+  drawInteraction.on('drawend', (event) => {
+    drawSource.clear() // Clear previous drawings
+    updateCropFromFeature(event.feature)
+    disableDrawing()
+  })
+  
+  // Create map
+  map.value = new Map({
+    target: mapContainer.value,
+    layers: [
+      new TileLayer({
+        source: new OSM()
+      }),
+      drawLayer
+    ],
+    view: new View({
+      center: fromLonLat([12.3, 45.8]), // Venice area
+      zoom: 11
+    })
+  })
+})
+
+// Watch for changes
+import { watch } from 'vue'
+watch(cropCoordinates, () => {
+  // Could update a preview layer here if needed
+}, { deep: true })
+</script>
+
+<script>
+// Load OpenLayers from CDN if not already loaded
+if (typeof window.ol === 'undefined') {
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/ol@9.1.0/dist/ol.js'
+  script.async = true
+  document.head.appendChild(script)
+  
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = 'https://cdn.jsdelivr.net/npm/ol@9.1.0/ol.css'
+  document.head.appendChild(link)
+}
+</script>
+
+<style scoped>
+.map-container {
+  width: 100%;
+  height: 500px;
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.controls {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.control-group {
+  margin-bottom: 16px;
+}
+
+.control-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #24292e;
+}
+
+.control-group select,
+.control-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5da;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.coordinate-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.coordinate-inputs input {
+  font-size: 12px;
+}
+
+.coordinate-label {
+  font-size: 12px;
+  color: #586069;
+  margin-bottom: 4px;
+}
+
+.drawing-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: 1px solid #d1d5da;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background: #0366d6;
+  color: white;
+  border-color: #0366d6;
+}
+
+.btn-primary:hover {
+  background: #0256cc;
+}
+
+.btn:hover {
+  background: #f6f8fa;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.crop-results {
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 24px 0;
+}
+
+.crop-results h3 {
+  margin: 0 0 16px 0;
+  color: #24292e;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: start;
+}
+
+.preview-image {
+  max-width: 100%;
+  border-radius: 6px;
+  border: 1px solid #e1e4e8;
+}
+
+.download-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.download-btn {
+  background: #28a745;
+  color: white;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.download-btn:hover {
+  background: #1e7e34;
+  text-decoration: none;
+  color: white;
+}
+
+.url-section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 24px 0;
+}
+
+.url-section h3 {
+  margin: 0 0 12px 0;
+  color: #24292e;
+}
+
+.url-display {
+  background: #24292e;
+  color: #f6f8fa;
+  padding: 12px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 11px;
+  word-break: break-all;
+  margin: 12px 0;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.copy-button {
+  background: #0366d6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.copy-button:hover {
+  background: #0256cc;
+}
+
+.info {
+  background: #d1ecf1;
+  border: 1px solid #b6d4fe;
+  color: #0c5460;
+  padding: 12px;
+  border-radius: 4px;
+  margin: 16px 0;
+}
+
+.warning {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+  padding: 12px;
+  border-radius: 4px;
+  margin: 16px 0;
+}
+
+code {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background: #f6f8fa;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+pre {
+  background: #f6f8fa;
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    grid-template-columns: 1fr;
+  }
+  
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+# Spatial Cropping with Titiler
+
+This example demonstrates how to extract specific areas from satellite scenes using Titiler's spatial operations. You can crop data using bounding boxes or draw custom areas directly on the map.
+
+## Interactive Example
+
+<div class=\"controls\">
+  <div>
+    <div class=\"control-group\">
+      <label for=\"band-select\">Visualization:</label>
+      <select id=\"band-select\" v-model=\"selectedBands\">
+        <option value=\"rgb-true\">True Color RGB</option>
+        <option value=\"ndvi\">NDVI Vegetation Index</option>
+      </select>
+    </div>
+    
+    <div class=\"control-group\">
+      <label>Crop Area (Lon/Lat):</label>
+      <div class=\"coordinate-inputs\">
+        <div>
+          <div class=\"coordinate-label\">Min Longitude</div>
+          <input type=\"number\" v-model.number=\"cropCoordinates.minLon\" step=\"0.001\" />
+        </div>
+        <div>
+          <div class=\"coordinate-label\">Min Latitude</div>
+          <input type=\"number\" v-model.number=\"cropCoordinates.minLat\" step=\"0.001\" />
+        </div>
+        <div>
+          <div class=\"coordinate-label\">Max Longitude</div>
+          <input type=\"number\" v-model.number=\"cropCoordinates.maxLon\" step=\"0.001\" />
+        </div>
+        <div>
+          <div class=\"coordinate-label\">Max Latitude</div>
+          <input type=\"number\" v-model.number=\"cropCoordinates.maxLat\" step=\"0.001\" />
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div>
+    <div class=\"control-group\">
+      <label>Interactive Drawing:</label>
+      <p style=\"font-size: 14px; color: #586069; margin: 8px 0;\">Draw a rectangle on the map to define the crop area.</p>
+      <div class=\"drawing-controls\">
+        <button class=\"btn btn-primary\" @click=\"enableDrawing()\" :disabled=\"isDrawing\">
+          {{ isDrawing ? 'Drawing...' : '📏 Draw Rectangle' }}
+        </button>
+        <button class=\"btn\" @click=\"clearDrawing()\">
+          🗑️ Clear
+        </button>
+        <button class=\"btn\" @click=\"disableDrawing()\" v-if=\"isDrawing\">
+          ❌ Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ref=\"mapContainer\" class=\"map-container\"></div>
+
+<div class=\"crop-results\">
+  <h3>🖼️ Crop Preview & Download</h3>
+  <div class=\"result-grid\">
+    <div>
+      <img :src=\"buildPreviewUrl()\" alt=\"Crop Preview\" class=\"preview-image\" @error=\"$event.target.style.display='none'\" />
+    </div>
+    <div class=\"download-section\">
+      <a :href=\"buildBboxUrl()\" class=\"download-btn\" target=\"_blank\">
+        📥 Download Full Resolution
+      </a>
+      <a :href=\"buildPreviewUrl()\" class=\"download-btn\" target=\"_blank\">
+        🖼️ Download Preview (512px)
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class=\"url-section\">
+  <h3>🔗 Crop API URL</h3>
+  <p>This URL returns the cropped data as a GeoTIFF or image:</p>
+  <div class=\"url-display\">{{ buildBboxUrl() }}</div>
+  <button class=\"copy-button\" @click=\"navigator.clipboard?.writeText(buildBboxUrl())\">
+    📋 Copy URL
+  </button>
+</div>
+
+## Key Concepts
+
+### Spatial Operations
+Titiler supports several spatial operations for data extraction:
+
+#### 1. Bounding Box Crop
+```
+/crop?bbox=minx,miny,maxx,maxy
+```
+Extracts a rectangular area defined by geographic coordinates.
+
+#### 2. Feature-Based Crop
+```
+/crop?geom={\"type\":\"Polygon\",\"coordinates\":[[[...]]]}
+```
+Crops using complex geometries (polygons, multi-polygons).
+
+#### 3. Preview Generation
+```
+/preview?bbox=minx,miny,maxx,maxy&max_size=512
+```
+Generates web-friendly previews with size constraints.
+
+### Coordinate Systems
+All coordinates use **WGS84 (EPSG:4326)** longitude/latitude format:
+- **Longitude**: East-West position (-180 to +180)
+- **Latitude**: North-South position (-90 to +90)
+
+Titiler automatically reprojects to the data's native coordinate system.
+
+### Output Formats
+Cropped data can be returned in multiple formats:
+- **GeoTIFF**: Full-resolution georeferenced data
+- **PNG**: Web-ready images with transparency
+- **JPEG**: Compressed images for smaller file sizes
+
+## Implementation Code
+
+### Basic Bounding Box Crop
+
+```javascript
+// Define crop area
+const bbox = {
+  minLon: 12.2,
+  minLat: 45.7,
+  maxLon: 12.4,
+  maxLat: 45.9
+}
+
+// Build crop URL
+const cropUrl = `https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/${itemId}/crop?` +
+  `bbox=${bbox.minLon},${bbox.minLat},${bbox.maxLon},${bbox.maxLat}&` +
+  `variables=/measurements/reflectance/r10m:b04&` +
+  `variables=/measurements/reflectance/r10m:b03&` +
+  `variables=/measurements/reflectance/r10m:b02&` +
+  `rescale=0,1`
+
+// Download or display the cropped data
+fetch(cropUrl)
+  .then(response => response.blob())
+  .then(blob => {
+    // Handle the downloaded image/data
+    const url = URL.createObjectURL(blob)
+    // Display or save the cropped result
+  })
+```
+
+### Interactive Drawing with OpenLayers
+
+```javascript
+import { Draw } from 'ol/interaction'
+import { Vector as VectorLayer } from 'ol/layer'
+import { Vector as VectorSource } from 'ol/source'
+
+// Setup drawing interaction
+const drawSource = new VectorSource()
+const drawInteraction = new Draw({
+  source: drawSource,
+  type: 'Circle',
+  geometryFunction: ol.interaction.Draw.createBox()
+})
+
+// Handle draw completion
+drawInteraction.on('drawend', (event) => {
+  const extent = event.feature.getGeometry().getExtent()
+  const [minLon, minLat] = ol.proj.toLonLat([extent[0], extent[1]])
+  const [maxLon, maxLat] = ol.proj.toLonLat([extent[2], extent[3]])
+  
+  // Use coordinates for crop operation
+  const bbox = `${minLon},${minLat},${maxLon},${maxLat}`
+  performCrop(bbox)
+})
+
+// Add to map when drawing is enabled
+map.addInteraction(drawInteraction)
+```
+
+### Polygon-Based Cropping
+
+```javascript
+// Define a complex polygon geometry
+const polygon = {
+  \"type\": \"Polygon\",
+  \"coordinates\": [[
+    [12.2, 45.7],
+    [12.4, 45.7],
+    [12.4, 45.9],
+    [12.3, 45.95],
+    [12.2, 45.9],
+    [12.2, 45.7]
+  ]]
+}
+
+// Crop using geometry
+const cropUrl = `https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/${itemId}/crop?` +
+  `geom=${encodeURIComponent(JSON.stringify(polygon))}&` +
+  `variables=/measurements/reflectance/r10m:b04&` +
+  `rescale=0,1`
+```
+
+## API Parameters
+
+| Parameter | Description | Example |
+|-----------|-------------|----------|
+| `bbox` | Bounding box as minx,miny,maxx,maxy | `12.2,45.7,12.4,45.9` |
+| `geom` | GeoJSON geometry for complex shapes | `{\"type\":\"Polygon\",...}` |
+| `max_size` | Maximum output dimension (preview) | `512`, `1024` |
+| `format` | Output format | `png`, `jpeg`, `tiff` |
+| `variables` | Band selection (same as tiles) | `/measurements/reflectance/r10m:b04` |
+| `expression` | Mathematical expressions | NDVI, EVI calculations |
+| `rescale` | Value normalization | `0,1`, `-1,1` |
+
+## Use Cases
+
+### 1. Agricultural Field Analysis
+```javascript
+// Extract a specific agricultural field
+const fieldBbox = \"12.234,45.678,12.245,45.689\"
+const ndviUrl = `${baseUrl}/collections/${collection}/items/${item}/crop?` +
+  `bbox=${fieldBbox}&` +
+  `expression=...ndvi_expression...&` +
+  `colormap_name=rdylgn`
+```
+
+### 2. Urban Area Monitoring
+```javascript
+// Monitor urban development with false color
+const cityArea = \"12.1,45.6,12.5,46.0\"
+const urbanUrl = `${baseUrl}/collections/${collection}/items/${item}/crop?` +
+  `bbox=${cityArea}&` +
+  `variables=/measurements/reflectance/r10m:b08,/measurements/reflectance/r10m:b04,/measurements/reflectance/r10m:b03`
+```
+
+### 3. Environmental Impact Assessment
+```javascript
+// Extract area around infrastructure project
+const projectArea = {...} // Complex polygon
+const impactUrl = `${baseUrl}/collections/${collection}/items/${item}/crop?` +
+  `geom=${encodeURIComponent(JSON.stringify(projectArea))}`
+```
+
+<div class=\"info\">
+💡 **Tip**: Use the preview endpoint with `max_size=512` for quick web previews, then the full crop endpoint for high-resolution analysis.
+</div>
+
+## Next Steps
+
+- **RGB Visualization**: Learn about [band combinations and color enhancement](/integrations/titiler/rgb)
+- **NDVI Calculations**: Explore [vegetation indices and expressions](/integrations/titiler/ndvi)  
+- **API Documentation**: Check the [complete API reference](https://api.explorer.eopf.copernicus.eu/raster/api.html) for advanced cropping options
+
+<div class=\"warning\">
+⚠️ **Size Limits**: Large crop areas may take longer to process. Consider using the preview endpoint for initial exploration.
+</div>
