@@ -93,7 +93,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       <li>Automatic extent fitting</li>
       <li>WebGL rendering</li>
     </ul>
-    <a href="/integrations/ol/basic" class="example-link">View Example →</a>
+    <a href="./basic" class="example-link">View Example →</a>
   </div>
 
   <div class="example-card">
@@ -107,7 +107,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       <li>Agricultural applications</li>
       <li>Environmental monitoring</li>
     </ul>
-    <a href="/integrations/ol/ndvi" class="example-link">View Example →</a>
+    <a href="./ndvi" class="example-link">View Example →</a>
   </div>
 
   <div class="example-card">
@@ -121,6 +121,6 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       <li>Scene footprints display</li>
       <li>Interactive data discovery</li>
     </ul>
-    <a href="/integrations/ol/stac" class="example-link">View Example →</a>
+    <a href="./stac" class="example-link">View Example →</a>
   </div>
 </div>
