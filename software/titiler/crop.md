@@ -9,7 +9,7 @@ layout: page
 </style>
 
 <script setup>
-import { ref, onMounted, nextTick, watch } from 'vue'
+import { ref, onMounted, nextTick, watch, computed } from 'vue'
 
 const mapContainer = ref(null)
 const map = ref(null)
@@ -53,17 +53,31 @@ let drawLayer = null
 let drawInteraction = null
 
 // Watch for changes
+watch(selectedBands, () => {
+  // Vue will automatically update template expressions that use buildBboxUrl() and buildPreviewUrl()
+  // No additional action needed as template bindings are reactive
+})
+
 watch(cropCoordinates, () => {
-  // Could update a preview layer here if needed
+  // Vue will automatically update template expressions that use buildBboxUrl() and buildPreviewUrl()
+  // No additional action needed as template bindings are reactive
 }, { deep: true })
+
+// Computed properties for reactive URLs
+const bboxUrl = computed(() => {
+  return buildBboxUrl()
+})
+
+const previewUrl = computed(() => {
+  return buildPreviewUrl()
+})
 
 function buildBboxUrl() {
   const combo = bandCombinations[selectedBands.value]
   const params = new URLSearchParams()
   
-  // Add bbox
+  // Bbox coordinates in the URL path
   const bbox = `${cropCoordinates.value.minLon},${cropCoordinates.value.minLat},${cropCoordinates.value.maxLon},${cropCoordinates.value.maxLat}`
-  params.set('bbox', bbox)
   
   // Add band parameters
   if (combo.variables) {
@@ -78,17 +92,16 @@ function buildBboxUrl() {
     params.set('colormap_name', combo.colormap)
   }
   
-  return `${baseUrl}/collections/${collection}/items/${sampleItem}/crop?${params.toString()}`
+  const queryString = params.toString()
+  return `${baseUrl}/collections/${collection}/items/${sampleItem}/bbox/${bbox}/1024x1024.png${queryString ? '?' + queryString : ''}`
 }
 
 function buildPreviewUrl() {
   const combo = bandCombinations[selectedBands.value]
   const params = new URLSearchParams()
   
-  // Add bbox
+  // Bbox coordinates in the URL path
   const bbox = `${cropCoordinates.value.minLon},${cropCoordinates.value.minLat},${cropCoordinates.value.maxLon},${cropCoordinates.value.maxLat}`
-  params.set('bbox', bbox)
-  params.set('max_size', '512')
   
   // Add band parameters
   if (combo.variables) {
@@ -103,7 +116,8 @@ function buildPreviewUrl() {
     params.set('colormap_name', combo.colormap)
   }
   
-  return `${baseUrl}/collections/${collection}/items/${sampleItem}/preview?${params.toString()}`
+  const queryString = params.toString()
+  return `${baseUrl}/collections/${collection}/items/${sampleItem}/bbox/${bbox}/512x512.png${queryString ? '?' + queryString : ''}`
 }
 
 function enableDrawing() {
@@ -368,13 +382,13 @@ This example demonstrates how to extract specific areas from satellite scenes us
   <h3>🖼️ Crop Preview & Download</h3>
   <div class="result-grid">
     <div>
-      <img :src="buildPreviewUrl()" alt="Crop Preview" class="preview-image" @error="$event.target.style.display='none'" />
+      <img :src="previewUrl" alt="Crop Preview" class="preview-image" @error="$event.target.style.display='none'" />
     </div>
     <div class="download-section">
-      <a :href="buildBboxUrl()" class="download-btn" target="_blank">
+      <a :href="bboxUrl" class="download-btn" target="_blank">
         📥 Download Full Resolution
       </a>
-      <a :href="buildPreviewUrl()" class="download-btn" target="_blank">
+      <a :href="previewUrl" class="download-btn" target="_blank">
         🖼️ Download Preview (512px)
       </a>
     </div>
@@ -384,8 +398,8 @@ This example demonstrates how to extract specific areas from satellite scenes us
 <div class="url-section">
   <h3>🔗 Crop API URL</h3>
   <p>This URL returns the cropped data as a GeoTIFF or image:</p>
-  <div class="url-display">{{ buildBboxUrl() }}</div>
-  <button class="copy-button" @click="navigator.clipboard?.writeText(buildBboxUrl())">
+  <div class="url-display">{{ bboxUrl }}</div>
+  <button class="copy-button" @click="navigator.clipboard?.writeText(bboxUrl)">
     📋 Copy URL
   </button>
 </div>
