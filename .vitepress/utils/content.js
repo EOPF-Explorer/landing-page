@@ -138,6 +138,6 @@ export const tableData = [
       'Zarr (EOPF Sample Service)': cross,
       'SAFE': cross,
     },
-    content: 'EOPF Explorer Zarr is relying on <a href="https://zarr.dev/conventions/">Zarr Conventions</a> for defining <a href=""https://github.com/zarr-developers/geozarr-spec?tab=readme-ov-file#conventions>geospatial-data-specific features in GeoZarr</a>, in particular georeference and . This means that the data format is recognised and discoverable by the community, which will hopefully lead to wider adoption by other data producers and software client libaries.<br/><br/>EOPF Sample Service Zarr currently uses a bespoke format for encoding geospatial and multiscales information.',
+    content: 'EOPF Explorer Zarr is relying on <a href="https://zarr.dev/conventions/">Zarr Conventions</a> for defining <a href=""https://github.com/zarr-developers/geozarr-spec?tab=readme-ov-file#conventions>geospatial-data-specific features in GeoZarr</a>, in particular georeference and . This means that the data format is recognised and discoverable by the community, which will hopefully lead to wider adoption by other data producers and software client libaries.<br/><br/>EOPF Sample Service Zarr currently uses a <a href="https://cpm.pages.eopf.copernicus.eu/eopf-cpm/main/PSFD/index.html">bespoke format</a> for encoding geospatial and multiscales information.',
   },
 ]
