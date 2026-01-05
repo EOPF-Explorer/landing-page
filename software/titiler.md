@@ -3,18 +3,11 @@ title: Titiler Integration
 layout: page
 ---
 
-<script>
-// Load common utilities  
-const script = document.createElement('script')
-script.src = './common.js'
-document.head.appendChild(script)
+<style>
+/* Import common CSS first to avoid FOUC */
+@import './common.css';
+</style>
 
-// Load common CSS
-const link = document.createElement('link')
-link.rel = 'stylesheet'
-link.href = './common.css'
-document.head.appendChild(link)
-</script>
 <script setup>
 import { ref, onMounted } from 'vue'
 
@@ -22,6 +15,13 @@ const apiStatus = ref(null)
 const loading = ref(true)
 
 onMounted(async () => {
+  // Load common utilities on client-side only
+  if (typeof window !== 'undefined') {
+    const script = document.createElement('script')
+    script.src = './common.js'
+    document.head.appendChild(script)
+  }
+  
   // Check API availability
   try {
     const response = await fetch('https://api.explorer.eopf.copernicus.eu/raster/_mgmt/ping')
@@ -35,210 +35,108 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.warning {
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
-  color: #856404;
+/* Page-specific styles for Titiler integration main page */
+.api-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px;
-  border-radius: 4px;
+  border-radius: 6px;
   margin: 16px 0;
+  font-weight: 500;
 }
 
-.success {
+.api-status.loading {
+  background: #f8f9fa;
+  border: 1px solid #e1e4e8;
+  color: #586069;
+}
+
+.api-status.online {
   background: #d4edda;
   border: 1px solid #c3e6cb;
   color: #155724;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
 }
 
-.info {
-  background: #d1ecf1;
-  border: 1px solid #b6d4fe;
-  color: #0c5460;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
+.api-status.offline {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
 }
 
-.examples-grid {
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-indicator.loading {
+  background: #6c757d;
+  animation: pulse 1.5s infinite;
+}
+
+.status-indicator.online {
+  background: #28a745;
+}
+
+.status-indicator.offline {
+  background: #dc3545;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.features-comparison {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
   margin: 32px 0;
 }
 
-.example-card {
+.feature-column {
+  background: #f8f9fa;
   border: 1px solid #e1e4e8;
   border-radius: 8px;
   padding: 20px;
-  background: #fafbfc;
-  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.example-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.example-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 12px;
+.feature-column h4 {
+  margin: 0 0 16px 0;
   color: #24292e;
+  font-size: 16px;
 }
 
-.example-description {
-  color: #586069;
-  margin-bottom: 16px;
-  line-height: 1.5;
-}
-
-.example-features {
+.feature-list {
   list-style: none;
   padding: 0;
-  margin-bottom: 16px;
+  margin: 0;
 }
 
-.example-features li {
-  padding: 4px 0;
+.feature-list li {
+  padding: 8px 0;
   color: #586069;
   font-size: 14px;
+  border-bottom: 1px solid #e1e4e8;
 }
 
-.example-features li:before {
+.feature-list li:last-child {
+  border-bottom: none;
+}
+
+.feature-list li:before {
   content: "✓";
   color: #28a745;
   font-weight: bold;
   margin-right: 8px;
 }
-
-.example-link {
-  display: inline-block;
-  padding: 8px 16px;
-  background: #0366d6;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-
-.example-link:hover {
-  background: #0256cc;
-  color: white;
-}
-
-.overview-section {
-  background: #f6f8fa;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  padding: 24px;
-  margin: 24px 0;
-}
-
-.quick-start {
-  background: #e7f3ff;
-  border: 1px solid #b3d7ff;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 24px 0;
-}
-
-.installation-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-  margin: 16px 0;
-}
-
-.installation-method {
-  background: #f8f9fa;
-  border: 1px solid #e1e4e8;
-  border-radius: 6px;
-  padding: 16px;
-}
-
-.installation-method h4 {
-  margin: 0 0 12px 0;
-  color: #24292e;
-}
-
-pre {
-  background: #f6f8fa;
-  padding: 12px;
-  border-radius: 4px;
-  overflow-x: auto;
-  font-size: 13px;
-  margin: 8px 0;
-}
-
-code {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-}
-
-/* Ensure VitePress copy buttons are visible */
-.copy {
-  display: block !important;
-  opacity: 1 !important;
-}
-
-/* Style the copy button */
-.copy {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 40px;
-  height: 40px;
-  background-color: var(--vp-code-copy-code-bg, #f6f8fa);
-  border: 1px solid var(--vp-code-copy-code-border-color, #e1e4e8);
-  border-radius: 4px;
-  cursor: pointer;
-  z-index: 2;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Add clipboard icon */
-.copy::before {
-  content: "📋";
-  font-size: 16px;
-}
-
-/* Alternative CSS-only clipboard icon */
-.copy::after {
-  content: "";
-  display: block;
-  width: 16px;
-  height: 16px;
-  background: currentColor;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") no-repeat center;
-  mask-size: contain;
-  position: absolute;
-}
-
-.copied::before {
-  content: "✓";
-  font-size: 16px;
-  color: green;
-  position: absolute;
-}
-
-/* Hide language labels under tabs */
-span.lang {
-  display: none !important;
-}
-
-a {
-  color: #0366d6;
-}
 </style>
 
-# Titiler Integration with EOPF Zarr Data
+## Titiler Integration <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
-## Overview
+### Overview
 
 This guide demonstrates how to use Titiler-EOPF, a specialized tile server that provides on-the-fly visualization of EOPF's Zarr-formatted satellite data. Unlike client-side processing, Titiler handles complex calculations server-side and delivers optimized tiles for web mapping applications.
 
@@ -255,74 +153,88 @@ This guide demonstrates how to use Titiler-EOPF, a specialized tile server that 
 </div>
 
 <div class="overview-section">
-<h3>🎯 What You'll Learn</h3>
+<strong>🎯 What You'll Learn</strong>
 <p>This integration guide covers server-side tile generation using EOPF's Titiler service, enabling you to build responsive web applications without handling complex data processing in the browser. Each example demonstrates practical implementation patterns for real-world applications.</p>
 
 <p><strong>Sample Data</strong> used here are available in <a href="https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a">the Sentinel-2 L2A collection in STAC Browser</a></p>
 </div>
 
-## Quick Start
+### Quick Start
 
 <div class="quick-start">
-<h3>🚀 Get Started in 5 Minutes</h3>
+<strong>🚀 Get Started in 5 Minutes</strong>
 <p>Ready to dive in? Start with the <a href="/titiler/rgb">RGB Visualization example</a> to see Titiler serving EOPF tiles in a web map, then explore NDVI calculations and spatial cropping techniques.</p>
 </div>
 
-## API Documentation
+**Version Notes**
+
+⚠️ **Early Implementation**: This Titiler integration represents an early implementation of EOPF data services. Data availability, API stability, and library alignment will evolve over time as the platform matures.
+
+### API Documentation
 
 <div class="installation-grid">
   <div class="installation-method">
-    <h4>Interactive API Docs</h4>
+    <strong>Interactive API Docs</strong>
     <p><a href="https://api.explorer.eopf.copernicus.eu/raster/api.html" target="_blank">Swagger UI Documentation</a></p>
     <p>Complete API reference with interactive examples and endpoint testing.</p>
   </div>
 
   <div class="installation-method">
-    <h4>Base URL</h4>
+    <strong>Base URL</strong>
     <pre><code>https://api.explorer.eopf.copernicus.eu/raster/</code></pre>
     <p>All tile endpoints use this base URL for production integration.</p>
   </div>
 </div>
 
-## Key Concepts
+### Key Concepts
 
-### Server-Side Processing
+**Server-Side Processing**
+
 Titiler-EOPF performs all data processing server-side, including:
+
 - **On-the-fly tile generation** from Zarr datasets
 - **Mathematical expressions** for band combinations and indices
 - **Color enhancement** with gamma correction and contrast adjustment
 - **Spatial operations** like cropping and reprojection
 
-### Variable Naming Convention
+**Variable Naming Convention**
+
 Band references use the format:
+
 ```
 /measurements/reflectance:b04
 ```
+
 - `measurements/reflectance` - Multiscales group path in Zarr structure
 - `b04` - Specific band identifier (Red band)
 
-### URL Structure
+**URL Structure**
+
 Tile endpoints follow this pattern:
+
 ```
 /raster/collections/{collection}/items/{item}/tiles/WebMercatorQuad/{z}/{x}/{y}.png
 ```
 
-## Deployment Options
+### Deployment Options
 
-### 1. EOPF Explorer Platform (Recommended)
+**1. EOPF Explorer Platform (Recommended)**
+
 - **Pre-configured** with STAC catalog integration
 - **Production-ready** endpoints with optimized performance
 - **No authentication** required for public data
 - **Automatic updates** with latest EOPF data
 
-### 2. Self-Hosted Instance
+**2. Self-Hosted Instance**
+
 For custom deployments, see the [titiler-eopf repository](https://github.com/EOPF-Explorer/titiler-eopf) for:
+
 - Docker Compose setup instructions
 - Kubernetes/Helm deployment guides
 - Environment configuration examples
 - Custom data source integration
 
-## Integration Examples
+### Integration Examples
 
 <div class="examples-grid">
   <div class="example-card">
@@ -368,11 +280,7 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
   </div>
 </div>
 
-## Version Notes
-
-⚠️ **Early Implementation**: This Titiler integration represents an early implementation of EOPF data services. Data availability, API stability, and library alignment will evolve over time as the platform matures.
-
-## Next Steps
+### Next Steps
 
 1. **Start with Examples**: Work through each [example](#integration-examples) to understand the capabilities
 2. **Explore API Documentation**: Use the [interactive Swagger UI](https://api.explorer.eopf.copernicus.eu/raster/api.html) to test endpoints
