@@ -252,7 +252,7 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
   </div>
 
   <div class="example-card">
-    <div class="example-title">2. NDVI & Vegetation Indices</div>
+    <div class="example-title">2. Vegetation Indices</div>
     <div class="example-description">
       Calculate vegetation indices server-side using mathematical expressions and visualize with custom color schemes.
     </div>

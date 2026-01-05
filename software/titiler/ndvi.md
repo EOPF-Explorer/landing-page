@@ -3,48 +3,42 @@ title: NDVI Calculations with Titiler
 layout: page
 ---
 
+<style>
+/* Import common CSS first to avoid FOUC */
+@import '../common.css';
+</style>
+
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
-
-// Load common utilities
-const script = document.createElement('script')
-script.src = '../common.js'
-document.head.appendChild(script)
-
-// Load common CSS
-const link = document.createElement('link')
-link.rel = 'stylesheet'
-link.href = '../common.css'
-document.head.appendChild(link)
+import { ref, onMounted, nextTick, watch } from 'vue'
 
 const mapContainer = ref(null)
 const map = ref(null)
 const selectedExpression = ref('ndvi')
-const customRescaleMin = ref(-1)
-const customRescaleMax = ref(1)
-const selectedColormap = ref('rdylgn')
+const customRescaleMin = ref(-0.3)
+const customRescaleMax = ref(0.8)
+const selectedColormap = ref('ylgn')
 
 const expressions = {
   'ndvi': {
     name: 'NDVI (Normalized Difference Vegetation Index)',
     description: 'Classic vegetation index highlighting healthy vegetation',
-    expression: '(/measurements/reflectance/r10m:b08-/measurements/reflectance/r10m:b04)/(/measurements/reflectance/r10m:b08%2b/measurements/reflectance/r10m:b04)',
-    rescale: '-1,1',
-    colormap: 'rdylgn',
+    expression: '(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)',
+    rescale: '-0.3,0.8',
+    colormap: 'ylgn',
     formula: '(NIR - Red) / (NIR + Red) = (B08 - B04) / (B08 + B04)'
   },
   'evi': {
     name: 'EVI (Enhanced Vegetation Index)',
     description: 'Improved vegetation index with reduced atmospheric effects',
-    expression: '2.5*((/measurements/reflectance/r10m:b08-/measurements/reflectance/r10m:b04)/(/measurements/reflectance/r10m:b08%2b6*/measurements/reflectance/r10m:b04-7.5*/measurements/reflectance/r10m:b02%2b1))',
-    rescale: '0,2',
+    expression: '2.5*((/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+6.0*/measurements/reflectance:b04-7.5*/measurements/reflectance:b02+1.0))',
+    rescale: '-0.3,1.5',
     colormap: 'viridis',
     formula: '2.5 * ((NIR - Red) / (NIR + 6*Red - 7.5*Blue + 1))'
   },
   'ndwi': {
     name: 'NDWI (Normalized Difference Water Index)',
     description: 'Water body detection and monitoring index',
-    expression: '(/measurements/reflectance/r10m:b03-/measurements/reflectance/r10m:b08)/(/measurements/reflectance/r10m:b03%2b/measurements/reflectance/r10m:b08)',
+    expression: '(/measurements/reflectance:b03-/measurements/reflectance:b08)/(/measurements/reflectance:b03+/measurements/reflectance:b08)',
     rescale: '-1,1',
     colormap: 'blues',
     formula: '(Green - NIR) / (Green + NIR) = (B03 - B08) / (B03 + B08)'
@@ -52,7 +46,7 @@ const expressions = {
   'nbr': {
     name: 'NBR (Normalized Burn Ratio)',
     description: 'Fire scar and burn severity detection',
-    expression: '(/measurements/reflectance/r10m:b08-/measurements/reflectance/r20m:b12)/(/measurements/reflectance/r10m:b08%2b/measurements/reflectance/r20m:b12)',
+    expression: '(/measurements/reflectance:b08-/measurements/reflectance:b12)/(/measurements/reflectance:b08+/measurements/reflectance:b12)',
     rescale: '-1,1',
     colormap: 'rdpu',
     formula: '(NIR - SWIR2) / (NIR + SWIR2) = (B08 - B12) / (B08 + B12)'
@@ -60,7 +54,7 @@ const expressions = {
 }
 
 const colormaps = [
-  { value: 'rdylgn', name: 'Red-Yellow-Green', description: 'Classic vegetation colormap' },
+  { value: 'ylgn', name: 'Yellow-Green', description: 'Classic vegetation colormap' },
   { value: 'viridis', name: 'Viridis', description: 'Perceptually uniform colormap' },
   { value: 'plasma', name: 'Plasma', description: 'Purple-pink-yellow gradient' },
   { value: 'blues', name: 'Blues', description: 'Blue gradient for water features' },
@@ -68,7 +62,7 @@ const colormaps = [
   { value: 'spectral', name: 'Spectral', description: 'Rainbow spectrum' }
 ]
 
-const sampleItem = 'S2B_MSIL2A_20251218T110359_N0511_R094_T32VLK_20251218T115223'
+const sampleItem = 'S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704'
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 
@@ -104,12 +98,37 @@ function resetRescale() {
   selectedColormap.value = expr.colormap
 }
 
-// Function to wait for OpenLayers to load
+// Use shared OpenLayers loading utility from common.js
 function waitForOpenLayers() {
   return window.waitForOpenLayers()
 }
 
+// Helper function to wait for common utilities to load
+function waitForCommonUtilities() {
+  return new Promise((resolve) => {
+    const checkUtilities = () => {
+      if (window.checkWebGLSupport && window.waitForOpenLayers) {
+        resolve()
+      } else {
+        setTimeout(checkUtilities, 50)
+      }
+    }
+    checkUtilities()
+  })
+}
+
 onMounted(async () => {
+  // Load common utilities on client-side only
+  if (typeof window !== 'undefined') {
+    const script = document.createElement('script')
+    script.src = '../common.js'
+    document.head.appendChild(script)
+  }
+  
+  // Wait for common utilities to load
+  await waitForCommonUtilities()
+
+  // Wait for OpenLayers to be available
   await waitForOpenLayers()
   
   if (typeof window.ol === 'undefined') {
@@ -142,14 +161,13 @@ onMounted(async () => {
       tileLayer
     ],
     view: new View({
-      center: fromLonLat([12.3, 45.8]), // Venice area
+      center: fromLonLat([12.3, 45.2]), // Venice area
       zoom: 11
     })
   })
 })
 
 // Watch for changes
-import { watch } from 'vue'
 watch(selectedExpression, () => {
   resetRescale()
   updateTileLayer()
@@ -158,95 +176,9 @@ watch([customRescaleMin, customRescaleMax, selectedColormap], updateTileLayer)
 </script>
 
 <style scoped>
-.warning {
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
-  color: #856404;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
-}
+/* Page-specific styles only - common styles imported above */
 
-.success {
-  background: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
-}
-
-.info {
-  background: #d1ecf1;
-  border: 1px solid #b6d4fe;
-  color: #0c5460;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
-}
-
-.demo-section {
-  margin: 24px 0;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.map-container {
-  width: 100%;
-  height: 500px;
-  position: relative;
-}
-
-.code-section {
-  background: #f6f8fa;
-  padding: 16px;
-  border-top: 1px solid #e1e4e8;
-}
-
-.copy-button {
-  background: #0366d6;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 12px;
-  font-size: 14px;
-}
-
-.copy-button:hover {
-  background: #0256cc;
-}
-
-.controls {
-  background: #f6f8fa;
-  padding: 16px;
-  border-top: 1px solid #e1e4e8;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.control-group {
-  margin-bottom: 16px;
-}
-
-.control-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #24292e;
-}
-
-.control-group select,
-.control-group input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #d1d5da;
-  border-radius: 6px;
-  font-size: 14px;
-}
+/* Specific rescale input layout for this page */
 
 .rescale-inputs {
   display: grid;
@@ -257,19 +189,6 @@ watch([customRescaleMin, customRescaleMax, selectedColormap], updateTileLayer)
 
 .rescale-inputs input {
   width: auto;
-}
-
-.reset-button {
-  background: #f1f3f4;
-  border: 1px solid #d1d5da;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.reset-button:hover {
-  background: #e1e4e8;
 }
 
 .expression-info {
@@ -302,110 +221,6 @@ watch([customRescaleMin, customRescaleMax, selectedColormap], updateTileLayer)
   border-left: 3px solid #28a745;
 }
 
-.url-section {
-  background: #f6f8fa;
-  padding: 20px;
-  border-radius: 8px;
-  margin: 24px 0;
-}
-
-.url-section h3 {
-  margin: 0 0 12px 0;
-  color: #24292e;
-}
-
-.url-display {
-  background: #f6f8fa;
-  color: #24292e;
-  padding: 12px;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 11px;
-  word-break: break-all;
-  margin: 12px 0;
-  max-height: 100px;
-  overflow-y: auto;
-  border: 1px solid #e1e4e8;
-}
-
-pre {
-  background: #f6f8fa;
-  color: #24292e;
-  padding: 16px;
-  border-radius: 4px;
-  overflow-x: auto;
-  font-size: 14px;
-  line-height: 1.4;
-  margin: 16px 0;
-  border: 1px solid #e1e4e8;
-}
-
-code {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  background: #f6f8fa;
-  color: #24292e;
-  padding: 2px 4px;
-  border-radius: 3px;
-}
-
-/* Light theme syntax highlighting */
-pre code {
-  background: transparent;
-  color: #24292e;
-  padding: 0;
-}
-
-/* Ensure VitePress copy buttons are visible */
-.vp-code-group .copy,
-.vp-doc div[class*="language-"] .copy {
-  display: block !important;
-  opacity: 1 !important;
-}
-
-/* Style the copy button */
-.vp-code-group .copy,
-.vp-doc div[class*="language-"] .copy {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 40px;
-  height: 40px;
-  background-color: var(--vp-code-copy-code-bg, #f6f8fa);
-  border: 1px solid var(--vp-code-copy-code-border-color, #e1e4e8);
-  border-radius: 4px;
-  cursor: pointer;
-  z-index: 2;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Add clipboard icon */
-.vp-code-group .copy::before,
-.vp-doc div[class*="language-"] .copy::before {
-  content: "📋";
-  font-size: 16px;
-}
-
-/* Alternative CSS-only clipboard icon */
-.vp-code-group .copy::after,
-.vp-doc div[class*="language-"] .copy::after {
-  content: "";
-  display: block;
-  width: 16px;
-  height: 16px;
-  background: currentColor;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") no-repeat center;
-  mask-size: contain;
-  position: absolute;
-}
-
-/* Hide language labels under tabs */
-.vp-code-group span.lang,
-.vp-doc div[class*="language-"] span.lang {
-  display: none !important;
-}
-
 @media (max-width: 768px) {
   .controls {
     grid-template-columns: 1fr;
@@ -413,11 +228,11 @@ pre code {
 }
 </style>
 
-# NDVI & Vegetation Indices with Titiler
+## TiTiler - Vegetation Indices <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 This example demonstrates how to calculate vegetation indices using Titiler's server-side mathematical expressions. All calculations are performed on the server, returning pre-computed tiles optimized for web display.
 
-## Interactive Example
+### Interactive Example
 
 <div class="controls">
   <div>
@@ -430,7 +245,6 @@ This example demonstrates how to calculate vegetation indices using Titiler's se
         <option value="nbr">NBR - Burn Ratio</option>
       </select>
     </div>
-    
     <div class="control-group">
       <label>Value Range (Rescale):</label>
       <div class="rescale-inputs">
@@ -454,7 +268,7 @@ This example demonstrates how to calculate vegetation indices using Titiler's se
   </div>
   
   <div class="expression-info" v-if="expressions[selectedExpression]">
-    <h4>{{ expressions[selectedExpression].name }}</h4>
+    <strong>{{ expressions[selectedExpression].name }}</strong>
     <p>{{ expressions[selectedExpression].description }}</p>
     <div class="expression-formula">{{ expressions[selectedExpression].formula }}</div>
   </div>
@@ -463,7 +277,7 @@ This example demonstrates how to calculate vegetation indices using Titiler's se
 <div ref="mapContainer" class="map-container"></div>
 
 <div class="url-section">
-  <h3>🔗 Generated Expression URL</h3>
+  <strong>🔗 Generated Expression URL</strong>
   <p>This URL contains the mathematical expression processed by Titiler:</p>
   <div class="url-display">{{ buildTileUrl() }}</div>
   <button class="copy-button" @click="navigator.clipboard?.writeText(buildTileUrl())">
@@ -471,110 +285,227 @@ This example demonstrates how to calculate vegetation indices using Titiler's se
   </button>
 </div>
 
-## Key Concepts
+### Key Concepts
 
-### Server-Side Expressions
+**Server-Side Expressions**
+
 Titiler processes mathematical expressions on the server using band references:
 
 ```javascript
 // NDVI calculation
-expression = "(B08 - B04) / (B08 + B04)"
+expression = "(B08 - B04) / (B08 + B04)";
 
 // URL-encoded for API
-expression = "(/measurements/reflectance/r10m:b08-/measurements/reflectance/r10m:b04)/(/measurements/reflectance/r10m:b08%2b/measurements/reflectance/r10m:b04)"
+expression =
+  "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
 ```
 
-### Band References in Expressions
-- **NIR Band**: `/measurements/reflectance/r10m:b08` (10m resolution)
-- **Red Band**: `/measurements/reflectance/r10m:b04` (10m resolution)  
-- **Green Band**: `/measurements/reflectance/r10m:b03` (10m resolution)
-- **Blue Band**: `/measurements/reflectance/r10m:b02` (10m resolution)
-- **SWIR Bands**: `/measurements/reflectance/r20m:b11`, `/measurements/reflectance/r20m:b12` (20m resolution)
+**Band References in Expressions**
 
-### Color Mapping
+- **NIR Band**: `/measurements/reflectance:b08` (10m resolution)
+- **Red Band**: `/measurements/reflectance:b04` (10m resolution)
+- **Green Band**: `/measurements/reflectance:b03` (10m resolution)
+- **Blue Band**: `/measurements/reflectance:b02` (10m resolution)
+- **SWIR Bands**: `/measurements/reflectance:b11`, `/measurements/reflectance:b12` (20m resolution)
+
+**Color Mapping**
+
 The `colormap_name` parameter applies predefined color schemes:
-- **rdylgn**: Red-Yellow-Green (ideal for vegetation)
+
+- **ylgn**: Yellow-Green (ideal for vegetation)
 - **viridis**: Perceptually uniform (good for scientific data)
 - **blues**: Blue gradient (perfect for water indices)
 
-### Value Rescaling
+**Value Rescaling**
+
 The `rescale` parameter normalizes index values for optimal visualization:
-- **NDVI**: `-1,1` (vegetation ranges from -1 to +1)
-- **EVI**: `0,2` (enhanced range for better sensitivity)
+
+- **NDVI**: `-0.3,0.8` (optimized vegetation range)
+- **EVI**: `-0.3,1.5` (enhanced range for better sensitivity)
 - **NDWI**: `-1,1` (water index ranges)
 
-## Implementation Code
+### Implementation Code
 
-### Basic Expression Setup
+::: code-group
 
-```javascript
-import { Map, View } from 'ol'
-import TileLayer from 'ol/layer/Tile'
-import XYZ from 'ol/source/XYZ'
+```javascript [OpenLayers Setup]
+import { Map, View } from "ol";
+import TileLayer from "ol/layer/Tile";
+import XYZ from "ol/source/XYZ";
+import { fromLonLat } from "ol/proj";
+
+// Wait for OpenLayers to load
+await window.waitForOpenLayers();
 
 // NDVI expression (URL-encoded)
-const ndviExpression = '(/measurements/reflectance/r10m:b08-/measurements/reflectance/r10m:b04)/(/measurements/reflectance/r10m:b08%2b/measurements/reflectance/r10m:b04)'
+const ndviExpression =
+  "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
 
-const tileUrl = `https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?` +
+const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
+const collection = "sentinel-2-l2a";
+const itemId = "S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704";
+
+const tileUrl =
+  `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?` +
   `expression=${ndviExpression}&` +
-  `rescale=-1,1&` +
-  `colormap_name=rdylgn`
+  `rescale=-0.3,0.8&` +
+  `colormap_name=ylgn`;
 
-const layer = new TileLayer({
-  source: new XYZ({
-    url: tileUrl,
-    crossOrigin: 'anonymous'
-  })
-})
+const map = new Map({
+  target: "map",
+  layers: [
+    new TileLayer({ source: new OSM() }), // Base layer
+    new TileLayer({
+      source: new XYZ({
+        url: tileUrl,
+        crossOrigin: "anonymous",
+      }),
+      opacity: 0.9,
+    }),
+  ],
+  view: new View({
+    center: fromLonLat([12.3, 45.8]),
+    zoom: 11,
+  }),
+});
 ```
 
-### Dynamic Expression Updates
-
-```javascript
+```javascript [Dynamic Updates]
 function updateVegetationIndex(expression, rescale, colormap) {
-  const params = new URLSearchParams()
-  params.set('expression', expression)
-  params.set('rescale', rescale)
-  params.set('colormap_name', colormap)
-  
-  const newUrl = `${baseUrl}/collections/${collection}/items/${item}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${params.toString()}`
-  
-  tileLayer.getSource().setUrl(newUrl)
+  const params = new URLSearchParams();
+  params.set("expression", expression);
+  params.set("rescale", rescale);
+  params.set("colormap_name", colormap);
+
+  const newUrl = `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${params.toString()}`;
+
+  tileLayer.getSource().setUrl(newUrl);
 }
 
-// Example: Switch to EVI calculation
-updateVegetationIndex(
-  '2.5*((/measurements/reflectance/r10m:b08-/measurements/reflectance/r10m:b04)/(/measurements/reflectance/r10m:b08%2b6*/measurements/reflectance/r10m:b04-7.5*/measurements/reflectance/r10m:b02%2b1))',
-  '0,2',
-  'viridis'
-)
+// Predefined vegetation indices
+const indices = {
+  ndvi: {
+    expression:
+      "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)",
+    rescale: "-0.3,0.8",
+    colormap: "ylgn",
+  },
+  evi: {
+    expression:
+      "2.5*((/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+6.0*/measurements/reflectance:b04-7.5*/measurements/reflectance:b02+1.0))",
+    rescale: "-0.3,1.5",
+    colormap: "viridis",
+  },
+  ndwi: {
+    expression:
+      "(/measurements/reflectance:b03-/measurements/reflectance:b08)/(/measurements/reflectance:b03+/measurements/reflectance:b08)",
+    rescale: "-1,1",
+    colormap: "blues",
+  },
+};
+
+// Switch to EVI
+const evi = indices.evi;
+updateVegetationIndex(evi.expression, evi.rescale, evi.colormap);
 ```
 
-## Common Vegetation Indices
+```javascript [Vue.js Integration]
+import { ref, onMounted, watch } from "vue";
 
-| Index | Formula | Use Case | Typical Range |
-|-------|---------|----------|---------------|
-| **NDVI** | (NIR - Red) / (NIR + Red) | General vegetation health | -1 to 1 |
-| **EVI** | 2.5 × ((NIR - Red) / (NIR + 6×Red - 7.5×Blue + 1)) | Enhanced sensitivity, less atmospheric interference | 0 to 2 |
-| **NDWI** | (Green - NIR) / (Green + NIR) | Water body detection | -1 to 1 |
-| **NBR** | (NIR - SWIR2) / (NIR + SWIR2) | Burn scar detection | -1 to 1 |
+const selectedIndex = ref("ndvi");
+const customRescaleMin = ref(-0.3);
+const customRescaleMax = ref(0.8);
+const selectedColormap = ref("ylgn");
 
-## Interpretation Guide
+function buildTileUrl() {
+  const index = indices[selectedIndex.value];
+  const params = new URLSearchParams();
 
-### NDVI Values
-- **< 0**: Water bodies, built-up areas
-- **0-0.2**: Bare soil, rock, sand
-- **0.2-0.4**: Sparse vegetation, grassland
-- **0.4-0.6**: Moderate vegetation
-- **> 0.6**: Dense, healthy vegetation
+  params.set("expression", index.expression);
+  params.set("rescale", `${customRescaleMin.value},${customRescaleMax.value}`);
+  params.set("colormap_name", selectedColormap.value);
 
-### EVI Advantages
-- Reduced atmospheric effects
-- Better performance in dense vegetation
-- Enhanced sensitivity to vegetation changes
+  return `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${params.toString()}`;
+}
+
+// Reactive updates
+watch(
+  [selectedIndex, customRescaleMin, customRescaleMax, selectedColormap],
+  () => {
+    updateTileLayer();
+  }
+);
+
+onMounted(async () => {
+  await window.waitForOpenLayers();
+  initializeMap();
+});
+```
+
+```javascript [API Direct Usage]
+// Direct API calls for vegetation analysis
+const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
+
+async function calculateNDVI(collection, itemId, bbox = null) {
+  const expression =
+    "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
+
+  const params = new URLSearchParams({
+    expression: expression,
+    rescale: "-0.3,0.8",
+    colormap_name: "ylgn",
+  });
+
+  if (bbox) {
+    params.set("bbox", bbox.join(","));
+  }
+
+  const response = await fetch(
+    `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${params.toString()}`
+  );
+
+  return response.url;
+}
+
+// Get vegetation statistics for area
+async function getVegetationStats(collection, itemId, geometry) {
+  const response = await fetch(
+    `${baseUrl}/collections/${collection}/items/${itemId}/statistics`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        expression:
+          "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)",
+        geometry: geometry,
+      }),
+    }
+  );
+
+  return await response.json();
+}
+
+// Usage
+const ndviUrl = await calculateNDVI(
+  "sentinel-2-l2a",
+  "S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704"
+);
+console.log("NDVI tile URL:", ndviUrl);
+```
+
+:::
+
+### Common Vegetation Indices
+
+| Index    | Formula                                            | Use Case                                            | Typical Range |
+| -------- | -------------------------------------------------- | --------------------------------------------------- | ------------- |
+| **NDVI** | (NIR - Red) / (NIR + Red)                          | General vegetation health                           | -1 to 1       |
+| **EVI**  | 2.5 × ((NIR - Red) / (NIR + 6×Red - 7.5×Blue + 1)) | Enhanced sensitivity, less atmospheric interference | 0 to 2        |
+| **NDWI** | (Green - NIR) / (Green + NIR)                      | Water body detection                                | -1 to 1       |
+| **NBR**  | (NIR - SWIR2) / (NIR + SWIR2)                      | Burn scar detection                                 | -1 to 1       |
 
 <div class="info">
-💡 **Performance Tip**: Server-side calculations are cached, so subsequent requests for the same expression and parameters load much faster.
+💡 <strong>Performance Tip</strong>: Server-side calculations are cached, so subsequent requests for the same expression and parameters load much faster.
 </div>
 
 ## Next Steps
@@ -583,6 +514,9 @@ updateVegetationIndex(
 - **RGB Visualization**: Explore [band combinations and color enhancement](./rgb)
 - **Advanced Expressions**: Check the [API documentation](https://api.explorer.eopf.copernicus.eu/raster/api.html) for more complex mathematical operations
 
-<div class="warning">
-⚠️ **Expression Complexity**: While Titiler supports complex mathematical expressions, simpler operations typically perform better and cache more effectively.
+<div class="navigation">
+  <div></div>
+  <a href="./rgb" class="nav-button">← Previous: RGB Visualization</a>
+  <span><strong>2 of 3</strong> - Vegetation Indices</span>
+  <a href="./crop" class="nav-button">Next: Spatial Operations →</a>
 </div>

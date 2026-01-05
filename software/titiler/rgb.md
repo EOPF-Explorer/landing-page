@@ -261,7 +261,7 @@ import { fromLonLat } from "ol/proj";
 
 // Titiler tile URL with band variables
 const tileUrl =
-  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251218T110359_N0511_R094_T32VLK_20251218T115223/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
   "variables=/measurements/reflectance:b04&" +
   "variables=/measurements/reflectance:b03&" +
   "variables=/measurements/reflectance:b02&" +
@@ -334,7 +334,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
 // Build Titiler URL
 const tileUrl =
-  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251218T110359_N0511_R094_T32VLK_20251218T115223/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
   "variables=/measurements/reflectance:b04&" +
   "variables=/measurements/reflectance:b03&" +
   "variables=/measurements/reflectance:b02&" +
@@ -424,5 +424,5 @@ const trueColorUrl = buildTileUrl(
 <div class="navigation">
   <div></div>
   <span><strong>1 of 3</strong> - RGB Visualization</span>
-  <a href="./ndvi" class="nav-button">Next: NDVI →</a>
+  <a href="./ndvi" class="nav-button">Next: Vegetation Indices →</a>
 </div>
