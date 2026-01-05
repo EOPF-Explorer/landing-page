@@ -334,7 +334,6 @@
   color: #24292e;
   padding: 12px;
   border-radius: 4px;
-  font-family: monospace;
   font-size: 11px;
   word-break: break-all;
   margin: 12px 0;
@@ -414,19 +413,24 @@
   color: white;
 }
 
-/* Code styling */
-/* Base code font family */
-code,
-pre,
-.code-section code,
-.url-display {
+/* Code styling - Unified monospace font family */
+/* Base monospace font family applied to all code elements */
+code *,
+pre *,
+.code-section code *,
+.vp-code *,
+.url-display,
+kbd,
+samp,
+var,
+.monospace {
   font-family:
-    "Monaco", "Menlo", "Ubuntu Mono", "SFMono-Regular", "Consolas",
-    "Liberation Mono", monospace;
+    "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono",
+    "Ubuntu Mono", "Courier New", monospace !important;
 }
 
 /* Inline code */
-code {
+code  {
   background: #f6f8fa;
   color: #24292e;
   padding: 2px 4px;
@@ -551,4 +555,33 @@ a {
   .example-card {
     margin-bottom: 20px;
   }
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 32px 0;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.nav-button {
+  padding: 8px 16px;
+  background: #0366d6;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.nav-button:hover {
+  background: #0256cc;
+  color: white;
+}
+
+.nav-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
 }

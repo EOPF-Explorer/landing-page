@@ -3,6 +3,19 @@ title: OpenLayers - NDVI Calculation
 layout: page
 ---
 
+<script>
+// Load common utilities
+const script = document.createElement('script')
+script.src = '../common.js'
+document.head.appendChild(script)
+
+// Load common CSS
+const link = document.createElement('link')
+link.rel = 'stylesheet'
+link.href = '../common.css'
+document.head.appendChild(link)
+</script>
+
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
 import { scale as chromaScale } from 'chroma-js'
@@ -75,9 +88,11 @@ function updateColors() {
 }
 
 onMounted(async () => {
-  const canvas = document.createElement('canvas')
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
-  webglSupport.value = gl !== null
+  // Wait for common utilities to load
+  await waitForCommonUtilities()
+  
+  // Check WebGL support using common utility
+  webglSupport.value = window.checkWebGLSupport()
 
   if (webglSupport.value) {
     nextTick(() => {
@@ -85,6 +100,20 @@ onMounted(async () => {
     })
   }
 })
+
+// Helper function to wait for common utilities to load
+function waitForCommonUtilities() {
+  return new Promise((resolve) => {
+    const checkUtilities = () => {
+      if (window.checkWebGLSupport && window.waitForOpenLayers) {
+        resolve()
+      } else {
+        setTimeout(checkUtilities, 50)
+      }
+    }
+    checkUtilities()
+  })
+}
 
 // Watch for changes to update colors
 watch([minColor, maxColor, minValue, maxValue], updateColors)
@@ -127,211 +156,7 @@ function initializeMap() {
 }
 </script>
 
-<style scoped>
-.warning {
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
-  color: #856404;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
-}
-
-.success {
-  background: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
-}
-
-.demo-section {
-  margin: 24px 0;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.map-container {
-  width: 100%;
-  height: 500px;
-  position: relative;
-}
-
-.controls {
-  background: #f8f9fa;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
-}
-
-.controls table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.controls td {
-  padding: 8px 12px;
-  vertical-align: middle;
-}
-
-.controls td:first-child {
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.controls input[type="range"] {
-  width: 100%;
-  margin: 0 8px;
-}
-
-.controls input[type="color"] {
-  width: 40px;
-  height: 30px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.controls .data {
-  text-align: center;
-  font-family: monospace;
-  font-size: 14px;
-  min-width: 50px;
-}
-
-.code-section {
-  background: #f6f8fa;
-  padding: 16px;
-  border-top: 1px solid #e1e4e8;
-}
-
-.copy-button {
-  background: #0366d6;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 12px;
-  font-size: 14px;
-}
-
-.copy-button:hover {
-  background: #0256cc;
-}
-
-.navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 32px 0;
-  padding: 16px;
-  background: #f8f9fa;
-  border-radius: 8px;
-}
-
-.nav-button {
-  padding: 8px 16px;
-  background: #0366d6;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-.nav-button:hover {
-  background: #0256cc;
-  color: white;
-}
-
-.nav-button:disabled {
-  background: #6c757d;
-  cursor: not-allowed;
-}
-
-pre {
-  background: #f6f8fa;
-  color: #24292e;
-  padding: 16px;
-  border-radius: 4px;
-  overflow-x: auto;
-  font-size: 14px;
-  line-height: 1.4;
-  margin: 16px 0;
-  border: 1px solid #e1e4e8;
-}
-
-code {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  background: #f6f8fa;
-  color: #24292e;
-  padding: 2px 4px;
-  border-radius: 3px;
-}
-
-/* Light theme syntax highlighting */
-pre code {
-  background: transparent;
-  color: #24292e;
-  padding: 0;
-}
-
-/* Ensure VitePress copy buttons are visible */
-.vp-code-group .copy,
-.vp-doc div[class*="language-"] .copy {
-  display: block !important;
-  opacity: 1 !important;
-}
-
-/* Style the copy button */
-.vp-code-group .copy,
-.vp-doc div[class*="language-"] .copy {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 40px;
-  height: 40px;
-  background-color: var(--vp-code-copy-code-bg, #f6f8fa);
-  border: 1px solid var(--vp-code-copy-code-border-color, #e1e4e8);
-  border-radius: 4px;
-  cursor: pointer;
-  z-index: 2;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Add clipboard icon */
-.vp-code-group .copy::before,
-.vp-doc div[class*="language-"] .copy::before {
-  content: "📋";
-  font-size: 16px;
-}
-
-/* Alternative CSS-only clipboard icon */
-.vp-code-group .copy::after,
-.vp-doc div[class*="language-"] .copy::after {
-  content: "";
-  display: block;
-  width: 16px;
-  height: 16px;
-  background: currentColor;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") no-repeat center;
-  mask-size: contain;
-  position: absolute;
-}
-
-/* Hide language labels under tabs */
-.vp-code-group span.lang,
-.vp-doc div[class*="language-"] span.lang {
-  display: none !important;
-}
-</style>
-
-# NDVI Calculation
+# OpenLayers - NDVI Calculation <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
 
 This example demonstrates real-time calculation of the Normalized Difference Vegetation Index (NDVI) directly in the browser using WebGL expressions.
 
