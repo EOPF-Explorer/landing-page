@@ -116,7 +116,7 @@ function setupEventListeners() {
 }
 </script>
 
-# Building Visualization Capacity
+# Software and Services{.page-title}
 
 <div class="catalog-intro">
 Discover the comprehensive suite of services and software available for Earth observation data discovery, screening, analysis, and real-world applications. Our cloud-native visualization technologies power every aspect of the EOPF ecosystem.
@@ -166,6 +166,11 @@ Discover the comprehensive suite of services and software available for Earth ob
 </div>
 
 <style>
+.page-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
 .catalog-intro {
   text-align: center;
   margin: 2rem 0 3rem;
