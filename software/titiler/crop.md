@@ -321,7 +321,7 @@ onMounted(async () => {
 }
 </style>
 
-## Spatial Cropping with Titiler
+## TiTiler - Spatial Cropping <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 This example demonstrates how to extract specific areas from satellite scenes using Titiler's spatial operations. You can crop data using bounding boxes or draw custom areas directly on the map.
 
