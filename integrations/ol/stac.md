@@ -3,6 +3,18 @@ title: OpenLayers - STAC Catalog Integration
 layout: page
 ---
 
+<script>
+// Load common utilities
+const script = document.createElement('script')
+script.src = '../common.js'
+document.head.appendChild(script)
+</script>
+
+<style>
+/* Import common CSS first to avoid FOUC */
+@import '../common.css';
+</style>
+
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 import Map from 'ol/Map.js'
@@ -38,10 +50,11 @@ const searchResults = ref([])
 const selectedBbox = ref(null)
 
 onMounted(async () => {
-  // Check WebGL support
-  const canvas = document.createElement('canvas')
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
-  webglSupport.value = gl !== null
+  // Wait for common utilities to load
+  await waitForCommonUtilities()
+  
+  // Check WebGL support using common utility
+  webglSupport.value = window.checkWebGLSupport()
 
   // Set default dates (last 30 days)
   const today = new Date()
@@ -56,6 +69,20 @@ onMounted(async () => {
     })
   }
 })
+
+// Helper function to wait for common utilities to load
+function waitForCommonUtilities() {
+  return new Promise((resolve) => {
+    const checkUtilities = () => {
+      if (window.checkWebGLSupport && window.waitForOpenLayers) {
+        resolve()
+      } else {
+        setTimeout(checkUtilities, 50)
+      }
+    }
+    checkUtilities()
+  })
+}
 
 function initializeMap() {
   if (mapRef.value) {
@@ -357,63 +384,13 @@ function formatDate(dateString) {
 </script>
 
 <style scoped>
-.warning {
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
-  color: #856404;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
-}
-
-.success {
-  background: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
-}
-
-.error {
-  background: #f8d7da;
-  border: 1px solid #f5c6cb;
-  color: #721c24;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
-}
-
-.demo-container {
-  margin: 24px 0;
-}
-
-.controls-panel {
-  background: #f8f9fa;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.controls-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
+/* Page-specific styles for STAC integration */
 .compact-controls {
   display: flex;
   align-items: flex-start;
   gap: 20px;
   flex-wrap: wrap;
   margin-bottom: 16px;
-}
-
-.control-group {
-  display: flex;
-  flex-direction: column;
 }
 
 .control-group.compact {
@@ -426,12 +403,6 @@ function formatDate(dateString) {
   flex-direction: row;
   gap: 8px;
   margin-top: 18px; /* Align with input fields */
-}
-
-.control-group label {
-  font-weight: 500;
-  margin-bottom: 4px;
-  color: #24292e;
 }
 
 .date-input-container {
@@ -470,60 +441,6 @@ function formatDate(dateString) {
   font-size: 16px;
   pointer-events: none;
   color: #6c757d;
-}
-
-.button-group {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color 0.2s;
-}
-
-.btn-primary {
-  background: #0366d6;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #0256cc;
-}
-
-.btn-primary:disabled {
-  background: #94a3b8;
-  cursor: not-allowed;
-}
-
-.btn-secondary {
-  background: #6c757d;
-  color: white;
-}
-
-.btn-secondary:hover {
-  background: #5a6268;
-}
-
-.map-container {
-  height: 500px;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  margin: 20px 0;
-}
-
-.results-panel {
-  background: #f8f9fa;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  padding: 20px;
-  margin-top: 20px;
 }
 
 .results-grid {
@@ -567,11 +484,6 @@ function formatDate(dateString) {
   gap: 8px;
 }
 
-.btn-small {
-  padding: 6px 12px;
-  font-size: 12px;
-}
-
 .date-display {
   font-size: 12px;
   color: #586069;
@@ -587,130 +499,9 @@ function formatDate(dateString) {
   border-radius: 4px;
   color: #0066cc;
 }
-
-.instructions {
-  background: #e7f3ff;
-  border: 1px solid #b3d7ff;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 20px 0;
-}
-
-.steps-list {
-  margin: 16px 0;
-  padding-left: 20px;
-}
-
-.steps-list li {
-  margin: 8px 0;
-}
-
-code {
-  background: #f6f8fa;
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-family: 'SFMono-Regular', Consolas, monospace;
-  font-size: 13px;
-}
-
-pre {
-  background: #f6f8fa;
-  padding: 16px;
-  border-radius: 6px;
-  overflow-x: auto;
-  font-size: 13px;
-  margin: 16px 0;
-  border: 1px solid #e1e4e8;
-}
-
-/* Light theme syntax highlighting */
-pre code {
-  background: transparent;
-  color: #24292e;
-  padding: 0;
-}
-
-/* Ensure VitePress copy buttons are visible */
-.vp-code-group .copy,
-.vp-doc div[class*="language-"] .copy {
-  display: block !important;
-  opacity: 1 !important;
-}
-
-/* Style the copy button */
-.vp-code-group .copy,
-.vp-doc div[class*="language-"] .copy {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 40px;
-  height: 40px;
-  background-color: var(--vp-code-copy-code-bg, #f6f8fa);
-  border: 1px solid var(--vp-code-copy-code-border-color, #e1e4e8);
-  border-radius: 4px;
-  cursor: pointer;
-  z-index: 2;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-}
-
-.demo-section {
-  margin: 24px 0;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.code-section {
-  background: #f6f8fa;
-  padding: 16px;
-  border-top: 1px solid #e1e4e8;
-}
-
-.copy-button {
-  background: #0366d6;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 12px;
-  font-size: 14px;
-}
-
-.copy-button:hover {
-  background: #0256cc;
-}
-
-/* Add clipboard icon */
-.vp-code-group .copy::before,
-.vp-doc div[class*="language-"] .copy::before {
-  content: "📋";
-  font-size: 16px;
-}
-
-/* Alternative CSS-only clipboard icon */
-.vp-code-group .copy::after,
-.vp-doc div[class*="language-"] .copy::after {
-  content: "";
-  display: block;
-  width: 16px;
-  height: 16px;
-  background: currentColor;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") no-repeat center;
-  mask-size: contain;
-  position: absolute;
-}
-
-/* Hide language labels under tabs */
-.vp-code-group span.lang,
-.vp-doc div[class*="language-"] span.lang {
-  display: none !important;
-}
 </style>
 
-# STAC Catalog Integration
+# OpenLayers - STAC Catalog <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
 
 This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTemporal Asset Catalog) API to search and visualize Sentinel-2 data using spatial-temporal filters.
 
@@ -732,9 +523,9 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
             :max="endDate"
             title="Select start date for search"
           />
+          <div class="date-display">{{ startDate ? formatDate(startDate + 'T00:00:00Z') : 'Not selected' }}</div>
           <span class="date-icon">📅</span>
         </div>
-        <div class="date-display">{{ startDate ? formatDate(startDate + 'T00:00:00Z') : 'Not selected' }}</div>
       </div>
       <div class="control-group compact">
         <label for="end-date">End Date:</label>
@@ -747,9 +538,9 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
             :max="new Date().toISOString().split('T')[0]"
             title="Select end date for search"
           />
+          <div class="date-display">{{ endDate ? formatDate(endDate + 'T00:00:00Z') : 'Not selected' }}</div>
           <span class="date-icon">📅</span>
         </div>
-        <div class="date-display">{{ endDate ? formatDate(endDate + 'T00:00:00Z') : 'Not selected' }}</div>
       </div>
       <div class="button-group compact">
         <button 
