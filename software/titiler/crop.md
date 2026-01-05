@@ -412,26 +412,33 @@ This example demonstrates how to extract specific areas from satellite scenes us
 Titiler supports several spatial operations for data extraction:
 
 **1. Bounding Box Crop**
+
 ```
 /crop?bbox=minx,miny,maxx,maxy
 ```
+
 Extracts a rectangular area defined by geographic coordinates.
 
 **2. Feature-Based Crop**
+
 ```
 /crop?geom={"type":"Polygon","coordinates":[[[...]]]}
 ```
+
 Crops using complex geometries (polygons, multi-polygons).
 
 **3. Preview Generation**
+
 ```
 /preview?bbox=minx,miny,maxx,maxy&max_size=512
 ```
+
 Generates web-friendly previews with size constraints.
 
 **Coordinate Systems**
 
 All coordinates use **WGS84 (EPSG:4326)** longitude/latitude format:
+
 - **Longitude**: East-West position (-180 to +180)
 - **Latitude**: North-South position (-90 to +90)
 
@@ -440,6 +447,7 @@ Titiler automatically reprojects to the data's native coordinate system.
 **Output Formats**
 
 Cropped data can be returned in multiple formats:
+
 - **GeoTIFF**: Full-resolution georeferenced data
 - **PNG**: Web-ready images with transparency
 - **JPEG**: Compressed images for smaller file sizes
@@ -450,15 +458,16 @@ Cropped data can be returned in multiple formats:
 
 ```javascript [Bbox Crop API]
 // Using the correct bbox API endpoint
-const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster';
-const collection = 'sentinel-2-l2a';
-const itemId = 'S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704';
+const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
+const collection = "sentinel-2-l2a";
+const itemId = "S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704";
 
 // Define crop coordinates
-const bbox = '12.2,45.7,12.4,45.9'; // minLon,minLat,maxLon,maxLat
+const bbox = "12.2,45.7,12.4,45.9"; // minLon,minLat,maxLon,maxLat
 
 // Build crop URL with bbox in path
-const cropUrl = `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/1024x1024.png?` +
+const cropUrl =
+  `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/1024x1024.png?` +
   `variables=/measurements/reflectance:b04&` +
   `variables=/measurements/reflectance:b03&` +
   `variables=/measurements/reflectance:b02&` +
@@ -467,60 +476,60 @@ const cropUrl = `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbo
 
 // Download cropped image
 fetch(cropUrl)
-  .then(response => response.blob())
-  .then(blob => {
+  .then((response) => response.blob())
+  .then((blob) => {
     const url = URL.createObjectURL(blob);
     // Display in img element or download
-    const img = document.createElement('img');
+    const img = document.createElement("img");
     img.src = url;
     document.body.appendChild(img);
   });
 ```
 
 ```javascript [Interactive Drawing]
-import { Draw } from 'ol/interaction';
-import { Vector as VectorLayer } from 'ol/layer';
-import { Vector as VectorSource } from 'ol/source';
-import { toLonLat } from 'ol/proj';
+import { Draw } from "ol/interaction";
+import { Vector as VectorLayer } from "ol/layer";
+import { Vector as VectorSource } from "ol/source";
+import { toLonLat } from "ol/proj";
 
 // Setup drawing source and layer
 const drawSource = new VectorSource();
 const drawLayer = new VectorLayer({
   source: drawSource,
   style: {
-    'fill-color': 'rgba(255, 255, 255, 0.2)',
-    'stroke-color': '#ffcc33',
-    'stroke-width': 2
-  }
+    "fill-color": "rgba(255, 255, 255, 0.2)",
+    "stroke-color": "#ffcc33",
+    "stroke-width": 2,
+  },
 });
 
 // Create box drawing interaction
 const drawInteraction = new Draw({
   source: drawSource,
-  type: 'Circle',
+  type: "Circle",
   geometryFunction: (coordinates, geometry) => {
     if (!geometry) {
       geometry = new ol.geom.Polygon(null);
     }
     const start = coordinates[0];
     const end = coordinates[1];
-    geometry.setCoordinates([[
-      start, [end[0], start[1]], end, [start[0], end[1]], start
-    ]]);
+    geometry.setCoordinates([
+      [start, [end[0], start[1]], end, [start[0], end[1]], start],
+    ]);
     return geometry;
-  }
+  },
 });
 
 // Handle draw completion
-drawInteraction.on('drawend', (event) => {
+drawInteraction.on("drawend", (event) => {
   const extent = event.feature.getGeometry().getExtent();
   const [minLon, minLat] = toLonLat([extent[0], extent[1]]);
   const [maxLon, maxLat] = toLonLat([extent[2], extent[3]]);
-  
+
   // Build crop URL with correct API
   const bbox = `${minLon},${minLat},${maxLon},${maxLat}`;
   const cropUrl = `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/512x512.png`;
-  
+
   // Update preview
   updateCropPreview(cropUrl);
 });
@@ -532,63 +541,65 @@ map.addInteraction(drawInteraction);
 
 ```javascript [NDVI Crop Example]
 // Crop with NDVI calculation using bbox API
-const bbox = '12.05,45.32,12.6,45.57';
-const ndviExpression = '(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)';
+const bbox = "12.05,45.32,12.6,45.57";
+const ndviExpression =
+  "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
 
-const ndviCropUrl = `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/1024x1024.png?` +
+const ndviCropUrl =
+  `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/1024x1024.png?` +
   `expression=${encodeURIComponent(ndviExpression)}&` +
   `rescale=-0.3,0.8&` +
   `colormap_name=rdylgn`;
 
 // Display NDVI crop
 fetch(ndviCropUrl)
-  .then(response => response.blob())
-  .then(blob => {
+  .then((response) => response.blob())
+  .then((blob) => {
     const url = URL.createObjectURL(blob);
-    document.getElementById('ndvi-preview').src = url;
+    document.getElementById("ndvi-preview").src = url;
   });
 
 // Alternative with async/await
 async function getCropImage(bbox, bandConfig) {
   const params = new URLSearchParams();
-  
+
   if (bandConfig.variables) {
-    bandConfig.variables.forEach(variable => {
-      params.append('variables', variable);
+    bandConfig.variables.forEach((variable) => {
+      params.append("variables", variable);
     });
-    params.set('rescale', bandConfig.rescale);
-    params.set('color_formula', bandConfig.colorFormula);
+    params.set("rescale", bandConfig.rescale);
+    params.set("color_formula", bandConfig.colorFormula);
   } else if (bandConfig.expression) {
-    params.set('expression', bandConfig.expression);
-    params.set('rescale', bandConfig.rescale);
-    params.set('colormap_name', bandConfig.colormap);
+    params.set("expression", bandConfig.expression);
+    params.set("rescale", bandConfig.rescale);
+    params.set("colormap_name", bandConfig.colormap);
   }
-  
+
   const url = `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/1024x1024.png?${params}`;
-  
+
   try {
     const response = await fetch(url);
     return await response.blob();
   } catch (error) {
-    console.error('Crop failed:', error);
+    console.error("Crop failed:", error);
     throw error;
   }
 }
 ```
 
 ```javascript [Leaflet Integration]
-import L from 'leaflet';
+import L from "leaflet";
 
 // Create map with drawing controls
-const map = L.map('map').setView([45.8, 12.3], 11);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+const map = L.map("map").setView([45.8, 12.3], 11);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
 // Rectangle drawing
 let drawingRectangle = false;
 let currentRectangle = null;
 let startPoint = null;
 
-map.on('mousedown', (e) => {
+map.on("mousedown", (e) => {
   if (drawingRectangle) {
     startDraw(e.latlng);
   }
@@ -597,13 +608,13 @@ map.on('mousedown', (e) => {
 function startDraw(point) {
   startPoint = point;
   currentRectangle = L.rectangle([point, point], {
-    color: '#ff7800',
+    color: "#ff7800",
     weight: 2,
-    fillOpacity: 0.1
+    fillOpacity: 0.1,
   }).addTo(map);
-  
-  map.on('mousemove', updateRectangle);
-  map.on('mouseup', finishDraw);
+
+  map.on("mousemove", updateRectangle);
+  map.on("mouseup", finishDraw);
 }
 
 function updateRectangle(e) {
@@ -614,48 +625,47 @@ function updateRectangle(e) {
 }
 
 function finishDraw(e) {
-  map.off('mousemove', updateRectangle);
-  map.off('mouseup', finishDraw);
-  
+  map.off("mousemove", updateRectangle);
+  map.off("mouseup", finishDraw);
+
   if (currentRectangle) {
     const bounds = currentRectangle.getBounds();
     const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
-    
+
     // Generate crop using bbox API
-    const cropUrl = `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/512x512.png?` +
+    const cropUrl =
+      `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/512x512.png?` +
       `variables=/measurements/reflectance:b04&` +
       `variables=/measurements/reflectance:b03&` +
       `variables=/measurements/reflectance:b02&` +
       `rescale=0,1&` +
       `color_formula=gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2`;
-    
+
     // Display preview
     displayCropPreview(cropUrl);
   }
-  
+
   drawingRectangle = false;
 }
 
 // Enable drawing mode
-document.getElementById('draw-button').onclick = () => {
+document.getElementById("draw-button").onclick = () => {
   drawingRectangle = true;
-  map.getContainer().style.cursor = 'crosshair';
+  map.getContainer().style.cursor = "crosshair";
 };
 ```
 
-:::
-
 ### API Parameters
 
-| Parameter | Description | Example |
-|-----------|-------------|----------|
-| `bbox` | Bounding box as minx,miny,maxx,maxy | `12.2,45.7,12.4,45.9` |
-| `geom` | GeoJSON geometry for complex shapes | `{"type":"Polygon",...}` |
-| `max_size` | Maximum output dimension (preview) | `512`, `1024` |
-| `format` | Output format | `png`, `jpeg`, `tiff` |
-| `variables` | Band selection (same as tiles) | `/measurements/reflectance:b04` |
-| `expression` | Mathematical expressions | NDVI, EVI calculations |
-| `rescale` | Value normalization | `0,1`, `-1,1` |
+| Parameter    | Description                         | Example                         |
+| ------------ | ----------------------------------- | ------------------------------- |
+| `bbox`       | Bounding box as minx,miny,maxx,maxy | `12.2,45.7,12.4,45.9`           |
+| `geom`       | GeoJSON geometry for complex shapes | `{"type":"Polygon",...}`        |
+| `max_size`   | Maximum output dimension (preview)  | `512`, `1024`                   |
+| `format`     | Output format                       | `png`, `jpeg`, `tiff`           |
+| `variables`  | Band selection (same as tiles)      | `/measurements/reflectance:b04` |
+| `expression` | Mathematical expressions            | NDVI, EVI calculations          |
+| `rescale`    | Value normalization                 | `0,1`, `-1,1`                   |
 
 <div class="info">
 💡 <strong>Tip</strong>: Use the preview endpoint with `max_size=512` for quick web previews, then the full crop endpoint for high-resolution analysis.
@@ -664,9 +674,17 @@ document.getElementById('draw-button').onclick = () => {
 ### Next Steps
 
 - **RGB Visualization**: Learn about [band combinations and color enhancement](/integrations/titiler/rgb)
-- **NDVI Calculations**: Explore [vegetation indices and expressions](/integrations/titiler/ndvi)  
+- **NDVI Calculations**: Explore [vegetation indices and expressions](/integrations/titiler/ndvi)
 - **API Documentation**: Check the [complete API reference](https://api.explorer.eopf.copernicus.eu/raster/api.html) for advanced cropping options
 
 <div class="warning">
 ⚠️ <strong>Size Limits</strong>: Large crop areas may take longer to process. Consider using the preview endpoint for initial exploration.
 </div>
+
+<div class="navigation">
+  <a href="./ndvi" class="nav-button">← Previous: Vegetation Indices</a>
+  <span><strong>3 of 3</strong> - Spatial Cropping</span>
+  <a href="../titiler" class="nav-button">Back to overview →</a>
+</div>
+
+:::

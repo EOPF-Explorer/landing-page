@@ -493,8 +493,6 @@ const ndviUrl = await calculateNDVI(
 console.log("NDVI tile URL:", ndviUrl);
 ```
 
-:::
-
 ### Common Vegetation Indices
 
 | Index    | Formula                                            | Use Case                                            | Typical Range |
@@ -518,5 +516,7 @@ console.log("NDVI tile URL:", ndviUrl);
   <div></div>
   <a href="./rgb" class="nav-button">← Previous: RGB Visualization</a>
   <span><strong>2 of 3</strong> - Vegetation Indices</span>
-  <a href="./crop" class="nav-button">Next: Spatial Operations →</a>
+  <a href="./crop" class="nav-button">Next: Spatial Cropping →</a>
 </div>
+
+:::
