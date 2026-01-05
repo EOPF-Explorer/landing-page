@@ -3,160 +3,30 @@ title: OpenLayers Integration
 layout: page
 ---
 
+<script>
+// Load common utilities
+const script = document.createElement('script')
+script.src = './common.js'
+document.head.appendChild(script)
+</script>
+
+<style>
+/* Import common CSS first to avoid FOUC */
+@import './common.css';
+</style>
+
 <script setup>
 import { ref, onMounted } from 'vue'
 
 const webglSupport = ref(null)
 
 onMounted(() => {
-  // Check WebGL support
-  const canvas = document.createElement('canvas')
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
-  webglSupport.value = gl !== null
+  // Check WebGL support using common utility
+  webglSupport.value = window.checkWebGLSupport()
 })
 </script>
 
-<style scoped>
-.warning {
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
-  color: #856404;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
-}
-
-.success {
-  background: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
-  padding: 12px;
-  border-radius: 4px;
-  margin: 16px 0;
-}
-
-.examples-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  margin: 32px 0;
-}
-
-.example-card {
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  padding: 20px;
-  background: #fafbfc;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.example-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.example-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: #24292e;
-}
-
-.example-description {
-  color: #586069;
-  margin-bottom: 16px;
-  line-height: 1.5;
-}
-
-.example-features {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 16px;
-}
-
-.example-features li {
-  padding: 4px 0;
-  color: #586069;
-  font-size: 14px;
-}
-
-.example-features li:before {
-  content: "✓";
-  color: #28a745;
-  font-weight: bold;
-  margin-right: 8px;
-}
-
-.example-link {
-  display: inline-block;
-  padding: 8px 16px;
-  background: #0366d6;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-
-.example-link:hover {
-  background: #0256cc;
-  color: white;
-}
-
-.overview-section {
-  background: #f6f8fa;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  padding: 24px;
-  margin: 24px 0;
-}
-
-.quick-start {
-  background: #e7f3ff;
-  border: 1px solid #b3d7ff;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 24px 0;
-}
-
-.installation-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-  margin: 16px 0;
-}
-
-.installation-method {
-  background: #f8f9fa;
-  border: 1px solid #e1e4e8;
-  border-radius: 6px;
-  padding: 16px;
-}
-
-.installation-method h4 {
-  margin: 0 0 12px 0;
-  color: #24292e;
-}
-
-pre {
-  background: #f6f8fa;
-  padding: 12px;
-  border-radius: 4px;
-  overflow-x: auto;
-  font-size: 13px;
-  margin: 8px 0;
-}
-
-code {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-}
-
-a {
-  color: #0366d6;
-}
-</style>
-
-# OpenLayers Integration with EOPF Zarr Data
+# OpenLayers Integration <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 ## Overview
 

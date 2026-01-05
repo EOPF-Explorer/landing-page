@@ -89,3 +89,55 @@ if (typeof window.ol === 'undefined') {
   link.href = 'https://cdn.jsdelivr.net/npm/ol@9.1.0/ol.css'
   document.head.appendChild(link)
 }
+
+// OpenLayers-specific utilities
+window.checkWebGLSupport = function() {
+  const canvas = document.createElement('canvas')
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+  return gl !== null
+}
+
+// Common Zarr URLs for examples
+window.ZARR_URLS = {
+  sentinel2: 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20251218T110359_N0511_R094_T30SUF_20251218T115223.zarr'
+}
+
+// Common NDVI color scale utilities
+window.createNDVIVariables = function(minColor, maxColor, minValue, maxValue, segments = 10) {
+  if (typeof window.chroma === 'undefined') {
+    console.error('Chroma.js not loaded')
+    return {}
+  }
+  
+  const variables = {}
+  const scale = window.chroma.scale([minColor, maxColor]).mode('lab')
+  const delta = (maxValue - minValue) / segments
+
+  for (let i = 0; i <= segments; ++i) {
+    const color = scale(i / segments).rgb()
+    const value = minValue + i * delta
+    variables[`value${i}`] = value
+    variables[`red${i}`] = color[0]
+    variables[`green${i}`] = color[1]
+    variables[`blue${i}`] = color[2]
+  }
+  
+  return variables
+}
+
+// Generate NDVI expression for WebGL
+window.generateNDVIExpression = function(segments = 10) {
+  let expression = 'vec4(0.0, 0.0, 0.0, 1.0)'
+  
+  for (let i = segments; i >= 0; --i) {
+    const condition = i === segments 
+      ? `ndvi >= value${i}`
+      : i === 0
+      ? `ndvi < value${i + 1}`
+      : `ndvi >= value${i} && ndvi < value${i + 1}`
+    
+    expression = `${condition} ? vec4(red${i}/255.0, green${i}/255.0, blue${i}/255.0, 1.0) : ${expression}`
+  }
+  
+  return expression
+}
