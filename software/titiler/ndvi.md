@@ -6,6 +6,17 @@ layout: page
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 
+// Load common utilities
+const script = document.createElement('script')
+script.src = '../common.js'
+document.head.appendChild(script)
+
+// Load common CSS
+const link = document.createElement('link')
+link.rel = 'stylesheet'
+link.href = '../common.css'
+document.head.appendChild(link)
+
 const mapContainer = ref(null)
 const map = ref(null)
 const selectedExpression = ref('ndvi')
@@ -95,26 +106,7 @@ function resetRescale() {
 
 // Function to wait for OpenLayers to load
 function waitForOpenLayers() {
-  return new Promise((resolve) => {
-    if (typeof window.ol !== 'undefined') {
-      resolve()
-      return
-    }
-    
-    const checkInterval = setInterval(() => {
-      if (typeof window.ol !== 'undefined') {
-        clearInterval(checkInterval)
-        resolve()
-      }
-    }, 100)
-    
-    // Timeout after 10 seconds
-    setTimeout(() => {
-      clearInterval(checkInterval)
-      console.error('OpenLayers failed to load within 10 seconds')
-      resolve()
-    }, 10000)
-  })
+  return window.waitForOpenLayers()
 }
 
 onMounted(async () => {
@@ -163,27 +155,6 @@ watch(selectedExpression, () => {
   updateTileLayer()
 })
 watch([customRescaleMin, customRescaleMax, selectedColormap], updateTileLayer)
-</script>
-
-<script>
-// Load OpenLayers from CDN if not already loaded
-if (typeof window.ol === 'undefined') {
-  const script = document.createElement('script')
-  script.src = 'https://cdn.jsdelivr.net/npm/ol@9.1.0/dist/ol.js'
-  script.async = true
-  script.onload = () => {
-    console.log('OpenLayers loaded successfully')
-  }
-  script.onerror = () => {
-    console.error('Failed to load OpenLayers')
-  }
-  document.head.appendChild(script)
-  
-  const link = document.createElement('link')
-  link.rel = 'stylesheet'
-  link.href = 'https://cdn.jsdelivr.net/npm/ol@9.1.0/ol.css'
-  document.head.appendChild(link)
-}
 </script>
 
 <style scoped>

@@ -3,6 +3,19 @@ title: Spatial Cropping with Titiler
 layout: page
 ---
 
+<script>
+// Load common utilities
+const script = document.createElement('script')
+script.src = '../common.js'
+document.head.appendChild(script)
+
+// Load common CSS
+const link = document.createElement('link')
+link.rel = 'stylesheet'
+link.href = '../common.css'
+document.head.appendChild(link)
+</script>
+
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 
@@ -135,26 +148,7 @@ function updateCropFromFeature(feature) {
 
 // Function to wait for OpenLayers to load
 function waitForOpenLayers() {
-  return new Promise((resolve) => {
-    if (typeof window.ol !== 'undefined') {
-      resolve()
-      return
-    }
-    
-    const checkInterval = setInterval(() => {
-      if (typeof window.ol !== 'undefined') {
-        clearInterval(checkInterval)
-        resolve()
-      }
-    }, 100)
-    
-    // Timeout after 10 seconds
-    setTimeout(() => {
-      clearInterval(checkInterval)
-      console.error('OpenLayers failed to load within 10 seconds')
-      resolve()
-    }, 10000)
-  })
+  return window.waitForOpenLayers()
 }
 
 onMounted(async () => {

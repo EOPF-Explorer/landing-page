@@ -3,6 +3,18 @@ title: Titiler Integration
 layout: page
 ---
 
+<script>
+// Load common utilities  
+const script = document.createElement('script')
+script.src = './common.js'
+document.head.appendChild(script)
+
+// Load common CSS
+const link = document.createElement('link')
+link.rel = 'stylesheet'
+link.href = './common.css'
+document.head.appendChild(link)
+</script>
 <script setup>
 import { ref, onMounted } from 'vue'
 
