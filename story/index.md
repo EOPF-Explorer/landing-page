@@ -21,11 +21,17 @@ if (!import.meta.env.SSR) {
 const storyurl = ref('')
 
 onMounted(() => {
-    let storyfile;
+    let storyfile, branch;
     if (window && typeof window !== 'undefined' && 'URLSearchParams' in window) {
         const searchParams = new URLSearchParams(window.location.search);
         storyfile = searchParams.get('id');
-        storyurl.value = `https://eopf-explorer.github.io/narratives/${storyfile}.md`;
+        branch = searchParams.get('branch') || 'main';
+        if (branch == 'main') {
+            storyurl.value = `https://eopf-explorer.github.io/narratives/${storyfile}.md`;
+        }
+        else{
+            storyurl.value = `https://raw.githubusercontent.com/EOPF-Explorer/narratives/${branch}/${storyfile}.md`;
+        }
     }
 })
 </script>
