@@ -14,9 +14,6 @@ hero:
       text: Explore Data
       link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
     - theme: brand
-      text: Software & Services
-      link: /software-services
-    - theme: brand
       text: Read Example Story
       link: /story/?id=ndvi
 footer: false
@@ -259,7 +256,7 @@ const handleResultClick = (evt) => {
   router.go(withBase(`/story?id=${filename}`));
 };
 </script>
-<style>
+<style scoped>
   .text-center {
     text-align:center
   }
