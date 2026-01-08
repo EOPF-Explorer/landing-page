@@ -155,9 +155,9 @@ export const servicesContent = [
   },
   {
     id: "sentinel-explorer",
-    title: "Sentinels Explorer",
+    title: "Sentinel Explorer",
     content: "Interactive viewer for Sentinel Zarr scenes with band combinations and indicators.",
-    image: "/assets/sentinel-2.png",
+    image: "assets/sentinel-2.png",
     tags: ["screening", "interactive", "zarr", "sentinel-1", "sentinel-2"],
     category: "Screening",
     type: "service",
