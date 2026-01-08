@@ -59,7 +59,7 @@ layout: page
     servicesResults.value = evt.detail.results.map(r => ({
       ...r,
       icon:{
-        html: `<img src="${r.image}" style="height: 200px; width: 100%; object-fit: cover" />`,
+        html: `<img src="${r.image}" style="height: 150px; width: 100%; object-fit: cover" />`,
         height: 200,
         width: "100%"
       },
