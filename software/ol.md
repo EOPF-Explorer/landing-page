@@ -5,7 +5,7 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import url("/.vitepress/theme/software-common.css");
+@import "/.vitepress/theme/software.css";
 </style>
 
 <script setup>
@@ -15,32 +15,11 @@ const webglSupport = ref(null)
 
 onMounted(async () => {
   // Load common utilities on client-side only
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script')
-    script.src = '/.vitepress/theme/software-common.js'
-    document.head.appendChild(script)
-  }
-  
-  // Wait for common utilities to load
-  await waitForCommonUtilities()
+  await import("/.vitepress/theme/software.js");
   
   // Check WebGL support using common utility
   webglSupport.value = window.checkWebGLSupport()
 })
-
-// Helper function to wait for common utilities to load
-function waitForCommonUtilities() {
-  return new Promise((resolve) => {
-    const checkUtilities = () => {
-      if (window.checkWebGLSupport && window.waitForOpenLayers) {
-        resolve()
-      } else {
-        setTimeout(checkUtilities, 50)
-      }
-    }
-    checkUtilities()
-  })
-}
 </script>
 
 ## OpenLayers Integration <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />

@@ -5,7 +5,7 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import url("/.vitepress/theme/software-common.css");
+@import url("/.vitepress/theme/software.css");
 </style>
 
 <script setup>
@@ -44,24 +44,13 @@ const selectedBbox = ref(null)
 
 onMounted(async () => {
   // Load common utilities on client-side only
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script')
-    script.src = '/.vitepress/theme/software-common.js'
-    document.head.appendChild(script)
-  }
+  await import("/.vitepress/theme/software.js");
   
-  // Wait for common utilities to load
-  await waitForCommonUtilities()
-  
+  // Initialize dates first
+  initializeDates()
+
   // Check WebGL support using common utility
   webglSupport.value = window.checkWebGLSupport()
-
-  // Set default dates (last 30 days)
-  const today = new Date()
-  const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000))
-  
-  endDate.value = today.toISOString().split('T')[0]
-  startDate.value = thirtyDaysAgo.toISOString().split('T')[0]
 
   if (webglSupport.value) {
     nextTick(() => {
@@ -70,18 +59,12 @@ onMounted(async () => {
   }
 })
 
-// Helper function to wait for common utilities to load
-function waitForCommonUtilities() {
-  return new Promise((resolve) => {
-    const checkUtilities = () => {
-      if (window.checkWebGLSupport && window.waitForOpenLayers) {
-        resolve()
-      } else {
-        setTimeout(checkUtilities, 50)
-      }
-    }
-    checkUtilities()
-  })
+function initializeDates() {
+  const today = new Date()
+  const priorDate = new Date().setDate(today.getDate() - 7) // 7 days ago
+
+  endDate.value = today.toISOString().split('T')[0]
+  startDate.value = new Date(priorDate).toISOString().split('T')[0]
 }
 
 function initializeMap() {

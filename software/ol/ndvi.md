@@ -5,7 +5,7 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import url("/.vitepress/theme/software-common.css");
+@import url("/.vitepress/theme/software.css");
 </style>
 
 <script setup>
@@ -81,15 +81,7 @@ function updateNDVI() {
 
 onMounted(async () => {
   // Load common utilities on client-side only
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script')
-    script.src = '/.vitepress/theme/software-common.js'
-    document.head.appendChild(script)
-  }
-  
-  // Wait for common utilities to load
-  await waitForCommonUtilities()
-  
+  await import("/.vitepress/theme/software.js");
   // Check WebGL support using common utility
   webglSupport.value = window.checkWebGLSupport()
 
