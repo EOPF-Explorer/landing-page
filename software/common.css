@@ -165,36 +165,7 @@
   color: #24292e;
 }
 
-/* Button styles */
-.btn {
-  padding: 8px 16px;
-  border: 1px solid #d1d5da;
-  border-radius: 6px;
-  background: white;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.2s;
-}
-
-.btn-primary {
-  background: #0366d6;
-  color: white;
-  border-color: #0366d6;
-}
-
-.btn-primary:hover {
-  background: #0256cc;
-}
-
-.btn:hover {
-  background: #f6f8fa;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
+/* Drawing controls */
 .drawing-controls {
   display: flex;
   gap: 10px;

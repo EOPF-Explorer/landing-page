@@ -546,13 +546,13 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
         <button 
           @click="searchSTAC" 
           :disabled="isSearching || !selectedBbox"
-          class="btn btn-primary"
+          class="button"
         >
           {{ isSearching ? 'Searching...' : 'Search STAC' }}
         </button>
         <button 
           @click="clearAll"
-          class="btn btn-secondary"
+          class="button border"
         >
           Clear All
         </button>
@@ -627,7 +627,7 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
           >
             {{ isSearching ? 'Searching...' : 'Search STAC' }}
           </button>
-          <button @click="clearAll" class="btn btn-secondary">
+          <button @click="clearAll" class="button border">
             Clear All
           </button>
         </div>
@@ -897,9 +897,9 @@ onMounted(async () => {
 })
 ```
 <div class="navigation">
-  <a href="./ndvi" class="nav-button">← Previous: NDVI Calculation</a>
+  <a href="./ndvi" class="button border">← Previous: NDVI Calculation</a>
   <span><strong>3 of 3</strong> - STAC Integration</span>
-  <a href="../ol" class="nav-button">Back to overview →</a>
+  <a href="../ol" class="button border">Back to overview →</a>
 </div>
 
 :::

@@ -268,5 +268,5 @@ Continue to the [NDVI example](./ndvi) to see infrared band combinations for veg
 <div class="navigation">
   <div></div>
   <span><strong>1 of 3</strong> - Basic Setup</span>
-  <a href="./ndvi" class="nav-button">Next: NDVI →</a>
+  <a href="./ndvi" class="button border">Next: NDVI →</a>
 </div>
