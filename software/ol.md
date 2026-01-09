@@ -96,48 +96,52 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 
 For more advanced features and the latest updates, follow the [OpenLayers development](https://github.com/openlayers/openlayers) and [EOPF Explorer project](https://github.com/EOPF-Explorer) on GitHub.
 
-### Interactive Examples
-
-<div class="examples-grid">
-  <div class="example-card">
-    <div class="example-title">1. Basic Map Setup and band combination</div>
-    <div class="example-description">
-      Learn the fundamental configuration needed to load and display EOPF Zarr data with OpenLayers.
-    </div>
-    <ul class="example-features">
-      <li>Minimal configuration</li>
-      <li>OSM base layer integration</li>
-      <li>Automatic extent fitting</li>
-      <li>WebGL rendering</li>
-    </ul>
-    <a href="./ol/basic" class="example-link">View Example →</a>
-  </div>
-
-  <div class="example-card">
-    <div class="example-title">2. NDVI Calculation</div>
-    <div class="example-description">
-      Perform real-time vegetation index calculations directly in the browser using WebGL expressions.
-    </div>
-    <ul class="example-features">
-      <li>Real-time NDVI calculation</li>
-      <li>Vegetation classification</li>
-      <li>Agricultural applications</li>
-      <li>Environmental monitoring</li>
-    </ul>
-    <a href="./ol/ndvi" class="example-link">View Example →</a>
-  </div>
-
-  <div class="example-card">
-    <div class="example-title">3. STAC Catalog Integration</div>
-    <div class="example-description">
-      Search and visualize Sentinel data from EOPF's STAC catalog using spatial-temporal filters.
-    </div>
-    <ul class="example-features">
-      <li>STAC API integration</li>
-      <li>Spatial-temporal search</li>
-      <li>Scene footprints display</li>
-      <li>Interactive data discovery</li>
-    </ul>
-    <a href="./ol/stac" class="example-link">View Example →</a>
-  </div>
-</div>
+<FeaturesGallery
+  background="transparent"
+  sectionTitle="Interactive Examples"
+  :cards="[
+    {
+      title: '1. Basic Map Setup and band combination',
+      content: 'Learn the fundamental configuration needed to load and display EOPF Zarr data with OpenLayers.',
+      features: [
+        'Minimal configuration',
+        'OSM base layer integration', 
+        'Automatic extent fitting',
+        'WebGL rendering'
+      ],
+      link: {
+        text: 'View Example',
+        href: './ol/basic'
+      }
+    },
+    {
+      title: '2. NDVI Calculation',
+      content: 'Perform real-time vegetation index calculations directly in the browser using WebGL expressions.',
+      features: [
+        'Real-time NDVI calculation',
+        'Vegetation classification',
+        'Agricultural applications', 
+        'Environmental monitoring'
+      ],
+      link: {
+        text: 'View Example',
+        href: './ol/ndvi'
+      }
+    },
+    {
+      title: '3. STAC Catalog Integration',
+      content: 'Search and visualize Sentinel data from EOPF\'s STAC catalog using spatial-temporal filters.',
+      features: [
+        'STAC API integration',
+        'Spatial-temporal search',
+        'Scene footprints display',
+        'Interactive data discovery'
+      ],
+      link: {
+        text: 'View Example',
+        href: './ol/stac'
+      }
+    }
+  ]"
+  style="margin-top: -6rem;"
+/>
