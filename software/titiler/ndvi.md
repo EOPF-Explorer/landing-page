@@ -196,20 +196,7 @@ watch([customRescaleMin, customRescaleMax, selectedColormap], () => {
 </script>
 
 <style scoped>
-/* Page-specific styles only - common styles imported above */
-
-/* Specific rescale input layout for this page */
-
-.rescale-inputs {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr auto;
-  gap: 8px;
-  align-items: center;
-}
-
-.rescale-inputs input {
-  width: auto;
-}
+/* Page-specific styles - common styles imported from software.css */
 
 .expression-info {
   background: #fff;
@@ -240,12 +227,6 @@ watch([customRescaleMin, customRescaleMax, selectedColormap], () => {
   color: #24292e;
   border-left: 3px solid #28a745;
 }
-
-@media (max-width: 768px) {
-  .controls {
-    grid-template-columns: 1fr;
-  }
-}
 </style>
 
 ## TiTiler - Vegetation Indices <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
@@ -264,15 +245,6 @@ This example demonstrates how to calculate vegetation indices using Titiler's se
         <option value="ndwi">NDWI - Water Detection</option>
         <option value="nbr">NBR - Burn Ratio</option>
       </select>
-    </div>
-    <div class="control-group">
-      <label>Value Range (Rescale):</label>
-      <div class="rescale-inputs">
-        <input type="number" v-model.number="customRescaleMin" step="0.1" />
-        <span>to</span>
-        <input type="number" v-model.number="customRescaleMax" step="0.1" />
-        <button class="reset-button" @click="resetRescale()">Reset</button>
-      </div>
     </div>
   </div>
   
@@ -295,6 +267,19 @@ This example demonstrates how to calculate vegetation indices using Titiler's se
 </div>
 
 <div ref="mapContainer" class="map-container"></div>
+
+<div class="controls">
+  <div class="control-row">
+    <label>Min Value</label>
+    <input type="range" v-model.number="customRescaleMin" min="-1.0" max="-0.1" step="0.01" />
+    <span class="value-display">{{ customRescaleMin.toFixed(2) }}</span>
+  </div>
+  <div class="control-row">
+    <label>Max Value</label>
+    <input type="range" v-model.number="customRescaleMax" min="0.1" max="1.0" step="0.01" />
+    <span class="value-display">{{ customRescaleMax.toFixed(2) }}</span>
+  </div>
+</div>
 
 <div class="url-section">
   <strong>🔗 Generated Expression URL</strong>
@@ -388,45 +373,6 @@ const map = new Map({
     zoom: 11,
   }),
 });
-```
-
-```javascript [Dynamic Updates]
-function updateVegetationIndex(expression, rescale, colormap) {
-  const params = new URLSearchParams();
-  params.set("expression", expression);
-  params.set("rescale", rescale);
-  params.set("colormap_name", colormap);
-
-  const newUrl = `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${params.toString()}`;
-
-  tileLayer.getSource().setUrl(newUrl);
-}
-
-// Predefined vegetation indices
-const indices = {
-  ndvi: {
-    expression:
-      "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)",
-    rescale: "-0.3,0.8",
-    colormap: "ylgn",
-  },
-  evi: {
-    expression:
-      "2.5*((/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+6.0*/measurements/reflectance:b04-7.5*/measurements/reflectance:b02+1.0))",
-    rescale: "-0.3,1.5",
-    colormap: "viridis",
-  },
-  ndwi: {
-    expression:
-      "(/measurements/reflectance:b03-/measurements/reflectance:b08)/(/measurements/reflectance:b03+/measurements/reflectance:b08)",
-    rescale: "-1,1",
-    colormap: "blues",
-  },
-};
-
-// Switch to EVI
-const evi = indices.evi;
-updateVegetationIndex(evi.expression, evi.rescale, evi.colormap);
 ```
 
 ```javascript [Vue.js Integration]
