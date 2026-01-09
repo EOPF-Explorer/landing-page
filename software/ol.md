@@ -6,6 +6,10 @@ layout: page
 <style>
 /* Import common CSS first to avoid FOUC */
 @import "/.vitepress/theme/software.css";
+
+.large-space {
+  block-size: 0rem !important;
+}
 </style>
 
 <script setup>
@@ -120,5 +124,4 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       }
     }
   ]"
-  style="margin-top: -6rem;"
 />
