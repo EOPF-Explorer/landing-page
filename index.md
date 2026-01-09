@@ -259,7 +259,7 @@ const handleResultClick = (evt) => {
   router.go(withBase(`/story?id=${filename}`));
 };
 </script>
-<style>
+<style scoped>
   .text-center {
     text-align:center
   }

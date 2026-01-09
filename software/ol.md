@@ -5,7 +5,11 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import './common.css';
+@import "/.vitepress/theme/software.css";
+
+.large-space {
+  block-size: 0rem !important;
+}
 </style>
 
 <script setup>
@@ -15,32 +19,11 @@ const webglSupport = ref(null)
 
 onMounted(async () => {
   // Load common utilities on client-side only
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script')
-    script.src = './common.js'
-    document.head.appendChild(script)
-  }
-  
-  // Wait for common utilities to load
-  await waitForCommonUtilities()
+  await import("/.vitepress/theme/software.js");
   
   // Check WebGL support using common utility
   webglSupport.value = window.checkWebGLSupport()
 })
-
-// Helper function to wait for common utilities to load
-function waitForCommonUtilities() {
-  return new Promise((resolve) => {
-    const checkUtilities = () => {
-      if (window.checkWebGLSupport && window.waitForOpenLayers) {
-        resolve()
-      } else {
-        setTimeout(checkUtilities, 50)
-      }
-    }
-    checkUtilities()
-  })
-}
 </script>
 
 ## OpenLayers Integration <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
@@ -54,7 +37,7 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 </div>
 
 <div class="overview-section">
-<h4>🎯 What You'll Learn</h4>
+<strong>🎯 What You'll Learn</strong>
 <p>This page describes the resources to use OpenLayers with EOPF's Sentinel data with interactive examples that demonstrate real-world applications of OpenLayers with EOPF's Sentinel-2 data, covering everything from basic setup to advanced image processing techniques.</p>
 
 <p><strong>Sample Data</strong> used here are avalable in <a href="https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a">the Sentinel-2 L2A collection in STAC Browser</a></p>
@@ -63,7 +46,7 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 ### Quick Start
 
 <div class="quick-start">
-<h3>🚀 Get Started in 5 Minutes</h3>
+<strong>🚀 Get Started in 5 Minutes</strong>
 <p>Ready to dive in? Start with the <a href="./ol/basic">Basic Setup example</a> to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.</p>
 </div>
 
@@ -83,8 +66,6 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
   </div>
 </div>
 
-**Version Notes**
-
 ⚠️ **Development Version**: OpenLayers tag **dev** (10.7.1-dev) contains experimental unreleased GeoZarr support that may change. For production use, wait for the stable 10.8.0 release.
 
 ### Next Steps
@@ -96,48 +77,51 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 
 For more advanced features and the latest updates, follow the [OpenLayers development](https://github.com/openlayers/openlayers) and [EOPF Explorer project](https://github.com/EOPF-Explorer) on GitHub.
 
-### Interactive Examples
-
-<div class="examples-grid">
-  <div class="example-card">
-    <div class="example-title">1. Basic Map Setup and band combination</div>
-    <div class="example-description">
-      Learn the fundamental configuration needed to load and display EOPF Zarr data with OpenLayers.
-    </div>
-    <ul class="example-features">
-      <li>Minimal configuration</li>
-      <li>OSM base layer integration</li>
-      <li>Automatic extent fitting</li>
-      <li>WebGL rendering</li>
-    </ul>
-    <a href="./ol/basic" class="example-link">View Example →</a>
-  </div>
-
-  <div class="example-card">
-    <div class="example-title">2. NDVI Calculation</div>
-    <div class="example-description">
-      Perform real-time vegetation index calculations directly in the browser using WebGL expressions.
-    </div>
-    <ul class="example-features">
-      <li>Real-time NDVI calculation</li>
-      <li>Vegetation classification</li>
-      <li>Agricultural applications</li>
-      <li>Environmental monitoring</li>
-    </ul>
-    <a href="./ol/ndvi" class="example-link">View Example →</a>
-  </div>
-
-  <div class="example-card">
-    <div class="example-title">3. STAC Catalog Integration</div>
-    <div class="example-description">
-      Search and visualize Sentinel data from EOPF's STAC catalog using spatial-temporal filters.
-    </div>
-    <ul class="example-features">
-      <li>STAC API integration</li>
-      <li>Spatial-temporal search</li>
-      <li>Scene footprints display</li>
-      <li>Interactive data discovery</li>
-    </ul>
-    <a href="./ol/stac" class="example-link">View Example →</a>
-  </div>
-</div>
+<FeaturesGallery
+  background="transparent"
+  sectionTitle="Interactive Examples"
+  :cards="[
+    {
+      title: '1. Basic Map Setup and band combination',
+      content: 'Learn the fundamental configuration needed to load and display EOPF Zarr data with OpenLayers.',
+      features: [
+        'Minimal configuration',
+        'OSM base layer integration', 
+        'Automatic extent fitting',
+        'WebGL rendering'
+      ],
+      link: {
+        text: 'View Example',
+        href: './ol/basic'
+      }
+    },
+    {
+      title: '2. NDVI Calculation',
+      content: 'Perform real-time vegetation index calculations directly in the browser using WebGL expressions.',
+      features: [
+        'Real-time NDVI calculation',
+        'Vegetation classification',
+        'Agricultural applications', 
+        'Environmental monitoring'
+      ],
+      link: {
+        text: 'View Example',
+        href: './ol/ndvi'
+      }
+    },
+    {
+      title: '3. STAC Catalog Integration',
+      content: 'Search and visualize Sentinel data from EOPF\'s STAC catalog using spatial-temporal filters.',
+      features: [
+        'STAC API integration',
+        'Spatial-temporal search',
+        'Scene footprints display',
+        'Interactive data discovery'
+      ],
+      link: {
+        text: 'View Example',
+        href: './ol/stac'
+      }
+    }
+  ]"
+/>

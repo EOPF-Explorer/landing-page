@@ -5,7 +5,7 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import '../common.css';
+@import url("/.vitepress/theme/software.css");
 </style>
 
 <script setup>
@@ -26,14 +26,7 @@ const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explor
 
 onMounted(async () => {
   // Load common utilities on client-side only
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script')
-    script.src = '../common.js'
-    document.head.appendChild(script)
-  }
-  
-  // Wait for common utilities to load
-  await waitForCommonUtilities()
+  await import("/.vitepress/theme/software.js");
   
   // Check WebGL support using common utility
   webglSupport.value = window.checkWebGLSupport()
@@ -44,20 +37,6 @@ onMounted(async () => {
     })
   }
 })
-
-// Helper function to wait for common utilities to load
-function waitForCommonUtilities() {
-  return new Promise((resolve) => {
-    const checkUtilities = () => {
-      if (window.checkWebGLSupport && window.waitForOpenLayers) {
-        resolve()
-      } else {
-        setTimeout(checkUtilities, 50)
-      }
-    }
-    checkUtilities()
-  })
-}
 
 function initializeMap() {
   if (mapRef.value) {
@@ -268,5 +247,5 @@ Continue to the [NDVI example](./ndvi) to see infrared band combinations for veg
 <div class="navigation">
   <div></div>
   <span><strong>1 of 3</strong> - Basic Setup</span>
-  <a href="./ndvi" class="nav-button">Next: NDVI →</a>
+  <a href="./ndvi" class="button border">Next: NDVI →</a>
 </div>

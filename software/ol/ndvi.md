@@ -5,7 +5,7 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import '../common.css';
+@import url("/.vitepress/theme/software.css");
 </style>
 
 <script setup>
@@ -73,7 +73,7 @@ const ndvi = [
   ['+', ['band', 2], ['band', 1]], // NIR + Red
 ]
 
-function updateColors() {
+function updateNDVI() {
   if (ndviLayer) {
     ndviLayer.updateStyleVariables(getVariables())
   }
@@ -81,15 +81,7 @@ function updateColors() {
 
 onMounted(async () => {
   // Load common utilities on client-side only
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script')
-    script.src = '../common.js'
-    document.head.appendChild(script)
-  }
-  
-  // Wait for common utilities to load
-  await waitForCommonUtilities()
-  
+  await import("/.vitepress/theme/software.js");
   // Check WebGL support using common utility
   webglSupport.value = window.checkWebGLSupport()
 
@@ -115,7 +107,8 @@ function waitForCommonUtilities() {
 }
 
 // Watch for changes to update colors
-watch([minColor, maxColor, minValue, maxValue], updateColors)
+// Watch for reactive changes (keep for backwards compatibility)
+watch([minColor, maxColor, minValue, maxValue], updateNDVI)
 
 function initializeMap() {
   if (mapRef.value) {
@@ -180,21 +173,18 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
 </div>
 
 <div class="controls">
-  <h3>NDVI Visualization Controls</h3>
-  <table>
-    <tr>
-      <td>Min NDVI</td>
-      <td><input type="range" v-model.number="minValue" min="-1.0" max="-0.1" step="0.01" /></td>
-      <td class="data">{{ minValue.toFixed(1) }}</td>
-      <td><input type="color" v-model="minColor" /></td>
-    </tr>
-    <tr>
-      <td>Max NDVI</td>
-      <td><input type="range" v-model.number="maxValue" min="0.1" max="1.0" step="0.01" /></td>
-      <td class="data">{{ maxValue.toFixed(1) }}</td>
-      <td><input type="color" v-model="maxColor" /></td>
-    </tr>
-  </table>
+  <div class="control-row">
+    <label>Min NDVI</label>
+    <input type="range" v-model.number="minValue" min="-1.0" max="-0.1" step="0.01" />
+    <span class="value-display">{{ minValue.toFixed(1) }}</span>
+    <input type="color" v-model="minColor" />
+  </div>
+  <div class="control-row">
+    <label>Max NDVI</label>
+    <input type="range" v-model.number="maxValue" min="0.1" max="1.0" step="0.01" />
+    <span class="value-display">{{ maxValue.toFixed(1) }}</span>
+    <input type="color" v-model="maxColor" />
+  </div>
 </div>
 
 :::code-group
@@ -322,7 +312,7 @@ const map = new Map({
   - **Development impact** - Monitor vegetation loss
 
 <div class="navigation">
-  <a href="./basic" class="nav-button">← Previous: Basic Map Setup and band combination</a>
+  <a href="./basic" class="button border">← Previous: Basic Map Setup and band combination</a>
   <span><strong>2 of 3</strong> - NDVI Calculation</span>
-  <a href="./stac" class="nav-button">Next: STAC Integration →</a>
+  <a href="./stac" class="button border">Next: STAC Integration →</a>
 </div>
