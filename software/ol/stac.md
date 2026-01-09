@@ -5,7 +5,7 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import url("/software/common.css");
+@import url("/.vitepress/theme/software-common.css");
 </style>
 
 <script setup>
@@ -46,7 +46,7 @@ onMounted(async () => {
   // Load common utilities on client-side only
   if (typeof window !== 'undefined') {
     const script = document.createElement('script')
-    script.src = '../common.js'
+    script.src = '/.vitepress/theme/software-common.js'
     document.head.appendChild(script)
   }
   
