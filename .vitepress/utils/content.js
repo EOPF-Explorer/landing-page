@@ -181,7 +181,7 @@ export const servicesContent = [
     tags: ["screening", "arithmetic", "expressions", "band-math"],
     category: "Screening",
     type: "software",
-    link: "ol/titiler"
+    link: "software/titiler"
   },
   {
     id: "openlayers-geozarr",
