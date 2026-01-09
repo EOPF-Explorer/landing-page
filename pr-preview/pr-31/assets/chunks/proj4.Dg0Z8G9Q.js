@@ -1,1 +1,0 @@
-import"./XYZ.DipmalTG.js";import"./Group.BuEEX7y8.js";import"./index.jYV8uuws.js";async function o(r){throw new Error("Proj4 must be registered first with register(proj4)")}async function n(r){return await o()}export{n as fromEPSGCode,o as fromProjectionCode};
