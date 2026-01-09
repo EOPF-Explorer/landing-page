@@ -3,7 +3,7 @@ title: OpenLayers - STAC Catalog Integration
 layout: page
 ---
 
-<style>
+<style scoped>
 /* Import common CSS first to avoid FOUC */
 @import url("/.vitepress/theme/software.css");
 </style>

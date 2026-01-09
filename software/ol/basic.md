@@ -3,7 +3,7 @@ title: OpenLayers - Basic Setup
 layout: page
 ---
 
-<style>
+<style scoped>
 /* Import common CSS first to avoid FOUC */
 @import url("/.vitepress/theme/software.css");
 </style>
