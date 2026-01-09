@@ -141,3 +141,76 @@ export const tableData = [
     content: 'EOPF Explorer Zarr is relying on <a href="https://zarr.dev/conventions/">Zarr Conventions</a> for defining <a href=""https://github.com/zarr-developers/geozarr-spec?tab=readme-ov-file#conventions>geospatial-data-specific features in GeoZarr</a>, in particular georeference and . This means that the data format is recognised and discoverable by the community, which will hopefully lead to wider adoption by other data producers and software client libaries.<br/><br/>EOPF Sample Service Zarr currently uses a bespoke format for encoding geospatial and multiscales information.',
   },
 ]
+
+export const servicesContent = [
+  {
+    id: "stac-browser",
+    title: "EOPF Explorer STAC Browser",
+    content: "EOPF Sentinel Zarr catalog browser revealing Sentinel scenes at a glance.",
+    image: "https://stacspec.org/public/images-original/STAC-01.png",
+    tags: ["discovery", "catalog", "sentinel", "metadata"],
+    category: "Discovery",
+    type: "service",
+    link: "https://api.explorer.eopf.copernicus.eu/browser"
+  },
+  {
+    id: "sentinel-explorer",
+    title: "Sentinel Explorer",
+    content: "Interactive viewer for Sentinel Zarr scenes with band combinations and indicators.",
+    image: "assets/sentinel-2.png",
+    tags: ["screening", "interactive", "zarr", "sentinel-1", "sentinel-2"],
+    category: "Screening",
+    type: "service",
+    link: "/sentinelexplorer/"
+  },
+  {
+    id: "ndvi",
+    title: "Normalized Difference Vegetation Index (NDVI) & More",
+    content: "Discover how to integrate popular spectral indices into your stories.",
+    image: "https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ndvi/fig/fig1.png",
+    tags: ["showcase", "ndvi", "vegetation", "indices", "Sentinel-2"],
+    category: "Showcases",
+    type: "story",
+    link: "/story/?id=ndvi"
+  },
+  {
+    id: "titiler-eopf",
+    title: "TiTiler for EOPF Zarr",
+    content: "On-the-fly tile server for visualizing Sentinel Zarr data with custom styling, expressions, and reprojection.",
+    image: "https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png",
+    tags: ["screening", "arithmetic", "expressions", "band-math"],
+    category: "Screening",
+    type: "software",
+    link: "https://github.com/EOPF-Explorer/titiler-eopf"
+  },
+  {
+    id: "openlayers-geozarr",
+    title: "OpenLayers",
+    content: "Web mapping library with GeoZarr support for visualizing Sentinel Zarr in the browser using Zarr conventions.",
+    image: "assets/openlayers-logo.png",
+    tags: ["screening", "web-mapping", "visualization", "geozarr"],
+    category: "Screening",
+    type: "software",
+    link: "https://deploy-preview-17194--ol-site.netlify.app/en/latest/examples/geozarr-stretch.html"
+  },
+  {
+    id: "openeo-web-editor",
+    title: "OpenEO Web editor",
+    content: "Build sophisticated analysis workflows with cloud-based processing.",
+    image: "assets/openeo-logo.png",
+    tags: ["analysis", "workflow", "openeo", "cloud-processing"],
+    category: "Analysis",
+    type: "service",
+    link: "https://editor.openeo.org/?server=https%3A%2F%2Fapi.explorer.eopf.copernicus.eu%2Fopeneo%2F"
+  },
+  {
+    id: "openlayers-story",
+    title: "View EOPF Zarr with OpenLayers",
+    content: "A story on how to visualize Sentinel Zarr data using OpenLayers with GeoZarr support.",
+    image: "assets/openlayers-story.png",
+    tags: ["screening", "web-mapping", "visualization", "geozarr"],
+    category: "Screening",
+    type: "software",
+    link: ""
+  }
+]
