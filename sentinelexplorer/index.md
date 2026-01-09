@@ -7,6 +7,7 @@ footer: false
   if (document.querySelector(".layout-home")) {
     window.location.reload();
   }
+  
   const config = async() => (await import("./sentinel-explorer-config")).default
 </script>
 
