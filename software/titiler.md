@@ -3,7 +3,7 @@ title: Titiler Integration
 layout: page
 ---
 
-<style>
+<style scoped>
 /* Import common CSS first to avoid FOUC */
 @import "/.vitepress/theme/software.css";
 
