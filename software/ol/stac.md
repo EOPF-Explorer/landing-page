@@ -623,7 +623,7 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
           <button 
             @click="searchSTAC" 
             :disabled="isSearching || !selectedBbox"
-            class="btn btn-primary"
+            class="button"
           >
             {{ isSearching ? 'Searching...' : 'Search STAC' }}
           </button>
