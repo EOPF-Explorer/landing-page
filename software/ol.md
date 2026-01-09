@@ -5,7 +5,7 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import './common.css';
+@import url("/software/common.css");
 </style>
 
 <script setup>
@@ -54,7 +54,7 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 </div>
 
 <div class="overview-section">
-<h4>🎯 What You'll Learn</h4>
+<strong>🎯 What You'll Learn</strong>
 <p>This page describes the resources to use OpenLayers with EOPF's Sentinel data with interactive examples that demonstrate real-world applications of OpenLayers with EOPF's Sentinel-2 data, covering everything from basic setup to advanced image processing techniques.</p>
 
 <p><strong>Sample Data</strong> used here are avalable in <a href="https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a">the Sentinel-2 L2A collection in STAC Browser</a></p>
@@ -63,7 +63,7 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 ### Quick Start
 
 <div class="quick-start">
-<h3>🚀 Get Started in 5 Minutes</h3>
+<strong>🚀 Get Started in 5 Minutes</strong>
 <p>Ready to dive in? Start with the <a href="./ol/basic">Basic Setup example</a> to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.</p>
 </div>
 
@@ -82,8 +82,6 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
     <p>Perfect for quick prototypes and testing.</p>
   </div>
 </div>
-
-**Version Notes**
 
 ⚠️ **Development Version**: OpenLayers tag **dev** (10.7.1-dev) contains experimental unreleased GeoZarr support that may change. For production use, wait for the stable 10.8.0 release.
 
