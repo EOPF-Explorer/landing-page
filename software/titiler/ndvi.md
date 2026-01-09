@@ -5,11 +5,17 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import '../common.css';
+@import url("/.vitepress/theme/software.css");
 </style>
 
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
+import Map from 'ol/Map.js'
+import View from 'ol/View.js'
+import TileLayer from 'ol/layer/Tile.js'
+import { OSM, XYZ } from 'ol/source.js'
+import { fromLonLat } from 'ol/proj.js'
+import 'ol/ol.css'
 
 const mapContainer = ref(null)
 const map = ref(null)
@@ -62,11 +68,11 @@ const colormaps = [
   { value: 'spectral', name: 'Spectral', description: 'Rainbow spectrum' }
 ]
 
-const sampleItem = 'S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704'
+const sampleItem = 'S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954'
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 
-let tileLayer = null
+const tileLayer = ref(null)
 
 function buildTileUrl() {
   const expr = expressions[selectedExpression.value]
@@ -84,10 +90,19 @@ function buildTileUrl() {
 }
 
 function updateTileLayer() {
-  if (!map.value || !tileLayer) return
+  if (!map.value || !tileLayer.value) return
   
   const newUrl = buildTileUrl()
-  tileLayer.getSource().setUrl(newUrl)
+  console.log('Updating tile layer with URL:', newUrl)
+  
+  // Create new source instead of updating URL to avoid caching issues
+  const newSource = new XYZ({
+    url: newUrl,
+    crossOrigin: 'anonymous',
+    maxZoom: 18
+  })
+  
+  tileLayer.value.setSource(newSource)
 }
 
 function resetRescale() {
@@ -119,60 +134,65 @@ function waitForCommonUtilities() {
 
 onMounted(async () => {
   // Load common utilities on client-side only
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script')
-    script.src = '../common.js'
-    document.head.appendChild(script)
-  }
+  await import("/.vitepress/theme/software.js");
   
-  // Wait for common utilities to load
-  await waitForCommonUtilities()
+  nextTick(() => {
+    initializeMap()
+  })
+})
 
-  // Wait for OpenLayers to be available
-  await waitForOpenLayers()
-  
-  if (typeof window.ol === 'undefined') {
-    console.error('OpenLayers not loaded')
-    return
-  }
-  
-  const { Map, View } = window.ol
-  const { Tile: TileLayer } = window.ol.layer
-  const { OSM, XYZ } = window.ol.source
-  const { fromLonLat } = window.ol.proj
+function initializeMap() {
+  if (!mapContainer.value) return
   
   // Initialize tile layer
   const initialUrl = buildTileUrl()
-  tileLayer = new TileLayer({
+  console.log('Initializing map with tile URL:', initialUrl)
+  
+  tileLayer.value = new TileLayer({
     source: new XYZ({
       url: initialUrl,
-      crossOrigin: 'anonymous'
+      crossOrigin: 'anonymous',
+      maxZoom: 18
     }),
     opacity: 0.9
   })
   
-  // Create map
+  // Create map with just OSM base layer first
   map.value = new Map({
     target: mapContainer.value,
     layers: [
       new TileLayer({
         source: new OSM()
-      }),
-      tileLayer
+      })
     ],
     view: new View({
       center: fromLonLat([12.3, 45.2]), // Venice area
       zoom: 11
     })
   })
-})
+  
+  // Add the Titiler layer after a delay to prevent loops
+  setTimeout(() => {
+    console.log('Adding Titiler layer...')
+    map.value.addLayer(tileLayer.value)
+  }, 1000)
+}
 
-// Watch for changes
+// Watch for changes with debouncing
 watch(selectedExpression, () => {
   resetRescale()
-  updateTileLayer()
-})
-watch([customRescaleMin, customRescaleMax, selectedColormap], updateTileLayer)
+  // Add a small delay to prevent rapid updates
+  setTimeout(() => {
+    updateTileLayer()
+  }, 100)
+}, { flush: 'post' })
+
+watch([customRescaleMin, customRescaleMax, selectedColormap], () => {
+  // Add a small delay to prevent rapid updates
+  setTimeout(() => {
+    updateTileLayer()
+  }, 100)
+}, { flush: 'post' })
 </script>
 
 <style scoped>
@@ -514,9 +534,9 @@ console.log("NDVI tile URL:", ndviUrl);
 
 <div class="navigation">
   <div></div>
-  <a href="./rgb" class="nav-button">← Previous: RGB Visualization</a>
+  <a href="./rgb" class="button border">← Previous: RGB Visualization</a>
   <span><strong>2 of 3</strong> - Vegetation Indices</span>
-  <a href="./crop" class="nav-button">Next: Spatial Cropping →</a>
+  <a href="./crop" class="button border">Next: Spatial Cropping →</a>
 </div>
 
 :::

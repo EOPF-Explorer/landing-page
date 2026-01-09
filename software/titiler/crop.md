@@ -5,11 +5,19 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import '../common.css';
+@import url("/.vitepress/theme/software.css");
 </style>
 
 <script setup>
 import { ref, onMounted, nextTick, watch, computed } from 'vue'
+import Map from 'ol/Map.js'
+import View from 'ol/View.js'
+import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer.js'
+import { OSM, Vector as VectorSource } from 'ol/source.js'
+import { fromLonLat, toLonLat } from 'ol/proj.js'
+import { Draw, createBox } from 'ol/interaction.js'
+import { Style, Fill, Stroke } from 'ol/style.js'
+import 'ol/ol.css'
 
 const mapContainer = ref(null)
 const map = ref(null)
@@ -180,11 +188,7 @@ function waitForCommonUtilities() {
 
 onMounted(async () => {
   // Load common utilities on client-side only
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script')
-    script.src = '../common.js'
-    document.head.appendChild(script)
-  }
+  await import("/.vitepress/theme/software.js");
   
   // Wait for common utilities to load
   await waitForCommonUtilities()
@@ -680,9 +684,9 @@ document.getElementById("draw-button").onclick = () => {
 </div>
 
 <div class="navigation">
-  <a href="./ndvi" class="nav-button">← Previous: Vegetation Indices</a>
+  <a href="./ndvi" class="button border">← Previous: Vegetation Indices</a>
   <span><strong>3 of 3</strong> - Spatial Cropping</span>
-  <a href="../titiler" class="nav-button">Back to overview →</a>
+  <a href="../titiler" class="button border">Back to overview →</a>
 </div>
 
 :::

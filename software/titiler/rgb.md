@@ -5,11 +5,17 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import '../common.css';
+@import url("/.vitepress/theme/software.css");
 </style>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, watch } from 'vue'
+import Map from 'ol/Map.js'
+import View from 'ol/View.js'
+import TileLayer from 'ol/layer/Tile.js'
+import { OSM, XYZ } from 'ol/source.js'
+import { fromLonLat } from 'ol/proj.js'
+import 'ol/ol.css'
 
 const mapContainer = ref(null)
 const map = ref(null)
@@ -54,7 +60,7 @@ const bandCombinations = {
   }
 }
 
-const sampleItem = 'S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704'
+const sampleItem = 'S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954'
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 
@@ -76,7 +82,16 @@ function updateTileLayer() {
   if (!map.value || !tileLayer.value) return
   
   const newUrl = buildTileUrl()
-  tileLayer.value.getSource().setUrl(newUrl)
+  console.log('Updating tile layer with URL:', newUrl)
+  
+  // Create new source instead of updating URL to avoid caching issues
+  const newSource = new XYZ({
+    url: newUrl,
+    crossOrigin: 'anonymous',
+    maxZoom: 18
+  })
+  
+  tileLayer.value.setSource(newSource)
 }
 
 function copyUrl() {
@@ -84,78 +99,61 @@ function copyUrl() {
   copyFunction(copyButtonText, copyButtonClass)
 }
 
-// Function to wait for OpenLayers to load
-function waitForOpenLayers() {
-  return window.waitForOpenLayers()
-}
+// Watch for band combination changes with debouncing
+watch(selectedBands, () => {
+  // Add a small delay to prevent rapid updates
+  setTimeout(() => {
+    updateTileLayer()
+  }, 100)
+}, { flush: 'post' })
 
 onMounted(async () => {
   // Load common utilities on client-side only
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script')
-    script.src = '../common.js'
-    document.head.appendChild(script)
-  }
+  await import("/.vitepress/theme/software.js");
   
-  // Wait for common utilities to load
-  await waitForCommonUtilities()
+  nextTick(() => {
+    initializeMap()
+  })
+})
 
-  // Wait for OpenLayers to be available
-  await waitForOpenLayers()
+function initializeMap() {
+  if (!mapContainer.value) return
   
-  if (typeof window.ol === 'undefined') {
-    console.error('OpenLayers not loaded')
-    return
-  }
-  
-  const { Map, View } = window.ol
-  const { Tile: TileLayer, Vector: VectorLayer } = window.ol.layer
-  const { OSM, XYZ } = window.ol.source
-  const { fromLonLat } = window.ol.proj
-  
-  // Initialize tile layer
+  // Get initial URL from reactive function
   const initialUrl = buildTileUrl()
+  console.log('Initializing map with tile URL:', initialUrl)
+  
   tileLayer.value = new TileLayer({
     source: new XYZ({
       url: initialUrl,
-      crossOrigin: 'anonymous'
+      crossOrigin: 'anonymous',
+      maxZoom: 18
     }),
     opacity: 0.9
   })
   
-  // Create map
+  // Create map with just OSM base layer first
   map.value = new Map({
     target: mapContainer.value,
     layers: [
       new TileLayer({
         source: new OSM()
-      }),
-      tileLayer.value
+      })
     ],
     view: new View({
       center: fromLonLat([12.35, 45.44]), // Venice area
       zoom: 13
     })
   })
-})
-
-// Helper function to wait for common utilities to load
-function waitForCommonUtilities() {
-  return new Promise((resolve) => {
-    const checkUtilities = () => {
-      if (window.checkWebGLSupport && window.waitForOpenLayers) {
-        resolve()
-      } else {
-        setTimeout(checkUtilities, 50)
-      }
-    }
-    checkUtilities()
-  })
+  
+  // Add the Titiler layer after a delay to see if that helps
+  setTimeout(() => {
+    console.log('Adding Titiler layer...')
+    map.value.addLayer(tileLayer.value)
+  }, 1000)
 }
 
-// Watch for band combination changes
-import { watch } from 'vue'
-watch(selectedBands, updateTileLayer)
+
 </script>
 
 <style scoped>
@@ -261,7 +259,7 @@ import { fromLonLat } from "ol/proj";
 
 // Titiler tile URL with band variables
 const tileUrl =
-  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
   "variables=/measurements/reflectance:b04&" +
   "variables=/measurements/reflectance:b03&" +
   "variables=/measurements/reflectance:b02&" +
@@ -285,44 +283,6 @@ const map = new Map({
 });
 ```
 
-```javascript [Dynamic Band Switching]
-function updateBandCombination(variables, rescale, colorFormula) {
-  const params = new URLSearchParams();
-
-  variables.forEach((variable) => {
-    params.append("variables", variable);
-  });
-
-  params.set("rescale", rescale);
-  params.set("color_formula", colorFormula);
-
-  const newUrl = `${baseUrl}/collections/${collection}/items/${item}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${params.toString()}`;
-
-  tileLayer.getSource().setUrl(newUrl);
-}
-
-// Example usage for different band combinations
-const bandConfigs = {
-  trueColor: {
-    variables: ['/measurements/reflectance:b04', '/measurements/reflectance:b03', '/measurements/reflectance:b02'],
-    rescale: '0,1',
-    colorFormula: 'gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2'
-  },
-  falseColor: {
-    variables: ['/measurements/reflectance:b08', '/measurements/reflectance:b04', '/measurements/reflectance:b03'],
-    rescale: '0,0.3',
-    colorFormula: 'gamma rgb 1.2, saturation 1.1'
-  }
-};
-
-// Switch to false color
-updateBandCombination(
-  bandConfigs.falseColor.variables,
-  bandConfigs.falseColor.rescale,
-  bandConfigs.falseColor.colorFormula
-);
-```
-
 ```javascript [Leaflet Integration]
 import L from 'leaflet';
 
@@ -334,7 +294,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
 // Build Titiler URL
 const tileUrl =
-  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
   "variables=/measurements/reflectance:b04&" +
   "variables=/measurements/reflectance:b03&" +
   "variables=/measurements/reflectance:b02&" +
@@ -424,5 +384,5 @@ const trueColorUrl = buildTileUrl(
 <div class="navigation">
   <div></div>
   <span><strong>1 of 3</strong> - RGB Visualization</span>
-  <a href="./ndvi" class="nav-button">Next: Vegetation Indices →</a>
+  <a href="./ndvi" class="button border">Next: Vegetation Indices →</a>
 </div>
