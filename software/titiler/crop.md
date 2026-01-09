@@ -12,10 +12,12 @@ layout: page
 import { ref, onMounted, nextTick, watch, computed } from 'vue'
 import Map from 'ol/Map.js'
 import View from 'ol/View.js'
-import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer.js'
-import { OSM, Vector as VectorSource } from 'ol/source.js'
+import TileLayer from 'ol/layer/Tile.js'
+import VectorLayer from 'ol/layer/Vector.js'
+import { OSM, Vector as VectorSource, XYZ } from 'ol/source.js'
 import { fromLonLat, toLonLat } from 'ol/proj.js'
-import { Draw, createBox } from 'ol/interaction.js'
+import { Draw } from 'ol/interaction.js'
+import { createBox } from 'ol/interaction/Draw.js'
 import { Style, Fill, Stroke } from 'ol/style.js'
 import 'ol/ol.css'
 
@@ -51,14 +53,14 @@ const bandCombinations = {
   }
 }
 
-const sampleItem = 'S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704'
+const sampleItem = 'S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954'
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 
-let tileLayer = null
-let drawSource = null
-let drawLayer = null
-let drawInteraction = null
+const tileLayer = ref(null)
+const drawSource = ref(null)
+const drawLayer = ref(null)
+const drawInteraction = ref(null)
 
 // Watch for changes
 watch(selectedBands, () => {
@@ -131,30 +133,28 @@ function buildPreviewUrl() {
 }
 
 function enableDrawing() {
-  if (!map.value || !drawInteraction) return
+  if (!map.value || !drawInteraction.value) return
   
   isDrawing.value = true
-  map.value.addInteraction(drawInteraction)
+  map.value.addInteraction(drawInteraction.value)
 }
 
 function disableDrawing() {
-  if (!map.value || !drawInteraction) return
+  if (!map.value || !drawInteraction.value) return
   
   isDrawing.value = false
-  map.value.removeInteraction(drawInteraction)
+  map.value.removeInteraction(drawInteraction.value)
 }
 
 function clearDrawing() {
-  if (drawSource) {
-    drawSource.clear()
+  if (drawSource.value) {
+    drawSource.value.clear()
   }
 }
 
 function updateCropFromFeature(feature) {
   const geometry = feature.getGeometry()
   const extent = geometry.getExtent()
-  
-  const { toLonLat } = window.ol.proj
   
   const [minLon, minLat] = toLonLat([extent[0], extent[1]])
   const [maxLon, maxLat] = toLonLat([extent[2], extent[3]])
@@ -167,51 +167,22 @@ function updateCropFromFeature(feature) {
   }
 }
 
-// Function to wait for OpenLayers to load
-function waitForOpenLayers() {
-  return window.waitForOpenLayers()
-}
-
-// Helper function to wait for common utilities to load
-function waitForCommonUtilities() {
-  return new Promise((resolve) => {
-    const checkUtilities = () => {
-      if (window.checkWebGLSupport && window.waitForOpenLayers) {
-        resolve()
-      } else {
-        setTimeout(checkUtilities, 50)
-      }
-    }
-    checkUtilities()
-  })
-}
-
 onMounted(async () => {
   // Load common utilities on client-side only
   await import("/.vitepress/theme/software.js");
   
-  // Wait for common utilities to load
-  await waitForCommonUtilities()
+  nextTick(() => {
+    initializeMap()
+  })
+})
 
-  // Wait for OpenLayers to be available
-  await waitForOpenLayers()
-  
-  if (typeof window.ol === 'undefined') {
-    console.error('OpenLayers not loaded')
-    return
-  }
-  
-  const { Map, View } = window.ol
-  const { Tile: TileLayer, Vector: VectorLayer } = window.ol.layer
-  const { OSM, Vector: VectorSource } = window.ol.source
-  const { fromLonLat } = window.ol.proj
-  const { Draw } = window.ol.interaction
-  const { Style, Fill, Stroke } = window.ol.style
+function initializeMap() {
+  if (!mapContainer.value) return
   
   // Initialize drawing source and layer
-  drawSource = new VectorSource()
-  drawLayer = new VectorLayer({
-    source: drawSource,
+  drawSource.value = new VectorSource()
+  drawLayer.value = new VectorLayer({
+    source: drawSource.value,
     style: new Style({
       fill: new Fill({
         color: 'rgba(255, 255, 255, 0.2)'
@@ -224,15 +195,15 @@ onMounted(async () => {
     })
   })
   
-  // Initialize draw interaction
-  drawInteraction = new Draw({
-    source: drawSource,
+  // Initialize draw interaction for box drawing
+  drawInteraction.value = new Draw({
+    source: drawSource.value,
     type: 'Circle',
-    geometryFunction: window.ol.interaction.Draw.createBox()
+    geometryFunction: createBox()
   })
   
-  drawInteraction.on('drawend', (event) => {
-    drawSource.clear() // Clear previous drawings
+  drawInteraction.value.on('drawend', (event) => {
+    drawSource.value.clear() // Clear previous drawings
     updateCropFromFeature(event.feature)
     disableDrawing()
   })
@@ -244,27 +215,39 @@ onMounted(async () => {
       new TileLayer({
         source: new OSM()
       }),
-      drawLayer
+      drawLayer.value
     ],
     view: new View({
       center: fromLonLat([12.3, 45.45]), // Venice area
       zoom: 11
     })
   })
-})
+}
 </script>
 
 <style scoped>
-/* Page-specific styles only - common styles imported above */
+/* Page-specific styles - common styles imported from software.css */
 
-/* Crop-specific drawing controls */
 .drawing-controls {
   display: flex;
   gap: 10px;
   margin-top: 10px;
 }
 
-/* Crop-specific button styles */
+.coordinate-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.coordinate-label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: var(--on-surface, #24292e);
+}
+
 .crop-results {
   background: #fff;
   border: 1px solid #e1e4e8;
@@ -315,7 +298,7 @@ onMounted(async () => {
 }
 
 @media (max-width: 768px) {
-  .controls {
+  .coordinate-inputs {
     grid-template-columns: 1fr;
   }
 
@@ -488,59 +471,6 @@ fetch(cropUrl)
     img.src = url;
     document.body.appendChild(img);
   });
-```
-
-```javascript [Interactive Drawing]
-import { Draw } from "ol/interaction";
-import { Vector as VectorLayer } from "ol/layer";
-import { Vector as VectorSource } from "ol/source";
-import { toLonLat } from "ol/proj";
-
-// Setup drawing source and layer
-const drawSource = new VectorSource();
-const drawLayer = new VectorLayer({
-  source: drawSource,
-  style: {
-    "fill-color": "rgba(255, 255, 255, 0.2)",
-    "stroke-color": "#ffcc33",
-    "stroke-width": 2,
-  },
-});
-
-// Create box drawing interaction
-const drawInteraction = new Draw({
-  source: drawSource,
-  type: "Circle",
-  geometryFunction: (coordinates, geometry) => {
-    if (!geometry) {
-      geometry = new ol.geom.Polygon(null);
-    }
-    const start = coordinates[0];
-    const end = coordinates[1];
-    geometry.setCoordinates([
-      [start, [end[0], start[1]], end, [start[0], end[1]], start],
-    ]);
-    return geometry;
-  },
-});
-
-// Handle draw completion
-drawInteraction.on("drawend", (event) => {
-  const extent = event.feature.getGeometry().getExtent();
-  const [minLon, minLat] = toLonLat([extent[0], extent[1]]);
-  const [maxLon, maxLat] = toLonLat([extent[2], extent[3]]);
-
-  // Build crop URL with correct API
-  const bbox = `${minLon},${minLat},${maxLon},${maxLat}`;
-  const cropUrl = `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/512x512.png`;
-
-  // Update preview
-  updateCropPreview(cropUrl);
-});
-
-// Add to map
-map.addLayer(drawLayer);
-map.addInteraction(drawInteraction);
 ```
 
 ```javascript [NDVI Crop Example]
