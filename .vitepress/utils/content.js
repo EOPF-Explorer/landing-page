@@ -181,7 +181,7 @@ export const servicesContent = [
     tags: ["screening", "arithmetic", "expressions", "band-math"],
     category: "Screening",
     type: "software",
-    link: "https://github.com/EOPF-Explorer/titiler-eopf"
+    link: "ol/titiler"
   },
   {
     id: "openlayers-geozarr",
