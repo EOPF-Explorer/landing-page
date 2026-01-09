@@ -5,7 +5,7 @@ layout: page
 
 <style>
 /* Import common CSS first to avoid FOUC */
-@import './common.css';
+@import "/.vitepress/theme/software.css";
 </style>
 
 <script setup>
@@ -16,11 +16,7 @@ const loading = ref(true)
 
 onMounted(async () => {
   // Load common utilities on client-side only
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script')
-    script.src = './common.js'
-    document.head.appendChild(script)
-  }
+  await import("/.vitepress/theme/software.js");
   
   // Check API availability
   try {
@@ -141,15 +137,15 @@ onMounted(async () => {
 This guide demonstrates how to use Titiler-EOPF, a specialized tile server that provides on-the-fly visualization of EOPF's Zarr-formatted satellite data. Unlike client-side processing, Titiler handles complex calculations server-side and delivers optimized tiles for web mapping applications.
 
 <div v-if="loading" class="info">
-🔄 <strong>Checking API Status</strong>: Verifying Titiler service availability...
+🔄 <strong>Checking <a href="https://api.explorer.eopf.copernicus.eu/raster" target="_blank">API</a> Status</strong>: Verifying Titiler service availability...
 </div>
 
 <div v-else-if="apiStatus === false" class="warning">
-⚠️ <strong>API Unavailable</strong>: The Titiler service appears to be temporarily unavailable. Some examples may not work as expected.
+⚠️ <strong><a href="https://api.explorer.eopf.copernicus.eu/raster" target="_blank">API Unavailable</a></strong>: The Titiler service appears to be temporarily unavailable. Some examples may not work as expected.
 </div>
 
 <div v-else-if="apiStatus === true" class="success">
-✅ <strong>API Available</strong>: Titiler service is running and ready for integration.
+✅ <strong><a href="https://api.explorer.eopf.copernicus.eu/raster" target="_blank">API Available</a></strong>: Titiler service is running and ready for integration.
 </div>
 
 <div class="overview-section">
