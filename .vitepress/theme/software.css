@@ -516,22 +516,3 @@ a {
   background: #f8f9fa;
   border-radius: 8px;
 }
-
-.nav-button {
-  padding: 8px 16px;
-  background: #0366d6;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-.nav-button:hover {
-  background: #0256cc;
-  color: white;
-}
-
-.nav-button:disabled {
-  background: #6c757d;
-  cursor: not-allowed;
-}
