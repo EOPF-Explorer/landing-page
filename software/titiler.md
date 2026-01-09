@@ -6,6 +6,10 @@ layout: page
 <style>
 /* Import common CSS first to avoid FOUC */
 @import "/.vitepress/theme/software.css";
+
+.large-space {
+  block-size: 0rem !important;
+}
 </style>
 
 <script setup>
@@ -31,103 +35,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* Page-specific styles for Titiler integration main page */
-.api-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  border-radius: 6px;
-  margin: 16px 0;
-  font-weight: 500;
-}
-
-.api-status.loading {
-  background: #f8f9fa;
-  border: 1px solid #e1e4e8;
-  color: #586069;
-}
-
-.api-status.online {
-  background: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
-}
-
-.api-status.offline {
-  background: #f8d7da;
-  border: 1px solid #f5c6cb;
-  color: #721c24;
-}
-
-.status-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.status-indicator.loading {
-  background: #6c757d;
-  animation: pulse 1.5s infinite;
-}
-
-.status-indicator.online {
-  background: #28a745;
-}
-
-.status-indicator.offline {
-  background: #dc3545;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-.features-comparison {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin: 32px 0;
-}
-
-.feature-column {
-  background: #f8f9fa;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  padding: 20px;
-}
-
-.feature-column h4 {
-  margin: 0 0 16px 0;
-  color: #24292e;
-  font-size: 16px;
-}
-
-.feature-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.feature-list li {
-  padding: 8px 0;
-  color: #586069;
-  font-size: 14px;
-  border-bottom: 1px solid #e1e4e8;
-}
-
-.feature-list li:last-child {
-  border-bottom: none;
-}
-
-.feature-list li:before {
-  content: "✓";
-  color: #28a745;
-  font-weight: bold;
-  margin-right: 8px;
-}
+/* Page-specific styles for Titiler integration main page - only keeping actually used classes */
 </style>
 
 ## Titiler Integration <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
@@ -162,8 +70,6 @@ This guide demonstrates how to use Titiler-EOPF, a specialized tile server that 
 <p>Ready to dive in? Start with the <a href="/titiler/rgb">RGB Visualization example</a> to see Titiler serving EOPF tiles in a web map, then explore NDVI calculations and spatial cropping techniques.</p>
 </div>
 
-**Version Notes**
-
 ⚠️ **Early Implementation**: This Titiler integration represents an early implementation of EOPF data services. Data availability, API stability, and library alignment will evolve over time as the platform matures.
 
 ### API Documentation
@@ -177,7 +83,7 @@ This guide demonstrates how to use Titiler-EOPF, a specialized tile server that 
 
   <div class="installation-method">
     <strong>Base URL</strong>
-    <pre><code>https://api.explorer.eopf.copernicus.eu/raster/</code></pre>
+    <pre><a href="https://api.explorer.eopf.copernicus.eu/raster/" target="_blank">https://api.explorer.eopf.copernicus.eu/raster/</a></pre>
     <p>All tile endpoints use this base URL for production integration.</p>
   </div>
 </div>
@@ -214,7 +120,7 @@ Tile endpoints follow this pattern:
 
 ### Deployment Options
 
-**1. EOPF Explorer Platform (Recommended)**
+**1. [EOPF Explorer TiTiler](https://api.explorer.eopf.copernicus.eu/raster/) (Recommended)**
 
 - **Pre-configured** with STAC catalog integration
 - **Production-ready** endpoints with optimized performance
@@ -230,52 +136,6 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
 - Environment configuration examples
 - Custom data source integration
 
-### Integration Examples
-
-<div class="examples-grid">
-  <div class="example-card">
-    <div class="example-title">1. RGB Band Combinations</div>
-    <div class="example-description">
-      Learn to create true color and false color visualizations using Titiler's tile endpoints with OpenLayers or Leaflet.
-    </div>
-    <ul class="example-features">
-      <li>True color RGB (B04, B03, B02)</li>
-      <li>False color infrared composites</li>
-      <li>Color enhancement formulas</li>
-      <li>Web mapping integration</li>
-    </ul>
-    <a href="./titiler/rgb" class="example-link">View Example →</a>
-  </div>
-
-  <div class="example-card">
-    <div class="example-title">2. Vegetation Indices</div>
-    <div class="example-description">
-      Calculate vegetation indices server-side using mathematical expressions and visualize with custom color schemes.
-    </div>
-    <ul class="example-features">
-      <li>Real-time NDVI calculation</li>
-      <li>Server-side expressions</li>
-      <li>Custom color mapping</li>
-      <li>Environmental monitoring</li>
-    </ul>
-    <a href="./titiler/ndvi" class="example-link">View Example →</a>
-  </div>
-
-  <div class="example-card">
-    <div class="example-title">3. Spatial Cropping</div>
-    <div class="example-description">
-      Extract specific areas from satellite scenes using bounding box and feature-based spatial operations.
-    </div>
-    <ul class="example-features">
-      <li>Bounding box cropping</li>
-      <li>Polygon-based extraction</li>
-      <li>Coordinate system handling</li>
-      <li>Export capabilities</li>
-    </ul>
-    <a href="./titiler/crop" class="example-link">View Example →</a>
-  </div>
-</div>
-
 ### Next Steps
 
 1. **Start with Examples**: Work through each [example](#integration-examples) to understand the capabilities
@@ -285,3 +145,54 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
 5. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
 
 For the latest updates and advanced features, follow the [Titiler-EOPF project](https://github.com/EOPF-Explorer/titiler-eopf) and [EOPF Explorer platform](https://github.com/EOPF-Explorer) on GitHub.
+
+<FeaturesGallery
+  background="transparent"
+  sectionTitle="Integration Examples"
+  :cards="[
+    {
+      title: '1. RGB Band Combinations',
+      content: 'Learn to create true color and false color visualizations using Titiler\'s tile endpoints with OpenLayers or Leaflet.',
+      features: [
+        'True color RGB (B04, B03, B02)',
+        'False color infrared composites',
+        'Color enhancement formulas',
+        'Web mapping integration'
+      ],
+      link: {
+        text: 'View Example',
+        href: './titiler/rgb'
+      }
+    },
+    {
+      title: '2. Vegetation Indices',
+      content: 'Calculate vegetation indices server-side using mathematical expressions and visualize with custom color schemes.',
+      features: [
+        'Real-time NDVI calculation',
+        'Server-side expressions',
+        'Custom color mapping',
+        'Environmental monitoring'
+      ],
+      link: {
+        text: 'View Example',
+        href: './titiler/ndvi'
+      }
+    },
+    {
+      title: '3. Spatial Cropping',
+      content: 'Extract specific areas from satellite scenes using bounding box and feature-based spatial operations.',
+      features: [
+        'Bounding box cropping',
+        'Polygon-based extraction',
+        'Coordinate system handling',
+        'Export capabilities'
+      ],
+      link: {
+        text: 'View Example',
+        href: './titiler/crop'
+      }
+    }
+  ]"
+/>
+
+
