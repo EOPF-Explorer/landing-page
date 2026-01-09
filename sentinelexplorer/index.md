@@ -4,13 +4,9 @@ footer: false
 ---
 
 <script setup>
-  import { onMounted } from 'vue'
-  
-  onMounted(() => {
-    if (typeof window !== 'undefined' && document.querySelector(".layout-home")) {
-      window.location.reload();
-    }
-  })
+  if (document.querySelector(".layout-home")) {
+    window.location.reload();
+  }
   
   const config = async() => (await import("./sentinel-explorer-config")).default
 </script>
