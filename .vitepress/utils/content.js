@@ -212,5 +212,15 @@ export const servicesContent = [
     category: "Screening",
     type: "software",
     link: ""
-  }
+  },
+  {
+    id: "ndci",
+    title: "Monitoring Cyanobacteria in Venice Lagoon",
+    content: "Real-time chlorophyll-a detection using the Normalised Difference Chlorophyll Index and satellite data",
+    image: "https://github.com/EOPF-Explorer/narratives/blob/ndci/chl-ndci/hero.png?raw=true",
+    tags: ["showcase", "ndci", "algae", "indices", "Sentinel-2"],
+    category: "Showcases",
+    type: "story",
+    link: "https://explorer.eopf.copernicus.eu/pr-preview/pr-33/story/?branch=ndci&id=chl-ndci/ndci"
+  },
 ]
