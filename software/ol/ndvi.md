@@ -73,7 +73,7 @@ const ndvi = [
   ['+', ['band', 2], ['band', 1]], // NIR + Red
 ]
 
-function updateColors() {
+function updateNDVI() {
   if (ndviLayer) {
     ndviLayer.updateStyleVariables(getVariables())
   }
@@ -115,7 +115,8 @@ function waitForCommonUtilities() {
 }
 
 // Watch for changes to update colors
-watch([minColor, maxColor, minValue, maxValue], updateColors)
+// Watch for reactive changes (keep for backwards compatibility)
+watch([minColor, maxColor, minValue, maxValue], updateNDVI)
 
 function initializeMap() {
   if (mapRef.value) {
@@ -180,21 +181,18 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
 </div>
 
 <div class="controls">
-  <h3>NDVI Visualization Controls</h3>
-  <table>
-    <tr>
-      <td>Min NDVI</td>
-      <td><input type="range" v-model.number="minValue" min="-1.0" max="-0.1" step="0.01" /></td>
-      <td class="data">{{ minValue.toFixed(1) }}</td>
-      <td><input type="color" v-model="minColor" /></td>
-    </tr>
-    <tr>
-      <td>Max NDVI</td>
-      <td><input type="range" v-model.number="maxValue" min="0.1" max="1.0" step="0.01" /></td>
-      <td class="data">{{ maxValue.toFixed(1) }}</td>
-      <td><input type="color" v-model="maxColor" /></td>
-    </tr>
-  </table>
+  <div class="control-row">
+    <label>Min NDVI</label>
+    <input type="range" v-model.number="minValue" min="-1.0" max="-0.1" step="0.01" />
+    <span class="value-display">{{ minValue.toFixed(1) }}</span>
+    <input type="color" v-model="minColor" />
+  </div>
+  <div class="control-row">
+    <label>Max NDVI</label>
+    <input type="range" v-model.number="maxValue" min="0.1" max="1.0" step="0.01" />
+    <span class="value-display">{{ maxValue.toFixed(1) }}</span>
+    <input type="color" v-model="maxColor" />
+  </div>
 </div>
 
 :::code-group

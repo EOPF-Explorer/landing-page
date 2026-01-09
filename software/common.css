@@ -69,6 +69,38 @@
   color: var(--on-surface, #1c1b1e);
 }
 
+/* Modern control row layout */
+.control-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 60px 60px;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.control-row label {
+  font-weight: 600;
+  color: var(--on-surface, #1c1b1e);
+}
+
+.control-row input[type="range"] {
+  width: 100%;
+}
+
+.control-row input[type="color"] {
+  width: 50px;
+  height: 35px;
+  border: 1px solid var(--outline, #d1d5da);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.value-display {
+  text-align: center;
+  font-weight: 500;
+  color: var(--on-surface, #1c1b1e);
+}
+
 .control-group select,
 .control-group input {
   width: 100%;
