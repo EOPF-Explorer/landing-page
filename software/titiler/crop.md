@@ -3,7 +3,7 @@ title: Spatial Cropping with Titiler
 layout: page
 ---
 
-<style>
+<style scoped>
 /* Import common CSS first to avoid FOUC */
 @import url("/.vitepress/theme/software.css");
 </style>
