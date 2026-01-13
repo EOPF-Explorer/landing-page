@@ -18,7 +18,7 @@
     "@eox/layercontrol": "^1.3.2",
     "@eox/layout": "^1.0.0",
     "@eox/map": "^2.0.2",
-    "@eox/storytelling": "^1.9.8"
+    "@eox/storytelling": "^1.10.0"
   },
   "devDependencies": {
     "@eox/pages-theme-eox": "^0.11.1",
