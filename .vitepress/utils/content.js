@@ -181,7 +181,7 @@ export const servicesContent = [
     tags: ["screening", "arithmetic", "expressions", "band-math"],
     category: "Screening",
     type: "software",
-    link: "https://github.com/EOPF-Explorer/titiler-eopf"
+    link: "software/titiler"
   },
   {
     id: "openlayers-geozarr",
@@ -191,7 +191,7 @@ export const servicesContent = [
     tags: ["screening", "web-mapping", "visualization", "geozarr"],
     category: "Screening",
     type: "software",
-    link: "https://deploy-preview-17194--ol-site.netlify.app/en/latest/examples/geozarr-stretch.html"
+    link: "software/ol"
   },
   {
     id: "openeo-web-editor",

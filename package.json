@@ -18,7 +18,11 @@
     "@eox/layercontrol": "^1.3.2",
     "@eox/layout": "^1.0.0",
     "@eox/map": "^2.0.2",
-    "@eox/storytelling": "^1.10.0"
+    "@eox/storytelling": "^1.10.0",
+    "chroma-js": "^3.2.0",
+    "ol": "10.7.1-dev.1767511985622",
+    "stac-js": "^0.1.2",
+    "zarrita": "^0.5.4"
   },
   "devDependencies": {
     "@eox/pages-theme-eox": "^0.11.5",
