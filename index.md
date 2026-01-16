@@ -23,9 +23,48 @@ footer: false
 <FeaturesGallery style="margin-top:-64px" background="surface surface-bg" sectionTitle=" " :cards="cardsContent"/>
 
 
-<div class="large-space"></div>
-<div class="large-space"></div>
 
+<div class="story-wrapper">
+<div class="story-col">
+
+<h4>🌍 Pioneering the GeoZarr Data Model</h4>
+<br>
+<p>
+EOPF Explorer drives the standardization of cloud-native geospatial data formats. Through intensive collaboration with the Zarr community, we've established foundational <strong>Zarr Conventions</strong> that enable interoperable access to Earth Observation data across the entire ecosystem.
+</p>
+<p style="margin-top: 1rem;">
+<a href="/datamodel/" style="display: inline-block; padding: 0.5rem 1rem; background: var(--vp-c-brand, #3451b2); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">Learn More →</a>
+</p>
+</div>
+
+<div class="story-col">
+<div class="conventions-diagram" style="padding: 1rem;">
+  <div class="geozarr-roof" style="background: linear-gradient(135deg, var(--vp-c-brand, #3451b2) 0%, #5b7bd5 100%); color: white; padding: 1rem; border-radius: 8px; text-align: center; margin-bottom: 1rem;">
+    <h5 style="margin: 0; color: white;">GeoZarr Specification</h5>
+    <a href="https://github.com/zarr-developers/geozarr-spec" target="_blank" style="color: white; font-size: 0.8rem;">zarr-developers/geozarr-spec →</a>
+  </div>
+  <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+    <a href="https://github.com/zarr-conventions/multiscales" target="_blank" class="pillar" style="flex: 1; min-width: 100px; background: var(--vp-c-bg-soft, #f6f6f7); border: 2px solid var(--vp-c-brand, #3451b2); border-radius: 6px; padding: 0.75rem 0.5rem; text-align: center; text-decoration: none;">
+      <strong style="display: block; color: var(--vp-c-brand, #3451b2); font-size: 0.85rem;">Multiscales</strong>
+      <span style="font-size: 0.7rem; color: var(--vp-c-text-2);">Pyramids</span>
+    </a>
+    <a href="https://github.com/zarr-conventions/geo-proj" target="_blank" class="pillar" style="flex: 1; min-width: 100px; background: var(--vp-c-bg-soft, #f6f6f7); border: 2px solid var(--vp-c-brand, #3451b2); border-radius: 6px; padding: 0.75rem 0.5rem; text-align: center; text-decoration: none;">
+      <strong style="display: block; color: var(--vp-c-brand, #3451b2); font-size: 0.85rem;">Projection</strong>
+      <span style="font-size: 0.7rem; color: var(--vp-c-text-2);">CRS/Datum</span>
+    </a>
+    <a href="https://github.com/zarr-conventions/spatial" target="_blank" class="pillar" style="flex: 1; min-width: 100px; background: var(--vp-c-bg-soft, #f6f6f7); border: 2px solid var(--vp-c-brand, #3451b2); border-radius: 6px; padding: 0.75rem 0.5rem; text-align: center; text-decoration: none;">
+      <strong style="display: block; color: var(--vp-c-brand, #3451b2); font-size: 0.85rem;">Spatial</strong>
+      <span style="font-size: 0.7rem; color: var(--vp-c-text-2);">Coordinates</span>
+    </a>
+  </div>
+  <div style="background: var(--vp-c-text-1, #213547); color: white; padding: 0.5rem 1rem; border-radius: 6px; text-align: center; margin-top: 0.75rem;">
+    <a href="https://zarr.dev/" target="_blank" style="color: white; font-size: 0.85rem;">Zarr v3 Core</a>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="large-space"></div>
 
 <div class="story-wrapper">
 <div class="story-col">
@@ -58,6 +97,8 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
 </div>
 
 <div class="large-space"></div>
+
+
 
 
 <FeatureSection
