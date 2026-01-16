@@ -377,7 +377,7 @@ var,
 }
 
 /* Inline code */
-code  {
+code {
   background: #f6f8fa;
   color: #24292e;
   padding: 2px 4px;
@@ -464,7 +464,7 @@ span.lang {
 }
 
 code {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
 }
 
 a {

@@ -10,7 +10,7 @@
     "check": "vue-tsc && eslint ."
   },
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@0a7ffe2",
+    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@e2fa0cd",
     "@eox/chart": "^1.1.0",
     "@eox/elements-utils": "^1.1.0",
     "@eox/itemfilter": "^1.13.3",
