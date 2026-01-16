@@ -66,7 +66,7 @@ The EOPF Explorer project is at the forefront of establishing **GeoZarr** as the
   <div class="timeline-item ongoing">
     <span class="timeline-date">Q1-Q2 2026</span>
     <h4>🌱 Ecosystem Adoption</h4>
-    <p>GDAL Phase 2 for full conventions support. rioxarray integration. OpenLayers stabilization from experimental to stable.</p>
+    <p>Time Series Support. TiTiler enhancement. GDAL Effort Phase 2 for full conventions support. rioxarray integration. OpenLayers stabilization from experimental to stable.</p>
   </div>
   
   <div class="timeline-item planned">
@@ -113,10 +113,6 @@ At the Zarr Summit in Rome, we established a new approach: instead of a monolith
     <a href="https://zarr.dev/" target="_blank">Zarr v3 Core</a>
   </div>
 </div>
-
-<p style="text-align: center; margin-top: 1rem;">
-  <a href="https://github.com/zarr-conventions/" target="_blank" style="font-weight: 600;">Explore all Zarr Conventions →</a>
-</p>
 
 ---
 
@@ -190,10 +186,10 @@ We authored the first comprehensive [STAC best practices for Zarr integration](h
   <a href="/datamodel/technical-deep-dive" class="button">
     📚 Technical Deep Dive
   </a>
-  <a href="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" target="_blank" class="button white">
+  <a href="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" target="_blank" class="button border">
     💬 Join the Discussion
   </a>
-  <a href="https://github.com/zarr-conventions/" target="_blank" class="action-button" style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--vp-c-bg-soft, #f6f6f7); color: var(--vp-c-text-1); border-radius: 8px; text-decoration: none; font-weight: 600; border: 1px solid var(--vp-c-divider);">
+  <a href="https://github.com/zarr-conventions/" target="_blank" class="button border">
     🔧 Zarr Conventions
   </a>
 </div>

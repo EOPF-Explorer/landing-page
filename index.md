@@ -33,7 +33,7 @@ footer: false
 EOPF Explorer drives the standardization of cloud-native geospatial data formats. Through intensive collaboration with the Zarr community, we've established foundational <strong>Zarr Conventions</strong> that enable interoperable access to Earth Observation data across the entire ecosystem.
 </p>
 <p style="margin-top: 1rem;">
-<a href="/datamodel/" style="display: inline-block; padding: 0.5rem 1rem; background: var(--vp-c-brand, #3451b2); color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">Learn More →</a>
+<a href="/datamodel/" class="button">Learn More →</a>
 </p>
 </div>
 
