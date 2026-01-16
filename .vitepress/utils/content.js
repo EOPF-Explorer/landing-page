@@ -212,5 +212,15 @@ export const servicesContent = [
     category: "Screening",
     type: "software",
     link: ""
+  },
+  {
+    id: "zarr-layer-carbon-plan",
+    title: "Flexible zarr rendering for MapLibre/Mapbox",
+    content: "A interesting experiment by CarbonPlan on rendering zarr data in the browser using WebGLShaders.",
+    image: "assets/zarr-layer-carbon-plan.png",
+    tags: ["experimental", "screening", "web-mapping", "WebGL", "geozarr"],
+    category: "Screening",
+    type: "software",
+    link: "https://zarr-layer.demo.carbonplan.org/"
   }
 ]
