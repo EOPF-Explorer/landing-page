@@ -27,8 +27,7 @@ footer: false
 <div class="large-space"></div>
 
 
-<div class="story-wrapper">
-<div class="story-col">
+
 
 <h4> Dynamic Data Visualisation and Storytelling</h4>
 <br>
@@ -36,9 +35,9 @@ footer: false
 Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data and embedding of visualisations into stories and feature maps, straight from the products in cloud storage.
 </p>
 <!-- <button style="margin-top:20px">NDVI Story</button> -->
-</div>
 
-<div class="story-col" >
+
+
 <client-only>
   <eox-itemfilter
     :items="items"
@@ -54,8 +53,6 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
     <h6 slot="resultstitle" class="large large-margin vertical-margin top-padding"></h6>
   </eox-itemfilter>
 </client-only>
-</div>
-</div>
 
 <div class="large-space"></div>
 
@@ -270,34 +267,4 @@ const handleResultClick = (evt) => {
       --filter-display:none
     }
   }
-.story-wrapper {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
-
-.story-col {
-  flex: 1;
-  flex-direction: auto;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-@media (max-width: 1024px) {
-  .story-wrapper {
-    flex-direction: column;
-  }
-  
-  .story-col {
-    width: 100%;
-    margin-bottom: 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .story-wrapper {
-    padding: 10px;
-    gap: 10px;
-  }
-}
 </style>
