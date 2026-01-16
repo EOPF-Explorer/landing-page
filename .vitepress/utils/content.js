@@ -27,8 +27,8 @@ export const cardsContent = [
     title: "Discovery",
     icon:{ html: discoveryIcon},
     link:{
-        text:"Stac Browser",
-        href:"https://api.explorer.eopf.copernicus.eu/browser"
+        text:"Discover Data",
+        href:withBase("/software-services?category=Discovery")
     }
   },
   {
@@ -37,8 +37,8 @@ export const cardsContent = [
     id: Symbol(),
     title: "Screening",
     link:{
-        text:"Experiment",
-        href:withBase("/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a")
+        text:"Browse Sentinel Zarr",
+        href:withBase("/software-services?category=Screening")
     }
   },
   {
@@ -47,8 +47,8 @@ export const cardsContent = [
     id: Symbol(),
     title: "Analysis",
     link:{
-        text:"Open EO",
-        href:"https://openeo.org/"
+        text:"Experiment",
+        href:withBase("/software-services?category=Analysis")
     }
   },
   {
@@ -57,8 +57,8 @@ export const cardsContent = [
     id: Symbol(),
     title: "Showcases",
     link:{
-        text:"Showcases",
-        href:withBase("/story/?id=ndvi")
+        text:"See Showcases",
+        href:withBase("/software-services?category=Showcases")
     }
   },
 ];
@@ -138,7 +138,7 @@ export const tableData = [
       'Zarr (EOPF Sample Service)': cross,
       'SAFE': cross,
     },
-    content: 'EOPF Explorer Zarr is relying on <a href="https://zarr.dev/conventions/">Zarr Conventions</a> for defining <a href=""https://github.com/zarr-developers/geozarr-spec?tab=readme-ov-file#conventions>geospatial-data-specific features in GeoZarr</a>, in particular georeference and . This means that the data format is recognised and discoverable by the community, which will hopefully lead to wider adoption by other data producers and software client libaries.<br/><br/>EOPF Sample Service Zarr currently uses a bespoke format for encoding geospatial and multiscales information.',
+    content: 'EOPF Explorer Zarr is relying on <a href="https://zarr.dev/conventions/">Zarr Conventions</a> for defining <a href=""https://github.com/zarr-developers/geozarr-spec?tab=readme-ov-file#conventions>geospatial-data-specific features in GeoZarr</a>, in particular georeference and . This means that the data format is recognised and discoverable by the community, which will hopefully lead to wider adoption by other data producers and software client libaries.<br/><br/>EOPF Sample Service Zarr currently uses a <a href="https://cpm.pages.eopf.copernicus.eu/eopf-cpm/main/PSFD/index.html">bespoke format</a> for encoding geospatial and multiscales information.',
   },
 ]
 
