@@ -7,6 +7,7 @@ layout: page
 
 <client-only>
   <eox-itemfilter
+    ref="itemFilterRef"
     :items="servicesContent"
     :filterProperties="filterProps"
     .showResults="false"
@@ -24,35 +25,43 @@ layout: page
 </client-only>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, computed, onMounted } from 'vue';
   import { withBase } from 'vitepress';
   import { servicesContent } from "./.vitepress/utils/content";
 
   const servicesResults = ref([]);
   const galleryKey = ref(0);
+  const itemFilterRef = ref(null);
+  const urlCategory = ref(null);
 
-  const filterProps = [
-    {
-      "key": "category",
-      "title": "By category",
-      "expanded": true
-    },
-    {
-      "keys": [
-        "title",
-        "content",
-        "tags"
-      ],
-      "title": "By keyword",
-      "type": "text",
-      "placeholder": "Search for keyword",
-      "expanded": false
-    },
-    {
-      "key": 'tags',
-      "title": 'By tag'
-    }
-  ];
+  // Compute filter properties with URL-based state
+  const filterProps = computed(() => {
+    const baseFilterProps = [
+      {
+        "key": "category",
+        "title": "By category",
+        "expanded": true,
+        "state": urlCategory.value ? { [urlCategory.value]: true } : undefined
+      },
+      {
+        "keys": [
+          "title",
+          "content", 
+          "tags"
+        ],
+        "title": "By keyword",
+        "type": "text",
+        "placeholder": "Search for keyword",
+        "expanded": false
+      },
+      {
+        "key": 'tags',
+        "title": 'By tag'
+      }
+    ];
+    
+    return baseFilterProps;
+  });
 
   // Filter handler
   const handleFilter = (evt) => {
@@ -71,5 +80,40 @@ layout: page
       }
     }));
     galleryKey.value++;
+    
+    // Update URL based on filtered results
+    try {
+      const url = new URL(window.location);
+      const categories = [...new Set(servicesResults.value.map(r => r.category))];
+      
+      if (categories.length === 1) {
+        // Single category selected
+        const newCategory = categories[0];
+        if (newCategory !== urlCategory.value) {
+          url.searchParams.set('category', newCategory);
+          urlCategory.value = newCategory;
+          window.history.replaceState({}, '', url);
+        }
+      } else {
+        // Multiple or no categories (clear filter)
+        if (urlCategory.value) {
+          url.searchParams.delete('category');
+          urlCategory.value = null;
+          window.history.replaceState({}, '', url);
+        }
+      }
+    } catch (error) {
+      console.log('URL update error:', error);
+    }
   };
+
+  // Initialize from URL parameters
+  onMounted(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    
+    if (categoryParam) {
+      urlCategory.value = categoryParam;
+    }
+  });
 </script>

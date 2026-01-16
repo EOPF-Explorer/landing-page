@@ -6,6 +6,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
     endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
     api: true,
     rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
+    mosaicEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
   },
   brand: {
     name: "Sentinel Explorer",
@@ -62,6 +63,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableZoom: true,
               enableExportMap: true,
               enableChangeProjection: true,
+              enableMosaic: false,
               enableCompareIndicators: {
                 fallbackTemplate: "explore",
                 itemFilterConfig: {
@@ -71,11 +73,19 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            btnsPosition: {
-              x: "12/9/9",
-              y: 2,
-              gap: 24,
-            },
+            initialLayers: [
+              {
+                type: "Tile",
+                properties: {
+                  id: "terrain-light;:;EPSG:3857",
+                  title: "Terrain Light",
+                },
+                source: {
+                  type: "XYZ",
+                  url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
+                },
+              },
+            ],
           },
         },
       },
@@ -87,6 +97,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 12 },
           widget: {
             name: "EodashLayerControl",
+            properties: {
+              tools: ["info", "config", "legend", "opacity"],
+            },
           },
         },
         {
@@ -140,11 +153,19 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            btnsPosition: {
-              x: "12/9/9",
-              y: 2,
-              gap: 24,
-            },
+            initialLayers: [
+              {
+                type: "Tile",
+                properties: {
+                  id: "terrain-light;:;EPSG:3857",
+                  title: "Terrain Light",
+                },
+                source: {
+                  type: "XYZ",
+                  url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
+                },
+              },
+            ],
           },
         },
       },
@@ -265,6 +286,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableZoom: true,
               enableExportMap: true,
               enableChangeProjection: true,
+              enableMosaic: false,
               enableCompareIndicators: {
                 fallbackTemplate: "explore",
                 itemFilterConfig: {
@@ -274,11 +296,19 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            btnsPosition: {
-              x: "12/9/9",
-              y: 2,
-              gap: 24,
-            },
+            initialLayers: [
+              {
+                type: "Tile",
+                properties: {
+                  id: "terrain-light;:;EPSG:3857",
+                  title: "Terrain Light",
+                },
+                source: {
+                  type: "XYZ",
+                  url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
+                },
+              },
+            ],
           },
         },
       },
