@@ -209,6 +209,16 @@ export const servicesContent = [
     link: "https://editor.openeo.org/?server=https%3A%2F%2Fapi.explorer.eopf.copernicus.eu%2Fopeneo%2F"
   },
   {
+    id: "ndci",
+    title: "Monitoring Cyanobacteria in Venice Lagoon",
+    content: "Real-time chlorophyll-a detection using the Normalised Difference Chlorophyll Index and satellite data",
+    image: "https://github.com/EOPF-Explorer/narratives/blob/ndci/chl-ndci/hero.png?raw=true",
+    tags: ["showcase", "ndci", "algae", "indices", "Sentinel-2"],
+    category: "Showcases",
+    type: "story",
+    link: "https://explorer.eopf.copernicus.eu/story/?id=ndci"
+  },
+  {
     id: "openlayers-story",
     title: "View EOPF Zarr with OpenLayers",
     content: "A story on how to visualize Sentinel Zarr data using OpenLayers with GeoZarr support.",
@@ -223,7 +233,7 @@ export const servicesContent = [
     title: "Flexible zarr rendering for MapLibre/Mapbox",
     content: "A interesting experiment by CarbonPlan on rendering zarr data in the browser using WebGLShaders.",
     image: "assets/zarr-layer-carbon-plan.png",
-    tags: ["experimental", "🗺️ screening", "web-mapping", "WebGL", "geozarr"],
+    tags: ["🗺️ screening", "experimental", "web-mapping", "WebGL", "geozarr"],
     category: "Screening",
     type: "software",
     link: "https://zarr-layer.demo.carbonplan.org/"
