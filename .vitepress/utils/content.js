@@ -28,7 +28,7 @@ export const cardsContent = [
     icon:{ html: discoveryIcon},
     link:{
         text:"Stac Browser",
-        href:"https://api.explorer.eopf.copernicus.eu/browser"
+        href:withBase("/software-services?category=Discovery")
     }
   },
   {
@@ -38,7 +38,7 @@ export const cardsContent = [
     title: "Screening",
     link:{
         text:"Experiment",
-        href:withBase("/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a")
+        href:withBase("/software-services?category=Screening")
     }
   },
   {
@@ -48,7 +48,7 @@ export const cardsContent = [
     title: "Analysis",
     link:{
         text:"Open EO",
-        href:"https://openeo.org/"
+        href:withBase("/software-services?category=Analysis")
     }
   },
   {
@@ -58,7 +58,7 @@ export const cardsContent = [
     title: "Showcases",
     link:{
         text:"Showcases",
-        href:withBase("/story/?id=ndvi")
+        href:withBase("/software-services?category=Showcases")
     }
   },
 ];
