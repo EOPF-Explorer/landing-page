@@ -142,13 +142,22 @@ h6 {
 /* Global link styling for content pages */
 .vp-doc a,
 .VPDoc a,
-main a:not(.action-button):not(.pillar):not(.geozarr-roof a):not(.zarr-foundation a) {
-  color: var(--vp-c-brand, #3451b2);
+.VPContent a,
+[class*="VPDoc"] a,
+main a:not(.button):not(.pillar) {
+  color: var(--vp-c-brand, #3451b2) !important;
+  text-decoration: none;
 }
 
 .vp-doc a:hover,
 .VPDoc a:hover {
   text-decoration: underline;
+}
+
+/* Ensure table links are styled */
+table a,
+td a {
+  color: var(--vp-c-brand, #3451b2) !important;
 }
 
 /* Conventions Pillars Diagram */
