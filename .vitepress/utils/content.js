@@ -212,5 +212,15 @@ export const servicesContent = [
     category: "Screening",
     type: "software",
     link: ""
+  },
+  {
+    id: "geozarr-data-model",
+    title: "Pioneering the GeoZarr Data Model",
+    content: "Learn how EOPF Explorer drives GeoZarr specification development and Zarr Conventions, establishing the foundation for cloud-native Earth Observation standards.",
+    image: "assets/web-optimized-zarr.png",
+    tags: ["standards", "geozarr", "zarr", "conventions", "community"],
+    category: "Documentation",
+    type: "story",
+    link: "datamodel/"
   }
 ]
