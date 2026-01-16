@@ -5,7 +5,7 @@ layout: page
 
 <style scoped>
 /* Import common CSS first to avoid FOUC */
-@import url("/.vitepress/theme/software.css");
+@import url("../software.css");
 </style>
 
 <script setup>
@@ -113,29 +113,7 @@ function resetRescale() {
   selectedColormap.value = expr.colormap
 }
 
-// Use shared OpenLayers loading utility from common.js
-function waitForOpenLayers() {
-  return window.waitForOpenLayers()
-}
-
-// Helper function to wait for common utilities to load
-function waitForCommonUtilities() {
-  return new Promise((resolve) => {
-    const checkUtilities = () => {
-      if (window.checkWebGLSupport && window.waitForOpenLayers) {
-        resolve()
-      } else {
-        setTimeout(checkUtilities, 50)
-      }
-    }
-    checkUtilities()
-  })
-}
-
-onMounted(async () => {
-  // Load common utilities on client-side only
-  await import("/.vitepress/theme/software.js");
-  
+onMounted(() => {
   nextTick(() => {
     initializeMap()
   })
@@ -339,9 +317,6 @@ import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
 import { fromLonLat } from "ol/proj";
 
-// Wait for OpenLayers to load
-await window.waitForOpenLayers();
-
 // NDVI expression (URL-encoded)
 const ndviExpression =
   "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
@@ -402,8 +377,7 @@ watch(
   }
 );
 
-onMounted(async () => {
-  await window.waitForOpenLayers();
+onMounted(() => {
   initializeMap();
 });
 ```

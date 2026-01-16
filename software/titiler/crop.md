@@ -5,7 +5,7 @@ layout: page
 
 <style scoped>
 /* Import common CSS first to avoid FOUC */
-@import url("/.vitepress/theme/software.css");
+@import url("../software.css");
 </style>
 
 <script setup>
@@ -167,10 +167,7 @@ function updateCropFromFeature(feature) {
   }
 }
 
-onMounted(async () => {
-  // Load common utilities on client-side only
-  await import("/.vitepress/theme/software.js");
-  
+onMounted(() => {
   nextTick(() => {
     initializeMap()
   })
@@ -610,7 +607,7 @@ document.getElementById("draw-button").onclick = () => {
 - **API Documentation**: Check the [complete API reference](https://api.explorer.eopf.copernicus.eu/raster/api.html) for advanced cropping options
 
 <div class="warning">
-⚠️ <strong>Size Limits</strong>: Large crop areas may take longer to process. Consider using the preview endpoint for initial exploration.
+⚠️ <strong>Size Limits</strong>: Large crop areas may take longer to process.
 </div>
 
 <div class="navigation">

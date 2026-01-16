@@ -5,7 +5,7 @@ layout: page
 
 <style scoped>
 /* Import common CSS first to avoid FOUC */
-@import url("/.vitepress/theme/software.css");
+@import url("../software.css");
 </style>
 
 <script setup>
@@ -16,6 +16,7 @@ import TileLayer from 'ol/layer/Tile.js'
 import { OSM, XYZ } from 'ol/source.js'
 import { fromLonLat } from 'ol/proj.js'
 import 'ol/ol.css'
+import { createCopyUrlFunction } from '../index'
 
 const mapContainer = ref(null)
 const map = ref(null)
@@ -95,7 +96,7 @@ function updateTileLayer() {
 }
 
 function copyUrl() {
-  const copyFunction = window.createCopyUrlFunction(buildTileUrl)
+  const copyFunction = createCopyUrlFunction(buildTileUrl)
   copyFunction(copyButtonText, copyButtonClass)
 }
 
@@ -107,10 +108,7 @@ watch(selectedBands, () => {
   }, 100)
 }, { flush: 'post' })
 
-onMounted(async () => {
-  // Load common utilities on client-side only
-  await import("/.vitepress/theme/software.js");
-  
+onMounted(() => {
   nextTick(() => {
     initializeMap()
   })

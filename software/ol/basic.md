@@ -5,7 +5,7 @@ layout: page
 
 <style scoped>
 /* Import common CSS first to avoid FOUC */
-@import url("/.vitepress/theme/software.css");
+@import url("../software.css");
 </style>
 
 <script setup>
@@ -16,6 +16,7 @@ import TileLayer from 'ol/layer/WebGLTile.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
 import OSM from 'ol/source/OSM.js'
 import 'ol/ol.css'
+import { checkWebGLSupport } from '../index'
 
 const webglSupport = ref(null)
 const mapRef = ref()
@@ -24,12 +25,9 @@ let map = null
 // EOPF Zarr URL (root store only, no group path)
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr'
 
-onMounted(async () => {
-  // Load common utilities on client-side only
-  await import("/.vitepress/theme/software.js");
-  
+onMounted(() => {
   // Check WebGL support using common utility
-  webglSupport.value = window.checkWebGLSupport()
+  webglSupport.value = checkWebGLSupport()
 
   if (webglSupport.value) {
     nextTick(() => {

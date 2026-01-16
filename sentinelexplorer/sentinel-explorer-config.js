@@ -73,19 +73,19 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-             initialLayers:[
-                  {
-                    type: "Tile",
-                    properties: {
-                      id: "terrain-light;:;EPSG:3857",
-                      title: "Terrain Light",
-                    },
-                    source: {
-                      type: "XYZ",
-                      url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
-                    },
-                  },
-                ],
+            initialLayers: [
+              {
+                type: "Tile",
+                properties: {
+                  id: "terrain-light;:;EPSG:3857",
+                  title: "Terrain Light",
+                },
+                source: {
+                  type: "XYZ",
+                  url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
+                },
+              },
+            ],
           },
         },
       },
@@ -153,19 +153,19 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers:[
-                  {
-                    type: "Tile",
-                    properties: {
-                      id: "terrain-light;:;EPSG:3857",
-                      title: "Terrain Light",
-                    },
-                    source: {
-                      type: "XYZ",
-                      url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
-                    },
-                  },
-                ],
+            initialLayers: [
+              {
+                type: "Tile",
+                properties: {
+                  id: "terrain-light;:;EPSG:3857",
+                  title: "Terrain Light",
+                },
+                source: {
+                  type: "XYZ",
+                  url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
+                },
+              },
+            ],
           },
         },
       },
@@ -296,19 +296,19 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers:[
-                  {
-                    type: "Tile",
-                    properties: {
-                      id: "terrain-light;:;EPSG:3857",
-                      title: "Terrain Light",
-                    },
-                    source: {
-                      type: "XYZ",
-                      url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
-                    },
-                  },
-                ],
+            initialLayers: [
+              {
+                type: "Tile",
+                properties: {
+                  id: "terrain-light;:;EPSG:3857",
+                  title: "Terrain Light",
+                },
+                source: {
+                  type: "XYZ",
+                  url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
+                },
+              },
+            ],
           },
         },
       },

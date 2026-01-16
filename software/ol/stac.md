@@ -5,7 +5,7 @@ layout: page
 
 <style scoped>
 /* Import common CSS first to avoid FOUC */
-@import url("/.vitepress/theme/software.css");
+@import url("../software.css");
 </style>
 
 <script setup>
@@ -25,6 +25,7 @@ import { Style, Stroke, Fill } from 'ol/style.js'
 import { transformExtent } from 'ol/proj.js'
 import * as ol from 'ol'
 import 'ol/ol.css'
+import { checkWebGLSupport } from '../index'
 
 const webglSupport = ref(null)
 const mapRef = ref()
@@ -42,15 +43,12 @@ const isSearching = ref(false)
 const searchResults = ref([])
 const selectedBbox = ref(null)
 
-onMounted(async () => {
-  // Load common utilities on client-side only
-  await import("/.vitepress/theme/software.js");
-  
+onMounted(() => {
   // Initialize dates first
   initializeDates()
 
   // Check WebGL support using common utility
-  webglSupport.value = window.checkWebGLSupport()
+  webglSupport.value = checkWebGLSupport()
 
   if (webglSupport.value) {
     nextTick(() => {

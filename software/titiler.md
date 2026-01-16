@@ -5,7 +5,7 @@ layout: page
 
 <style scoped>
 /* Import common CSS first to avoid FOUC */
-@import "/.vitepress/theme/software.css";
+@import "./software.css";
 
 .large-space {
   block-size: 0rem !important;
@@ -19,9 +19,6 @@ const apiStatus = ref(null)
 const loading = ref(true)
 
 onMounted(async () => {
-  // Load common utilities on client-side only
-  await import("/.vitepress/theme/software.js");
-  
   // Check API availability
   try {
     const response = await fetch('https://api.explorer.eopf.copernicus.eu/raster/_mgmt/ping')

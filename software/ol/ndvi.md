@@ -5,7 +5,7 @@ layout: page
 
 <style scoped>
 /* Import common CSS first to avoid FOUC */
-@import url("/.vitepress/theme/software.css");
+@import url("../software.css");
 </style>
 
 <script setup>
@@ -17,6 +17,7 @@ import TileLayer from 'ol/layer/WebGLTile.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
 import OSM from 'ol/source/OSM.js'
 import 'ol/ol.css'
+import { checkWebGLSupport } from '../../software'
 
 const webglSupport = ref(null)
 const mapRef = ref()
@@ -33,10 +34,6 @@ const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explor
 
 // NDVI color scale configuration  
 const segments = 10
-const defaultMinColor = '#8B4513'  // Brown
-const defaultMaxColor = '#00FF00'  // Green
-const defaultMinValue = -0.5
-const defaultMaxValue = 0.7
 
 function getVariables() {
   const variables = {}
@@ -79,11 +76,9 @@ function updateNDVI() {
   }
 }
 
-onMounted(async () => {
-  // Load common utilities on client-side only
-  await import("/.vitepress/theme/software.js");
+onMounted(() => {
   // Check WebGL support using common utility
-  webglSupport.value = window.checkWebGLSupport()
+  webglSupport.value = checkWebGLSupport()
 
   if (webglSupport.value) {
     nextTick(() => {
@@ -91,20 +86,6 @@ onMounted(async () => {
     })
   }
 })
-
-// Helper function to wait for common utilities to load
-function waitForCommonUtilities() {
-  return new Promise((resolve) => {
-    const checkUtilities = () => {
-      if (window.checkWebGLSupport && window.waitForOpenLayers) {
-        resolve()
-      } else {
-        setTimeout(checkUtilities, 50)
-      }
-    }
-    checkUtilities()
-  })
-}
 
 // Watch for changes to update colors
 // Watch for reactive changes (keep for backwards compatibility)

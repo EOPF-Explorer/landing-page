@@ -5,7 +5,7 @@ layout: page
 
 <style scoped>
 /* Import common CSS first to avoid FOUC */
-@import "/.vitepress/theme/software.css";
+@import "./software.css";
 
 .large-space {
   block-size: 0rem !important;
@@ -14,15 +14,13 @@ layout: page
 
 <script setup>
 import { ref, onMounted } from 'vue'
-
+import { checkWebGLSupport } from './index.js'
+/** @type {import("vue").Ref<boolean|null>} */
 const webglSupport = ref(null)
 
-onMounted(async () => {
-  // Load common utilities on client-side only
-  await import("/.vitepress/theme/software.js");
-  
+onMounted(() => {
   // Check WebGL support using common utility
-  webglSupport.value = window.checkWebGLSupport()
+  webglSupport.value = checkWebGLSupport()
 })
 </script>
 
