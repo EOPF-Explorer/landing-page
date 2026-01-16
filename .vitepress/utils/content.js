@@ -27,7 +27,7 @@ export const cardsContent = [
     title: "Discovery",
     icon:{ html: discoveryIcon},
     link:{
-        text:"Stac Browser",
+        text:"Discover Data",
         href:withBase("/software-services?category=Discovery")
     }
   },
@@ -37,7 +37,7 @@ export const cardsContent = [
     id: Symbol(),
     title: "Screening",
     link:{
-        text:"Experiment",
+        text:"Browse Sentinel Zarr",
         href:withBase("/software-services?category=Screening")
     }
   },
@@ -47,7 +47,7 @@ export const cardsContent = [
     id: Symbol(),
     title: "Analysis",
     link:{
-        text:"Open EO",
+        text:"Experiment",
         href:withBase("/software-services?category=Analysis")
     }
   },
@@ -57,7 +57,7 @@ export const cardsContent = [
     id: Symbol(),
     title: "Showcases",
     link:{
-        text:"Showcases",
+        text:"See Showcases",
         href:withBase("/software-services?category=Showcases")
     }
   },
