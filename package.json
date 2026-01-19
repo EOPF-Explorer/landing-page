@@ -1,6 +1,6 @@
 {
   "name": "eopf-explorer-landing-page",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vitepress dev --port 8009",
@@ -10,7 +10,7 @@
     "check": "vue-tsc && eslint ."
   },
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@289",
+    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@f0fd11d",
     "@eox/chart": "^1.1.0",
     "@eox/elements-utils": "^1.1.0",
     "@eox/itemfilter": "^1.13.3",

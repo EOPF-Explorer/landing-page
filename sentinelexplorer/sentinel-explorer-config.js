@@ -1,5 +1,65 @@
 import { mdiMapSearch } from "@mdi/js";
 
+const initialLayers = [
+  {
+    type: "Group",
+    properties: {
+      id: "BaseLayersGroup",
+      title: "Base Layers",
+    },
+    layers: [
+      {
+        type: "Tile",
+        properties: {
+          id: "OSM;:;EPSG:3857",
+          title: "OSM Background",
+          roles: ["baselayer", "invisible"],
+          group: "baselayer",
+          visible: false,
+          layerControlExclusive: true,
+        },
+        source: {
+          type: "XYZ",
+          url: "https://s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpeg",
+          projection: "EPSG:3857",
+        },
+      },
+      {
+        type: "Tile",
+        properties: {
+          id: "terrain-light;:;EPSG:3857",
+          title: "Terrain Light",
+          roles: ["baselayer", "visible"],
+          group: "baselayer",
+          visible: true,
+          layerControlExclusive: true,
+        },
+        source: {
+          type: "XYZ",
+          url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
+          projection: "EPSG:3857",
+        },
+      },
+      {
+        type: "Tile",
+        properties: {
+          id: "cloudless-2024;:;EPSG:3857",
+          title: "EOxCloudless 2024",
+          roles: ["baselayer", "invisible"],
+          group: "baselayer",
+          visible: false,
+          layerControlExclusive: true,
+        },
+        source: {
+          type: "XYZ",
+          url: "https://s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg",
+          projection: "EPSG:3857",
+        },
+      },
+    ],
+    interactions: [],
+  },
+];
 export default /*** @type {import("@eodash/eodash").Eodash} */ ({
   id: "eopf",
   stacEndpoint: {
@@ -52,7 +112,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         },
       },
       background: {
-        id: "background-map",
+        id: "explore-background-map",
         type: "internal",
         widget: {
           name: "EodashMap",
@@ -66,6 +126,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableMosaic: false,
               enableCompareIndicators: {
                 fallbackTemplate: "explore",
+                compareTemplate: "compare",
                 itemFilterConfig: {
                   imageProperty: "assets.thumbnail.href",
                 },
@@ -73,19 +134,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers: [
-              {
-                type: "Tile",
-                properties: {
-                  id: "terrain-light;:;EPSG:3857",
-                  title: "Terrain Light",
-                },
-                source: {
-                  type: "XYZ",
-                  url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
-                },
-              },
-            ],
+            initialLayers,
           },
         },
       },
@@ -133,7 +182,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         },
       },
       background: {
-        id: "background-map",
+        id: "expert-background-map",
         type: "internal",
         widget: {
           name: "EodashMap",
@@ -153,19 +202,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers: [
-              {
-                type: "Tile",
-                properties: {
-                  id: "terrain-light;:;EPSG:3857",
-                  title: "Terrain Light",
-                },
-                source: {
-                  type: "XYZ",
-                  url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
-                },
-              },
-            ],
+            initialLayers,
           },
         },
       },
@@ -234,6 +271,8 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
                   widget: {
                     name: "EodashTimeSlider",
                     properties: {
+                      animate: false,
+                      useMosaic: true,
                       filters: [
                         {
                           key: "eo:cloud_cover",
@@ -260,7 +299,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
     compare: {
       gap: 16,
       loading: {
-        id: Symbol(),
+        id: "loading",
         type: "web-component",
         widget: {
           // https://uiball.com/ldrs/
@@ -275,7 +314,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         },
       },
       background: {
-        id: "background-map",
+        id: "explore-background-map",
         type: "internal",
         widget: {
           name: "EodashMap",
@@ -289,6 +328,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableMosaic: false,
               enableCompareIndicators: {
                 fallbackTemplate: "explore",
+                compareTemplate: "compare",
                 itemFilterConfig: {
                   imageProperty: "assets.thumbnail.href",
                 },
@@ -296,103 +336,55 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers: [
-              {
-                type: "Tile",
-                properties: {
-                  id: "terrain-light;:;EPSG:3857",
-                  title: "Terrain Light",
-                },
-                source: {
-                  type: "XYZ",
-                  url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
-                },
-              },
-            ],
+            initialLayers,
           },
         },
       },
       widgets: [
         {
-          id: "Tools",
+          id: "ItemCatalog",
+          title: "Catalog",
           type: "internal",
-          title: "Tools",
-          layout: { x: 0, y: 0, w: "3/3/2", h: 1 },
+          layout: { x: 0, y: 0, w: "3/3/2", h: 6 },
           widget: {
-            name: "EodashTools",
-            properties: {
-              showLayoutSwitcher: false,
-              itemFilterConfig: {
-                resultType: "cards",
-                filtersTitle: "Select an indicator",
-                resultsTitle: "",
-                subTitleProperty: "subtitle",
-                imageProperty: "assets.thumbnail.href",
-              },
-            },
+            name: "EodashItemCatalog",
           },
         },
-        // compare indicators
         {
-          id: "CompareTools",
+          id: "CompareItemCatalog",
+          title: "Comparison Catalog",
           type: "internal",
-          title: "Tools",
-          layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 1 },
+          layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 6 },
           widget: {
-            name: "EodashTools",
+            name: "EodashItemCatalog",
             properties: {
-              showLayoutSwitcher: false,
-              indicatorBtnText: "Select second indicator",
-              itemFilterConfig: {
-                enableCompare: true,
-                resultType: "cards",
-                filtersTitle: "Select an indicator to compare",
-                resultsTitle: "",
-                subTitleProperty: "subtitle",
-                imageProperty: "assets.thumbnail.href",
-              },
+              enableCompare: true,
             },
           },
         },
         {
-          id: "layercontrol",
+          id: "Layercontrol",
           type: "internal",
           title: "Layers",
-          layout: { x: 0, y: 1, w: "3/3/2", h: 11 },
+          layout: { x: 0, y: 6, w: "3/3/2", h: 6 },
           widget: {
             name: "EodashLayerControl",
+            properties:{
+               tools: ["info", "config", "legend", "opacity"],
+            }
           },
         },
         {
           id: "CompareLayerControl",
           title: "Comparison Layers",
-          layout: { x: "9/9/10", y: 1, w: "3/3/2", h: 11 },
+          layout: { x: "9/9/10", y: 6, w: "3/3/2", h: 6 },
           type: "internal",
           widget: {
             name: "EodashLayerControl",
             properties: {
               map: "second",
+              tools: ["info", "config", "legend", "opacity"],
             },
-          },
-        },
-        {
-          defineWidget: (selectedSTAC) => {
-            return selectedSTAC
-              ? {
-                  id: "expert-Datepicker",
-                  type: "internal",
-                  layout: { x: 4, y: 7, w: 4, h: 5 },
-                  title: "Date",
-                  widget: {
-                    name: "EodashDatePicker",
-                    properties: {
-                      hintText: `<b>Hint:</b> closest available date is displayed <br />
-                                on map (see Analysis Layers)`,
-                      toggleCalendar: true,
-                    },
-                  },
-                }
-              : null;
           },
         },
       ],

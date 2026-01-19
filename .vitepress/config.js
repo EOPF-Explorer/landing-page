@@ -14,6 +14,9 @@ export default defineConfig({
   },
   base: "/",
   vite:{
+    optimizeDeps:{
+      include:["@eox/pages-theme-eox","@eodash/eodash/webcomponent" ]
+    },
     server: {
       allowedHosts:true,
     }
