@@ -65,14 +65,16 @@ layout: page
 
   // Filter handler
   const handleFilter = (evt) => {
-    servicesResults.value = evt.detail.results.map(r => ({
-      ...r,
-      content: `<div class="vertical-margin">${r.tags.map(t => `<div class="chip" style="margin: 0 0.25rem 0.25rem 0; padding: 0.2rem 0.4rem; --_size: auto; font-size: small">${t}</div>`).join("")}</div>${r.content}`,
-      icon:{
-        html: `<img src="${r.image}" style="height: 150px; width: 100%; object-fit: cover" />`,
-        height: 200,
-        width: "100%"
-      },
+    servicesResults.value = evt.detail.results
+      .sort((a, b) => (a.order || 999) - (b.order || 999)) // Sort by order field
+      .map(r => ({
+        ...r,
+        content: `<div class="vertical-margin">${r.tags.map(t => `<div class="chip" style="margin: 0 0.25rem 0.25rem 0; padding: 0.2rem 0.4rem; --_size: auto; font-size: small">${t}</div>`).join("")}</div>${r.content}`,
+        icon:{
+          html: `<img src="${r.image}" style="height: 150px; width: 100%; object-fit: cover" />`,
+          height: 200,
+          width: "100%"
+        },
       link: {
         text: `View ${r.type}`,
         href: r.link.startsWith("http") ? r.link : withBase(r.link),
