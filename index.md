@@ -22,22 +22,17 @@ footer: false
 <h3 style="margin-top:24px;z-index:2" class="text-center" >Building Visualisation Capacity</h3>
 <FeaturesGallery style="margin-top:-64px" background="surface surface-bg" sectionTitle=" " :cards="cardsContent"/>
 
-
-
-<div class="story-wrapper">
-<div class="story-col">
-
-<h4>🌍 Pioneering the GeoZarr Data Model</h4>
-<br>
-<p>
-EOPF Explorer drives the standardization of cloud-native geospatial data formats. Through intensive collaboration with the Zarr community, we've established foundational <strong>Zarr Conventions</strong> that enable interoperable access to Earth Observation data across the entire ecosystem.
-</p>
-<p style="margin-top: 1rem;">
-<a href="datamodel/" class="button">Learn More →</a>
-</p>
-</div>
-
-<div class="story-col">
+<FeatureSection
+  icon="mdi-compass"
+  landing
+  primaryButton="Learn More"
+  primaryLink="/datamodel/"
+  tagline="Pioneering the GeoZarr Data Model"
+  title="Data Model"
+>
+  <p>
+  EOPF Explorer drives the standardization of cloud-native geospatial data formats. Through intensive collaboration with the Zarr community, we've established foundational <strong>Zarr Conventions</strong> that enable interoperable access to Earth Observation data across the entire ecosystem.
+  </p>
   <div class="conventions-diagram">
     <div class="geozarr-roof">
       <h3>🌍 GeoZarr Specification</h3>
@@ -61,10 +56,7 @@ EOPF Explorer drives the standardization of cloud-native geospatial data formats
       <span>Zarr v3 Core</span>
     </div>
   </div>
-</div>
-</div>
-
-<div class="large-space"></div>
+</FeatureSection>
 
 
 
