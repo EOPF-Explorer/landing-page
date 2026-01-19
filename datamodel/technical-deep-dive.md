@@ -7,13 +7,15 @@ layout: page
 import { withBase } from 'vitepress';
 </script>
 
-# Technical Deep Dive
+## Technical Deep Dive - GeoZarr Standards
 
 This page provides comprehensive links to all our contributions, proposals, and technical resources for the GeoZarr standardization effort.
 
 ---
 
-## Zarr Conventions (Released)
+<div class="large-space"></div>
+
+### Zarr Conventions (Released)
 
 The three foundational conventions released at the Zarr Summit Rome, October 2025:
 
@@ -27,7 +29,9 @@ The three foundational conventions released at the Zarr Summit Rome, October 202
 
 ---
 
-## GeoZarr OGC SWG Contributions
+<div class="large-space"></div>
+
+### GeoZarr OGC SWG Contributions
 
 Pull requests submitted to the GeoZarr OGC Specifications Working Group:
 
@@ -42,7 +46,9 @@ Pull requests submitted to the GeoZarr OGC Specifications Working Group:
 
 ---
 
-## Zarr Extensions Proposals
+<div class="large-space"></div>
+
+### Zarr Extensions Proposals
 
 Proposals for Zarr v3 extensions:
 
@@ -53,9 +59,11 @@ Proposals for Zarr v3 extensions:
 
 ---
 
-## Core Libraries Development
+<div class="large-space"></div>
 
-### eopf-geozarr Library (v0.6.1)
+### Core Libraries Development
+
+**eopf-geozarr Library (v0.6.1)**
 
 Our Python library for working with GeoZarr data:
 
@@ -69,7 +77,7 @@ Our Python library for working with GeoZarr data:
 | Documentation | [eopf-explorer.github.io/data-model](https://eopf-explorer.github.io/data-model/) |
 | Repository | [github.com/EOPF-Explorer/data-model](https://github.com/EOPF-Explorer/data-model) |
 
-### zarr-python Enhancements
+**zarr-python Enhancements**
 
 Contributions to the core zarr-python library:
 
@@ -80,7 +88,7 @@ Contributions to the core zarr-python library:
 | Don't serialize consolidated metadata if it's None | PR | [#3535](https://github.com/zarr-developers/zarr-python/pull/3535) |
 | Refactored warnings | PR | [#3098](https://github.com/zarr-developers/zarr-python/pull/3098) |
 
-### xarray Ecosystem
+**xarray Ecosystem**
 
 | Contribution | Repository | Link |
 |--------------|------------|------|
@@ -89,9 +97,11 @@ Contributions to the core zarr-python library:
 
 ---
 
+<div class="large-space"></div>
+
 ## Client Software
 
-### GDAL GeoZarr Driver
+**GDAL GeoZarr Driver**
 
 | Phase | Status | Description |
 |-------|--------|-------------|
@@ -103,7 +113,7 @@ Contributions to the core zarr-python library:
 
 **Impact:** Enables access from QGIS, ArcGIS, ENVI, R, Python ecosystem.
 
-### OpenLayers GeoZarr Support
+**OpenLayers GeoZarr Support**
 
 | Resource | Link |
 |----------|------|
@@ -118,7 +128,7 @@ Contributions to the core zarr-python library:
 - Hybrid rendering strategy: native + OpenLayers fallback
 - Status: Experimental in v10.7.1-dev
 
-### TiTiler GeoZarr Adapter
+**TiTiler GeoZarr Adapter**
 
 | Endpoint | URL |
 |----------|-----|
@@ -128,15 +138,17 @@ Contributions to the core zarr-python library:
 
 ---
 
-## STAC Integration
+<div class="large-space"></div>
 
-### STAC+Zarr Best Practices
+### STAC Integration
+
+**STAC+Zarr Best Practices**
 
 The first comprehensive guide for integrating Zarr with STAC:
 
 - **Best Practices Document:** [stac-best-practices/best-practices-zarr.md](https://github.com/radiantearth/stac-best-practices/blob/main/best-practices-zarr.md)
 
-### EOPF STAC Patterns
+**EOPF STAC Patterns**
 
 | Resource | Link |
 |----------|------|
@@ -150,21 +162,25 @@ The first comprehensive guide for integrating Zarr with STAC:
 
 ---
 
-## Community Resources
+<div class="large-space"></div>
 
-### Zarr Summit Rome (October 2025)
+### Community Resources
+
+**Zarr Summit Rome (October 2025)**
 
 - **Recap:** [cloudnativegeo.org/blog/2025/11/2025-zarr-summit-recap](https://cloudnativegeo.org/blog/2025/11/2025-zarr-summit-recap/)
 - **Outcome:** Established the Zarr Conventions framework
 
-### First STAC Sprint in Europe
+**First STAC Sprint in Europe**
 
 - **Location:** ESA/ESRIN
 - **Flagship:** EOPF Zarr Sentinel products
 
 ---
 
-## Project Coordination
+<div class="large-space"></div>
+
+### Project Coordination
 
 | Resource | Link |
 |----------|------|
@@ -172,7 +188,7 @@ The first comprehensive guide for integrating Zarr with STAC:
 | Risk Register | [Coordination Issues](https://github.com/EOPF-Explorer/coordination/issues?q=is%3Aissue%20label%3Arisk) |
 | Discussion Forum | [EOPF Discourse](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) |
 
-### Relevant Coordination Issues
+**Relevant Coordination Issues**
 
 | Issue | Topic | Link |
 |-------|-------|------|
@@ -182,9 +198,11 @@ The first comprehensive guide for integrating Zarr with STAC:
 
 ---
 
-## Data Model Specifications
+<div class="large-space"></div>
 
-### V0: Maximalist Compatibility (September 2025)
+### Data Model Specifications
+
+**V0: Maximalist Compatibility (September 2025)**
 
 Following GeoZarr 0.4:
 - Zarr v3
@@ -193,14 +211,14 @@ Following GeoZarr 0.4:
 - Simple CRS + Affine transform approach
 - GDAL compatibility in v3.12
 
-### V1: Zarr Conventions (January 2026)
+**V1: Zarr Conventions (January 2026)**
 
 - Multiscales Zarr convention
 - Projection Zarr convention
 - Spatial Zarr convention
 - Full GDAL support path
 
-### Multiscales Pyramid Implementation
+**Multiscales Pyramid Implementation**
 
 | Resolution | Type | Notes |
 |------------|------|-------|
