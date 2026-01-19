@@ -156,7 +156,8 @@ export const servicesContent = [
     tags: ["🧭 discovery", "catalog", "sentinel", "metadata"],
     category: "Discovery",
     type: "service",
-    link: "https://api.explorer.eopf.copernicus.eu/browser"
+    link: "https://api.explorer.eopf.copernicus.eu/browser",
+    order: 1
   },
   {
     id: "sentinel-explorer",
@@ -166,7 +167,8 @@ export const servicesContent = [
     tags: ["🗺️ screening", "interactive", "zarr", "sentinel-1", "sentinel-2"],
     category: "Screening",
     type: "service",
-    link: "/sentinelexplorer/"
+    link: "/sentinelexplorer/",
+    order: 2
   },
   {
     id: "ndvi",
@@ -176,7 +178,8 @@ export const servicesContent = [
     tags: ["🌟 showcase", "ndvi", "vegetation", "indices", "Sentinel-2"],
     category: "Showcases",
     type: "story",
-    link: "/story/?id=ndvi"
+    link: "/story/?id=ndvi",
+    order: 3
   },
   {
     id: "titiler-eopf",
@@ -186,7 +189,8 @@ export const servicesContent = [
     tags: ["🗺️ screening", "arithmetic", "expressions", "band-math"],
     category: "Screening",
     type: "software",
-    link: "software/titiler"
+    link: "software/titiler",
+    order: 4
   },
   {
     id: "openlayers-geozarr",
@@ -196,7 +200,8 @@ export const servicesContent = [
     tags: ["🗺️ screening", "web-mapping", "visualization", "geozarr"],
     category: "Screening",
     type: "software",
-    link: "software/ol"
+    link: "software/ol",
+    order: 5
   },
   {
     id: "openeo-web-editor",
@@ -206,7 +211,8 @@ export const servicesContent = [
     tags: ["📊 analysis", "workflow", "openeo", "cloud-processing"],
     category: "Analysis",
     type: "service",
-    link: "https://editor.openeo.org/?server=https%3A%2F%2Fapi.explorer.eopf.copernicus.eu%2Fopeneo%2F"
+    link: "https://editor.openeo.org/?server=https%3A%2F%2Fapi.explorer.eopf.copernicus.eu%2Fopeneo%2F",
+    order: 6
   },
   {
     id: "ndci",
@@ -216,7 +222,8 @@ export const servicesContent = [
     tags: ["🌟 showcase", "ndci", "algae", "indices", "Sentinel-2"],
     category: "Showcases",
     type: "story",
-    link: "https://explorer.eopf.copernicus.eu/story/?id=ndci"
+    link: "https://explorer.eopf.copernicus.eu/story/?id=ndci",
+    order: 7
   },
   {
     id: "openlayers-story",
@@ -226,7 +233,8 @@ export const servicesContent = [
     tags: ["🗺️ screening", "web-mapping", "visualization", "geozarr"],
     category: "Screening",
     type: "software",
-    link: ""
+    link: "",
+    order: 8
   },
   {
     id: "zarr-layer-carbon-plan",
@@ -236,6 +244,7 @@ export const servicesContent = [
     tags: ["🗺️ screening", "experimental", "web-mapping", "WebGL", "geozarr"],
     category: "Screening",
     type: "software",
-    link: "https://zarr-layer.demo.carbonplan.org/"
+    link: "https://zarr-layer.demo.carbonplan.org/",
+    order: 9
   }
 ]
