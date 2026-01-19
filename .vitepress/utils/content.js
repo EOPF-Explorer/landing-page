@@ -200,7 +200,7 @@ export const servicesContent = [
   },
   {
     id: "openeo-web-editor",
-    title: "OpenEO Web editor",
+    title: "openEO Web editor",
     content: "Build sophisticated analysis workflows with cloud-based processing.",
     image: "assets/openeo-logo.png",
     tags: ["📊 analysis", "workflow", "openeo", "cloud-processing"],

@@ -63,10 +63,10 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
   landing
   primaryButton="Open Explorer"
   primaryLink="/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a"
-  tagline="Explore sentinel data in real time"
+  tagline="Explore Sentinel data in real time"
   title="Sentinels Browser"
 >
-Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical imagery. Change color maps, adjust contrast, and zoom in instantly- powered by Zarr dynamic tiling.
+Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical imagery. Change color maps, adjust contrast, and zoom in instantly — powered by Zarr dynamic tiling.
 </FeatureSection>
 
 
@@ -114,7 +114,7 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
   <summary>
     <p class="bold">+ Will all EOPF Sentinel Zarr data be web-optimised?</p>
   </summary>
-    <p class="small-text">The objective of this project is to demonstrate the benefits and prove the fitness for purpose of acessing Sentinel products as web-optimised Zarr. We hope that the success of our effort will drive a new value-added distribution format. Please follow our project for updates on our goals and outcome and share your questions and comments.</p>
+    <p class="small-text">The objective of this project is to demonstrate the benefits and prove the fitness for purpose of accessing Sentinel products as web-optimised Zarr. We hope that the success of our effort will drive a new value-added distribution format. Please follow our project for updates on our goals and outcome and share your questions and comments.</p>
 </details>
 <details>
   <summary>
