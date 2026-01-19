@@ -23,7 +23,7 @@ footer: false
 <FeaturesGallery style="margin-top:-64px" background="surface surface-bg" sectionTitle=" " :cards="cardsContent"/>
 
 <FeatureSection
-  icon="mdi-compass"
+  icon="mdi-earth-plus"
   landing
   primaryButton="Learn More"
   primaryLink="/datamodel/"
@@ -84,11 +84,6 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
     <h6 slot="resultstitle" class="large large-margin vertical-margin top-padding"></h6>
   </eox-itemfilter>
 </client-only>
-
-<div class="large-space"></div>
-
-
-
 
 <FeatureSection
   icon="mdi-compass"
