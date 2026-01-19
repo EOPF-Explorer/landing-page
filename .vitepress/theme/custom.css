@@ -139,18 +139,6 @@ h6 {
   text-decoration: underline;
 }
 
-/* Global link styling for content pages */
-.vp-doc a,
-.VPDoc a,
-main a:not(.action-button):not(.pillar):not(.geozarr-roof a):not(.zarr-foundation a) {
-  color: var(--vp-c-brand, #3451b2);
-}
-
-.vp-doc a:hover,
-.VPDoc a:hover {
-  text-decoration: underline;
-}
-
 /* Conventions Pillars Diagram */
 .conventions-diagram {
   display: flex;
