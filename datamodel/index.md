@@ -14,7 +14,7 @@ import { withBase } from 'vitepress';
   </p>
 </div>
 
-## Our Mission
+### Our Mission
 
 The EOPF Explorer project is at the forefront of establishing **GeoZarr** as the foundation for cloud-native Earth Observation data. Through intensive collaboration with the Zarr community, we've developed and released foundational conventions that enable interoperable, efficient access to geospatial data across the entire EO ecosystem.
 
@@ -24,7 +24,7 @@ The EOPF Explorer project is at the forefront of establishing **GeoZarr** as the
 
 <div class="large-space"></div>
 
-## The Journey: From Vision to Community Standards
+### The Journey: From Vision to Community Standards
 
 <div class="timeline">
   <div class="timeline-item completed">
@@ -80,7 +80,7 @@ The EOPF Explorer project is at the forefront of establishing **GeoZarr** as the
 
 <div class="large-space"></div>
 
-## The Foundation: Zarr Conventions
+### The Foundation: Zarr Conventions
 
 At the Zarr Summit in Rome, we established a new approach: instead of a monolithic GeoZarr specification, we created modular **Zarr Conventions** that can be adopted incrementally and evolved independently.
 
@@ -118,7 +118,7 @@ At the Zarr Summit in Rome, we established a new approach: instead of a monolith
 
 <div class="large-space"></div>
 
-## Why This Matters for ESA
+### Why This Matters for ESA
 
 The European Space Agency's cloud-native strategy depends on open, interoperable standards. EOPF Explorer's Zarr Conventions work directly supports ESA's vision for the future of Earth Observation data:
 
@@ -138,24 +138,24 @@ The European Space Agency's cloud-native strategy depends on open, interoperable
 
 <div class="large-space"></div>
 
-## Client Software Enablement
+### Client Software Enablement
 
 Our conventions work is enabling a growing ecosystem of tools:
 
-#### TiTiler
+##### TiTiler
 
 Dynamic tile server with OGC Tiles API, WMS/WMTS endpoints, and band arithmetic.
 
 - [TiTiler EOPF API](https://api.explorer.eopf.copernicus.eu/raster/)
 
-#### GDAL (v3.12+)
+##### GDAL (v3.12+)
 
 The de facto standard for geospatial data access now supports EOPF Zarr, enabling access from **QGIS**, **ArcGIS**, **ENVI**, and the entire desktop GIS ecosystem.
 
 - [GDAL Zarr Driver Documentation](https://gdal.org/en/stable/drivers/raster/zarr.html)
 - Phase 2 (full conventions support) in progress
 
-#### OpenLayers
+##### OpenLayers
 
 Browser-based visualization with native GeoZarr rendering, including off-screen Canvas for 3D globe projection.
 
@@ -166,13 +166,13 @@ Browser-based visualization with native GeoZarr rendering, including off-screen 
 
 <div class="large-space"></div>
 
-## Community Leadership
+### Community Leadership
 
-#### GeoZarr SWG Contributions
+##### GeoZarr SWG Contributions
 
 We actively contributed to the OGC GeoZarr Specifications Working Group (SWG), submitting multiple proposals that shaped the current discussion on terminology, multiscales, and dimension binding. We proposed a pragmatic strategy that uses the established conventions as the foundation for GeoZarr v1.
 
-#### STAC Integration
+##### STAC Integration
 
 We authored the first comprehensive [STAC best practices for Zarr integration](https://github.com/radiantearth/stac-best-practices/blob/main/best-practices-zarr.md) and participated in the [STAC+Zarr Sprint at ESA/ESRIN](https://cloudnativegeo.org/blog/2025/11/stac-zarr-community-sprint-2025-recap/).
 
@@ -180,7 +180,7 @@ We authored the first comprehensive [STAC best practices for Zarr integration](h
 
 <div class="large-space"></div>
 
-## Learn More
+### Learn More
 
 <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
   <a href="/datamodel/technical-deep-dive" class="button">
