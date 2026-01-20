@@ -219,14 +219,14 @@ export const servicesContent = [
     link: "https://explorer.eopf.copernicus.eu/story/?id=ndci"
   },
   {
-    id: "openlayers-story",
-    title: "View EOPF Zarr with OpenLayers",
-    content: "A story on how to visualize Sentinel Zarr data using OpenLayers with GeoZarr support.",
+    id: "eoxmap-geozarr-story",
+    title: "EOPF Zarr Client Side Rendering",
+    content: "A story on how to visualize Sentinel Zarr data using EOxMap with GeoZarr support.",
     image: "assets/openlayers-story.png",
     tags: ["🗺️ screening", "web-mapping", "visualization", "geozarr"],
     category: "Screening",
-    type: "software",
-    link: ""
+    type: "story",
+    link: "/story/?id=cloud-native-eo"
   },
   {
     id: "zarr-layer-carbon-plan",
