@@ -226,7 +226,7 @@ export const servicesContent = [
     tags: ["🗺️ screening", "web-mapping", "visualization", "geozarr"],
     category: "Screening",
     type: "story",
-    link: withBase("/story/?id=cloud-native-eo")
+    link: "/story/?id=cloud-native-eo"
   },
   {
     id: "zarr-layer-carbon-plan",
