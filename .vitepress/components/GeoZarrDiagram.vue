@@ -50,20 +50,19 @@
 
     <!-- Footer -->
     <div class="s12">
-      <div v-if="withLinks" class="center-align">
-        <a
-          href="https://zarr.dev/"
-          target="_blank"
-          class="no-decoration footer-link"
-        >
-          <article class="inverse-surface center-align medium-padding">
-            <span class="medium-text bold">Zarr v3 Core</span>
-          </article>
-        </a>
-      </div>
+      <a
+        v-if="withLinks"
+        href="https://zarr.dev/"
+        target="_blank"
+        class="no-decoration footer-full-width"
+      >
+        <article class="border center-align medium-padding footer-card">
+          <span class="medium-text bold">Zarr v3 Core</span>
+        </article>
+      </a>
       <article
         v-else
-        class="inverse-surface center-align medium-padding footer-card-static"
+        class="border center-align medium-padding footer-card"
       >
         <span class="medium-text bold">Zarr v3 Core</span>
       </article>
@@ -116,14 +115,11 @@ const pillars = [
   flex-direction: column;
   border: 2px solid var(--primary);
 }
-.footer-link {
-  display: inline-block;
-  max-width: 12rem;
-  width: 100%;
+.footer-full-width {
+  display: block;
 }
-.footer-card-static {
-  max-width: 12rem;
-  margin: auto;
+.footer-card {
+  border: 2px solid var(--primary);
 }
 article {
   transition:
