@@ -120,18 +120,18 @@ At the Zarr Summit in Rome, we established a new approach: instead of a monolith
 
 ### Why This Matters for ESA
 
-The European Space Agency's cloud-native strategy depends on open, interoperable standards. EOPF Explorer's Zarr Conventions work directly supports ESA's vision for the future of Earth Observation data:
+Open, interoperable standards enable broader adoption and long-term sustainability of Earth Observation data. EOPF Explorer's Zarr Conventions work establishes a community-driven foundation for cloud-native Earth Observation:
 
 | Goal | How Zarr Conventions Help |
 |------|---------------------------|
-| 📦 **Common container format** | One format across all Sentinel missions reduces product-specific software needs |
+| 📦 **Common container format** | One format across all Sentinel missions reduces mission-specific reader software needs |
 | ☁️ **Cloud-native access** | Efficient network access without downloading entire products |
 | 🔍 **Progressive visualization** | Multiscales enable interactive exploration at any zoom level |
 | 🔗 **Ecosystem interoperability** | QGIS, ArcGIS, ENVI, Python, R, Julia, JavaScript can all read the same data |
 | 🛡️ **Future-proof standards** | Community-driven specifications ensure long-term sustainability |
 
 <div style="margin-top: 1.5rem; padding: 1rem 1.5rem; border-left: 4px solid #22c55e; border-radius: 0 8px 8px 0;">
-  <p style="margin: 0; font-size: 0.95rem;"><strong>🎯 The Result:</strong> EOPF Zarr data is not locked into proprietary formats — it's a true cloud-native standard accessible across the entire Earth Observation ecosystem.</p>
+  <p style="margin: 0; font-size: 0.95rem;"><strong>🎯 The Result:</strong> EOPF Zarr data uses community standards rather than bespoke data models — making it accessible across the entire Earth Observation ecosystem without mission-specific reader software.</p>
 </div>
 
 ---
