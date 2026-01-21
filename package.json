@@ -6,7 +6,7 @@
     "dev": "vitepress dev --port 8009",
     "build": "vitepress build",
     "serve": "vitepress serve",
-    "format": "npx prettier --write **/*.{js,css,json}",
+    "format": "npx prettier --write **/*.{js,css,json,vue}",
     "check": "vue-tsc && eslint ."
   },
   "dependencies": {

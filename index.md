@@ -30,30 +30,14 @@ footer: false
   tagline="Pioneering the GeoZarr Data Model"
   title="Data Model"
 >
-  <p>
-  EOPF Explorer drives the standardization of cloud-native geospatial data formats. Through intensive collaboration with the Zarr community, we've established foundational <strong>Zarr Conventions</strong> that enable interoperable access to Earth Observation data across the entire ecosystem.
-  </p>
-  <div class="conventions-diagram">
-    <div class="geozarr-roof">
-      <h3>🌍 GeoZarr Specification</h3>
-      <p>OGC Geospatial Zarr Standard</p>
+  <div class="grid middle-align large-space">
+    <div class="s12 l4">
+      <p>
+      EOPF Explorer drives the standardization of cloud-native geospatial data formats. Through intensive collaboration with the Zarr community, we've established foundational <strong>Zarr Conventions</strong> that enable interoperable access to Earth Observation data across the entire ecosystem.
+      </p>
     </div>
-    <div class="conventions-pillars">
-      <div class="pillar">
-        <h7>📐 Multiscales</h7>
-        <p>Encoding pyramid information for multi-resolution data</p>
-      </div>
-      <div class="pillar">
-        <h7>🗺️ Projection</h7>
-        <p>CRS and datum encoding for geospatial data</p>
-      </div>
-      <div class="pillar">
-        <h7>📍 Spatial</h7>
-        <p>Array indices to spatial coordinates relationship</p>
-      </div>
-    </div>
-    <div class="zarr-foundation">
-      <span>Zarr v3 Core</span>
+    <div class="s12 l8">
+      <GeoZarrDiagram />
     </div>
   </div>
 </FeatureSection>
@@ -228,6 +212,7 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
 </footer>
 
 <script setup>
+  import GeoZarrDiagram from ".vitepress/components/GeoZarrDiagram.vue"
 import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
