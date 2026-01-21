@@ -4,7 +4,7 @@ layout: page
 ---
 
 <script setup>
-import { withBase } from 'vitepress';
+import GeoZarrDiagram from "../.vitepress/components/GeoZarrDiagram.vue"
 </script>
 
 <div class="hero-section" style="text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 12px; margin-bottom: 2rem;">
@@ -84,35 +84,8 @@ The EOPF Explorer project is at the forefront of establishing **GeoZarr** as the
 
 At the Zarr Summit in Rome, we established a new approach: instead of a monolithic GeoZarr specification, we created modular **Zarr Conventions** that can be adopted incrementally and evolved independently.
 
-<div class="conventions-diagram">
-  <div class="geozarr-roof">
-    <h3>🌍 GeoZarr Specification</h3>
-    <p>OGC Geospatial Zarr Standard</p>
-    <a href="https://github.com/zarr-developers/geozarr-spec" target="_blank">zarr-developers/geozarr-spec →</a>
-  </div>
-  
-  <div class="conventions-pillars">
-    <div class="pillar">
-      <h4>📐 Multiscales</h4>
-      <p>Encoding pyramid information for multi-resolution data</p>
-      <a href="https://github.com/zarr-conventions/multiscales" target="_blank">View Convention →</a>
-    </div>
-    <div class="pillar">
-      <h4>🗺️ Projection</h4>
-      <p>CRS and datum encoding for geospatial data</p>
-      <a href="https://github.com/zarr-conventions/geo-proj" target="_blank">View Convention →</a>
-    </div>
-    <div class="pillar">
-      <h4>📍 Spatial</h4>
-      <p>Array indices to spatial coordinates relationship</p>
-      <a href="https://github.com/zarr-conventions/spatial" target="_blank">View Convention →</a>
-    </div>
-  </div>
-  
-  <div class="zarr-foundation">
-    <a href="https://zarr.dev/" target="_blank">Zarr v3 Core</a>
-  </div>
-</div>
+<GeoZarrDiagram with-links />
+
 
 ---
 
