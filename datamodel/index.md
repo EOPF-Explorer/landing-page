@@ -5,6 +5,7 @@ layout: page
 
 <script setup>
 import GeoZarrDiagram from "../.vitepress/components/GeoZarrDiagram.vue"
+import { timelineItems, getStatusColor } from "../.vitepress/utils/content.js"
 </script>
 
 <div class="hero-section" style="text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 12px; margin-bottom: 2rem;">
@@ -27,52 +28,25 @@ The EOPF Explorer project is at the forefront of establishing **GeoZarr** as the
 ### The Journey: From Vision to Community Standards
 
 <div class="timeline">
-  <div class="timeline-item completed">
-    <span class="timeline-date">July 2025</span>
-    <h4>🚀 Project Kickoff</h4>
-    <p>EOPF Explorer project begins with a mandate to establish visualization-ready Zarr products for Sentinel data.</p>
-  </div>
-  
-  <div class="timeline-item completed">
-    <span class="timeline-date">July - October 2025</span>
-    <h4>🤝 GeoZarr SWG Engagement</h4>
-    <p>Active contribution to the OGC GeoZarr Specifications Working Group. Submitted multiple proposals for terminology clarification, multiscales, and dimension binding.</p>
-  </div>
-  
-  <div class="timeline-item completed">
-    <span class="timeline-date">September 2025</span>
-    <h4>📦 V0 Release: Maximalist Approach</h4>
-    <p>First release with TiTiler following GeoZarr 0.4 with Zarr v3, CF conventions, grid mapping, and GDAL 3.12 compatibility.</p>
-  </div>
-  
-  <div class="timeline-item completed">
-    <span class="timeline-date">October 13-17, 2025</span>
-    <h4>🏛️ Zarr Summit Rome</h4>
-    <p>Breakthrough moment: Established the <strong>Zarr Conventions framework</strong> with the community. Created three foundational conventions that form the pillars of GeoZarr. <a href="https://cloudnativegeo.org/blog/2025/11/2025-zarr-summit-recap/" target="_blank">Read the recap →</a></p>
-  </div>
-  
-  <div class="timeline-item completed">
-    <span class="timeline-date">December 2025</span>
-    <h4>🗺️ OpenLayers GeoZarr Integration</h4>
-    <p>Client-side Zarr rendering working in OpenLayers with full support for the new conventions.</p>
-  </div>
-  
-  <div class="timeline-item completed">
-    <span class="timeline-date">January 2026</span>
-    <h4>✅ V1 Release: Community Conventions</h4>
-    <p>Production release with Zarr Conventions approach. GDAL Phase 1 complete (v3.12). Service opening prepared.</p>
-  </div>
-  
-  <div class="timeline-item ongoing">
-    <span class="timeline-date">Q1-Q2 2026</span>
-    <h4>🌱 Ecosystem Adoption</h4>
-    <p>Time Series Support. TiTiler enhancement. GDAL Effort Phase 2 for full conventions support. rioxarray integration. OpenLayers stabilization from experimental to stable.</p>
-  </div>
-  
-  <div class="timeline-item planned">
-    <span class="timeline-date">Future</span>
-    <h4>🎯 GeoZarr v1 OGC Specification</h4>
-    <p>Using established conventions as the foundation for the official OGC-approved GeoZarr specification.</p>
+  <div 
+    v-for="item in timelineItems" 
+    :key="item.date" 
+    :class="['timeline-item', item.status]"
+    >
+    <span 
+      class="bold small-text" 
+      :style="{ color: getStatusColor(item.status), display: 'block', marginBottom: '0.25rem' }"
+    >
+      {{ item.date }}
+    </span>
+    <h6 class="no-margin" style="margin-bottom: 0.5rem !important;">{{ item.title }}</h6>
+    <p class="medium-text no-margin" style="opacity:0.7">
+      <span v-html="item.description"></span>
+      <span v-if="item.link">
+      <br/>
+      <a :href="item.link.href" target="_blank" class="link"> {{ item.link.text }}</a>
+      </span>
+    </p>
   </div>
 </div>
 
@@ -154,8 +128,7 @@ We authored the first comprehensive [STAC best practices for Zarr integration](h
 <div class="large-space"></div>
 
 ### Learn More
-
-<div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+<div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0 1.5rem 0;">
   <a href="/datamodel/technical-deep-dive" class="button">
     📚 Technical Deep Dive
   </a>
