@@ -37,7 +37,9 @@ footer: false
       </p>
     </div>
     <div class="s12 l8">
-      <GeoZarrDiagram key="home-diagram" />
+      <ClientOnly>
+        <GeoZarrDiagram key="home-diagram" />
+      </ClientOnly>
     </div>
   </div>
 </FeatureSection>
