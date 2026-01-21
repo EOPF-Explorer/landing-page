@@ -212,7 +212,7 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
 </footer>
 
 <script setup>
-  import GeoZarrDiagram from ".vitepress/components/GeoZarrDiagram.vue"
+import GeoZarrDiagram from ".vitepress/components/GeoZarrDiagram.vue"
 import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
@@ -269,6 +269,10 @@ const handleResultClick = (evt) => {
 <style scoped>
   .text-center {
     text-align:center
+  }
+  .feature-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
   eox-itemfilter {
     --form-flex-direction: row;
