@@ -65,7 +65,7 @@ At the Zarr Summit in Rome, we established a new approach: instead of a monolith
 
 <div class="large-space"></div>
 
-### Why This Matters for ESA
+### Why This Matters
 
 Open, interoperable standards enable broader adoption and long-term sustainability of Earth Observation data. EOPF Explorer's Zarr Conventions work establishes a community-driven foundation for cloud-native Earth Observation:
 
