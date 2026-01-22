@@ -146,6 +146,7 @@ export const tableData = [
 // 'Screening': '🗺️', 
 // 'Analysis': '📊',
 // 'Showcases': '🌟'
+// 'Documentation': '📚',
 
 export const servicesContent = [
   {
@@ -229,6 +230,16 @@ export const servicesContent = [
     link: "/story/?id=cloud-native-eo"
   },
   {
+    id: "geozarr-data-model",
+    title: "Pioneering the GeoZarr Data Model",
+    content: "Learn how EOPF Explorer drives GeoZarr specification development and Zarr Conventions, establishing the foundation for cloud-native Earth Observation standards.",
+    image: "assets/geozarr.png",
+    tags: ["📚 documentation", "standards", "geozarr", "zarr", "conventions", "community"],
+    category: "Documentation",
+    type: "story",
+    link: "datamodel/"
+  },
+  {
     id: "zarr-layer-carbon-plan",
     title: "Flexible zarr rendering for MapLibre/Mapbox",
     content: "A interesting experiment by CarbonPlan on rendering zarr data in the browser using WebGLShaders.",
@@ -239,3 +250,68 @@ export const servicesContent = [
     link: "https://zarr-layer.demo.carbonplan.org/"
   }
 ]
+
+
+export const timelineItems = [
+  {
+    date: 'July 2025',
+    status: 'completed',
+    title: '🚀 Project Kickoff',
+    description: 'EOPF Explorer project begins with a mandate to establish visualization-ready Zarr products for Sentinel data.'
+  },
+  {
+    date: 'July - October 2025',
+    status: 'completed',
+    title: '🤝 GeoZarr SWG Engagement',
+    description: 'Active contribution to the OGC GeoZarr Specifications Working Group. Submitted multiple proposals for terminology clarification, multiscales, and dimension binding.'
+  },
+  {
+    date: 'September 2025',
+    status: 'completed',
+    title: '📦 V0 Release: Maximalist Approach',
+    description: 'First release with TiTiler following GeoZarr 0.4 with Zarr v3, CF conventions, grid mapping, and GDAL 3.12 compatibility.'
+  },
+  {
+    date: 'October 13-17, 2025',
+    status: 'completed',
+    title: '🏛️ Zarr Summit Rome',
+    description: 'Breakthrough moment: Established the <strong>Zarr Conventions framework</strong> with the community. Created three foundational conventions that form the pillars of GeoZarr.',
+    link: {
+      href: 'https://cloudnativegeo.org/blog/2025/11/2025-zarr-summit-recap/',
+      text: 'Read the recap →'
+    }
+  },
+  {
+    date: 'December 2025',
+    status: 'completed',
+    title: '🗺️ OpenLayers GeoZarr Integration',
+    description: 'Client-side Zarr rendering working in OpenLayers with full support for the new conventions.'
+  },
+  {
+    date: 'January 2026',
+    status: 'completed',
+    title: '✅ V1 Release: Community Conventions',
+    description: 'Production release with Zarr Conventions approach. GDAL Phase 1 complete (v3.12). Service opening prepared.'
+  },
+  {
+    date: 'Q1-Q2 2026',
+    status: 'ongoing',
+    title: '🌱 Ecosystem Adoption',
+    description: 'Time Series Support. TiTiler enhancement. GDAL Effort Phase 2 for full conventions support. rioxarray integration. OpenLayers stabilization from experimental to stable.'
+  },
+  {
+    date: 'Future',
+    status: 'planned',
+    title: '🎯 GeoZarr v1 OGC Specification',
+    description: 'Using established conventions as the foundation for the official OGC-approved GeoZarr specification.'
+  }
+]
+
+export const getStatusColor = (status) => {
+  const colors = {
+    completed: '#22c55e',
+    ongoing: '#f59e0b',
+    planned: 'var(--secondary)'
+  }
+  return colors[status] || 'var(--primary)'
+}

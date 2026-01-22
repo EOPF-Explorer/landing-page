@@ -2,7 +2,9 @@
 @import url("/fonts/Open_Sans/opensans.css");
 
 :root {
-  --vp-font-family-base: "Open Sans", sans-serif;
+  --vp-font-family-base: "Open Sans", sans-serif !important;
+  --eox-body-font-family: "Open Sans", sans-serif !important;
+  --eox-header-font-family: "Exo 2", sans-serif !important;
 }
 header img.background-image {
   opacity: 0.9 !important;
@@ -52,4 +54,44 @@ h6 {
 
 .top-nav nav.nav-desktop > nav.actions {
   margin-left: 1rem;
+}
+
+/* Timeline Component */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  border-left: 3px solid var(--vp-c-brand, #3451b2);
+  margin: 2rem 0;
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0.5rem 0 2rem 1.5rem;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0.5rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.4rem;
+  top: 0.5rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--vp-c-brand, #3451b2);
+  border: 3px solid var(--vp-c-bg, #fff);
+  box-shadow: 0 0 0 2px var(--vp-c-brand, #3451b2);
+}
+
+.timeline-item.completed::before {
+  background: #22c55e;
+  box-shadow: 0 0 0 2px #22c55e;
+}
+
+.timeline-item.ongoing::before {
+  background: #f59e0b;
+  box-shadow: 0 0 0 2px #f59e0b;
 }
