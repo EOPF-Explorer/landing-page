@@ -58,9 +58,9 @@ The EOPF Explorer project is at the forefront of establishing **GeoZarr** as the
 
 At the Zarr Summit in Rome, we established a new approach: instead of a monolithic GeoZarr specification, we created modular **Zarr Conventions** that can be adopted incrementally and evolved independently.
 
-<ClientOnly>
+<client-only>
   <GeoZarrDiagram with-links />
-</ClientOnly>
+</client-only>
 
 
 ---

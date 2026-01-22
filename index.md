@@ -30,18 +30,18 @@ footer: false
   tagline="Pioneering the GeoZarr Data Model"
   title="Data Model"
 >
-  <div class="grid middle-align large-space">
-    <div class="s12 l4">
-      <p>
-      EOPF Explorer drives the standardization of cloud-native geospatial data formats. Through intensive collaboration with the Zarr community, we've established foundational <strong>Zarr Conventions</strong> that enable interoperable access to Earth Observation data across the entire ecosystem.
-      </p>
-    </div>
-    <div class="s12 l8">
-      <ClientOnly>
+  <client-only>
+    <div class="grid middle-align large-space">
+      <div class="s12 l4">
+        <p>
+        EOPF Explorer drives the standardization of cloud-native geospatial data formats. Through intensive collaboration with the Zarr community, we've established foundational <strong>Zarr Conventions</strong> that enable interoperable access to Earth Observation data across the entire ecosystem.
+        </p>
+      </div>
+      <div class="s12 l8">
         <GeoZarrDiagram key="home-diagram" />
-      </ClientOnly>
+      </div>
     </div>
-  </div>
+  </client-only>
 </FeatureSection>
 
 
