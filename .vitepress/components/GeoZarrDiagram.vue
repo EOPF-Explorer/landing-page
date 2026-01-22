@@ -26,9 +26,12 @@
     <div v-for="pillar in pillars" :key="pillar.title" class="s12 m6 l4">
       <div style="height: 100%">
         <article class="border center-align small-padding pillar-card">
-          <h7 class="no-margin bold" style="color: var(--primary)">{{
-            pillar.title
-          }}</h7>
+          <h6
+            class="no-margin strong large-text bold"
+            style="color: var(--primary)"
+          >
+            {{ pillar.title }}
+          </h6>
           <p class="small-text no-margin" style="opacity: 0.7">
             {{ pillar.description }}
           </p>
@@ -60,10 +63,7 @@
           <span class="medium-text bold">Zarr v3 Core</span>
         </article>
       </a>
-      <article
-        v-else
-        class="border center-align medium-padding footer-card"
-      >
+      <article v-else class="border center-align medium-padding footer-card">
         <span class="medium-text bold">Zarr v3 Core</span>
       </article>
     </div>
