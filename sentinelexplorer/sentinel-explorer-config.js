@@ -195,6 +195,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableChangeProjection: true,
               enableCompareIndicators: {
                 fallbackTemplate: "explore",
+                compareTemplate: "compare",
                 itemFilterConfig: {
                   imageProperty: "assets.thumbnail.href",
                 },
@@ -348,6 +349,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           layout: { x: 0, y: 0, w: "3/3/2", h: 6 },
           widget: {
             name: "EodashItemCatalog",
+            properties:{
+              layoutTarget: "expert",
+            }
           },
         },
         {
@@ -359,6 +363,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             name: "EodashItemCatalog",
             properties: {
               enableCompare: true,
+              layoutTarget: "expert",
             },
           },
         },
