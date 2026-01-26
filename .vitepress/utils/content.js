@@ -22,7 +22,7 @@ const showcasesIcon = `<svg width="32" height="32" viewBox="0 0 32 32" fill="non
 
 export const cardsContent = [
   {
-    content: "Cloud-native and visualisation-enhanced EOPF Sentinel products power many aspects of Earth observation data discovery and analysis. Begin by exploring data clients catalogs through standard clients like Stack Browser that reveal Sentinel scenes at a glance.",
+    content: "Cloud-native and visualisation-enhanced EOPF Sentinel products power many aspects of Earth observation data discovery and analysis. Begin by exploring data clients catalogs through standard clients like STAC Browser that reveal Sentinel scenes at a glance.",
     id: Symbol(),
     title: "Discovery",
     icon:{ html: discoveryIcon},
