@@ -252,8 +252,8 @@ export const servicesContent = [
   {
     id: "zopeneo-studio",
     title: "openEO Studio",
-    content: "Build sophisticated analysis workflows with cloud-based processing.",
-    image: "assets/openeo-logo.png",
+    content: "Run and visualize openEO processes directly in your browser with openEO Studio.",
+    image: "assets/openeo-studio.png",
     tags: ["📊 analysis", "workflow", "openeo", "cloud-processing"],
     category: "Analysis",
     type: "service",
