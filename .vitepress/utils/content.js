@@ -248,6 +248,16 @@ export const servicesContent = [
     category: "Screening",
     type: "software",
     link: "https://zarr-layer.demo.carbonplan.org/"
+  },
+  {
+    id: "zopeneo-studio",
+    title: "openEO Studio",
+    content: "Build sophisticated analysis workflows with cloud-based processing.",
+    image: "assets/openeo-logo.png",
+    tags: ["📊 analysis", "workflow", "openeo", "cloud-processing"],
+    category: "Analysis",
+    type: "service",
+    link: "https://studio.explorer.eopf.copernicus.eu/"
   }
 ]
 
