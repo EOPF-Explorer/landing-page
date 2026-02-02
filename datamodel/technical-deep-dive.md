@@ -3,9 +3,6 @@ title: Technical Deep Dive - GeoZarr Standards
 layout: page
 ---
 
-<script setup>
-import { withBase } from 'vitepress';
-</script>
 
 ## Technical Deep Dive - GeoZarr Standards
 
