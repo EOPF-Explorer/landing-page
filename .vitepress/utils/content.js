@@ -22,7 +22,7 @@ const showcasesIcon = `<svg width="32" height="32" viewBox="0 0 32 32" fill="non
 
 export const cardsContent = [
   {
-    content: "Cloud-native and visualisation-enhanced EOPF Sentinel products power many aspects of Earth observation data discovery and analysis. Begin by exploring data clients catalogs through standard clients like Stack Browser that reveal Sentinel scenes at a glance.",
+    content: "Cloud-native and visualisation-enhanced EOPF Sentinel products power many aspects of Earth observation data discovery and analysis. Begin by exploring data clients catalogs through standard clients like STAC Browser that reveal Sentinel scenes at a glance.",
     id: Symbol(),
     title: "Discovery",
     icon:{ html: discoveryIcon},
@@ -146,6 +146,7 @@ export const tableData = [
 // 'Screening': '🗺️', 
 // 'Analysis': '📊',
 // 'Showcases': '🌟'
+// 'Documentation': '📚',
 
 export const servicesContent = [
   {
@@ -205,7 +206,7 @@ export const servicesContent = [
   },
   {
     id: "openeo-web-editor",
-    title: "OpenEO Web editor",
+    title: "openEO Web editor",
     content: "Build sophisticated analysis workflows with cloud-based processing.",
     image: "assets/openeo-logo.png",
     tags: ["📊 analysis", "workflow", "openeo", "cloud-processing"],
@@ -226,15 +227,26 @@ export const servicesContent = [
     order: 7
   },
   {
-    id: "openlayers-story",
-    title: "View EOPF Zarr with OpenLayers",
-    content: "A story on how to visualize Sentinel Zarr data using OpenLayers with GeoZarr support.",
+    id: "eoxmap-geozarr-story",
+    title: "EOPF Zarr Client Side Rendering",
+    content: "A story on how to visualize Sentinel Zarr data using EOxMap with GeoZarr support.",
     image: "assets/openlayers-story.png",
     tags: ["🗺️ screening", "web-mapping", "visualization", "geozarr"],
     category: "Screening",
-    type: "software",
-    link: "",
-    order: 8
+    order: 8,
+    type: "story",
+    link: "/story/?id=cloud-native-eo"
+  },
+  {
+    id: "geozarr-data-model",
+    title: "Pioneering the GeoZarr Data Model",
+    content: "Learn how EOPF Explorer drives GeoZarr specification development and Zarr Conventions, establishing the foundation for cloud-native Earth Observation standards.",
+    image: "assets/geozarr.png",
+    tags: ["📚 documentation", "standards", "geozarr", "zarr", "conventions", "community"],
+    category: "Documentation",
+    type: "story",
+    link: "datamodel/",
+    order: 9
   },
   {
     id: "zarr-layer-carbon-plan",
@@ -245,6 +257,71 @@ export const servicesContent = [
     category: "Screening",
     type: "software",
     link: "https://zarr-layer.demo.carbonplan.org/",
-    order: 9
+    order: 10
   }
 ]
+
+
+export const timelineItems = [
+  {
+    date: 'July 2025',
+    status: 'completed',
+    title: '🚀 Project Kickoff',
+    description: 'EOPF Explorer project begins with a mandate to establish visualization-ready Zarr products for Sentinel data.'
+  },
+  {
+    date: 'July - October 2025',
+    status: 'completed',
+    title: '🤝 GeoZarr SWG Engagement',
+    description: 'Active contribution to the OGC GeoZarr Specifications Working Group. Submitted multiple proposals for terminology clarification, multiscales, and dimension binding.'
+  },
+  {
+    date: 'September 2025',
+    status: 'completed',
+    title: '📦 V0 Release: Maximalist Approach',
+    description: 'First release with TiTiler following GeoZarr 0.4 with Zarr v3, CF conventions, grid mapping, and GDAL 3.12 compatibility.'
+  },
+  {
+    date: 'October 13-17, 2025',
+    status: 'completed',
+    title: '🏛️ Zarr Summit Rome',
+    description: 'Breakthrough moment: Established the <strong>Zarr Conventions framework</strong> with the community. Created three foundational conventions that form the pillars of GeoZarr.',
+    link: {
+      href: 'https://cloudnativegeo.org/blog/2025/11/2025-zarr-summit-recap/',
+      text: 'Read the recap →'
+    }
+  },
+  {
+    date: 'December 2025',
+    status: 'completed',
+    title: '🗺️ OpenLayers GeoZarr Integration',
+    description: 'Client-side Zarr rendering working in OpenLayers with full support for the new conventions.'
+  },
+  {
+    date: 'January 2026',
+    status: 'completed',
+    title: '✅ V1 Release: Community Conventions',
+    description: 'Production release with Zarr Conventions approach. GDAL Phase 1 complete (v3.12). Service opening prepared.'
+  },
+  {
+    date: 'Q1-Q2 2026',
+    status: 'ongoing',
+    title: '🌱 Ecosystem Adoption',
+    description: 'Time Series Support. TiTiler enhancement. GDAL Effort Phase 2 for full conventions support. rioxarray integration. OpenLayers stabilization from experimental to stable.'
+  },
+  {
+    date: 'Future',
+    status: 'planned',
+    title: '🎯 GeoZarr v1 OGC Specification',
+    description: 'Using established conventions as the foundation for the official OGC-approved GeoZarr specification.'
+  }
+]
+
+export const getStatusColor = (status) => {
+  const colors = {
+    completed: '#22c55e',
+    ongoing: '#f59e0b',
+    planned: 'var(--secondary)'
+  }
+  return colors[status] || 'var(--primary)'
+}

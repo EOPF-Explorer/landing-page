@@ -5,6 +5,31 @@ import baseConfig from "@eox/pages-theme-eox/config";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends: baseConfig("eopf"),
+  markdown: {
+    config: (md) => {
+      // Remember default renderer
+      const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, self) {
+        return self.renderToken(tokens, idx, options);
+      };
+
+      md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+        // Add 'link' class to all links
+        const token = tokens[idx];
+        const classIndex = token.attrIndex('class');
+        
+        if (classIndex < 0) {
+          token.attrPush(['class', 'link']);
+        } else {
+          const currentClass = token.attrs[classIndex][1];
+          if (!currentClass.includes('link')) {
+            token.attrs[classIndex][1] = currentClass + ' link';
+          }
+        }
+
+        return defaultRender(tokens, idx, options, env, self);
+      };
+    }
+  },
   vue: {
     template: {
       compilerOptions: {
@@ -14,6 +39,9 @@ export default defineConfig({
   },
   base: "/",
   vite:{
+    optimizeDeps:{
+      include:["@eox/pages-theme-eox","@eodash/eodash/webcomponent" ]
+    },
     server: {
       allowedHosts:true,
     }

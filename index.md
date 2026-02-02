@@ -22,10 +22,27 @@ footer: false
 <h3 style="margin-top:24px;z-index:2" class="text-center" >Building Visualisation Capacity</h3>
 <FeaturesGallery style="margin-top:-64px" background="surface surface-bg" sectionTitle=" " :cards="cardsContent"/>
 
-
-<div class="large-space"></div>
-<div class="large-space"></div>
-
+<FeatureSection
+  icon="mdi-earth-plus"
+  landing
+  primaryButton="Learn More"
+  primaryLink="/datamodel/"
+  tagline="Pioneering the GeoZarr Data Model"
+  title="Data Model"
+>
+<ClientOnly>
+  <div class="grid middle-align large-space">
+    <div class="s12 l4">
+      <p>
+      EOPF Explorer drives the standardization of cloud-native geospatial data formats. Through intensive collaboration with the Zarr community, we've established foundational <strong>Zarr Conventions</strong> that enable interoperable access to Earth Observation data across the entire ecosystem.
+      </p>
+    </div>
+    <div class="s12 l8">
+      <GeoZarrDiagram />
+    </div>
+  </div>
+</ClientOnly>
+</FeatureSection>
 
 
 
@@ -54,19 +71,16 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
   </eox-itemfilter>
 </client-only>
 
-<div class="large-space"></div>
-
-
 <FeatureSection
   icon="mdi-compass"
   image="media/cloudless.png"
   landing
   primaryButton="Open Explorer"
   primaryLink="/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a"
-  tagline="Explore sentinel data in real time"
+  tagline="Explore Sentinel data in real time"
   title="Sentinels Browser"
 >
-Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical imagery. Change color maps, adjust contrast, and zoom in instantly- powered by Zarr dynamic tiling.
+Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical imagery. Change color maps, adjust contrast, and zoom in instantly — powered by Zarr dynamic tiling.
 </FeatureSection>
 
 
@@ -114,7 +128,7 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
   <summary>
     <p class="bold">+ Will all EOPF Sentinel Zarr data be web-optimised?</p>
   </summary>
-    <p class="small-text">The objective of this project is to demonstrate the benefits and prove the fitness for purpose of acessing Sentinel products as web-optimised Zarr. We hope that the success of our effort will drive a new value-added distribution format. Please follow our project for updates on our goals and outcome and share your questions and comments.</p>
+    <p class="small-text">The objective of this project is to demonstrate the benefits and prove the fitness for purpose of accessing Sentinel products as web-optimised Zarr. We hope that the success of our effort will drive a new value-added distribution format. Please follow our project for updates on our goals and outcome and share your questions and comments.</p>
 </details>
 <details>
   <summary>
@@ -200,6 +214,7 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
 </footer>
 
 <script setup>
+import GeoZarrDiagram from "./.vitepress/components/GeoZarrDiagram.vue"
 import { useData } from 'vitepress';
 import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
@@ -256,6 +271,10 @@ const handleResultClick = (evt) => {
 <style scoped>
   .text-center {
     text-align:center
+  }
+  .feature-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
   eox-itemfilter {
     --form-flex-direction: row;
