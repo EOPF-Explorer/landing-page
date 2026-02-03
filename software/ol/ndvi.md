@@ -10,18 +10,23 @@ layout: page
 
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
+//@ts-expect-error chroma-js doesn't have types
 import { scale as chromaScale } from 'chroma-js'
 import Map from 'ol/Map.js'
 import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js'
-import TileLayer from 'ol/layer/WebGLTile.js'
+import WebGLTileLayer from 'ol/layer/WebGLTile.js'
+import TileLayer from 'ol/layer/Tile.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
-import OSM from 'ol/source/OSM.js'
+import XYZ from 'ol/source/XYZ.js'
 import 'ol/ol.css'
 import { checkWebGLSupport } from '../../software'
+import Tutorial from '../../.vitepress/components/Tutorial.vue'
 
+/** @type {import('vue').Ref<boolean | null>} */
 const webglSupport = ref(null)
 const mapRef = ref()
 let map = null
+/** @type {WebGLTileLayer | null} */
 let ndviLayer = null
 
 // Interactive NDVI controls
@@ -36,6 +41,7 @@ const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explor
 const segments = 10
 
 function getVariables() {
+  /** @type {Record<string, number>} */
   const variables = {}
   const scale = chromaScale([minColor.value, maxColor.value]).mode('lab')
   const delta = (maxValue.value - minValue.value) / segments
@@ -99,7 +105,7 @@ function initializeMap() {
         group: 'measurements/reflectance',
         bands: ['b04', 'b8a'], // Red, NIR
       })
-      ndviLayer = new TileLayer({
+      ndviLayer = new WebGLTileLayer({
         source: source,
         style: {
           variables: getVariables(),
@@ -109,7 +115,9 @@ function initializeMap() {
       map = new Map({
         layers: [
           new TileLayer({
-            source: new OSM(),
+            source: new XYZ({
+              url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
+            }),
           }),
           ndviLayer,
         ],
@@ -137,12 +145,8 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
 ⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for GeoZarr visualization and NDVI calculation.
 </div>
 
-### Live Demo
-
-<div v-if="webglSupport" class="demo-section">
-  <div ref="mapRef" class="map-container"></div>
-  
-  <div class="code-section">
+<Tutorial v-if="webglSupport" height="600px">
+  <template #description>
     <p>This example demonstrates NDVI calculation with:</p>
     <ul>
       <li><strong>NIR Band</strong> - Near-infrared (b8a, 842nm)</li>
@@ -150,23 +154,44 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
       <li><strong>Real-time Calculation</strong> - NDVI = (NIR - Red) / (NIR + Red)</li>
       <li><strong>Linear Color Scale</strong> - Yellow to green for NDVI range -0.6 to 0.8</li>
     </ul>
-  </div>
-</div>
+  </template>
 
-<div class="controls">
-  <div class="control-row">
-    <label>Min NDVI</label>
-    <input type="range" v-model.number="minValue" min="-1.0" max="-0.1" step="0.01" />
-    <span class="value-display">{{ minValue.toFixed(1) }}</span>
-    <input type="color" v-model="minColor" />
-  </div>
-  <div class="control-row">
-    <label>Max NDVI</label>
-    <input type="range" v-model.number="maxValue" min="0.1" max="1.0" step="0.01" />
-    <span class="value-display">{{ maxValue.toFixed(1) }}</span>
-    <input type="color" v-model="maxColor" />
-  </div>
-</div>
+  <template #controls>
+    <div class="margin grid small-space">
+      <div class="s12 m6">
+        <article class="no-elevate tiny-padding">
+          <div class="row no-space middle-align">
+            <label class="max bold">Min NDVI</label>
+            <label class="small-text">{{ minValue }}</label>
+            <input type="color" v-model="minColor">
+          </div>
+          <div class="tiny-margin top-margin">
+             <input type="range" v-model.number="minValue" min="-1.0" max="-0.1" step="0.01" />
+             <span></span>
+          </div>
+        </article>
+      </div>
+      <div class="s12 m6">
+        <article class="no-elevate tiny-padding">
+          <div class="row no-space middle-align">
+            <label class="max bold">Max NDVI</label>
+            <label class="small-text">{{ maxValue }}</label>
+            <input type="color" v-model="maxColor" class="circle tiny-margin left-margin">
+          </div>
+          <div class="tiny-margin top-margin">
+             <input type="range" v-model.number="maxValue" min="0.1" max="1.0" step="0.01" />
+             <span></span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </template>
+
+  <template #demo>
+    <div ref="mapRef" style="width: 100%; height: 100%;"></div>
+  </template>
+
+<template #code>
 
 :::code-group
 
@@ -177,10 +202,11 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
 ```javascript [JavaScript]
 import { scale as chromaScale } from 'chroma-js';
 import Map from 'ol/Map.js';
-import TileLayer from 'ol/layer/WebGLTile.js';
+import WebGLTileLayer from 'ol/layer/WebGLTile.js';
+import TileLayer from 'ol/layer/Tile.js';
 import View from 'ol/View.js';
-import { fromLonLat } from 'ol/proj.js';
-import { GeoZarr } from 'ol-zarr';
+import GeoZarr from 'ol/source/GeoZarr.js';
+import XYZ from 'ol/source/XYZ.js';
 
 const segments = 10;
 const defaultMinColor = '#8B4513';  // Brown
@@ -228,7 +254,7 @@ const source = new GeoZarr({
   bands: ['b04', 'b8a'], // Red, NIR
 });
 
-const layer = new TileLayer({
+const layer = new WebGLTileLayer({
   style: {
     variables: getVariables(),
     color: ['interpolate', ['linear'], ndvi, ...colors()],
@@ -238,7 +264,14 @@ const layer = new TileLayer({
 
 const map = new Map({
   target: 'map',
-  layers: [layer],
+  layers: [
+    new TileLayer({
+      source: new XYZ({
+        url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
+      }),
+    }),
+    layer
+  ],
   view: new View({
     center: fromLonLat([2.35, 48.85]),
     zoom: 12,
@@ -249,14 +282,15 @@ const map = new Map({
 ```json [package.json]
 {
   "dependencies": {
-    "ol": "dev",
-    "zarrita": "^0.5.4",
+    "ol": "10.7.1-dev.1769880357980",
     "chroma-js": "^3.2.0"
   }
 }
 ```
-
 :::
+
+  </template>
+</Tutorial>
 
 ### Interpretation
 

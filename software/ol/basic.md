@@ -9,21 +9,25 @@ layout: page
 </style>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
-import Map from 'ol/Map.js'
-import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js'
-import TileLayer from 'ol/layer/WebGLTile.js'
-import GeoZarr from 'ol/source/GeoZarr.js'
-import OSM from 'ol/source/OSM.js'
-import 'ol/ol.css'
-import { checkWebGLSupport } from '../index'
+import { ref, onMounted, nextTick } from "vue"
+import Map from "ol/Map.js"
+import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from "ol/View.js"
+import WebGLTileLayer from "ol/layer/WebGLTile.js"
+import TileLayer from "ol/layer/Tile.js"
+import GeoZarr from "ol/source/GeoZarr.js"
+import XYZ from "ol/source/XYZ.js"
+import "ol/ol.css"
+import { checkWebGLSupport } from "../index"
 
+import Tutorial from "../../.vitepress/components/Tutorial.vue"
+
+/** @type {import("vue").Ref<boolean | null>} */
 const webglSupport = ref(null)
 const mapRef = ref()
 let map = null
 
 // EOPF Zarr URL (root store only, no group path)
-const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr'
+const zarrUrl = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr"
 
 onMounted(() => {
   // Check WebGL support using common utility
@@ -41,27 +45,29 @@ function initializeMap() {
     try {
       const source = new GeoZarr({
         url: zarrUrl,
-        group: 'measurements/reflectance',
-        bands: ['b04', 'b03', 'b02'],
+        group: "measurements/reflectance",
+        bands: ["b04", "b03", "b02"],
       })
 
       map = new Map({
         layers: [
           new TileLayer({
-            source: new OSM(),
+            source: new XYZ({
+              url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
+            }),
           }),
-          new TileLayer({
+          new WebGLTileLayer({
             source,
             style: {
               gamma: 1.5,
               color: [
-                'color',
-                ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
-                ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255],
-                ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255],
+                "color",
+                ["interpolate", ["linear"], ["band", 1], 0, 0, 0.5, 255],
+                ["interpolate", ["linear"], ["band", 2], 0, 0, 0.5, 255],
+                ["interpolate", ["linear"], ["band", 3], 0, 0, 0.5, 255],
                 [
-                  'case',
-                  ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
+                  "case",
+                  ["==", ["+", ["band", 1], ["band", 2], ["band", 3]], 0],
                   0,
                   1,
                 ],
@@ -79,11 +85,10 @@ function initializeMap() {
         ),
       })
     } catch (error) {
-      console.error('Failed to initialize map:', error)
+      console.error("Failed to initialize map:", error)
     }
   }
 }
-
 </script>
 
 ## OpenLayers - Basic Map Setup <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
@@ -91,15 +96,12 @@ function initializeMap() {
 This example shows the minimal configuration needed to load and display EOPF Zarr data with OpenLayers.
 
 <div v-if="webglSupport === false" class="warning">
-⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
+⚠️ **WebGL Not Supported**: Your browser doesn"t support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
 </div>
 
-### Live Demo
-
-<div v-if="webglSupport" class="demo-section">
-  <div ref="mapRef" class="map-container"></div>
+<Tutorial v-if="webglSupport">
   
-  <div class="code-section">
+  <template #description>
     <p>This example demonstrates basic OpenLayers configuration with:</p>
     <ul>
       <li><strong>OSM Base Layer</strong> - Provides geographic context</li>
@@ -108,11 +110,15 @@ This example shows the minimal configuration needed to load and display EOPF Zar
       <li><strong>Auto-fit View</strong> - Automatically centers and zooms to data extent</li>
       <li><strong>Transparency Handling</strong> - Makes zero values transparent</li>
     </ul>
-  </div>
-</div>
+  </template>
 
-### Code Implementation
 
+  <template #demo>
+    <div ref="mapRef" style="width: 100%; height: 100%;"></div>
+  </template>
+
+  <template #code>
+  
 ::: code-group
 
 ```html [index.html]
@@ -144,9 +150,10 @@ import {
   withLowerResolutions,
   withZoom,
 } from "ol/View.js";
-import TileLayer from "ol/layer/WebGLTile.js";
+import WebGLTileLayer from "ol/layer/WebGLTile.js";
+import TileLayer from "ol/layer/Tile.js";
 import GeoZarr from "ol/source/GeoZarr.js";
-import OSM from "ol/source/OSM.js";
+import XYZ from "ol/source/XYZ.js";
 
 // EOPF Zarr URL from STAC Browser (root store only, no group path)
 const zarrUrl =
@@ -159,15 +166,17 @@ const source = new GeoZarr({
   bands: ["b04", "b03", "b02"], // RGB band mapping (Red, Green, Blue)
 });
 
-// Initialize map with OSM base layer
+// Initialize map with base layer
 const map = new Map({
   layers: [
     // Base layer for geographic context
     new TileLayer({
-      source: new OSM(),
+      source: new XYZ({
+        url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
+      }),
     }),
     // Satellite data layer
-    new TileLayer({
+    new WebGLTileLayer({
       source,
       style: {
         gamma: 1.5, // Gamma correction for brightness
@@ -182,7 +191,8 @@ const map = new Map({
           // Alpha channel (transparency for no-data values)
           [
             "case",
-            ["==", ["+", ["band", 1], ["band", 2], ["band", 3]], 0],
+            ["==", ["+", ["band", 1], ["band", 2], ["band",
+            3]], 0],
             0, // Transparent if all bands are 0
             1, // Opaque otherwise
           ],
@@ -204,13 +214,15 @@ const map = new Map({
 ```json [package.json]
 {
   "dependencies": {
-    "ol": "dev",
-    "zarrita": "^0.5.4"
+    "ol": "10.7.1-dev.1769880357980"
   }
 }
 ```
 
 :::
+  
+  </template>
+</Tutorial>
 
 ### Key Features
 
@@ -223,12 +235,12 @@ const map = new Map({
 
 **Band Mapping**
 
-- `bands: ['b04', 'b03', 'b02']` maps to Red, Green, Blue channels
+- `bands: ["b04", "b03", "b02"]` maps to Red, Green, Blue channels
 - Sentinel-2 bands correspond to: B04 (Red), B03 (Green), B02 (Blue)
 
 **Style Expressions**
 
-- `['interpolate', ['linear'], ...]` scales reflectance values (0-1) to display values (0-255)
+- `["interpolate", ["linear"], ...]` scales reflectance values (0-1) to display values (0-255)
 - `gamma: 1.5` applies brightness correction
 - Conditional alpha creates transparency for no-data pixels
 

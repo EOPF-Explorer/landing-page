@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vitepress dev --port 8009",
+    "dev": "vitepress dev",
     "build": "vitepress build",
     "serve": "vitepress serve",
     "format": "npx prettier --write **/*.{js,css,json,vue}",
@@ -20,12 +20,13 @@
     "@eox/map": "^2.1.0-dev.1",
     "@eox/storytelling": "^1.10.1",
     "chroma-js": "^3.2.0",
-    "ol": "10.7.1-dev.1767511985622",
+    "ol": "10.7.1-dev.1769880357980",
     "stac-js": "^0.1.9",
     "zarrita": "^0.5.4"
   },
   "devDependencies": {
     "@eox/pages-theme-eox": "^0.11.5",
+    "@types/chroma-js": "^3.1.2",
     "eslint-plugin-vue": "^10.7.0",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.4"
