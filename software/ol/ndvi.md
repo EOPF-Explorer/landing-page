@@ -3,13 +3,9 @@ title: OpenLayers - NDVI Calculation
 layout: page
 ---
 
-<style scoped>
-/* Import common CSS first to avoid FOUC */
-@import url("../software.css");
-</style>
 
 <script setup>
-import { ref, onMounted, nextTick, watch } from 'vue'
+import { ref, onMounted, nextTick, watch, useTemplateRef } from 'vue'
 //@ts-expect-error chroma-js doesn't have types
 import { scale as chromaScale } from 'chroma-js'
 import Map from 'ol/Map.js'
@@ -21,7 +17,9 @@ import XYZ from 'ol/source/XYZ.js'
 import 'ol/ol.css'
 import { checkWebGLSupport } from '../../software'
 import Tutorial from '../../.vitepress/components/Tutorial.vue'
+import 'toolcool-range-slider'
 
+const sliderRef = useTemplateRef("rangeSlider")
 /** @type {import('vue').Ref<boolean | null>} */
 const webglSupport = ref(null)
 const mapRef = ref()
@@ -32,7 +30,7 @@ let ndviLayer = null
 // Interactive NDVI controls
 const minColor = ref('#8B4513')  // Brown
 const maxColor = ref('#00FF00')  // Green  
-const minValue = ref(-0.5)
+const minValue = ref(0)
 const maxValue = ref(0.7)
 
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr'
@@ -81,6 +79,14 @@ function updateNDVI() {
     ndviLayer.updateStyleVariables(getVariables())
   }
 }
+/**
+ * 
+ * @param {CustomEvent} event 
+ */
+function handleRangeChange(event) {
+  minValue.value = parseFloat(event.detail.value1)
+  maxValue.value = parseFloat(event.detail.value2)
+}
 
 onMounted(() => {
   // Check WebGL support using common utility
@@ -91,6 +97,16 @@ onMounted(() => {
       initializeMap()
     })
   }
+  
+  // Initialize range slider after component is mounted
+  nextTick(() => {
+    if(!sliderRef.value) return
+    sliderRef.value.setAttribute('min', '-1')
+    sliderRef.value.setAttribute('max', '1')
+    sliderRef.value.setAttribute('step', '0.01')
+    sliderRef.value.setAttribute('value1', -0.5);
+    sliderRef.value.setAttribute('value2', 0.7) 
+  })
 })
 
 // Watch for changes to update colors
@@ -141,8 +157,11 @@ function initializeMap() {
 
 This example demonstrates real-time calculation of the Normalized Difference Vegetation Index (NDVI) directly in the browser using WebGL expressions.
 
-<div v-if="webglSupport === false" class="warning">
-⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for GeoZarr visualization and NDVI calculation.
+<div v-if="webglSupport === false">
+
+::: warning ⚠️ **WebGL Not Supported**
+Your browser doesn't support WebGL, which is required for GeoZarr visualization and NDVI calculation.
+::: 
 </div>
 
 <Tutorial v-if="webglSupport" height="600px">
@@ -157,33 +176,28 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
   </template>
 
   <template #controls>
-    <div class="margin grid small-space">
-      <div class="s12 m6">
-        <article class="no-elevate tiny-padding">
-          <div class="row no-space middle-align">
-            <label class="max bold">Min NDVI</label>
-            <label class="small-text">{{ minValue }}</label>
-            <input type="color" v-model="minColor">
+    <div class="margin">
+      <article class="no-elevate tiny-padding">
+        <div class="row no-space middle-align">
+          <div class="max">
+            <label class="bold">Min NDVI:</label>
+            <label class="small-text left-margin">{{ minValue.toFixed(2) }}</label>
           </div>
-          <div class="tiny-margin top-margin">
-             <input type="range" v-model.number="minValue" min="-1.0" max="-0.1" step="0.01" />
-             <span></span>
+          <div class="max">
+            <label class="bold">Max NDVI:</label>
+            <label class="small-text left-margin">{{ maxValue.toFixed(2) }}</label>
           </div>
-        </article>
-      </div>
-      <div class="s12 m6">
-        <article class="no-elevate tiny-padding">
-          <div class="row no-space middle-align">
-            <label class="max bold">Max NDVI</label>
-            <label class="small-text">{{ maxValue }}</label>
-            <input type="color" v-model="maxColor" class="circle tiny-margin left-margin">
-          </div>
-          <div class="tiny-margin top-margin">
-             <input type="range" v-model.number="maxValue" min="0.1" max="1.0" step="0.01" />
-             <span></span>
-          </div>
-        </article>
-      </div>
+        </div>
+        <div class="tiny-margin top-margin">
+          <tc-range-slider
+            ref="rangeSlider"
+            value1="-0.5"
+            value2="0.7"
+            step="0.01"
+            @change="handleRangeChange"
+          />
+        </div>
+      </article>
     </div>
   </template>
 
@@ -196,6 +210,26 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
 :::code-group
 
 ```html [HTML]
+<div id="controls" style="padding: 16px; background: #f6f8fa; margin-bottom: 16px;">
+  <div style="display: flex; gap: 24px; align-items: center; margin-bottom: 12px;">
+    <div>
+      <label style="font-weight: bold;">Min NDVI:</label>
+      <span id="minValue">-0.50</span>
+    </div>
+    <div>
+      <label style="font-weight: bold;">Max NDVI:</label>
+      <span id="maxValue">0.70</span>
+    </div>
+  </div>
+  <tc-range-slider
+    id="ndviSlider"
+    value1="-0.5"
+    value2="0.7"
+    min="-1"
+    max="1"
+    step="0.01"
+  ></tc-range-slider>
+</div>
 <div id="map" style="width: 100%; height: 500px;"></div>
 ```
 
@@ -207,21 +241,22 @@ import TileLayer from 'ol/layer/Tile.js';
 import View from 'ol/View.js';
 import GeoZarr from 'ol/source/GeoZarr.js';
 import XYZ from 'ol/source/XYZ.js';
+import 'toolcool-range-slider';
 
 const segments = 10;
-const defaultMinColor = '#8B4513';  // Brown
-const defaultMaxColor = '#00FF00';  // Green
-const defaultMinValue = -0.5;
-const defaultMaxValue = 0.7;
+let minColor = '#8B4513';  // Brown
+let maxColor = '#00FF00';  // Green
+let minValue = -0.5;
+let maxValue = 0.7;
 
 function getVariables() {
   const variables = {};
-  const scale = chromaScale([defaultMinColor, defaultMaxColor]).mode('lab');
-  const delta = (defaultMaxValue - defaultMinValue) / segments;
+  const scale = chromaScale([minColor, maxColor]).mode('lab');
+  const delta = (maxValue - minValue) / segments;
 
   for (let i = 0; i <= segments; ++i) {
     const color = scale(i / segments).rgb();
-    const value = defaultMinValue + i * delta;
+    const value = minValue + i * delta;
     variables[`value${i}`] = value;
     variables[`red${i}`] = color[0];
     variables[`green${i}`] = color[1];
@@ -277,13 +312,27 @@ const map = new Map({
     zoom: 12,
   }),
 });
+
+// Handle range slider changes
+const slider = document.getElementById('ndviSlider');
+const minValueSpan = document.getElementById('minValue');
+const maxValueSpan = document.getElementById('maxValue');
+
+slider.addEventListener('change', (event) => {
+  minValue = parseFloat(event.detail.value1);
+  maxValue = parseFloat(event.detail.value2);
+  minValueSpan.textContent = minValue.toFixed(2);
+  maxValueSpan.textContent = maxValue.toFixed(2);
+  layer.updateStyleVariables(getVariables());
+});
 ```
 
 ```json [package.json]
 {
   "dependencies": {
     "ol": "10.7.1-dev.1769880357980",
-    "chroma-js": "^3.2.0"
+    "chroma-js": "^3.2.0",
+    "toolcool-range-slider": "^4.0.28"
   }
 }
 ```
@@ -326,8 +375,8 @@ const map = new Map({
   - **Heat island mapping** - Identify cooling vegetation
   - **Development impact** - Monitor vegetation loss
 
-<div class="navigation">
+<div class="navigation surface-variant large-padding center-align">
   <a href="./basic" class="button border">← Previous: Basic Map Setup and band combination</a>
-  <span><strong>2 of 3</strong> - NDVI Calculation</span>
+  <span class="padding"><strong>2 of 3</strong> - NDVI Calculation</span>
   <a href="./stac" class="button border">Next: STAC Integration →</a>
 </div>

@@ -3,15 +3,6 @@ title: OpenLayers Integration
 layout: page
 ---
 
-<style scoped>
-/* Import common CSS first to avoid FOUC */
-@import "./software.css";
-
-.large-space {
-  block-size: 0rem !important;
-}
-</style>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import { checkWebGLSupport } from './index.js'
@@ -30,41 +21,55 @@ onMounted(() => {
 
 This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted satellite data using the experimental GeoZarr support in OpenLayers 10.7.1-dev. Each example is presented on a separate page for optimal performance.
 
-<div v-if="webglSupport === false" class="warning">
-⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
+<div v-if="webglSupport === false">
+
+::: warning ⚠️ **WebGL Not Supported**
+Your browser doesn't support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
+:::
+
 </div>
 
-<div class="overview-section">
-<strong>🎯 What You'll Learn</strong>
-<p>This page describes the resources to use OpenLayers with EOPF's Sentinel data with interactive examples that demonstrate real-world applications of OpenLayers with EOPF's Sentinel-2 data, covering everything from basic setup to advanced image processing techniques.</p>
+::: info **🎯 What You'll Learn**
+This page describes the resources to use OpenLayers with EOPF's Sentinel data with interactive examples that demonstrate real-world applications of OpenLayers with EOPF's Sentinel-2 data, covering everything from basic setup to advanced image processing techniques.
 
-<p><strong>Sample Data</strong> used here are avalable in <a href="https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a">the Sentinel-2 L2A collection in STAC Browser</a></p>
-</div>
+**Sample Data** used here are avalable in [the Sentinel-2 L2A collection in STAC Browser](https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a)
+:::
 
 ### Quick Start
 
-<div class="quick-start">
-<strong>🚀 Get Started in 5 Minutes</strong>
-<p>Ready to dive in? Start with the <a href="./ol/basic">Basic Setup example</a> to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.</p>
-</div>
+::: info **🚀 Get Started in 5 Minutes**
+Ready to dive in? Start with the [Basic Setup example](./ol/basic) to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.
+:::
 
 ### Installation
 
-<div class="installation-grid">
-  <div class="installation-method">
-    <strong>NPM (Recommended)</strong>
-    <pre><code>npm install ol@dev stac-js@^0.1.2</code></pre>
-    <p>Used in our examples for best performance and build optimization.</p>
-  </div>
 
-  <div class="installation-method">
-    <strong>CDN (Quick Testing)</strong>
-    <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/ol@dev/dist/ol.js"&gt;&lt;/script&gt;</code></pre>
-    <p>Perfect for quick prototypes and testing.</p>
+<div class="grid">
+  <div class="s12 m6">
+
+::: info NPM (Recommended)
+
+```bash
+npm install ol@dev stac-js@^0.1.2
+```
+:::
+
+  </div>
+  <div class="s12 m6">
+
+::: info CDN (Quick Testing)
+```html
+<script src="https://cdn.jsdelivr.net/npm/ol@dev/dist/ol.js"></script>
+```
+:::
+
   </div>
 </div>
+<br>
 
-⚠️ **Development Version**: OpenLayers tag **dev** (10.7.1-dev) contains experimental unreleased GeoZarr support that may change. For production use, wait for the stable 10.8.0 release.
+::: warning ⚠️ **Development Version**
+OpenLayers tag **dev** (10.7.1-dev) contains experimental unreleased GeoZarr support that may change. For production use, wait for the stable 10.8.0 release.
+:::
 
 ### Next Steps
 

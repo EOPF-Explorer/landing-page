@@ -33,7 +33,7 @@ export default defineConfig({
   vue: {
     template: {
       compilerOptions: {
-        isCustomElement: (el) => el.includes("-"),
+        isCustomElement: (el) => el.includes("-") || el === "tc-range-slider",
       },
     },
   },

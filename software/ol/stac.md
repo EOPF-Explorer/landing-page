@@ -3,10 +3,6 @@ title: OpenLayers - STAC Catalog Integration
 layout: page
 ---
 
-<style scoped>
-/* Import common CSS first to avoid FOUC */
-@import url("../software.css");
-</style>
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
@@ -76,7 +72,7 @@ function initializeDates() {
 function initializeMap() {
   if (mapRef.value) {
     try {
-      const osmLayer = new TileLayer({
+      const baseLayer = new TileLayer({
         source: new XYZ({
           url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
         }),
@@ -112,7 +108,7 @@ function initializeMap() {
       })
 
       map = new Map({
-        layers: [osmLayer, boundingBoxLayer, footprintsLayer],
+        layers: [baseLayer, boundingBoxLayer, footprintsLayer],
         target: mapRef.value,
         view: new View({
           center: [260000, 6250000], // Paris in Web Mercator
@@ -337,62 +333,69 @@ function clearAll() {
 }
 
 </script>
+## OpenLayers - STAC Integration <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
 
+This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTemporal Asset Catalog) API to search and visualize Sentinel-2 data using spatial-temporal filters
 
 <Tutorial height="600px">
-  <template #description>
-    <p>This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTemporal Asset Catalog) API to search and visualize Sentinel-2 data using spatial-temporal filters.</p>
-    <div class="warning" v-if="webglSupport === false">
-      <strong>⚠️ WebGL Not Supported:</strong> Your browser doesn't support WebGL, which is required for this example.
-    </div>
-    <h3>Features</h3>
-    <ul>
-      <li><strong>Spatial Search</strong>: Draw bounding box on the map to define search area</li>
-      <li><strong>Temporal Filtering</strong>: Select date range for time-based search</li>
-      <li><strong>STAC Integration</strong>: Query EOPF's STAC catalog using STAC API</li>
-      <li><strong>Scene Visualization</strong>: Display footprints and load RGB imagery automatically</li>
-    </ul>
-  </template>
+ <template #description>
+<article class="border" v-if="webglSupport === false">
+
+::: warning  **⚠️ WebGL Not Supported**
+  Your browser doesn't support WebGL, which is required for this example.
+:::
+
+</article>
+
+### Features
+
+- **Spatial Search**: Draw bounding box on the map to define search area
+- **Temporal Filtering**: Select date range for time-based search
+- **STAC Integration**: Query EOPF's STAC catalog using STAC API
+- **Scene Visualization**: Display footprints and load RGB imagery automatically
+
+ </template>
 
   <template #controls>
-    <div class="grid small-space">
-      <div class="s12 m4">
-        <div class="field label border">
-          <input type="date" v-model="startDate" :max="endDate">
-          <label>Start Date</label>
-        </div>
-      </div>
-      <div class="s12 m4">
-        <div class="field label border">
-          <input type="date" v-model="endDate" :min="startDate" :max="new Date().toISOString().split('T')[0]">
-          <label>End Date</label>
-        </div>
-      </div>
-      <div class="s12 m4">
-        <nav class="no-space">
-          <button @click="searchSTAC" :disabled="isSearching || !selectedBbox" class="fill">
-            <i v-if="isSearching" class="loader small"></i>
-            <span v-else>Search</span>
-          </button>
-          <button @click="clearAll" class="border">
-            Clear
-          </button>
-        </nav>
-      </div>
-      <div class="s12">
-        <article v-if="!selectedBbox" class="border warning small-padding">
-          <div class="row no-space middle-align">
-            <div class="medium-text max"><strong>Draw a bounding box</strong> on the map to define your search area.</div>
-          </div>
-        </article>
-        <article v-else class="border green small-padding">
-          <div class="row no-space middle-align">
-            <i class="front">check</i>
-            <div class="max">Area selected. Ready to search.</div>
-          </div>
-        </article>
-      </div>
-    </div>
+   <div class="grid small-space">
+     <div class="s12 m4">
+       <div class="field label border">
+         <input type="date" v-model="startDate" :max="endDate">
+         <label>Start Date</label>
+       </div>
+     </div>
+     <div class="s12 m4">
+       <div class="field label border">
+         <input type="date" v-model="endDate" :min="startDate" :max="new Date().toISOString().split('T')[0]">
+         <label>End Date</label>
+       </div>
+     </div>
+     <div class="s12 m4">
+       <nav class="no-space">
+         <button @click="searchSTAC" :disabled="isSearching || !selectedBbox" class="fill">
+           <i v-if="isSearching" class="loader small"></i>
+           <span v-else>Search</span>
+         </button>
+         <button @click="clearAll" class="border">
+           Clear
+         </button>
+       </nav>
+     </div>
+     <div class="s12">
+<div v-if="!selectedBbox" >
+          
+::: tip :bulb: **Draw a bounding box** on the map to define your search area
+:::
+
+</div>
+ <article v-else class="border green small-padding">
+   <div class="row no-space middle-align">
+    <i>check</i>
+   <div class="max">Area selected. Ready to search.</div>
+  </div>
+ </article>
+</div>
+</div>
   </template>
 
   <template #demo>
@@ -416,15 +419,21 @@ function clearAll() {
 
 ::: code-group
 
-```html [Template]
+```html [HTML]
 <div class="demo-container">
   <div class="controls-panel">
     <!-- Date controls -->
-    <input type="date" id="startDate" />
-    <input type="date" id="endDate" />
+    <div class="field">
+      <label>Start</label>
+      <input type="date" id="startDate" />
+    </div>
+    <div class="field">
+      <label>End</label>
+      <input type="date" id="endDate" />
+    </div>
     
     <!-- Search button -->
-    <button id="searchBtn">
+    <button id="searchBtn" onclick="searchSTAC()">
       Search STAC
     </button>
   </div>
@@ -434,192 +443,214 @@ function clearAll() {
 ```
 
 ```javascript [Search Logic]
+import Feature from 'ol/Feature.js';
+import { Polygon } from 'ol/geom.js';
+
 async function searchSTAC() {
   const startDate = document.getElementById('startDate').value;
   const endDate = document.getElementById('endDate').value;
-
+  const btn = document.getElementById('searchBtn');
 
   if (!selectedBbox || !startDate || !endDate) {
     alert('Please draw a bounding box and select dates');
     return;
   }
 
-  // Disable search button
-  const searchBtn = document.getElementById('searchBtn');
-  searchBtn.disabled = true;
-  searchBtn.innerText = 'Searching...';
-
   try {
+    btn.disabled = true;
+    btn.innerText = 'Searching...';
+
     // Clear previous results
     footprintsLayer.getSource().clear();
-    clearDataLayers();
+    currentDataLayers.forEach(l => map.removeLayer(l));
+    currentDataLayers = [];
 
-    const [minLon, minLat, maxLon, maxLat] = selectedBbox;
-
-    // Build STAC API URL with search parameters
+    // Construct STAC Query
+    const [minx, miny, maxx, maxy] = selectedBbox;
     const stacUrl = new URL('https://api.explorer.eopf.copernicus.eu/stac/search');
-    stacUrl.searchParams.set('bbox', `${minLon},${minLat},${maxLon},${maxLat}`);
+    stacUrl.searchParams.set('bbox', `${minx},${miny},${maxx},${maxy}`);
     stacUrl.searchParams.set('datetime', `${startDate}T00:00:00Z/${endDate}T23:59:59Z`);
     stacUrl.searchParams.set('collections', 'sentinel-2-l2a');
     stacUrl.searchParams.set('limit', '10');
-    
+
+    // Fetch Results
     const response = await fetch(stacUrl);
-    if (!response.ok) throw new Error(`STAC API error: ${response.status}`);
+    const data = await response.json();
     
-    const searchResponse = await response.json();
-    
-    if (searchResponse.features?.length > 0) {
-      displayFootprints(searchResponse.features);
+    if (data.features?.length > 0) {
+      displayFootprints(data.features);
+    } else {
+      alert('No images found in this area/date range');
     }
+
   } catch (error) {
-    console.error('Search error:', error);
+    console.error(error);
+    alert('Search failed');
   } finally {
-    searchBtn.disabled = false;
-    searchBtn.innerText = 'Search STAC';
+    btn.disabled = false;
+    btn.innerText = 'Search STAC';
   }
 }
-```
 
-```javascript [Load Scene]
-async function loadScene(stacItem) {
-  try {
-    // Find reflectance asset or store link
-    let zarrAsset = stacItem.assets?.reflectance
-    let zarrUrl
-    
-    if (zarrAsset) {
-      zarrUrl = zarrAsset.href
-    } else {
-      // Fallback to store link
-      const storeLink = stacItem.links?.find(link => link.rel === 'store')
-      if (storeLink) zarrUrl = storeLink.href
-    }
-
-    if (!zarrUrl) return
-
-    // Configure GeoZarr source
-    let sourceConfig
-    
-    if (zarrAsset && zarrUrl.includes('/measurements/reflectance')) {
-      const baseUrl = zarrUrl.replace('/measurements/reflectance', '')
-      sourceConfig = {
-        url: baseUrl,
-        group: 'measurements/reflectance',
-        bands: ['b04', 'b03', 'b02'] // RGB bands
-      }
-    } else {
-      sourceConfig = {
-        url: zarrUrl,
-        group: 'measurements/reflectance',
-        bands: ['b04', 'b03', 'b02']
-      }
-    }
-    
-    const source = new GeoZarr(sourceConfig)
-
-    // Create WebGL tile layer with RGB styling
-    const dataLayer = new WebGLTileLayer({
-      source,
-      style: {
-        gamma: 1.5,
-        color: [
-          'color',
-          ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
-          ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255],
-          ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255],
-          [
-            'case',
-            ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
-            0,
-            1,
-          ],
-        ],
-      },
-    })
-
-    map.addLayer(dataLayer)
-    currentDataLayers.push(dataLayer)
-    
-  } catch (error) {
-    console.error('Failed to load scene:', error)
-  }
-}
-```
-
-```javascript [Map & Draw]
-// Initialize map with draw interaction
-const bboxSource = new VectorSource()
-boundingBoxLayer = new VectorLayer({
-  source: bboxSource,
-  style: new Style({
-    stroke: new Stroke({ color: '#3399CC', width: 2, lineDash: [10, 10] }),
-    fill: new Fill({ color: 'rgba(51, 153, 204, 0.1)' })
-  })
-})
-
-drawInteraction = new Draw({
-  source: bboxSource,
-  type: 'Circle',
-  geometryFunction: createBox()
-})
-
-map.addInteraction(drawInteraction)
-
-// Handle bbox selection
-drawInteraction.on('drawend', function(event) {
-  // Keep only the latest bbox
-  const allFeatures = bboxSource.getFeatures()
-  if (allFeatures.length > 1) {
-    for (let i = 0; i < allFeatures.length - 1; i++) {
-      bboxSource.removeFeature(allFeatures[i])
-    }
-  }
+function displayFootprints(features) {
+  const source = footprintsLayer.getSource();
   
-  const extent = event.feature.getGeometry().getExtent()
-  const bbox = transformExtent(extent, 'EPSG:3857', 'EPSG:4326')
-  selectedBbox = bbox
-})
+  features.forEach(item => {
+    // Create footprint feature
+    const feature = new Feature({
+      geometry: new Polygon(item.geometry.coordinates)
+        .transform('EPSG:4326', 'EPSG:3857')
+    });
+    source.addFeature(feature);
+
+    // Trigger visual loading
+    loadScene(item);
+  });
+
+  // Fit map to results
+  map.getView().fit(source.getExtent(), { padding: [50,50,50,50] });
+}
 ```
 
-```javascript [Imports]
-import Map from 'ol/Map.js'
-import View from 'ol/View.js'
-import WebGLTileLayer from 'ol/layer/WebGLTile.js'
-import TileLayer from 'ol/layer/Tile.js'
-import VectorLayer from 'ol/layer/Vector.js'
-import GeoZarr from 'ol/source/GeoZarr.js'
-import VectorSource from 'ol/source/Vector.js'
-import XYZ from 'ol/source/XYZ.js'
-import { Draw } from 'ol/interaction.js'
-import { createBox } from 'ol/interaction/Draw.js'
-import Feature from 'ol/Feature.js'
-import { Polygon } from 'ol/geom.js'
-import { Style, Stroke, Fill } from 'ol/style.js'
-import { transformExtent } from 'ol/proj.js'
+```javascript [Scene Loading]
+import WebGLTileLayer from 'ol/layer/WebGLTile.js';
+import GeoZarr from 'ol/source/GeoZarr.js';
 
-// Global variables
+async function loadScene(stacItem) {
+  // 1. Find Zarr URL
+  // Find reflectance asset or store link
+  let zarrAsset = stacItem.assets?.reflectance
+  let zarrUrl
+  if (zarrAsset) {
+    zarrUrl = zarrAsset.href
+    } else {
+      const storeLink = stacItem.links?.find(link => link.rel === 'store')
+      if (storeLink) {
+      zarrUrl = storeLink.href
+      } else {
+        console.error('No Zarr data found in STAC item:', stacItem)
+        return
+    }
+  }
+  // 2. Configure GeoZarr Source (RGB)
+  const source = new GeoZarr({
+    url: zarrLink.includes('/measurements/reflectance') 
+      ? zarrLink.replace('/measurements/reflectance', '') 
+      : zarrLink,
+    group: 'measurements/reflectance',
+    bands: ['b04', 'b03', 'b02'] // Red, Green, Blue
+  });
+
+  // 3. Create Layer with Styling
+  const layer = new WebGLTileLayer({
+    source,
+    style: {
+      gamma: 1.5,
+      color: [
+        'color',
+        ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255], // Red
+        ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255], // Green
+        ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255], // Blue
+        ['case', ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0], 0, 1], // Mask nodata
+      ],
+    },
+  });
+
+  // 4. Add to Map
+  map.addLayer(layer);
+  currentDataLayers.push(layer);
+}
+```
+
+```javascript [Map Setup]
+import Map from 'ol/Map.js';
+import View from 'ol/View.js';
+import TileLayer from 'ol/layer/Tile.js';
+import VectorLayer from 'ol/layer/Vector.js';
+import VectorSource from 'ol/source/Vector.js';
+import XYZ from 'ol/source/XYZ.js';
+import { Draw } from 'ol/interaction.js';
+import { createBox } from 'ol/interaction/Draw.js';
+import { transformExtent } from 'ol/proj.js';
+import { Style, Stroke, Fill } from 'ol/style.js';
+
+// Global Variables
 let map;
-let selectedBbox = null;
 let boundingBoxLayer;
 let footprintsLayer;
+let selectedBbox = null;
 let currentDataLayers = [];
 
-// Initialize
-const today = new Date();
-const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
-
-document.getElementById('endDate').value = today.toISOString().split('T')[0];
-document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
-
-initializeMap();
-
-// Bind event listeners
-document.getElementById('searchBtn').addEventListener('click', searchSTAC);
-
 function initializeMap() {
-    // ... map initialization code ...
+  // 1. Base Map
+  const baseLayer = new TileLayer({
+    source: new XYZ({
+      url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
+    }),
+  });
+
+  // 2. Interaction Layer (for drawing bbox)
+  const bboxSource = new VectorSource();
+  boundingBoxLayer = new VectorLayer({
+    source: bboxSource,
+    style: new Style({
+      stroke: new Stroke({ color: '#3399CC', width: 2, lineDash: [10, 10] }),
+      fill: new Fill({ color: 'rgba(51, 153, 204, 0.1)' })
+    })
+  });
+
+  // 3. Results Layer (for footprints)
+  const footprintsSource = new VectorSource();
+  footprintsLayer = new VectorLayer({
+    source: footprintsSource,
+    style: new Style({
+      stroke: new Stroke({ color: '#ff6b35', width: 2 }),
+      fill: new Fill({ color: 'rgba(255, 107, 53, 0.1)' })
+    })
+  });
+
+  // 4. Create Map
+  map = new Map({
+    target: 'map',
+    layers: [baseLayer, boundingBoxLayer, footprintsLayer],
+    view: new View({
+      center: [260000, 6250000], // Paris
+      zoom: 8
+    })
+  });
+
+  // 5. Add Draw Interaction
+  const drawInteraction = new Draw({
+    source: bboxSource,
+    type: 'Circle',
+    geometryFunction: createBox()
+  });
+
+  map.addInteraction(drawInteraction);
+
+  // Handle Bbox Selection
+  drawInteraction.on('drawend', (event) => {
+    // Clear previous boxes so only one remains
+    bboxSource.clear();
+    
+    // Note: The new feature is added after this event, so we use the event feature
+    const extent = event.feature.getGeometry().getExtent();
+    selectedBbox = transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
+  });
+
+  // Initialize Dates
+  const today = new Date();
+  const prior = new Date();
+  prior.setDate(today.getDate() - 30);
+  document.getElementById('endDate').value = today.toISOString().split('T')[0];
+  document.getElementById('startDate').value = prior.toISOString().split('T')[0];
 }
+
+// Start Application
+initializeMap();
 ```
+
+
 
 ```json [package.json]
 {
@@ -634,9 +665,9 @@ function initializeMap() {
 </Tutorial>
 
 
-<div class="navigation">
+<div class="navigation surface-variant large-padding center-align">
   <a href="./ndvi" class="button border">← Previous: NDVI Calculation</a>
-  <span><strong>3 of 3</strong> - STAC Integration</span>
+  <span class="padding"><strong>3 of 3</strong> - STAC Integration</span>
   <a href="../ol" class="button border">Back to overview →</a>
 </div>
 

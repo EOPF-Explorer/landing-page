@@ -3,10 +3,6 @@ title: OpenLayers - Basic Setup
 layout: page
 ---
 
-<style scoped>
-/* Import common CSS first to avoid FOUC */
-@import url("../software.css");
-</style>
 
 <script setup>
 import { ref, onMounted, nextTick } from "vue"
@@ -95,7 +91,7 @@ function initializeMap() {
 
 This example shows the minimal configuration needed to load and display EOPF Zarr data with OpenLayers.
 
-<div v-if="webglSupport === false" class="warning">
+<div v-if="webglSupport === false" class="border warning">
 ⚠️ **WebGL Not Supported**: Your browser doesn"t support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
 </div>
 
@@ -254,8 +250,8 @@ const map = new Map({
 
 Continue to the [NDVI example](./ndvi) to see infrared band combinations for vegetation analysis.
 
-<div class="navigation">
+<div class="navigation surface-variant large-padding center-align">
   <div></div>
-  <span><strong>1 of 3</strong> - Basic Setup</span>
+  <span class="padding"><strong>1 of 3</strong> - Basic Setup</span>
   <a href="./ndvi" class="button border">Next: NDVI →</a>
 </div>

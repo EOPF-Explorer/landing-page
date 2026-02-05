@@ -3,28 +3,39 @@ title: RGB Visualization with Titiler
 layout: page
 ---
 
-<style scoped>
-/* Import common CSS first to avoid FOUC */
-@import url("../software.css");
-</style>
-
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
 import Map from 'ol/Map.js'
 import View from 'ol/View.js'
 import TileLayer from 'ol/layer/Tile.js'
-import { OSM, XYZ } from 'ol/source.js'
+import XYZ from 'ol/source/XYZ.js'
 import { fromLonLat } from 'ol/proj.js'
 import 'ol/ol.css'
 import { createCopyUrlFunction } from '../index'
+import Tutorial from '../../.vitepress/components/Tutorial.vue'
 
+/**
+ * @typedef {Object} BandCombination
+ * @property {string} name
+ * @property {string} description
+ * @property {string[]} variables
+ * @property {string} rescale
+ * @property {string} colorFormula
+ */
+
+/** @type {import('vue').Ref<HTMLElement | null>} */
 const mapContainer = ref(null)
+/** @type {import('vue').Ref<import('ol/Map').default | null>} */
 const map = ref(null)
 const selectedBands = ref('rgb-true')
+/** @type {import('vue').Ref<import('ol/layer/Tile').default | null>} */
 const tileLayer = ref(null)
+/** @type {import('vue').Ref<string>} */
 const copyButtonText = ref('📋 Copy URL')
+/** @type {import('vue').Ref<string>} */
 const copyButtonClass = ref('copy-button')
 
+/** @type {Record<string, BandCombination>} */
 const bandCombinations = {
   'rgb-true': {
     name: 'True Color (RGB)',
@@ -65,6 +76,10 @@ const sampleItem = 'S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 
+/**
+ * Builds the Titiler tile URL with current band combination settings
+ * @returns {string} The complete tile URL for the map
+ */
 function buildTileUrl() {
   const combo = bandCombinations[selectedBands.value]
   const params = new URLSearchParams()
@@ -79,11 +94,13 @@ function buildTileUrl() {
   return `${baseUrl}/collections/${collection}/items/${sampleItem}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${params.toString()}`
 }
 
+/**
+ * Updates the tile layer with new URL parameters
+ */
 function updateTileLayer() {
   if (!map.value || !tileLayer.value) return
   
   const newUrl = buildTileUrl()
-  console.log('Updating tile layer with URL:', newUrl)
   
   // Create new source instead of updating URL to avoid caching issues
   const newSource = new XYZ({
@@ -95,7 +112,10 @@ function updateTileLayer() {
   tileLayer.value.setSource(newSource)
 }
 
-function copyUrl() {
+/**
+ * Copies the current tile URL to clipboard
+ */
+const copyUrl = () => {
   const copyFunction = createCopyUrlFunction(buildTileUrl)
   copyFunction(copyButtonText, copyButtonClass)
 }
@@ -114,12 +134,13 @@ onMounted(() => {
   })
 })
 
+/**
+ * Initializes the OpenLayers map with Titiler layer
+ */
 function initializeMap() {
   if (!mapContainer.value) return
   
-  // Get initial URL from reactive function
   const initialUrl = buildTileUrl()
-  console.log('Initializing map with tile URL:', initialUrl)
   
   tileLayer.value = new TileLayer({
     source: new XYZ({
@@ -130,12 +151,14 @@ function initializeMap() {
     opacity: 0.9
   })
   
-  // Create map with just OSM base layer first
+  // Create map with terrain base layer
   map.value = new Map({
     target: mapContainer.value,
     layers: [
       new TileLayer({
-        source: new OSM()
+        source: new XYZ({
+          url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
+        })
       })
     ],
     view: new View({
@@ -144,116 +167,75 @@ function initializeMap() {
     })
   })
   
-  // Add the Titiler layer after a delay to see if that helps
+  // Add the Titiler layer after map initialization
   setTimeout(() => {
-    console.log('Adding Titiler layer...')
-    map.value.addLayer(tileLayer.value)
+    if (tileLayer.value && map.value) {
+      map.value.addLayer(tileLayer.value)
+    }
   }, 1000)
 }
-
-
 </script>
-
-<style scoped>
-/* Page-specific styles */
-.band-info {
-  background: #fff;
-  border: 1px solid #e1e4e8;
-  border-radius: 6px;
-  padding: 16px;
-  margin-top: 12px;
-}
-
-.band-info h4 {
-  margin: 0 0 8px 0;
-  color: #24292e;
-}
-
-.band-info p {
-  margin: 0 0 12px 0;
-  color: #586069;
-  font-size: 14px;
-}
-
-.band-variables {
-  background: #f6f8fa;
-  padding: 12px;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 12px;
-  white-space: pre-line;
-  color: #24292e;
-}
-</style>
 
 ## TiTiler - RGB Visualization <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 This example demonstrates how to create RGB band combinations using Titiler's tile service with EOPF Sentinel-2 data. The server handles all image processing and returns optimized tiles for web mapping applications.
 
-### Interactive Example
+<Tutorial height="800px">
+  <template #controls>
+    <div class="grid small-space">
+      <div class="s12">
+        <div class="field label border">
+          <select v-model="selectedBands">
+            <option v-for="(combo, key) in bandCombinations" :key="key" :value="key">
+              {{ combo.name }}
+            </option>
+          </select>
+          <label>Band Combination</label>
+        </div>
+      </div>
+      <div class="s12" v-if="bandCombinations[selectedBands]">
+        <article class="surface-variant padding no-elevate">
+          <div class="bold">Description</div>
+          <p class="">{{ bandCombinations[selectedBands].description }}</p>
+          <pre class=" scroll"><code>{{ bandCombinations[selectedBands].variables.join('\n') }}</code></pre>
+        </article>
+      </div>
+    </div>
+  </template>
 
-<div class="controls">
-  <div class="control-group">
-    <label for="band-select">Band Combination:</label>
-    <select id="band-select" v-model="selectedBands">
-      <option value="rgb-true">True Color RGB</option>
-      <option value="rgb-false">False Color Infrared</option>
-      <option value="swir-color">SWIR False Color</option>
-    </select>
-  </div>
-  
-  <div class="band-info" v-if="bandCombinations[selectedBands]">
-    <p>{{ bandCombinations[selectedBands].description }}</p>
-    <div class="band-variables">{{ bandCombinations[selectedBands].variables.join('\n') }}</div>
-  </div>
-</div>
+  <template #demo>
+    <div class="relative" style="width: 100%; height: 100%;">
+      <div ref="mapContainer" style="width: 100%; height: 100%;"></div>
+      <div class="absolute bottom left right margin">
+        <article class="surface round small-elevate">
+          <div class="padding border-bottom">
+            <h6 class="no-margin">Generated Tile URL</h6>
+            <div class="grid no-space top-align">
+              <div class="s12">
+                <pre class="scroll small-text no-margin"><code>{{ buildTileUrl() }}</code></pre>
+                <nav class="small-margin top-align right-align">
+                  <button class="border small" @click="copyUrl">
+                    {{ copyButtonText }}
+                  </button>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </template>
 
-<div ref="mapContainer" class="map-container"></div>
-
-<div class="url-section">
-  <h3>🔗 Generated Tile URL</h3>
-  <p>This is the URL pattern that OpenLayers uses to fetch tiles from Titiler:</p>
-  <div class="url-display">{{ buildTileUrl() }}</div>
-  <button :class="copyButtonClass" @click="copyUrl()">
-    {{ copyButtonText }}
-  </button>
-</div>
-
-### Key Concepts
-
-**Variable Format**
-
-Titiler uses specific paths to reference bands in Zarr data in the form of `group:variable`. For Sentinel-2 reflectance data, the relevant group is `/measurements/reflectance`. Example band paths:
-
-```
-/measurements/reflectance:b04  # Red band (10m resolution)
-/measurements/reflectance:b11  # SWIR band (20m resolution)
-```
-
-**Color Enhancement**
-
-The `color_formula` parameter applies color corrections:
-
-- **Gamma correction**: `gamma rgb 1.3` - Brightens mid-tones
-- **Sigmoidal contrast**: `sigmoidal rgb 6 0.1` - Enhances contrast
-- **Saturation**: `saturation 1.2` - Boosts color intensity
-
-**Rescaling**
-
-The `rescale` parameter normalizes reflectance values:
-
-- `0,1` - Full reflectance range (0-100%)
-- `0,0.3` - Compressed range for better contrast
-
-### Implementation Code
+  <template #code>
 
 ::: code-group
 
 ```javascript [OpenLayers Integration]
-import { Map, View } from "ol";
-import TileLayer from "ol/layer/Tile";
-import XYZ from "ol/source/XYZ";
-import { fromLonLat } from "ol/proj";
+import Map from 'ol/Map.js';
+import View from 'ol/View.js';
+import TileLayer from 'ol/layer/Tile.js';
+import { XYZ } from 'ol/source.js';
+import { fromLonLat } from 'ol/proj.js';
 
 // Titiler tile URL with band variables
 const tileUrl =
@@ -356,6 +338,9 @@ const trueColorUrl = buildTileUrl(
 
 :::
 
+  </template>
+</Tutorial>
+
 ### API Parameters
 
 | Parameter       | Description                      | Example                         |
@@ -365,9 +350,37 @@ const trueColorUrl = buildTileUrl(
 | `color_formula` | Color enhancement pipeline       | `gamma rgb 1.3, saturation 1.2` |
 | `format`        | Output image format              | `png` (default), `webp`, `jpeg` |
 
-<div class="info">
-💡 <strong>Tip</strong>: Use the <a href="https://api.explorer.eopf.copernicus.eu/raster/api.html" target="_blank">interactive API documentation</a> to explore all available parameters and test different combinations.
-</div>
+
+### Key Concepts
+
+**Variable Format**
+
+Titiler uses specific paths to reference bands in Zarr data in the form of `group:variable`. For Sentinel-2 reflectance data, the relevant group is `/measurements/reflectance`. Example band paths:
+
+```
+/measurements/reflectance:b04  # Red band (10m resolution)
+/measurements/reflectance:b11  # SWIR band (20m resolution)
+```
+
+**Color Enhancement**
+
+The `color_formula` parameter applies color corrections:
+
+- **Gamma correction**: `gamma rgb 1.3` - Brightens mid-tones
+- **Sigmoidal contrast**: `sigmoidal rgb 6 0.1` - Enhances contrast
+- **Saturation**: `saturation 1.2` - Boosts color intensity
+
+**Rescaling**
+
+The `rescale` parameter normalizes reflectance values:
+
+- `0,1` - Full reflectance range (0-100%)
+- `0,0.3` - Compressed range for better contrast
+
+
+::: tip TIP 💡 
+Use the [interactive API documentation](https://api.explorer.eopf.copernicus.eu/raster/api.html) to explore all available parameters and test different combinations.
+:::
 
 ### Next Steps
 
@@ -375,12 +388,13 @@ const trueColorUrl = buildTileUrl(
 - **Spatial Operations**: Explore [cropping and spatial filtering](./crop)
 - **STAC Integration**: Browse available datasets in the [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
 
-<div class="warning">
-⚠️ <strong>Performance Note</strong>: Titiler generates tiles on-demand. Initial requests may be slower while tiles are computed and cached.
-</div>
+::: warning ⚠️ **Performance Note**
+Titiler generates tiles on-demand. Initial requests may be slower while tiles are computed and cached.
+:::
 
-<div class="navigation">
-  <div></div>
-  <span><strong>1 of 3</strong> - RGB Visualization</span>
+
+<br/>
+<div class="navigation surface-variant large-padding center-align">
+  <span class="padding"><strong>1 of 3</strong> - RGB Visualization</span>
   <a href="./ndvi" class="button border">Next: Vegetation Indices →</a>
 </div>
