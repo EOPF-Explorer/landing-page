@@ -79,6 +79,15 @@ const timeEnd = ref('2026-01-23')
 const cloudCover = ref('')
 const additionalParams = ref('')
 
+// Track current layer parameters to avoid unnecessary updates
+let currentLayerParams = {
+  serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+  timeStart: '2026-01-22',
+  timeEnd: '2026-01-23',
+  cloudCover: '',
+  additionalParams: ''
+}
+
 // Camera controls
 const longitude = ref(4.5)
 const latitude = ref(43.5)
@@ -91,12 +100,77 @@ const roll = ref(0)
 const isTourActive = ref(false)
 const tourSpeed = ref(1000) // milliseconds per step
 const tourScript = ref([
-  { lon: 4.5, lat: 43.5, alt: 5000000, heading: 0, pitch: -90, duration: 2 },
-  { lon: 6.8, lat: 45.8, alt: 100000, heading: 45, pitch: -45, duration: 3 },
-  { lon: 6.8, lat: 45.8, alt: 50000, heading: 135, pitch: -30, duration: 2 },
-  { lon: 6.8, lat: 45.8, alt: 50000, heading: 225, pitch: -30, duration: 2 },
-  { lon: 6.8, lat: 45.8, alt: 50000, heading: 315, pitch: -30, duration: 2 },
-  { lon: 2.3, lat: 48.9, alt: 1000000, heading: 0, pitch: -60, duration: 3 }
+  { 
+    lon: 4.5, lat: 43.5, alt: 5000000, heading: 0, pitch: -90, duration: 2,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-22', timeEnd: '2026-01-23'
+  },
+  { 
+    lon: 6.8, lat: 45.8, alt: 100000, heading: 45, pitch: -45, duration: 3,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 6.8, lat: 45.8, alt: 50000, heading: 135, pitch: -30, duration: 2,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 6.8, lat: 45.8, alt: 50000, heading: 225, pitch: -30, duration: 2,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 6.8, lat: 45.8, alt: 50000, heading: 315, pitch: -30, duration: 2,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  // Close orbit around Mont Blanc (6.8°E, 45.8°N) - camera circling while looking at summit
+  { 
+    lon: 6.95, lat: 45.8, alt: 12000, heading: 270, pitch: -15, duration: 0,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 6.91, lat: 45.91, alt: 10000, heading: 225, pitch: -20, duration: 0,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 6.8, lat: 45.95, alt: 12000, heading: 180, pitch: -15, duration: 0,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 6.69, lat: 45.91, alt: 10000, heading: 135, pitch: -20, duration: 0,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 6.65, lat: 45.8, alt: 12000, heading: 90, pitch: -15, duration: 0,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 6.69, lat: 45.69, alt: 10000, heading: 45, pitch: -20, duration: 0,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 6.8, lat: 45.65, alt: 12000, heading: 0, pitch: -15, duration: 0,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 6.91, lat: 45.69, alt: 10000, heading: 315, pitch: -20, duration: 0,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-23', timeEnd: '2026-01-24'
+  },
+  { 
+    lon: 2.3, lat: 48.9, alt: 1000000, heading: 0, pitch: -60, duration: 3,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-22', timeEnd: '2026-01-23'
+  }
 ])
 const currentTourStep = ref(0)
 
@@ -125,6 +199,15 @@ function updateXYZLayer() {
   
   const scene = ol3d.getCesiumScene()
   const layers = scene.imageryLayers
+  
+  // Update current layer parameters
+  currentLayerParams = {
+    serviceId: openeoServiceId.value,
+    timeStart: timeStart.value,
+    timeEnd: timeEnd.value,
+    cloudCover: cloudCover.value,
+    additionalParams: additionalParams.value
+  }
   
   // Remove old Sentinel layer (keep OSM base)
   if (layers.length > 1) {
@@ -214,7 +297,12 @@ function addCurrentPositionToTour() {
     alt: altitude.value,
     heading: heading.value,
     pitch: pitch.value,
-    duration: 3
+    duration: 3,
+    serviceId: openeoServiceId.value,
+    timeStart: timeStart.value,
+    timeEnd: timeEnd.value,
+    cloudCover: cloudCover.value,
+    additionalParams: additionalParams.value
   })
 }
 
@@ -245,6 +333,34 @@ function executeTourStep() {
   const camera = scene.camera
   
   console.log(`Tour step ${currentTourStep.value + 1}/${tourScript.value.length}:`, step)
+  
+  // Update XYZ layer only if parameters have changed
+  if (step.serviceId) {
+    const newParams = {
+      serviceId: step.serviceId,
+      timeStart: step.timeStart || timeStart.value,
+      timeEnd: step.timeEnd || timeEnd.value,
+      cloudCover: step.cloudCover || '',
+      additionalParams: step.additionalParams || ''
+    }
+    
+    // Check if any parameter has changed
+    const paramsChanged = 
+      newParams.serviceId !== currentLayerParams.serviceId ||
+      newParams.timeStart !== currentLayerParams.timeStart ||
+      newParams.timeEnd !== currentLayerParams.timeEnd ||
+      newParams.cloudCover !== currentLayerParams.cloudCover ||
+      newParams.additionalParams !== currentLayerParams.additionalParams
+    
+    if (paramsChanged) {
+      openeoServiceId.value = newParams.serviceId
+      timeStart.value = newParams.timeStart
+      timeEnd.value = newParams.timeEnd
+      cloudCover.value = newParams.cloudCover
+      additionalParams.value = newParams.additionalParams
+      updateXYZLayer()
+    }
+  }
   
   camera.flyTo({
     destination: Cesium.Cartesian3.fromDegrees(step.lon, step.lat, step.alt),
@@ -492,8 +608,10 @@ This experimental page demonstrates advanced camera control and automated tours 
   <div class="control-group">
     <label>Tour Script ({{ tourScript.length }} steps)</label>
     <div class="tour-script">
-      <div v-for="(step, idx) in tourScript" :key="idx" :style="{ fontWeight: currentTourStep === idx && isTourActive ? 'bold' : 'normal' }">
-        {{ idx + 1 }}. Lon: {{ step.lon }}, Lat: {{ step.lat }}, Alt: {{ step.alt }}m, Heading: {{ step.heading }}°, Pitch: {{ step.pitch }}°, Duration: {{ step.duration }}s
+      <div v-for="(step, idx) in tourScript" :key="idx" :style="{ fontWeight: currentTourStep === idx && isTourActive ? 'bold' : 'normal', marginBottom: '8px', paddingBottom: '8px', borderBottom: idx < tourScript.length - 1 ? '1px solid #ddd' : 'none' }">
+        <div><strong>{{ idx + 1 }}.</strong> Lon: {{ step.lon }}, Lat: {{ step.lat }}, Alt: {{ step.alt }}m</div>
+        <div style="font-size: 0.9em; color: #666;">Camera: H={{ step.heading }}°, P={{ step.pitch }}°, Duration={{ step.duration }}s</div>
+        <div v-if="step.serviceId" style="font-size: 0.85em; color: #888;">Time: {{ step.timeStart }} to {{ step.timeEnd }}</div>
       </div>
     </div>
   </div>
@@ -536,9 +654,33 @@ for (let angle = 0; angle < 360; angle += 45) {
     alt: 50000,
     heading: angle,
     pitch: -30,
-    duration: 2
+    duration: 2,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-22',
+    timeEnd: '2026-01-23'
   })
 }
+```
+
+**Temporal Tour (changing time for each location):**
+```javascript
+const temporalTour = [
+  {
+    lon: 2.3, lat: 48.9, alt: 500000,
+    heading: 0, pitch: -60, duration: 3,
+    timeStart: '2026-01-01', timeEnd: '2026-01-02'
+  },
+  {
+    lon: 2.3, lat: 48.9, alt: 500000,
+    heading: 0, pitch: -60, duration: 3,
+    timeStart: '2026-01-15', timeEnd: '2026-01-16'
+  },
+  {
+    lon: 2.3, lat: 48.9, alt: 500000,
+    heading: 0, pitch: -60, duration: 3,
+    timeStart: '2026-02-01', timeEnd: '2026-02-02'
+  }
+]
 ```
 
 **European Capital Tour:**
@@ -556,7 +698,10 @@ const tour = capitals.map(city => ({
   alt: 500000,
   heading: 0,
   pitch: -60,
-  duration: 3
+  duration: 3,
+  serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+  timeStart: '2026-01-22',
+  timeEnd: '2026-01-23'
 }))
 ```
 
