@@ -294,6 +294,6 @@ const map = new Map({
 
 <div class="navigation">
   <a href="./basic" class="button border">← Previous: Basic Map Setup and band combination</a>
-  <span><strong>2 of 3</strong> - NDVI Calculation</span>
+  <span><strong>2 of 4</strong> - NDVI Calculation</span>
   <a href="./stac" class="button border">Next: STAC Integration →</a>
 </div>

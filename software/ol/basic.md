@@ -240,10 +240,10 @@ const map = new Map({
 
 ### Next Steps
 
-Continue to the [NDVI example](./ndvi) to see infrared band combinations for vegetation analysis.
+Continue to the [NDVI example](./ndvi) to see infrared band combinations for vegetation analysis, or jump to the [3D Globe example](./globe) for interactive 3D visualization.
 
 <div class="navigation">
   <div></div>
-  <span><strong>1 of 3</strong> - Basic Setup</span>
+  <span><strong>1 of 4</strong> - Basic Setup</span>
   <a href="./ndvi" class="button border">Next: NDVI →</a>
 </div>
