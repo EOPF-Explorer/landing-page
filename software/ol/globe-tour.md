@@ -170,9 +170,21 @@ const tourScript = ref([
     lon: 2.3, lat: 48.9, alt: 1000000, heading: 0, pitch: -60, duration: 3,
     serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
     timeStart: '2026-01-22', timeEnd: '2026-01-23'
+  },
+  // 15. Lon: 12.1702, Lat: 46.5315, Alt: 3050m Camera: H=282.97°, P=-22.7°, Duration=3s Time: 2026-01-22 to 2026-01-23
+  {
+    lon: 12.1702, lat: 46.5315, alt: 3050, heading: 282.97, pitch: -22.7, duration: 3,
+    serviceId: '456c1e23-47f2-4567-98cf-dcde378a05f7',
+    timeStart: '2026-01-22', timeEnd: '2026-01-23'
   }
 ])
 const currentTourStep = ref(0)
+
+// Markers/Pinpoints
+const markers = ref([])
+const markerName = ref('')
+const markerLon = ref(6.8)
+const markerLat = ref(45.8)
 
 // EOPF Zarr URL (root store only, no group path)
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr'
@@ -388,6 +400,95 @@ function clearTourScript() {
   tourScript.value = []
 }
 
+function addMarker() {
+  if (!ol3d || !is3DEnabled.value) {
+    alert('Please enable 3D mode first')
+    return
+  }
+  
+  if (!markerName.value.trim()) {
+    alert('Please enter a name for the marker')
+    return
+  }
+  
+  const scene = ol3d.getCesiumScene()
+  
+  const entity = scene.entities.add({
+    position: Cesium.Cartesian3.fromDegrees(markerLon.value, markerLat.value),
+    point: {
+      pixelSize: 10,
+      color: Cesium.Color.RED,
+      outlineColor: Cesium.Color.WHITE,
+      outlineWidth: 2
+    },
+    label: {
+      text: markerName.value,
+      font: '14px sans-serif',
+      fillColor: Cesium.Color.WHITE,
+      outlineColor: Cesium.Color.BLACK,
+      outlineWidth: 2,
+      style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+      pixelOffset: new Cesium.Cartesian2(0, -15),
+      disableDepthTestDistance: Number.POSITIVE_INFINITY
+    }
+  })
+  
+  markers.value.push({
+    id: entity.id,
+    name: markerName.value,
+    lon: markerLon.value,
+    lat: markerLat.value,
+    entity: entity
+  })
+  
+  console.log('Marker added:', markerName.value, markerLon.value, markerLat.value)
+  markerName.value = ''
+}
+
+function removeMarker(index) {
+  if (!ol3d || !is3DEnabled.value) return
+  
+  const marker = markers.value[index]
+  const scene = ol3d.getCesiumScene()
+  scene.entities.removeById(marker.id)
+  markers.value.splice(index, 1)
+}
+
+function clearMarkers() {
+  if (!ol3d || !is3DEnabled.value) return
+  
+  const scene = ol3d.getCesiumScene()
+  markers.value.forEach(marker => {
+    scene.entities.removeById(marker.id)
+  })
+  markers.value = []
+}
+
+function addMarkerAtCurrentPosition() {
+  if (!ol3d || !is3DEnabled.value) return
+  
+  getCurrentCameraPosition()
+  markerLon.value = longitude.value
+  markerLat.value = latitude.value
+}
+
+function flyToMarker(marker) {
+  if (!ol3d || !is3DEnabled.value) return
+  
+  const scene = ol3d.getCesiumScene()
+  const camera = scene.camera
+  
+  camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(marker.lon, marker.lat, 50000),
+    orientation: {
+      heading: 0,
+      pitch: Cesium.Math.toRadians(-45),
+      roll: 0
+    },
+    duration: 2
+  })
+}
+
 onMounted(() => {
   webglSupport.value = checkWebGLSupport()
 
@@ -586,6 +687,46 @@ This experimental page demonstrates advanced camera control and automated tours 
     <button @click="setCameraPosition" class="button">📍 Set Position (Instant)</button>
     <button @click="flyToCameraPosition" class="button">✈️ Fly To Position</button>
     <button @click="getCurrentCameraPosition" class="button">📸 Get Current Position</button>
+  </div>
+  
+  <hr style="margin: 20px 0;">
+  
+  <h3>Markers / Pinpoints</h3>
+  
+  <div class="control-group">
+    <label>Marker Name</label>
+    <input v-model="markerName" type="text" placeholder="e.g., Mont Blanc" />
+  </div>
+  
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+    <div class="control-group">
+      <label>Longitude</label>
+      <input v-model.number="markerLon" type="number" step="0.0001" />
+    </div>
+    
+    <div class="control-group">
+      <label>Latitude</label>
+      <input v-model.number="markerLat" type="number" step="0.0001" />
+    </div>
+  </div>
+  
+  <div class="button-group">
+    <button @click="addMarker" class="button">📍 Add Marker</button>
+    <button @click="addMarkerAtCurrentPosition" class="button">📍 Use Current Pos</button>
+    <button @click="clearMarkers" class="button">🗑️ Clear All</button>
+  </div>
+  
+  <div v-if="markers.length > 0" class="control-group">
+    <label>Active Markers ({{ markers.length }})</label>
+    <div class="tour-script">
+      <div v-for="(marker, idx) in markers" :key="marker.id" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #ddd;">
+        <div style="flex: 1; cursor: pointer;" @click="flyToMarker(marker)">
+          <strong>{{ marker.name }}</strong><br>
+          <span style="font-size: 0.85em; color: #666;">{{ marker.lon.toFixed(4) }}°, {{ marker.lat.toFixed(4) }}°</span>
+        </div>
+        <button @click="removeMarker(idx)" class="button" style="padding: 4px 8px; font-size: 0.9em;">❌</button>
+      </div>
+    </div>
   </div>
   
   <hr style="margin: 20px 0;">
