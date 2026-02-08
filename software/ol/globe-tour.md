@@ -1,0 +1,575 @@
+---
+title: OpenLayers - 3D Globe Tour Mode (Experimental)
+layout: page
+---
+
+<style scoped>
+/* Import common CSS first to avoid FOUC */
+@import url("../software.css");
+
+.tour-controls {
+  background: white;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.control-group {
+  margin-bottom: 15px;
+}
+
+.control-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.control-group input, .control-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.tour-script {
+  font-family: monospace;
+  background: #f5f5f5;
+  padding: 10px;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+</style>
+
+<script setup>
+import { ref, onMounted, nextTick, watch } from 'vue'
+import Map from 'ol/Map.js'
+import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js'
+import TileLayer from 'ol/layer/WebGLTile.js'
+import GeoZarr from 'ol/source/GeoZarr.js'
+import OSM from 'ol/source/OSM.js'
+import OLCesium from 'olcs'
+import * as Cesium from 'cesium'
+import 'ol/ol.css'
+import 'cesium/Build/Cesium/Widgets/widgets.css'
+import { checkWebGLSupport } from '../index'
+
+// Configure Cesium base URL for assets and expose Cesium globally
+window.CESIUM_BASE_URL = '/node_modules/cesium/Build/Cesium/'
+window.Cesium = Cesium
+
+const webglSupport = ref(null)
+const mapRef = ref()
+const is3DEnabled = ref(true)
+let map = null
+let ol3d = null
+let tourInterval = null
+
+// XYZ URL parameters
+const openeoServiceId = ref('456c1e23-47f2-4567-98cf-dcde378a05f7')
+const timeStart = ref('2026-01-22')
+const timeEnd = ref('2026-01-23')
+const cloudCover = ref('')
+const additionalParams = ref('')
+
+// Camera controls
+const longitude = ref(4.5)
+const latitude = ref(43.5)
+const altitude = ref(5000000)
+const heading = ref(0)
+const pitch = ref(-90)
+const roll = ref(0)
+
+// Tour controls
+const isTourActive = ref(false)
+const tourSpeed = ref(1000) // milliseconds per step
+const tourScript = ref([
+  { lon: 4.5, lat: 43.5, alt: 5000000, heading: 0, pitch: -90, duration: 2 },
+  { lon: 6.8, lat: 45.8, alt: 100000, heading: 45, pitch: -45, duration: 3 },
+  { lon: 6.8, lat: 45.8, alt: 50000, heading: 135, pitch: -30, duration: 2 },
+  { lon: 6.8, lat: 45.8, alt: 50000, heading: 225, pitch: -30, duration: 2 },
+  { lon: 6.8, lat: 45.8, alt: 50000, heading: 315, pitch: -30, duration: 2 },
+  { lon: 2.3, lat: 48.9, alt: 1000000, heading: 0, pitch: -60, duration: 3 }
+])
+const currentTourStep = ref(0)
+
+// EOPF Zarr URL (root store only, no group path)
+const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr'
+
+const openeoBaseUrl = 'https://api.explorer.eopf.copernicus.eu/openeo/services/xyz'
+
+function buildXYZUrl() {
+  const timeRange = encodeURIComponent(`["${timeStart.value}","${timeEnd.value}"]`)
+  let url = `${openeoBaseUrl}/${openeoServiceId.value}/tiles/{z}/{x}/{y}?time=${timeRange}`
+  
+  if (cloudCover.value) {
+    url += `&cloud_cover=${cloudCover.value}`
+  }
+  
+  if (additionalParams.value) {
+    url += `&${additionalParams.value}`
+  }
+  
+  return url
+}
+
+function updateXYZLayer() {
+  if (!ol3d || !is3DEnabled.value) return
+  
+  const scene = ol3d.getCesiumScene()
+  const layers = scene.imageryLayers
+  
+  // Remove old Sentinel layer (keep OSM base)
+  if (layers.length > 1) {
+    layers.remove(layers.get(1))
+  }
+  
+  // Add new layer with updated URL
+  const xyzUrl = buildXYZUrl()
+  console.log('Updating XYZ layer:', xyzUrl)
+  const xyzProvider = new Cesium.UrlTemplateImageryProvider({
+    url: xyzUrl,
+    maximumLevel: 18,
+    credit: 'Sentinel Data © ESA/Copernicus via OpenEO'
+  })
+  layers.addImageryProvider(xyzProvider)
+}
+
+function setCameraPosition() {
+  if (!ol3d || !is3DEnabled.value) return
+  
+  const scene = ol3d.getCesiumScene()
+  const camera = scene.camera
+  
+  camera.setView({
+    destination: Cesium.Cartesian3.fromDegrees(
+      longitude.value,
+      latitude.value,
+      altitude.value
+    ),
+    orientation: {
+      heading: Cesium.Math.toRadians(heading.value),
+      pitch: Cesium.Math.toRadians(pitch.value),
+      roll: Cesium.Math.toRadians(roll.value)
+    }
+  })
+  
+  console.log('Camera set to:', { 
+    lon: longitude.value, 
+    lat: latitude.value, 
+    alt: altitude.value,
+    heading: heading.value,
+    pitch: pitch.value,
+    roll: roll.value
+  })
+}
+
+function flyToCameraPosition() {
+  if (!ol3d || !is3DEnabled.value) return
+  
+  const scene = ol3d.getCesiumScene()
+  const camera = scene.camera
+  
+  camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(
+      longitude.value,
+      latitude.value,
+      altitude.value
+    ),
+    orientation: {
+      heading: Cesium.Math.toRadians(heading.value),
+      pitch: Cesium.Math.toRadians(pitch.value),
+      roll: Cesium.Math.toRadians(roll.value)
+    },
+    duration: 2
+  })
+}
+
+function getCurrentCameraPosition() {
+  if (!ol3d || !is3DEnabled.value) return
+  
+  const scene = ol3d.getCesiumScene()
+  const camera = scene.camera
+  const position = camera.positionCartographic
+  
+  longitude.value = parseFloat(Cesium.Math.toDegrees(position.longitude).toFixed(4))
+  latitude.value = parseFloat(Cesium.Math.toDegrees(position.latitude).toFixed(4))
+  altitude.value = parseFloat(position.height.toFixed(0))
+  heading.value = parseFloat(Cesium.Math.toDegrees(camera.heading).toFixed(2))
+  pitch.value = parseFloat(Cesium.Math.toDegrees(camera.pitch).toFixed(2))
+  roll.value = parseFloat(Cesium.Math.toDegrees(camera.roll).toFixed(2))
+}
+
+function addCurrentPositionToTour() {
+  tourScript.value.push({
+    lon: longitude.value,
+    lat: latitude.value,
+    alt: altitude.value,
+    heading: heading.value,
+    pitch: pitch.value,
+    duration: 3
+  })
+}
+
+function startTour() {
+  if (isTourActive.value) {
+    stopTour()
+    return
+  }
+  
+  if (!ol3d || !is3DEnabled.value) {
+    alert('Please enable 3D mode first')
+    return
+  }
+  
+  isTourActive.value = true
+  currentTourStep.value = 0
+  executeTourStep()
+}
+
+function executeTourStep() {
+  if (!isTourActive.value || currentTourStep.value >= tourScript.value.length) {
+    stopTour()
+    return
+  }
+  
+  const step = tourScript.value[currentTourStep.value]
+  const scene = ol3d.getCesiumScene()
+  const camera = scene.camera
+  
+  console.log(`Tour step ${currentTourStep.value + 1}/${tourScript.value.length}:`, step)
+  
+  camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(step.lon, step.lat, step.alt),
+    orientation: {
+      heading: Cesium.Math.toRadians(step.heading || 0),
+      pitch: Cesium.Math.toRadians(step.pitch || -90),
+      roll: 0
+    },
+    duration: step.duration || 2,
+    complete: () => {
+      currentTourStep.value++
+      if (isTourActive.value) {
+        setTimeout(executeTourStep, tourSpeed.value)
+      }
+    }
+  })
+}
+
+function stopTour() {
+  isTourActive.value = false
+  currentTourStep.value = 0
+}
+
+function clearTourScript() {
+  tourScript.value = []
+}
+
+onMounted(() => {
+  webglSupport.value = checkWebGLSupport()
+
+  if (webglSupport.value) {
+    nextTick(() => {
+      initializeMap()
+    })
+  }
+})
+
+function initializeMap() {
+  if (mapRef.value) {
+    try {
+      const source = new GeoZarr({
+        url: zarrUrl,
+        group: 'measurements/reflectance',
+        bands: ['b04', 'b03', 'b02'],
+      })
+
+      map = new Map({
+        layers: [
+          new TileLayer({
+            source: new OSM(),
+          }),
+          new TileLayer({
+            source,
+            style: {
+              gamma: 1.5,
+              color: [
+                'color',
+                ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255],
+                ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255],
+                ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255],
+                [
+                  'case',
+                  ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0],
+                  0,
+                  1,
+                ],
+              ],
+            },
+          }),
+        ],
+        target: mapRef.value,
+        view: getView(
+          source,
+          withLowerResolutions(1),
+          withHigherResolutions(2),
+          withExtentCenter(),
+          withZoom(2),
+        ),
+      })
+
+      ol3d = new OLCesium({ map })
+      
+      const scene = ol3d.getCesiumScene()
+      scene.globe.enableLighting = false
+      scene.globe.showGroundAtmosphere = true
+      
+      // Add base imagery to Cesium BEFORE enabling 3D
+      scene.imageryLayers.removeAll()
+      scene.imageryLayers.addImageryProvider(
+        new Cesium.OpenStreetMapImageryProvider({
+          url: 'https://tile.openstreetmap.org/'
+        })
+      )
+      
+      // Add OpenEO XYZ service layer
+      const xyzUrl = buildXYZUrl()
+      const xyzProvider = new Cesium.UrlTemplateImageryProvider({
+        url: xyzUrl,
+        maximumLevel: 18,
+        credit: 'Sentinel Data © ESA/Copernicus via OpenEO'
+      })
+      scene.imageryLayers.addImageryProvider(xyzProvider)
+      
+      // Use setTimeout to enable 3D and set camera after a brief delay
+      setTimeout(() => {
+        ol3d.setEnabled(true)
+        
+        // Set initial camera position
+        const camera = scene.camera
+        camera.setView({
+          destination: Cesium.Cartesian3.fromDegrees(4.5, 43.5, 5000000),
+          orientation: {
+            heading: 0,
+            pitch: Cesium.Math.toRadians(-90),
+            roll: 0
+          }
+        })
+        
+        // Add terrain after 3D is enabled
+        Cesium.createWorldTerrainAsync({
+          requestWaterMask: true,
+          requestVertexNormals: true
+        }).then(terrainProvider => {
+          scene.terrainProvider = terrainProvider
+        }).catch(error => {
+          console.warn('Could not load terrain:', error)
+        })
+      }, 500)
+
+    } catch (error) {
+      console.error('Failed to initialize map:', error)
+    }
+  }
+}
+
+</script>
+
+## 3D Globe Tour Mode - Experimental <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
+
+This experimental page demonstrates advanced camera control and automated tours on the 3D globe, plus dynamic XYZ layer parameter control.
+
+<div v-if="webglSupport === false" class="warning">
+⚠️ **WebGL Not Supported**: Your browser doesn't support WebGL, which is required for 3D globe visualization.
+</div>
+
+### Live Demo
+
+<div v-if="webglSupport" style="display: grid; grid-template-columns: 1fr 400px; gap: 20px;">
+  <div ref="mapRef" class="map-container" style="height: 600px;"></div>
+  
+  <div class="tour-controls" style="height: 600px; overflow-y: auto;">
+  
+  <h3 style="margin-top: 0;">XYZ Layer Parameters</h3>
+  
+  <div class="control-group">
+    <label>Service ID</label>
+    <input v-model="openeoServiceId" type="text" />
+  </div>
+  
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+    <div class="control-group">
+      <label>Time Start</label>
+      <input v-model="timeStart" type="date" />
+    </div>
+    
+    <div class="control-group">
+      <label>Time End</label>
+      <input v-model="timeEnd" type="date" />
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label>Cloud Cover (0-100, optional)</label>
+    <input v-model="cloudCover" type="number" min="0" max="100" placeholder="Leave empty for no filter" />
+  </div>
+  
+  <div class="control-group">
+    <label>Additional Parameters (e.g., param1=value1&param2=value2)</label>
+    <input v-model="additionalParams" type="text" placeholder="custom=value" />
+  </div>
+  
+  <button @click="updateXYZLayer" class="button">🔄 Update Layer</button>
+  
+  <hr style="margin: 20px 0;">
+  
+  <h3>Camera Position Control</h3>
+  
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+    <div class="control-group">
+      <label>Longitude</label>
+      <input v-model.number="longitude" type="number" step="0.1" />
+    </div>
+    
+    <div class="control-group">
+      <label>Latitude</label>
+      <input v-model.number="latitude" type="number" step="0.1" />
+    </div>
+    
+    <div class="control-group">
+      <label>Altitude (m)</label>
+      <input v-model.number="altitude" type="number" step="1000" />
+    </div>
+  </div>
+  
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+    <div class="control-group">
+      <label>Heading (°)</label>
+      <input v-model.number="heading" type="number" step="1" min="-180" max="180" />
+    </div>
+    
+    <div class="control-group">
+      <label>Pitch (°)</label>
+      <input v-model.number="pitch" type="number" step="1" min="-90" max="0" />
+    </div>
+    
+    <div class="control-group">
+      <label>Roll (°)</label>
+      <input v-model.number="roll" type="number" step="1" min="-180" max="180" />
+    </div>
+  </div>
+  
+  <div class="button-group">
+    <button @click="setCameraPosition" class="button">📍 Set Position (Instant)</button>
+    <button @click="flyToCameraPosition" class="button">✈️ Fly To Position</button>
+    <button @click="getCurrentCameraPosition" class="button">📸 Get Current Position</button>
+  </div>
+  
+  <hr style="margin: 20px 0;">
+  
+  <h3>Tour Mode</h3>
+  
+  <div class="control-group">
+    <label>Tour Speed (ms between steps)</label>
+    <input v-model.number="tourSpeed" type="number" step="100" min="0" />
+  </div>
+  
+  <div class="button-group">
+    <button @click="startTour" class="button" :class="{ 'active': isTourActive }">
+      {{ isTourActive ? '⏹️ Stop Tour' : '▶️ Start Tour' }}
+    </button>
+    <button @click="addCurrentPositionToTour" class="button">➕ Add Current to Tour</button>
+    <button @click="clearTourScript" class="button">🗑️ Clear Tour</button>
+  </div>
+  
+  <div class="control-group">
+    <label>Tour Script ({{ tourScript.length }} steps)</label>
+    <div class="tour-script">
+      <div v-for="(step, idx) in tourScript" :key="idx" :style="{ fontWeight: currentTourStep === idx && isTourActive ? 'bold' : 'normal' }">
+        {{ idx + 1 }}. Lon: {{ step.lon }}, Lat: {{ step.lat }}, Alt: {{ step.alt }}m, Heading: {{ step.heading }}°, Pitch: {{ step.pitch }}°, Duration: {{ step.duration }}s
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+</div>
+
+### Features
+
+**XYZ Layer Control:**
+- Modify time range for temporal data
+- Add cloud cover filtering
+- Include custom parameters in tile requests
+- Real-time layer updates without page reload
+
+**Camera Control:**
+- **Position**: Set longitude, latitude, and altitude
+- **Orientation**: Control heading (rotation), pitch (tilt), and roll
+- **Instant or Animated**: Jump to position or fly smoothly
+- **Capture Current**: Get current camera state for tour planning
+
+**Tour Mode:**
+- Create scripted camera paths
+- Circular orbits around points of interest (e.g., mountains)
+- Automated flyovers of multiple locations
+- Configurable speed and duration per step
+- Add positions interactively while exploring
+
+### Example Tour Scripts
+
+**Orbit Mont Blanc:**
+```javascript
+// Circle around Mont Blanc at 6.8°E, 45.8°N
+const orbitSteps = []
+for (let angle = 0; angle < 360; angle += 45) {
+  orbitSteps.push({
+    lon: 6.8,
+    lat: 45.8,
+    alt: 50000,
+    heading: angle,
+    pitch: -30,
+    duration: 2
+  })
+}
+```
+
+**European Capital Tour:**
+```javascript
+const capitals = [
+  { name: 'Paris', lon: 2.3, lat: 48.9 },
+  { name: 'Berlin', lon: 13.4, lat: 52.5 },
+  { name: 'Rome', lon: 12.5, lat: 41.9 },
+  { name: 'Madrid', lon: -3.7, lat: 40.4 }
+]
+
+const tour = capitals.map(city => ({
+  lon: city.lon,
+  lat: city.lat,
+  alt: 500000,
+  heading: 0,
+  pitch: -60,
+  duration: 3
+}))
+```
+
+### Tips
+
+- **Heading**: 0° = North, 90° = East, 180° = South, 270° = West
+- **Pitch**: -90° = straight down, -45° = oblique, 0° = horizon
+- **Altitude**: Typical ranges: 50km for detailed view, 500km for regional, 5000km for continental
+- Use "Get Current Position" while exploring to capture interesting viewpoints
+- Adjust tour speed to match your presentation pace
+
+<div class="navigation">
+  <a href="./globe" class="button border">← Back to Basic Globe</a>
+  <span><strong>Experimental</strong> - Tour Mode</span>
+  <div></div>
+</div>
