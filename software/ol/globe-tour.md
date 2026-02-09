@@ -581,23 +581,24 @@ async function initializeMap() {
       })
       scene.imageryLayers.addImageryProvider(xyzProvider)
       
-      // Use setTimeout to enable 3D and set camera after a brief delay
-      setTimeout(() => {
-        ol3d.setEnabled(true)
-        
-        // Set initial camera position
-        const camera = scene.camera
-        camera.setView({
-          destination: Cesium.Cartesian3.fromDegrees(4.5, 43.5, 5000000),
-          orientation: {
-            heading: 0,
-            pitch: Cesium.Math.toRadians(-90),
-            roll: 0
-          }
-        })
-        
-        // Add terrain after 3D is enabled
-        Cesium.createWorldTerrainAsync({
+      // Wait for map to be fully rendered before enabling 3D
+      map.once('rendercomplete', () => {
+        setTimeout(() => {
+          ol3d.setEnabled(true)
+          
+          // Set initial camera position
+          const camera = scene.camera
+          camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(4.5, 43.5, 5000000),
+            orientation: {
+              heading: 0,
+              pitch: Cesium.Math.toRadians(-90),
+              roll: 0
+            }
+          })
+          
+          // Add terrain after 3D is enabled
+          Cesium.createWorldTerrainAsync({
           requestWaterMask: true,
           requestVertexNormals: true
         }).then(terrainProvider => {
