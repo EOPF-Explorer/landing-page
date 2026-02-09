@@ -61,8 +61,11 @@ async function initializeMap() {
         // Import CSS only in browser
         if (typeof window !== 'undefined') {
           await import('cesium/Build/Cesium/Widgets/widgets.css')
-          window.CESIUM_BASE_URL = '/node_modules/cesium/Build/Cesium/'
+          // Set base URL for Cesium assets - use empty string to use default module resolution
+          window.CESIUM_BASE_URL = ''
           window.Cesium = Cesium
+          // Set Ion default access token to use free assets
+          Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZWEwOGNkNi1lZTA0LTQyOTQtYWQxYy1iM2E5MDNjMTAwZWYiLCJpZCI6Mzg4NzYwLCJpYXQiOjE3NzA2Mzk2MTN9.rELjC-zkoMtlQK2WUyQbiIFrwp6wMisoB6dRy6ksi1o'
         }
       }
       if (!OLCesium) {
