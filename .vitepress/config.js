@@ -45,12 +45,32 @@ export default defineConfig({
   base: "/",
   vite:{
     optimizeDeps:{
-      include:["@eox/pages-theme-eox","@eodash/eodash/webcomponent" ],
-      exclude: ['cesium', 'olcs']
+      include:[
+        "@eox/pages-theme-eox",
+        "@eodash/eodash/webcomponent",
+        "cesium",
+        "mersenne-twister",
+        "urijs",
+        "grapheme-splitter",
+        "bitmap-sdf",
+        "kdbush",
+        "rbush",
+        "earcut",
+        "pako",
+        "protobufjs",
+        "lerc",
+        "dompurify",
+        "autolinker",
+        "topojson-client",
+        "xml-utils",
+        "geotiff",
+        "quick-lru"
+      ],
+      exclude: ['olcs']
     },
     ssr: {
       noExternal: ['@eox/pages-theme-eox', '@eodash/eodash'],
-      external: ['cesium', 'olcs']
+      external: ['olcs']
     },
     build: {
       chunkSizeWarningLimit: 1000,

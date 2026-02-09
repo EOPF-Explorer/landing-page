@@ -11,7 +11,7 @@ layout: page
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 import Map from 'ol/Map.js'
-import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions, withZoom } from 'ol/View.js'
+import View from 'ol/View.js'
 import TileLayer from 'ol/layer/WebGLTile.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
 import OSM from 'ol/source/OSM.js'
@@ -61,8 +61,10 @@ async function initializeMap() {
         // Import CSS only in browser
         if (typeof window !== 'undefined') {
           await import('cesium/Build/Cesium/Widgets/widgets.css')
-          // Set base URL for Cesium assets - use empty string to use default module resolution
-          window.CESIUM_BASE_URL = ''
+          // Set base URL for Cesium assets
+          // In dev mode, use node_modules path; in production, use root
+          const isDev = import.meta.env.DEV
+          window.CESIUM_BASE_URL = isDev ? '/node_modules/cesium/Build/Cesium/' : '/'
           window.Cesium = Cesium
           // Set Ion default access token to use free assets
           Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZWEwOGNkNi1lZTA0LTQyOTQtYWQxYy1iM2E5MDNjMTAwZWYiLCJpZCI6Mzg4NzYwLCJpYXQiOjE3NzA2Mzk2MTN9.rELjC-zkoMtlQK2WUyQbiIFrwp6wMisoB6dRy6ksi1o'
@@ -104,19 +106,27 @@ async function initializeMap() {
           }),
         ],
         target: mapRef.value,
-        view: getView(
-          source,
-          withLowerResolutions(1),
-          withHigherResolutions(2),
-          withExtentCenter(),
-          withZoom(2),
-        ),
+        view: new View({
+          center: [0, 0],
+          zoom: 2,
+          projection: 'EPSG:3857'
+        }),
       })
 
       // Initialize ol-cesium for 3D globe view
       console.log('Initializing OLCesium...')
       console.log('OpenLayers map layers:', map.getLayers().getArray())
       
+      // Verify map is properly initialized before creating OLCesium
+      const target = map.getTarget()
+      const view = map.getView()
+      console.log('Map initialization check:', { target: !!target, view: !!view })
+      
+      if (!target || !view) {
+        console.error('Map not properly initialized:', { target, view })
+        return
+      }
+
       ol3d = new OLCesium({ map })
       
       // Configure the Cesium scene after initialization
@@ -129,16 +139,16 @@ async function initializeMap() {
       scene.globe.depthTestAgainstTerrain = true // Enable proper occlusion with terrain
       
       // Add terrain - using Cesium World Terrain
-      // Load terrain asynchronously
-      Cesium.createWorldTerrainAsync({
-        requestWaterMask: true, // Show water bodies
-        requestVertexNormals: true // Better lighting
-      }).then(terrainProvider => {
-        scene.terrainProvider = terrainProvider
-        console.log('Terrain provider loaded successfully')
-      }).catch(error => {
+      try {
+        const terrain = Cesium.Terrain.fromWorldTerrain({
+          requestWaterMask: true, // Show water bodies
+          requestVertexNormals: true // Better lighting
+        })
+        scene.setTerrain(terrain)
+        console.log('World terrain loaded successfully')
+      } catch (error) {
         console.warn('Could not load terrain, using default ellipsoid:', error)
-      })
+      }
       
       // Add base imagery to Cesium
       scene.imageryLayers.removeAll()
