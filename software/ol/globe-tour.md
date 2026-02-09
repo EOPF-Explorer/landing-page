@@ -599,14 +599,18 @@ async function initializeMap() {
           
           // Add terrain after 3D is enabled
           Cesium.createWorldTerrainAsync({
-          requestWaterMask: true,
-          requestVertexNormals: true
-        }).then(terrainProvider => {
-          scene.terrainProvider = terrainProvider
-        }).catch(error => {
-          console.warn('Could not load terrain:', error)
-        })
-      }, 500)
+            requestWaterMask: true,
+            requestVertexNormals: true
+          }).then(terrainProvider => {
+            scene.terrainProvider = terrainProvider
+          }).catch(error => {
+            console.warn('Could not load terrain:', error)
+          })
+        }, 500)
+      })
+      
+      // Trigger initial render
+      map.render()
 
     } catch (error) {
       console.error('Failed to initialize map:', error)

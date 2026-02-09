@@ -185,8 +185,22 @@ function toggle3D() {
   if (ol3d) {
     is3DEnabled.value = !is3DEnabled.value
     console.log('Toggling 3D mode to:', is3DEnabled.value)
-    ol3d.setEnabled(is3DEnabled.value)
     
+    // Wait for map to be rendered if enabling 3D for the first time
+    if (is3DEnabled.value && !ol3d.getEnabled()) {
+      map.once('rendercomplete', () => {
+        ol3d.setEnabled(true)
+        logCesiumState()
+      })
+      map.render()
+    } else {
+      ol3d.setEnabled(is3DEnabled.value)
+      logCesiumState()
+    }
+  }
+}
+
+function logCesiumState() {
     // Check the state after toggle
     const enabled = ol3d.getEnabled()
     console.log('OLCesium actual enabled state:', enabled)
@@ -239,9 +253,6 @@ function toggle3D() {
       // Force a render
       scene.requestRender()
     }
-  } else {
-    console.error('ol3d is not initialized')
-  }
 }
 
 </script>
