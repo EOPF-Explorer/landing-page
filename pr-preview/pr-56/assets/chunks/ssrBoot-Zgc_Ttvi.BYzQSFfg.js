@@ -1,0 +1,1 @@
+import{l as t,x as e,E as s,ao as n}from"./runtime-core.esm-bundler.MgDDUQih.js";function i(){const o=e(!1);return t(()=>{window.requestAnimationFrame(()=>{o.value=!0})}),{ssrBootStyles:n(()=>o.value?void 0:{transition:"none !important"}),isBooted:s(o)}}export{i as u};
