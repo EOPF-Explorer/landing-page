@@ -55,15 +55,12 @@ import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions,
 import TileLayer from 'ol/layer/WebGLTile.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
 import OSM from 'ol/source/OSM.js'
-import OLCesium from 'olcs'
-import * as Cesium from 'cesium'
 import 'ol/ol.css'
-import 'cesium/Build/Cesium/Widgets/widgets.css'
 import { checkWebGLSupport } from '../index'
 
-// Configure Cesium base URL for assets and expose Cesium globally
-window.CESIUM_BASE_URL = '/node_modules/cesium/Build/Cesium/'
-window.Cesium = Cesium
+// Cesium and olcs will be imported dynamically on client-side only
+let OLCesium = null
+let Cesium = null
 
 const webglSupport = ref(null)
 const mapRef = ref()
@@ -499,9 +496,21 @@ onMounted(() => {
   }
 })
 
-function initializeMap() {
+async function initializeMap() {
   if (mapRef.value) {
     try {
+      // Dynamically import Cesium and olcs only on client-side
+      if (!Cesium) {
+        Cesium = await import('cesium')
+        await import('cesium/Build/Cesium/Widgets/widgets.css')
+        window.CESIUM_BASE_URL = '/node_modules/cesium/Build/Cesium/'
+        window.Cesium = Cesium
+      }
+      if (!OLCesium) {
+        const olcsModule = await import('olcs')
+        OLCesium = olcsModule.default
+      }
+      
       const source = new GeoZarr({
         url: zarrUrl,
         group: 'measurements/reflectance',

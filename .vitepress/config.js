@@ -42,6 +42,28 @@ export default defineConfig({
     optimizeDeps:{
       include:["@eox/pages-theme-eox","@eodash/eodash/webcomponent" ]
     },
+    ssr: {
+      noExternal: ['@eox/pages-theme-eox', '@eodash/eodash'],
+      external: ['cesium', 'olcs']
+    },
+    build: {
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks: (id) => {
+            if (id.includes('cesium')) {
+              return 'cesium';
+            }
+            if (id.includes('olcs')) {
+              return 'olcs';
+            }
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+          }
+        }
+      }
+    },
     server: {
       allowedHosts:true,
     }
