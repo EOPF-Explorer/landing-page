@@ -56,10 +56,13 @@ async function initializeMap() {
     try {
       // Dynamically import Cesium and olcs only on client-side
       if (!Cesium) {
-        Cesium = await import('cesium')
+        const cesiumModule = await import('cesium')
+        Cesium = cesiumModule // Use the full module namespace
         await import('cesium/Build/Cesium/Widgets/widgets.css')
-        window.CESIUM_BASE_URL = '/node_modules/cesium/Build/Cesium/'
-        window.Cesium = Cesium
+        if (typeof window !== 'undefined') {
+          window.CESIUM_BASE_URL = '/node_modules/cesium/Build/Cesium/'
+          window.Cesium = Cesium
+        }
       }
       if (!OLCesium) {
         const olcsModule = await import('olcs')
