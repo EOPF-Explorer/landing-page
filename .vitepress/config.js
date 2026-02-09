@@ -58,12 +58,7 @@ export default defineConfig({
             if (id.includes('olcs')) {
               return 'olcs';
             }
-            if (id.includes('@eox/pages-theme-eox')) {
-              return 'eox-theme';
-            }
-            if (id.includes('node_modules')) {
-              return 'vendor';
-            }
+            // Don't create separate chunks for these, let them bundle naturally
           }
         }
       }
