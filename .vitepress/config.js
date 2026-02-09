@@ -40,11 +40,12 @@ export default defineConfig({
   base: "/",
   vite:{
     optimizeDeps:{
-      include:["@eox/pages-theme-eox","@eodash/eodash/webcomponent" ]
+      include:["@eox/pages-theme-eox","@eodash/eodash/webcomponent" ],
+      exclude: ['cesium', 'olcs']
     },
     ssr: {
-      noExternal: ['@eox/pages-theme-eox', '@eodash/eodash'],
-      external: ['cesium', 'olcs']
+      noExternal: ['@eodash/eodash'],
+      external: ['cesium', 'olcs', '@eox/pages-theme-eox']
     },
     build: {
       chunkSizeWarningLimit: 1000,
@@ -56,6 +57,9 @@ export default defineConfig({
             }
             if (id.includes('olcs')) {
               return 'olcs';
+            }
+            if (id.includes('@eox/pages-theme-eox')) {
+              return 'eox-theme';
             }
             if (id.includes('node_modules')) {
               return 'vendor';
