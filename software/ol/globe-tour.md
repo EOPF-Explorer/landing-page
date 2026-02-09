@@ -503,8 +503,9 @@ async function initializeMap() {
       if (!Cesium) {
         const cesiumModule = await import('cesium')
         Cesium = cesiumModule // Use the full module namespace
-        await import('cesium/Build/Cesium/Widgets/widgets.css')
+        // Import CSS only in browser
         if (typeof window !== 'undefined') {
+          await import('cesium/Build/Cesium/Widgets/widgets.css')
           window.CESIUM_BASE_URL = '/node_modules/cesium/Build/Cesium/'
           window.Cesium = Cesium
         }

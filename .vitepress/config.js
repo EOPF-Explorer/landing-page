@@ -44,8 +44,8 @@ export default defineConfig({
       exclude: ['cesium', 'olcs']
     },
     ssr: {
-      noExternal: ['@eodash/eodash'],
-      external: ['cesium', 'olcs', '@eox/pages-theme-eox']
+      noExternal: ['@eox/pages-theme-eox', '@eodash/eodash'],
+      external: ['cesium', 'olcs']
     },
     build: {
       chunkSizeWarningLimit: 1000,
