@@ -507,9 +507,9 @@ async function initializeMap() {
         if (typeof window !== 'undefined') {
           await import('cesium/Build/Cesium/Widgets/widgets.css')
           // Set base URL for Cesium assets
-          // In dev mode, use node_modules path; in production, use root
+          // In dev mode, use node_modules path; in production, use BASE_URL (handles PR previews like /pr-preview/pr-56/)
           const isDev = import.meta.env.DEV
-          window.CESIUM_BASE_URL = isDev ? '/node_modules/cesium/Build/Cesium/' : '/'
+          window.CESIUM_BASE_URL = isDev ? '/node_modules/cesium/Build/Cesium/' : import.meta.env.BASE_URL
           window.Cesium = Cesium
           // Set Ion default access token to use free assets
           Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2ZWYyOGFkZC0wYzY3LTQwYzUtYjkyNC1iNzFiMDJhNTc1ZWMiLCJpZCI6Mzg4NzYwLCJpYXQiOjE3NzA2NDE3OTB9.YtJeGJVM-72pePu1lNFy8p3AHhODAAhsy65LxYp8ums'

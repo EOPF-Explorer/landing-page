@@ -42,7 +42,8 @@ export default defineConfig({
       },
     },
   },
-  base: "/",
+  // Use VITE_BASE_URL env var for PR previews (e.g., /pr-preview/pr-56/), defaults to /
+  base: process.env.VITE_BASE_URL || "/",
   vite:{
     optimizeDeps:{
       include:[
