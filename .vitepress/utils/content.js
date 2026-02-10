@@ -205,6 +205,17 @@ export const servicesContent = [
     order: 5
   },
   {
+    id: "eoxelements",
+    title: "EOxElements",
+    content: "Native Web Component support for GeoZarr visualization in the browser, enabling declarative map configuration and storytelling.",
+    image: "/media/EOxElements.png",
+    tags: ["🗺️ screening", "web-components", "geospatial", "client-side"],
+    category: "Screening",
+    type: "software",
+    link: "software/eoxelements",
+    order: 6
+  },
+  {
     id: "openeo-web-editor",
     title: "openEO Web editor",
     content: "Build sophisticated analysis workflows with cloud-based processing.",
@@ -316,7 +327,11 @@ export const timelineItems = [
     description: 'Using established conventions as the foundation for the official OGC-approved GeoZarr specification.'
   }
 ]
-
+/**
+ * 
+ * @param {"completed" | "ongoing" | "planned"} status 
+ * @returns 
+ */
 export const getStatusColor = (status) => {
   const colors = {
     completed: '#22c55e',

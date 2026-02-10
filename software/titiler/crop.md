@@ -10,7 +10,7 @@ import Map from 'ol/Map.js'
 import View from 'ol/View.js'
 import TileLayer from 'ol/layer/Tile.js'
 import VectorLayer from 'ol/layer/Vector.js'
-import { Vector as VectorSource, XYZ } from 'ol/source.js'
+import { Vector as VectorSource, OSM } from 'ol/source.js'
 import { toLonLat, transformExtent } from 'ol/proj.js'
 import { Draw } from 'ol/interaction.js'
 import { createBox } from 'ol/interaction/Draw.js'
@@ -229,9 +229,7 @@ function initializeMap() {
     target: mapContainer.value,
     layers: [
       new TileLayer({
-        source: new XYZ({
-          url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
-        })
+        source: new OSM()
       }),
       drawLayer.value
     ],
@@ -560,9 +558,9 @@ Cropped data can be returned in multiple formats:
 - **API Documentation**: Check the [complete API reference](https://api.explorer.eopf.copernicus.eu/raster/api.html) for advanced cropping options
 
 
-<div class="navigation surface-variant large-padding center-align">
+<nav class="surface-variant large-padding center-align">
   <a href="./ndvi" class="button border">← Previous: Vegetation Indices</a>
   <span class="padding"><strong>3 of 3</strong> - Spatial Cropping</span>
   <a href="../titiler" class="button border">Back to overview →</a>
-</div>
+</nav>
 

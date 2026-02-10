@@ -11,7 +11,7 @@ import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions,
 import WebGLTileLayer from "ol/layer/WebGLTile.js"
 import TileLayer from "ol/layer/Tile.js"
 import GeoZarr from "ol/source/GeoZarr.js"
-import XYZ from "ol/source/XYZ.js"
+import OSM from "ol/source/OSM.js"
 import "ol/ol.css"
 import { checkWebGLSupport } from "../index"
 
@@ -24,6 +24,7 @@ let map = null
 
 // EOPF Zarr URL (root store only, no group path)
 const zarrUrl = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr"
+
 
 onMounted(() => {
   // Check WebGL support using common utility
@@ -48,9 +49,7 @@ function initializeMap() {
       map = new Map({
         layers: [
           new TileLayer({
-            source: new XYZ({
-              url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
-            }),
+            source: new OSM(),
           }),
           new WebGLTileLayer({
             source,
@@ -149,7 +148,7 @@ import {
 import WebGLTileLayer from "ol/layer/WebGLTile.js";
 import TileLayer from "ol/layer/Tile.js";
 import GeoZarr from "ol/source/GeoZarr.js";
-import XYZ from "ol/source/XYZ.js";
+import OSM from "ol/source/OSM.js";
 
 // EOPF Zarr URL from STAC Browser (root store only, no group path)
 const zarrUrl =
@@ -167,9 +166,7 @@ const map = new Map({
   layers: [
     // Base layer for geographic context
     new TileLayer({
-      source: new XYZ({
-        url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
-      }),
+      source: new OSM(),
     }),
     // Satellite data layer
     new WebGLTileLayer({
@@ -250,7 +247,7 @@ const map = new Map({
 
 Continue to the [NDVI example](./ndvi) to see infrared band combinations for vegetation analysis.
 
-<div class="navigation surface-variant large-padding center-align">
+<div class="surface-variant large-padding center-align">
   <div></div>
   <span class="padding"><strong>1 of 3</strong> - Basic Setup</span>
   <a href="./ndvi" class="button border">Next: NDVI →</a>

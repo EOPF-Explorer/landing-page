@@ -13,7 +13,7 @@ import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions,
 import WebGLTileLayer from 'ol/layer/WebGLTile.js'
 import TileLayer from 'ol/layer/Tile.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
-import XYZ from 'ol/source/XYZ.js'
+import OSM from 'ol/source/OSM.js'
 import 'ol/ol.css'
 import { checkWebGLSupport } from '../../software'
 import Tutorial from '../../.vitepress/components/Tutorial.vue'
@@ -131,9 +131,7 @@ function initializeMap() {
       map = new Map({
         layers: [
           new TileLayer({
-            source: new XYZ({
-              url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
-            }),
+            source: new OSM(),
           }),
           ndviLayer,
         ],
@@ -240,7 +238,7 @@ import WebGLTileLayer from 'ol/layer/WebGLTile.js';
 import TileLayer from 'ol/layer/Tile.js';
 import View from 'ol/View.js';
 import GeoZarr from 'ol/source/GeoZarr.js';
-import XYZ from 'ol/source/XYZ.js';
+import OSM from 'ol/source/OSM.js';
 import 'toolcool-range-slider';
 
 const segments = 10;
@@ -301,9 +299,7 @@ const map = new Map({
   target: 'map',
   layers: [
     new TileLayer({
-      source: new XYZ({
-        url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
-      }),
+      source: new OSM(),
     }),
     layer
   ],
@@ -375,8 +371,8 @@ slider.addEventListener('change', (event) => {
   - **Heat island mapping** - Identify cooling vegetation
   - **Development impact** - Monitor vegetation loss
 
-<div class="navigation surface-variant large-padding center-align">
+<nav class="surface-variant large-padding center-align">
   <a href="./basic" class="button border">← Previous: Basic Map Setup and band combination</a>
   <span class="padding"><strong>2 of 3</strong> - NDVI Calculation</span>
   <a href="./stac" class="button border">Next: STAC Integration →</a>
-</div>
+</nav>

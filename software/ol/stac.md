@@ -13,7 +13,7 @@ import WebGLTileLayer from 'ol/layer/WebGLTile.js'
 import TileLayer from 'ol/layer/Tile.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
 import VectorSource from 'ol/source/Vector.js'
-import XYZ from "ol/source/XYZ.js"
+import OSM from "ol/source/OSM.js"
 import { Draw } from 'ol/interaction.js'
 import { createBox } from 'ol/interaction/Draw.js'
 import Feature from 'ol/Feature.js'
@@ -73,9 +73,7 @@ function initializeMap() {
   if (mapRef.value) {
     try {
       const baseLayer = new TileLayer({
-        source: new XYZ({
-          url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
-        }),
+        source: new OSM(),
       })
 
       const bboxSource = new VectorSource()
@@ -568,7 +566,7 @@ import View from 'ol/View.js';
 import TileLayer from 'ol/layer/Tile.js';
 import VectorLayer from 'ol/layer/Vector.js';
 import VectorSource from 'ol/source/Vector.js';
-import XYZ from 'ol/source/XYZ.js';
+import OSM from 'ol/source/OSM.js';
 import { Draw } from 'ol/interaction.js';
 import { createBox } from 'ol/interaction/Draw.js';
 import { transformExtent } from 'ol/proj.js';
@@ -584,9 +582,7 @@ let currentDataLayers = [];
 function initializeMap() {
   // 1. Base Map
   const baseLayer = new TileLayer({
-    source: new XYZ({
-      url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
-    }),
+    source: new OSM(),
   });
 
   // 2. Interaction Layer (for drawing bbox)
@@ -665,10 +661,10 @@ initializeMap();
 </Tutorial>
 
 
-<div class="navigation surface-variant large-padding center-align">
+<nav class="surface-variant large-padding center-align">
   <a href="./ndvi" class="button border">← Previous: NDVI Calculation</a>
   <span class="padding"><strong>3 of 3</strong> - STAC Integration</span>
   <a href="../ol" class="button border">Back to overview →</a>
-</div>
+</nav>
 
 

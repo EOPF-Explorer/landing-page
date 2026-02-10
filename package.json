@@ -12,6 +12,7 @@
   "dependencies": {
     "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@6c7f5fd",
     "@eox/chart": "^1.1.0",
+    "@eox/drawtools": "^1.2.0",
     "@eox/elements-utils": "^1.1.1",
     "@eox/itemfilter": "^1.14.0",
     "@eox/jsonform": "^1.9.0",
@@ -19,6 +20,7 @@
     "@eox/layout": "^1.0.0",
     "@eox/map": "^2.1.0-dev.1",
     "@eox/storytelling": "^1.10.1",
+    "@eox/timecontrol": "^2.1.1",
     "chroma-js": "^3.2.0",
     "ol": "10.7.1-dev.1769880357980",
     "stac-js": "^0.1.9",

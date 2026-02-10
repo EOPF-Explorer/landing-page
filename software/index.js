@@ -73,7 +73,7 @@ export const checkWebGLSupport = () => {
     const gl =
       canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
     return gl !== null && gl !== undefined;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

@@ -5,11 +5,12 @@ layout: page
 
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
-import Map from 'ol/Map.js'
-import View from 'ol/View.js'
-import TileLayer from 'ol/layer/Tile.js'
-import XYZ from 'ol/source/XYZ.js'
-import { fromLonLat } from 'ol/proj.js'
+import Map from 'ol/Map'
+import View from 'ol/View'
+import TileLayer from 'ol/layer/Tile'
+import OSM from 'ol/source/OSM'
+import XYZ from "ol/source/XYZ"
+import { fromLonLat } from 'ol/proj'
 import 'ol/ol.css'
 import { createCopyUrlFunction } from '../index'
 import Tutorial from '../../.vitepress/components/Tutorial.vue'
@@ -156,9 +157,7 @@ function initializeMap() {
     target: mapContainer.value,
     layers: [
       new TileLayer({
-        source: new XYZ({
-          url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
-        })
+        source: new OSM()
       })
     ],
     view: new View({
@@ -394,7 +393,7 @@ Titiler generates tiles on-demand. Initial requests may be slower while tiles ar
 
 
 <br/>
-<div class="navigation surface-variant large-padding center-align">
+<nav class="surface-variant large-padding center-align">
   <span class="padding"><strong>1 of 3</strong> - RGB Visualization</span>
   <a href="./ndvi" class="button border">Next: Vegetation Indices →</a>
-</div>
+</nav>

@@ -8,7 +8,8 @@ import { ref, onMounted, nextTick, watch, useTemplateRef } from 'vue'
 import Map from 'ol/Map.js'
 import View from 'ol/View.js'
 import TileLayer from 'ol/layer/Tile.js'
-import XYZ from 'ol/source/XYZ.js'
+import OSM from 'ol/source/OSM.js'
+import XYZ from "ol/source/XYZ"
 import { fromLonLat } from 'ol/proj.js'
 import 'ol/ol.css'
 import Tutorial from '../../.vitepress/components/Tutorial.vue'
@@ -205,9 +206,7 @@ function initializeMap() {
     target: mapContainer.value,
     layers: [
       new TileLayer({
-        source: new XYZ({
-          url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
-        })
+        source: new OSM()
       })
     ],
     view: new View({
@@ -335,7 +334,7 @@ watch([customRescaleMin, customRescaleMax, selectedColormap], () => {
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
 import TileLayer from 'ol/layer/Tile.js';
-import XYZ from 'ol/source/XYZ.js';
+import OSM from 'ol/source/OSM.js';
 import { fromLonLat } from 'ol/proj.js';
 
 const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
@@ -393,9 +392,7 @@ function initializeMap(container, expression = 'ndvi', rescaleMin = -0.3, rescal
     target: container,
     layers: [
       new TileLayer({
-        source: new XYZ({
-          url: 'https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg'
-        })
+        source: new OSM()
       }),
       tileLayer
     ],
@@ -661,6 +658,7 @@ getVegetationStats(exampleGeometry).then(stats => {
 ::: info 💡 Performance Tip
 Server-side calculations are cached, so subsequent requests for the same expression and parameters load much faster.
 :::
+
 </template>
 </Tutorial>
 
@@ -710,8 +708,8 @@ The `rescale` parameter normalizes index values for optimal visualization:
 - **RGB Visualization**: Explore [band combinations and color enhancement](./rgb)
 - **Advanced Expressions**: Check the [API documentation](https://api.explorer.eopf.copernicus.eu/raster/api.html) for more complex mathematical operations
 
-<div class="navigation surface-variant large-padding center-align">
+<nav class="surface-variant large-padding center-align">
   <a href="./rgb" class="button border">← Previous: RGB Visualization</a>
   <span class="padding"><strong>2 of 3</strong> - Vegetation Indices</span>
   <a href="./crop" class="button border">Next: Spatial Cropping →</a>
-</div>
+</nav>

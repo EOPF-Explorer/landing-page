@@ -9,6 +9,7 @@ export default {
   async enhanceApp({ app, router, siteData }) {
     EOX.enhanceApp({ app, router, siteData });
     // replace the default footer with EOPFFooter
+    // eslint-disable-next-line vue/no-reserved-component-names
     app.component("Footer", EOPFFooter);
 
     //@ts-expect-error special vitepress property

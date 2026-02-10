@@ -9,6 +9,7 @@
       <div
         class="demo-wrapper relative border-bottom"
         :style="{ height: height }"
+        v-if="$slots.demo"
       >
         <slot name="demo"></slot>
       </div>

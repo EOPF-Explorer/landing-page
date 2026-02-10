@@ -64,7 +64,7 @@ This integration guide covers server-side tile generation using EOPF's Titiler s
 <br>
 
 ::: info **🚀 Get Started in 5 Minutes**
-Ready to dive in? Start with the [RGB Visualization example](/titiler/rgb)to see Titiler serving EOPF tiles in a web map, then explore NDVI calculations and spatial cropping techniques
+Ready to dive in? Start with the [RGB Visualization example](./rgb) to see Titiler serving EOPF tiles in a web map, then explore NDVI calculations and spatial cropping techniques
 :::
 <br>
 
@@ -170,7 +170,7 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './titiler/rgb'
+        href: './rgb'
       }
     },
     {
@@ -184,7 +184,7 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './titiler/ndvi'
+        href: './ndvi'
       }
     },
     {
@@ -198,7 +198,7 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './titiler/crop'
+        href: './crop'
       }
     }
   ]"

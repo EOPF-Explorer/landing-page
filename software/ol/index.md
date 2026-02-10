@@ -5,7 +5,7 @@ layout: page
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { checkWebGLSupport } from './index.js'
+import { checkWebGLSupport } from '../index.js'
 /** @type {import("vue").Ref<boolean|null>} */
 const webglSupport = ref(null)
 
@@ -38,7 +38,7 @@ This page describes the resources to use OpenLayers with EOPF's Sentinel data wi
 ### Quick Start
 
 ::: info **🚀 Get Started in 5 Minutes**
-Ready to dive in? Start with the [Basic Setup example](./ol/basic) to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.
+Ready to dive in? Start with the [Basic Setup example](./basic) to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.
 :::
 
 ### Installation
@@ -95,7 +95,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       ],
       link: {
         text: 'View Example',
-        href: './ol/basic'
+        href: './basic'
       }
     },
     {
@@ -109,7 +109,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       ],
       link: {
         text: 'View Example',
-        href: './ol/ndvi'
+        href: './ndvi'
       }
     },
     {
@@ -123,7 +123,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       ],
       link: {
         text: 'View Example',
-        href: './ol/stac'
+        href: './stac'
       }
     }
   ]"

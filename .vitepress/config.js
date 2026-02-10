@@ -47,6 +47,7 @@ export default defineConfig({
     }
   },
   themeConfig: {
+    externalLinkIcon:true,
     nav: [
       { text: "Data Catalog", link: "https://api.explorer.eopf.copernicus.eu/browser" },
       { text: "Dynamic Browser", link: "/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a" },
