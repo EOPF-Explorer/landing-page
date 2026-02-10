@@ -200,7 +200,7 @@ body {
 </style>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import Map from 'ol/Map.js'
 import View from 'ol/View.js'
 import TileLayer from 'ol/layer/WebGLTile.js'
@@ -235,6 +235,36 @@ const loadingScenes = ref([])
 const loadedScenes = ref([])
 
 onMounted(() => {
+  // Hide header/footer/nav elements for iframe embedding
+  const style = document.createElement('style')
+  style.id = 'stac-demo-hide-chrome'
+  style.textContent = `
+    header,
+    footer,
+    nav.top-nav,
+    .VPNav,
+    .VPSidebar,
+    .VPNavBar,
+    .top-nav,
+    [class*="cookie"],
+    [class*="Cookie"] {
+      display: none !important;
+    }
+    body {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .VPContent,
+    .vp-doc,
+    main {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+      max-width: 100% !important;
+    }
+  `
+  document.head.appendChild(style)
+
+  // Initialize dates and map
   initializeDates()
   webglSupport.value = checkWebGLSupport()
 
@@ -242,6 +272,14 @@ onMounted(() => {
     nextTick(() => {
       initializeMap()
     })
+  }
+})
+
+// Restore elements when leaving page
+onUnmounted(() => {
+  const style = document.getElementById('stac-demo-hide-chrome')
+  if (style) {
+    style.remove()
   }
 })
 
