@@ -8,7 +8,6 @@ import { ref, onMounted, nextTick, watch, useTemplateRef } from 'vue'
 import Map from 'ol/Map.js'
 import View from 'ol/View.js'
 import TileLayer from 'ol/layer/Tile.js'
-import OSM from 'ol/source/OSM.js'
 import XYZ from "ol/source/XYZ"
 import { fromLonLat } from 'ol/proj.js'
 import 'ol/ol.css'
@@ -206,7 +205,9 @@ function initializeMap() {
     target: mapContainer.value,
     layers: [
       new TileLayer({
-        source: new OSM()
+        source: new XYZ({
+          url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+        })
       })
     ],
     view: new View({
@@ -334,7 +335,7 @@ watch([customRescaleMin, customRescaleMax, selectedColormap], () => {
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
 import TileLayer from 'ol/layer/Tile.js';
-import OSM from 'ol/source/OSM.js';
+import XYZ from 'ol/source/XYZ.js';
 import { fromLonLat } from 'ol/proj.js';
 
 const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
@@ -392,7 +393,9 @@ function initializeMap(container, expression = 'ndvi', rescaleMin = -0.3, rescal
     target: container,
     layers: [
       new TileLayer({
-        source: new OSM()
+        source: new XYZ({
+          url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+        })
       }),
       tileLayer
     ],

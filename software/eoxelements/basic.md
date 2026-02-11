@@ -20,16 +20,20 @@ const layers = [
       title: "Base Layers",
     },
     layers: [
+     {
+    type: "Group",
+    properties: { id: "base", title: "Base Layers" },
+    layers: [
       {
         type: "Tile",
-        properties: {
-          id: "osm",
-          title: "OpenStreetMap",
-        },
+        properties: { id: "osm", title: "OpenStreetMap" },
         source: {
-          type: "OSM",
+          type: "XYZ",
+          url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg",
         },
       },
+    ],
+  },
     ],
   },
   {
@@ -119,7 +123,7 @@ This setup includes:
         <eox-map
           id="map-basic"
           ref="eoxMap"
-          class="fill overflow-none"
+          class="fill"
           projection="EPSG:3857"
         ></eox-map>
       </eox-layout-item>
@@ -171,7 +175,9 @@ export const layers = [
         type: "Tile",
         properties: { id: "osm", title: "OpenStreetMap" },
         source: {
-          type: "OSM",
+          type: "XYZ",
+          url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg",
+          attribution: "Data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors, Rendering &copy; <a href=\"https://eox.at\">EOX</a>"
         },
       },
     ],

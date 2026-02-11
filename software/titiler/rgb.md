@@ -8,7 +8,6 @@ import { ref, onMounted, nextTick, watch } from 'vue'
 import Map from 'ol/Map'
 import View from 'ol/View'
 import TileLayer from 'ol/layer/Tile'
-import OSM from 'ol/source/OSM'
 import XYZ from "ol/source/XYZ"
 import { fromLonLat } from 'ol/proj'
 import 'ol/ol.css'
@@ -157,7 +156,9 @@ function initializeMap() {
     target: mapContainer.value,
     layers: [
       new TileLayer({
-        source: new OSM()
+        source: new XYZ({
+          url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+        })
       })
     ],
     view: new View({
@@ -269,7 +270,7 @@ import L from 'leaflet';
 const map = L.map('map').setView([45.8, 12.3], 11);
 
 // Add base layer
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg').addTo(map);
 
 // Build Titiler URL
 const tileUrl =

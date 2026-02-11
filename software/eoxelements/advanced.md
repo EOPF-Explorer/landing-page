@@ -22,7 +22,8 @@ const layers = [
       title: "OpenStreetMap" 
     },
     source: { 
-      type: "OSM",
+      type: "XYZ",
+      url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
     }
   },
   {
@@ -256,7 +257,8 @@ export const layers = [
       title: "OpenStreetMap" 
     },
     source: { 
-      type: "OSM",
+      type: "XYZ",
+      url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
     }
   },
   {

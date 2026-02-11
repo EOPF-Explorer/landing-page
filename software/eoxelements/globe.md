@@ -32,8 +32,8 @@ const layers = [
       title: "OpenStreetMap" 
     },
     source: { 
-      type: "OSM",
-      crossOrigin: "anonymous",
+      type: "XYZ",
+      url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
     }
   },
   {
@@ -58,13 +58,13 @@ onMounted(() => {
       mapRef.value.center = [15, 48];
       mapRef.value.zoom = 4;
       
-      nextTick(() => {
+      setTimeout(()=>{
         if (mapRef.value.globe) {
           const globe = mapRef.value.globe;
           const terrain = new GlobusRgbTerrain(null, {heightFactor: 5})
           globe.planet.setTerrain(terrain);
         }
-      });
+      },500);
     }
   });
 });
@@ -185,7 +185,8 @@ map.layers = [
       title: "OpenStreetMap" 
     },
     source: { 
-      type: "OSM",
+      type: "XYZ",
+      url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
     }
   },
   {

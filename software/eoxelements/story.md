@@ -22,7 +22,10 @@ function createLayers(url, bands) {
     {
       type: "Tile",
       properties: { title: "OpenStreetMap", id: "osm" },
-      source: { type: "OSM" }
+      source: {
+        type: "XYZ",
+        url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+      }
     },
     {
       type: "WebGLTile",
@@ -59,7 +62,10 @@ const osmLayer = JSON.stringify([
   {
     type: "Tile",
     properties: { title: "OpenStreetMap", id: "osm" },
-    source: { type: "OSM" }
+    source: {
+      type: "XYZ",
+      url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+    }
   }
 ]);
 
@@ -141,7 +147,10 @@ function createLayers(url, bands) {
     {
       type: "Tile",
       properties: { title: "OpenStreetMap", id: "osm" },
-      source: { type: "OSM" }
+      source: {
+        type: "XYZ",
+        url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+      }
     },
     {
       type: "WebGLTile",

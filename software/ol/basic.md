@@ -11,7 +11,7 @@ import { getView, withExtentCenter, withHigherResolutions, withLowerResolutions,
 import WebGLTileLayer from "ol/layer/WebGLTile.js"
 import TileLayer from "ol/layer/Tile.js"
 import GeoZarr from "ol/source/GeoZarr.js"
-import OSM from "ol/source/OSM.js"
+import XYZ from "ol/source/XYZ.js"
 import "ol/ol.css"
 import { checkWebGLSupport } from "../index"
 
@@ -49,7 +49,9 @@ function initializeMap() {
       map = new Map({
         layers: [
           new TileLayer({
-            source: new OSM(),
+            source: new XYZ({
+              url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+            }),
           }),
           new WebGLTileLayer({
             source,
@@ -148,7 +150,7 @@ import {
 import WebGLTileLayer from "ol/layer/WebGLTile.js";
 import TileLayer from "ol/layer/Tile.js";
 import GeoZarr from "ol/source/GeoZarr.js";
-import OSM from "ol/source/OSM.js";
+import XYZ from "ol/source/XYZ.js";
 
 // EOPF Zarr URL from STAC Browser (root store only, no group path)
 const zarrUrl =
@@ -166,7 +168,9 @@ const map = new Map({
   layers: [
     // Base layer for geographic context
     new TileLayer({
-      source: new OSM(),
+      source: new XYZ({
+        url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+      }),
     }),
     // Satellite data layer
     new WebGLTileLayer({

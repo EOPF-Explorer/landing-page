@@ -10,7 +10,8 @@ import Map from 'ol/Map.js'
 import View from 'ol/View.js'
 import TileLayer from 'ol/layer/Tile.js'
 import VectorLayer from 'ol/layer/Vector.js'
-import { Vector as VectorSource, OSM } from 'ol/source.js'
+import { Vector as VectorSource } from 'ol/source.js'
+import XYZ from 'ol/source/XYZ.js'
 import { toLonLat, transformExtent } from 'ol/proj.js'
 import { Draw } from 'ol/interaction.js'
 import { createBox } from 'ol/interaction/Draw.js'
@@ -228,8 +229,10 @@ function initializeMap() {
   map.value = new Map({
     target: mapContainer.value,
     layers: [
-      new TileLayer({
-        source: new OSM()
+       new TileLayer({
+        source: new XYZ({
+          url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+        })
       }),
       drawLayer.value
     ],
@@ -430,7 +433,7 @@ import L from "leaflet";
 
 // Create map with drawing controls
 const map = L.map("map").setView([45.8, 12.3], 11);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+L.tileLayer("https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg").addTo(map);
 
 // Drawing logic
 let currentRectangle = null;

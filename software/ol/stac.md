@@ -13,7 +13,7 @@ import WebGLTileLayer from 'ol/layer/WebGLTile.js'
 import TileLayer from 'ol/layer/Tile.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
 import VectorSource from 'ol/source/Vector.js'
-import OSM from "ol/source/OSM.js"
+import XYZ from "ol/source/XYZ.js"
 import { Draw } from 'ol/interaction.js'
 import { createBox } from 'ol/interaction/Draw.js'
 import Feature from 'ol/Feature.js'
@@ -73,7 +73,9 @@ function initializeMap() {
   if (mapRef.value) {
     try {
       const baseLayer = new TileLayer({
-        source: new OSM(),
+        source: new XYZ({
+          url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+        }),
       })
 
       const bboxSource = new VectorSource()
@@ -566,7 +568,7 @@ import View from 'ol/View.js';
 import TileLayer from 'ol/layer/Tile.js';
 import VectorLayer from 'ol/layer/Vector.js';
 import VectorSource from 'ol/source/Vector.js';
-import OSM from 'ol/source/OSM.js';
+import XYZ from 'ol/source/XYZ.js';
 import { Draw } from 'ol/interaction.js';
 import { createBox } from 'ol/interaction/Draw.js';
 import { transformExtent } from 'ol/proj.js';
@@ -582,7 +584,9 @@ let currentDataLayers = [];
 function initializeMap() {
   // 1. Base Map
   const baseLayer = new TileLayer({
-    source: new OSM(),
+    source: new XYZ({
+      url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+    }),
   });
 
   // 2. Interaction Layer (for drawing bbox)
