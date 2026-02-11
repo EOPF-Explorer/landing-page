@@ -879,8 +879,8 @@ onMounted(async () => {
 ```
 <div class="navigation">
   <a href="./ndvi" class="button border">← Previous: NDVI Calculation</a>
-  <span><strong>3 of 3</strong> - STAC Integration</span>
-  <a href="../ol" class="button border">Back to overview →</a>
+  <span><strong>3 of 4</strong> - STAC Integration</span>
+  <a href="./globe" class="button border">Next: 3D Globe →</a>
 </div>
 
 :::

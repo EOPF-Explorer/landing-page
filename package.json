@@ -19,8 +19,10 @@
     "@eox/layout": "^1.0.0",
     "@eox/map": "^2.1.0-dev.1",
     "@eox/storytelling": "^1.10.0",
+    "cesium": "^1.121.0",
     "chroma-js": "^3.2.0",
     "ol": "10.7.1-dev.1767511985622",
+    "olcs": "^2.18.0",
     "stac-js": "^0.1.2",
     "zarrita": "^0.5.4"
   },
@@ -28,6 +30,7 @@
     "@eox/pages-theme-eox": "^0.11.5",
     "eslint-plugin-vue": "^10.6.2",
     "typescript": "^5.9.3",
+    "vite-plugin-static-copy": "^3.2.0",
     "vue-tsc": "^3.1.5"
   }
 }

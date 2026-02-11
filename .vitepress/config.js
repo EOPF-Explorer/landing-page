@@ -1,6 +1,11 @@
 import { defineConfig } from "vitepress";
 //@ts-expect-error does not have types
 import baseConfig from "@eox/pages-theme-eox/config";
+import { viteStaticCopy } from 'vite-plugin-static-copy'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -37,11 +42,75 @@ export default defineConfig({
       },
     },
   },
-  base: "/",
+  // Use VITE_BASE_URL env var for PR previews (e.g., /pr-preview/pr-56/), defaults to /
+  base: process.env.VITE_BASE_URL || "/",
   vite:{
     optimizeDeps:{
-      include:["@eox/pages-theme-eox","@eodash/eodash/webcomponent" ]
+      include:[
+        "@eox/pages-theme-eox",
+        "@eodash/eodash/webcomponent",
+        "cesium",
+        "mersenne-twister",
+        "urijs",
+        "grapheme-splitter",
+        "bitmap-sdf",
+        "kdbush",
+        "rbush",
+        "earcut",
+        "pako",
+        "protobufjs",
+        "lerc",
+        "dompurify",
+        "autolinker",
+        "topojson-client",
+        "xml-utils",
+        "geotiff",
+        "quick-lru"
+      ],
+      exclude: ['olcs']
     },
+    ssr: {
+      noExternal: ['@eox/pages-theme-eox', '@eodash/eodash'],
+      external: ['olcs']
+    },
+    build: {
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks: (id) => {
+            if (id.includes('cesium')) {
+              return 'cesium';
+            }
+            if (id.includes('olcs')) {
+              return 'olcs';
+            }
+            // Don't create separate chunks for these, let them bundle naturally
+          }
+        }
+      }
+    },
+    plugins: [
+      viteStaticCopy({
+        targets: [
+          {
+            src: path.resolve(__dirname, '../node_modules/cesium/Build/Cesium/Assets'),
+            dest: '.'
+          },
+          {
+            src: path.resolve(__dirname, '../node_modules/cesium/Build/Cesium/Workers'),
+            dest: '.'
+          },
+          {
+            src: path.resolve(__dirname, '../node_modules/cesium/Build/Cesium/ThirdParty'),
+            dest: '.'
+          },
+          {
+            src: path.resolve(__dirname, '../node_modules/cesium/Build/Cesium/Widgets'),
+            dest: '.'
+          }
+        ]
+      })
+    ],
     server: {
       allowedHosts:true,
     }

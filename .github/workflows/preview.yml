@@ -40,6 +40,8 @@ jobs:
         run: npm ci --force
       - name: Build with VitePress with correct base
         run: npm run build -- --base /pr-preview/pr-${{ github.event.number }}/
+        env:
+          VITE_BASE_URL: /pr-preview/pr-${{ github.event.number }}/
       - name: Deploy preview to Github Pages
         uses: rossjrw/pr-preview-action@v1 #v2 should be coming soon
         with:
