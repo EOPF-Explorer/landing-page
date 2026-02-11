@@ -121,7 +121,7 @@ Contributions to the core zarr-python library:
 
 **Features:**
 - Native GeoZarr rendering in the browser
-- Off-screen Canvas for 3D globe projection (OpenGlobus integration)
+- Off-screen Canvas for 3D globe projection ([EOxMap](/software-services/eoxelements/globe) integration)
 - Hybrid rendering strategy: native + OpenLayers fallback
 - Status: Experimental in v10.7.1-dev
 

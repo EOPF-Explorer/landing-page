@@ -1,15 +1,21 @@
 ---
-title: EOxElements Integration
+title: EOxElements
 layout: page
 ---
 
-## EOxElements Integration <img src="/media/EOxElements.png" alt="EOxElements Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## EOxElements <img src="/media/EOxElements.png" alt="EOxElements Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 ### Overview
+The **EOxElements** is a comprehensive suite of [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) designed specifically for Earth Observation (EO) data visualization. By encapsulating complex domain-specific logic into declarative HTML tags, it enables developers to build powerful geospatial applications with minimal code.
 
-**EOxElements** is a comprehensive suite of [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) designed specifically for Earth Observation (EO) data visualization. By encapsulating complex specific logic into declarative HTML tags. it enables developers to build powerful geospatial applications with minimal code.
-
-This integration uses the EOPF Explorer GeoZarr standard to stream Sentinel-2 data directly from the cloud to the browser (Client-Side Rendering), leveraging [OpenLayers](/software/ol) WebGL for high-performance, pixel-level visualization without server-side tile generation.
+Key components in the suite include:
+- **`<eox-map>`**: A powerful  **[OpenLayers](/software-services/ol/)** wrapper for declarative mapping.
+- **`<eox-layercontrol>`**: Layer management with support for optional/exclusive layers and tools.
+- **`<eox-timecontrol>`**: Interactive time slider and timeline for temporal data navigation.
+- **`<eox-chart>`**: Vega-Lite based charting for data visualization.
+- **`<eox-drawtools>`**: Vector feature drawing and editing.
+- **`<eox-jsonform>`**: Dynamic forms generated from JSON schemas.
+- **`<eox-storytelling>`**: Scrollytelling interfaces with map interactions.
 
 ::: info **🎯 What You'll Learn**
 This integration guide covers building interactive geospatial applications using EOxElements with EOPF's GeoZarr-formatted Sentinel-2 data. Learn to create declarative map configurations, dynamic visualizations, and storytelling experiences using web components that work in any framework.
@@ -75,14 +81,8 @@ const layers = [{
 
 **Web Components Architecture**
 
-EOxElements components work in any framework (Vue, React, Angular, vanilla JS):
+EOxElements components work in any framework (Vue, React, Angular, vanilla JS).
 
-- **`<eox-map>`** - Core map component wrapping OpenLayers
-- **`<eox-layercontrol>`** - Layer visibility, opacity, and ordering controls
-- **`<eox-drawtools>`** - Vector drawing and editing tools
-- **`<eox-jsonform>`** - Dynamic forms from JSON Schema
-- **`<eox-timecontrol>`** - Temporal dimension navigation
-- **`<eox-layout>`** - Flexible layout manager for storytelling
 
 **Component Linking**
 
@@ -92,6 +92,18 @@ Link controls to maps using the `for` attribute:
 <eox-layercontrol for="#my-map"></eox-layercontrol>
 <eox-map id="my-map"></eox-map>
 ```
+
+### Coding with AI
+
+EOxElements is designed to be AI-friendly, supporting the **Model Context Protocol (MCP)** to assist developers in building applications faster.
+
+**EOxElements MCP Server**
+The [EOxElements MCP Server](https://eox-a.github.io/EOxElements/?path=/docs/coding-agents--docs) allows AI coding agents (like Cursor, Windsurf, or generic LLMs) to:
+- List available web components and their capabilities.
+- Retrieve full API documentation, properties, and events for specific elements.
+- Access usage examples and "stories" to generate accurate implementation code.
+
+If you are using an AI assistant, you can point it to the **[LLM Documentation](https://eox-a.github.io/EOxElements/llms.txt)**, a condensed reference file optimized for Large Language Models to understand the library's context and component APIs efficiently, or to use the MCP server without installing anything locally, you can point your coding agent to our hosted endpoint `https://elements.mcp.eox.at`.
 
 ### Next Steps
 

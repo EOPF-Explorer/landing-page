@@ -6,9 +6,6 @@ layout: page
 <script setup>
 import { onMounted, useTemplateRef, nextTick, ref } from "vue";
 import Tutorial from '../../.vitepress/components/Tutorial.vue';
-import "@eox/map";
-import "@eox/map/dist/eox-map-globe.js";
-import { LonLat, GlobusRgbTerrain } from "@openglobus/og";
 
 /** @type {import('vue').Ref<import("@eox/map").EOxMap>} */
 const mapRef = useTemplateRef("mapRef");
@@ -16,12 +13,14 @@ const isTouring = ref(false);
 const status = ref("Click on a location to fly there");
 const projection = ref("globe");
 
+/** @type {typeof import("@openglobus/og").LonLat} */
+let LonLat;
+
 const cities = [
-  { name: "Austrain Alps", coords: [12.41,47.04], alt: 20000 },
-  { name: "Milano Cortina Winter Olympics", coords: [9.12,45.26], alt: 20000 },
-  { name: "Norwegian Fjords", coords: [6.5, 61.0], alt: 20000 },
-  { name: "Icelandic Highlands", coords: [-18.0, 64.5], alt: 20000 },
-  { name: "Carpathian Mountains", coords: [25.0, 45.5], alt: 20000 }
+  { name: "Vienna", coords: [16.37,48.20], alt: 20000 },
+  { name: "Milano Cortina Winter Olympics", coords: [12.12,46.54], alt: 20000 },
+  { name: "Paris", coords: [2.35,48.85], alt: 20000 },
+  { name: "Lisbon", coords: [-9.14,38.73], alt: 20000 }
 ];
 
 const layers = [
@@ -44,13 +43,17 @@ const layers = [
     },
     source: {
       type: "XYZ",
-      url: 'https://api.explorer.eopf.copernicus.eu/openeo/services/xyz/456c1e23-47f2-4567-98cf-dcde378a05f7/tiles/{z}/{x}/{y}?time=["2026-01-22","2026-01-23"]',
+      url: 'https://api.explorer.eopf.copernicus.eu/openeo/services/xyz/456c1e23-47f2-4567-98cf-dcde378a05f7/tiles/{z}/{x}/{y}?time=["2026-01-22","2026-01-23"]&cloud',
       crossOrigin: "anonymous",
     }
   }
 ];
 
-onMounted(() => {
+onMounted(async () => {
+    const og = await import("@openglobus/og");
+    LonLat = og.LonLat;
+    const GlobusRgbTerrain = og.GlobusRgbTerrain;
+    
   nextTick(() => {
     if (mapRef.value) {
       //@ts-expect-error
@@ -77,6 +80,11 @@ onMounted(() => {
 function flyToCity(city) {
   // Access the underlying OpenGlobus instance from eox-map
   const globe = mapRef.value?.globe;
+  const projection = mapRef.value?.projection;
+  if(projection !== "globe") {
+    mapRef.value.zoomExtent = [city.coords[0], city.coords[1], city.coords[0], city.coords[1]];
+    return;
+  }
   if (!globe || isTouring.value) return;
   
   isTouring.value = true;
@@ -171,7 +179,8 @@ Switching from a 2D map to a 3D globe in **EOxElements** is as simple as changin
 ```
 
 ```javascript [config.js]
-import "@eox/map/dist/eox-map-globe.js";
+import "@eox/map";
+import "@eox/map/src/plugins/globe";
 import { GlobusTerrain } from "@openglobus/og";
 
 const map = document.querySelector("eox-map");

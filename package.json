@@ -23,8 +23,7 @@
     "@eox/timecontrol": "^2.1.1",
     "chroma-js": "^3.2.0",
     "ol": "10.7.1-dev.1769880357980",
-    "stac-js": "^0.1.9",
-    "zarrita": "^0.5.4"
+    "stac-js": "^0.1.9"
   },
   "devDependencies": {
     "@eox/pages-theme-eox": "^0.11.5",

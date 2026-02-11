@@ -15,9 +15,9 @@ import TileLayer from 'ol/layer/Tile.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
 import XYZ from 'ol/source/XYZ.js'
 import 'ol/ol.css'
-import { checkWebGLSupport } from '../../software'
+import { checkWebGLSupport } from '../index'
 import Tutorial from '../../.vitepress/components/Tutorial.vue'
-import 'toolcool-range-slider'
+
 
 const sliderRef = useTemplateRef("rangeSlider")
 /** @type {import('vue').Ref<boolean | null>} */
@@ -88,9 +88,10 @@ function handleRangeChange(event) {
   maxValue.value = parseFloat(event.detail.value2)
 }
 
-onMounted(() => {
+onMounted(async () => {
   // Check WebGL support using common utility
   webglSupport.value = checkWebGLSupport()
+  await import('toolcool-range-slider')
 
   if (webglSupport.value) {
     nextTick(() => {

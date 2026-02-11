@@ -20,8 +20,9 @@ export default defineConfig({
         if (classIndex < 0) {
           token.attrPush(['class', 'link']);
         } else {
-          const currentClass = token.attrs[classIndex][1];
-          if (!currentClass.includes('link')) {
+          const currentClass = token.attrs?.[classIndex][1];
+          if (!currentClass?.includes('link')) {
+            //@ts-expect-error todo
             token.attrs[classIndex][1] = currentClass + ' link';
           }
         }
@@ -33,17 +34,14 @@ export default defineConfig({
   vue: {
     template: {
       compilerOptions: {
-        isCustomElement: (el) => el.includes("-") || el === "tc-range-slider",
+        isCustomElement: (el) => el.includes("-"),
       },
     },
   },
   base: "/",
   vite:{
-    optimizeDeps:{
-      include:["@eox/pages-theme-eox","@eodash/eodash/webcomponent" ]
-    },
     server: {
-      allowedHosts:true,
+      allowedHosts: true,
     }
   },
   themeConfig: {

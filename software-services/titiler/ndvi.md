@@ -12,7 +12,6 @@ import XYZ from "ol/source/XYZ"
 import { fromLonLat } from 'ol/proj.js'
 import 'ol/ol.css'
 import Tutorial from '../../.vitepress/components/Tutorial.vue'
-import 'toolcool-range-slider'
 
 /**
  * @typedef {Object} VegetationIndex
@@ -168,7 +167,8 @@ function handleRescaleChange(event) {
   customRescaleMax.value = parseFloat(event.detail.value2)
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await import("toolcool-range-slider")
   nextTick(() => {
     initializeMap()
     

@@ -5,10 +5,6 @@ layout: page
 
 <script setup>
 import { useTemplateRef, onMounted, nextTick } from "vue";
-import "@eox/map"
-import "@eox/layercontrol"
-import "@eox/jsonform"
-import "@eox/layout"
 import Tutorial from '../../.vitepress/components/Tutorial.vue'
 
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20260120T125339_N0511_R138_T27VWL_20260120T131151.zarr';
@@ -243,8 +239,9 @@ enabling dynamic style and source updates without custom form components.
 ```
 
 ```javascript [config.js]
-import "@eox/map/dist/eox-map.js";
-import "@eox/layercontrol/dist/eox-layercontrol.js";
+import "@eox/map";
+import "@eox/map/src/plugins/advancedLayersAndSources"
+import "@eox/layercontrol";
 import "@eox/jsonform"; // Required for config tool
 import "@eox/layout"; // Layout architecture
 

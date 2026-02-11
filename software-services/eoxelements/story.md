@@ -5,9 +5,6 @@ layout: page
 
 <script setup>
 import Tutorial from '../../.vitepress/components/Tutorial.vue'
-import "@eox/storytelling"
-import "@eox/map"
-import "@eox/map/src/plugins/globe"
 
 const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr";
 
@@ -138,7 +135,8 @@ This tutorial demonstrates how to use the **eox-storytelling** component to buil
 
 ```javascript [main.js]
 import "@eox/storytelling";
-import "@eox/map/dist/eox-map-advanced-layers-and-sources.js";
+import "@eox/map";
+import "@eox/map/src/plugins/advancedLayersAndSources";
 
 const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr";
 

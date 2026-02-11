@@ -106,7 +106,7 @@ The de facto standard for geospatial data access now supports EOPF Zarr, enablin
 
 ##### OpenLayers
 
-Browser-based visualization with native GeoZarr rendering, including off-screen Canvas for 3D globe projection.
+Browser-based visualization with native GeoZarr rendering, including off-screen Canvas for 3D globe projection using [EOxMap](/software-services/eoxelements/globe).
 
 - [OpenLayers GeoZarr Example](https://deploy-preview-17194--ol-site.netlify.app/en/dev/examples/geozarr.html)
 - Experimental in v10.7.1-dev, stabilization ongoing
