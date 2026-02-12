@@ -90,7 +90,7 @@ This combination uses short-wave infrared bands to penetrate atmospheric haze an
 `;
 </script>
 
-## Storytelling with EOxStoryTelling
+## Storytelling with EOxStoryTelling  <img src="https://eox.at/EOX_Logo.svg" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 This tutorial demonstrates how to use the **eox-storytelling** component to build narrative map tours with minimal configuration using Markdown.
 

@@ -9,7 +9,7 @@ import Tutorial from '../../.vitepress/components/Tutorial.vue';
 const config = async() => (await import("./dashboard-config.js")).default
 </script>
 
-## Web Component Dashboard Tutorial
+## Web Component Dashboard Tutorial <img src="https://eodash.org/eodash_logo.png" alt="EODash Logo" style="height:60px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 This hands-on tutorial demonstrates how to embed a fully functional Earth Observation dashboard into your application using the **EODash Web Component**.
 
