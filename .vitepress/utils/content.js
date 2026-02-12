@@ -196,7 +196,7 @@ export const servicesContent = [
     id: "eoxelements",
     title: "EOxElements",
     content: "Native Web Component support for GeoZarr visualization in the browser, enabling declarative map configuration and storytelling.",
-    image: "https://eox.at/EOX_Logo.svg",
+    image: "/media/EOX-logo.svg",
     tags: ["<i class='mdi mdi-map-search'></i> screening", "web-components", "geospatial", "client-side"],
     category: "Screening",
     type: "software",

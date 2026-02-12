@@ -3,7 +3,7 @@ title: EOxElements
 layout: page
 ---
 
-## EOxElements <img src="https://eox.at/EOX_Logo.svg" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## EOxElements <img src="/media/EOX-logo.svg" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 ### Overview
 The **EOxElements** is a comprehensive suite of [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) designed specifically for Earth Observation (EO) data visualization. By encapsulating complex domain-specific logic into declarative HTML tags, it enables developers to build powerful geospatial applications with minimal code.
