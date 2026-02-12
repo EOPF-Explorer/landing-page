@@ -31,7 +31,8 @@ const selectedBands = ref('rgb-true')
 /** @type {import('vue').Ref<import('ol/layer/Tile').default | null>} */
 const tileLayer = ref(null)
 /** @type {import('vue').Ref<string>} */
-const copyButtonText = ref('📋 Copy URL')
+const copyButtonText = ref('Copy URL')
+const copyButtonIcon = ref('content-copy')
 /** @type {import('vue').Ref<string>} */
 const copyButtonClass = ref('copy-button')
 
@@ -117,7 +118,7 @@ function updateTileLayer() {
  */
 const copyUrl = () => {
   const copyFunction = createCopyUrlFunction(buildTileUrl)
-  copyFunction(copyButtonText, copyButtonClass)
+  copyFunction(copyButtonText, copyButtonClass, copyButtonIcon)
 }
 
 // Watch for band combination changes with debouncing
@@ -215,7 +216,8 @@ This example demonstrates how to create RGB band combinations using Titiler's ti
                 <pre class="scroll small-text no-margin"><code>{{ buildTileUrl() }}</code></pre>
                 <nav class="small-margin top-align right-align">
                   <button class="border small" @click="copyUrl">
-                    {{ copyButtonText }}
+                    <i :class="'mdi mdi-' + copyButtonIcon" style="font-size: 20px;"></i>
+                    <span style="margin-left: 0.5rem">{{ copyButtonText }}</span>
                   </button>
                 </nav>
               </div>
@@ -378,7 +380,7 @@ The `rescale` parameter normalizes reflectance values:
 - `0,0.3` - Compressed range for better contrast
 
 
-::: tip TIP 💡 
+::: tip :bulb: TIP
 Use the [interactive API documentation](https://api.explorer.eopf.copernicus.eu/raster/api.html) to explore all available parameters and test different combinations.
 :::
 
@@ -388,7 +390,7 @@ Use the [interactive API documentation](https://api.explorer.eopf.copernicus.eu/
 - **Spatial Operations**: Explore [cropping and spatial filtering](./crop)
 - **STAC Integration**: Browse available datasets in the [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
 
-::: warning ⚠️ **Performance Note**
+::: warning :warning: **Performance Note**
 Titiler generates tiles on-demand. Initial requests may be slower while tiles are computed and cached.
 :::
 

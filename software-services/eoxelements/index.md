@@ -3,7 +3,7 @@ title: EOxElements
 layout: page
 ---
 
-## EOxElements <img src="/media/EOxElements.png" alt="EOxElements Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## EOxElements <img src="https://eox.at/EOX_Logo.svg" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 ### Overview
 The **EOxElements** is a comprehensive suite of [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) designed specifically for Earth Observation (EO) data visualization. By encapsulating complex domain-specific logic into declarative HTML tags, it enables developers to build powerful geospatial applications with minimal code.
@@ -17,7 +17,7 @@ Key components in the suite include:
 - **`<eox-jsonform>`**: Dynamic forms generated from JSON schemas.
 - **`<eox-storytelling>`**: Scrollytelling interfaces with map interactions.
 
-::: info **🎯 What You'll Learn**
+::: info **<i class="mdi mdi-target"></i> What You'll Learn**
 This integration guide covers building interactive geospatial applications using EOxElements with EOPF's GeoZarr-formatted Sentinel-2 data. Learn to create declarative map configurations, dynamic visualizations, and storytelling experiences using web components that work in any framework.
 
 **Sample Data** used here are available in [the Sentinel-2 L2A collection in STAC Browser](https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a)
@@ -25,7 +25,7 @@ This integration guide covers building interactive geospatial applications using
 
 ### Quick Start
 
-::: info **🚀 Get Started in 5 Minutes**
+::: info **<i class="mdi mdi-rocket-launch"></i> Get Started in 5 Minutes**
 Ready to dive in? Start with the [Basic Tutorial](./basic) to render a Sentinel-2 GeoZarr layer with controls, then explore advanced JSON Forms integration and storytelling layouts.
 :::
 
@@ -55,7 +55,7 @@ npm install @eox/jsonform @eox/timecontrol @eox/layout
 </div>
 <br/>
 
-::: warning ⚠️ **GeoZarr Support**
+::: warning :warning: **GeoZarr Support**
 GeoZarr source requires `@eox/map` v2.1.0 or later. The GeoZarr source functionality is still experimental, conforming to the evolving GeoZarr specification.
 :::
 

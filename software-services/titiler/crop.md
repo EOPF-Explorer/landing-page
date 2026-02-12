@@ -262,7 +262,8 @@ This example demonstrates how to extract specific areas from satellite scenes us
        <li><strong>Dynamic Preview</strong>: Instant preview of cropped area</li>
     </ul>
 
-::: tip 💡 Size Limits: Large crop areas may take longer to process. 
+::: tip :bulb: TIP
+Size Limits: Large crop areas may take longer to process. 
 :::
 
   </template>
@@ -554,7 +555,8 @@ Cropped data can be returned in multiple formats:
 | `rescale`    | Value normalization                 | `0,1`, `-1,1`                   |
 
 
-::: tip TIP 💡: Use the preview endpoint with `max_size=512` for quick web previews, then the full crop endpoint for high-resolution analysis.
+::: tip :bulb: TIP 
+Use the preview endpoint with `max_size=512` for quick web previews, then the full crop endpoint for high-resolution analysis.
 :::
 ### Next Steps
 

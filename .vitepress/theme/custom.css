@@ -146,16 +146,21 @@ pre {
 
 /* Copy button icons */
 .copy::before {
-  content: "📋";
-  font-size: 12px;
+  content: "\F018F";
+  font-family: "Material Design Icons";
+  font-size: 18px;
   line-height: 1;
+  font-weight: normal;
+  color:  #586069
 }
 
 .copy.copied::before {
-  content: "✓";
-  font-size: 12px;
-  color: green;
+  content: "\F012C";
+  font-family: "Material Design Icons";
+  font-size: 18px;
+  color: #22c55e;
   position: absolute;
+  font-weight: normal;
 }
 
 /* Hide language labels to prevent overlap with copy button */

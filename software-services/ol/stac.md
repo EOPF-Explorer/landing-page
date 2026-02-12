@@ -341,7 +341,7 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
  <template #description>
 <article class="border" v-if="webglSupport === false">
 
-::: warning  **⚠️ WebGL Not Supported**
+::: warning  **:warning: WebGL Not Supported**
   Your browser doesn't support WebGL, which is required for this example.
 :::
 
@@ -384,7 +384,8 @@ This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTe
      <div class="s12">
 <div v-if="!selectedBbox" >
           
-::: tip :bulb: **Draw a bounding box** on the map to define your search area
+::: tip :bulb: TIP
+**Draw a bounding box** on the map to define your search area
 :::
 
 </div>

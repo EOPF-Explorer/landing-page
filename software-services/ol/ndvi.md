@@ -160,7 +160,7 @@ This example demonstrates real-time calculation of the Normalized Difference Veg
 
 <div v-if="webglSupport === false">
 
-::: warning ⚠️ **WebGL Not Supported**
+::: warning :warning: **WebGL Not Supported**
 Your browser doesn't support WebGL, which is required for GeoZarr visualization and NDVI calculation.
 ::: 
 </div>

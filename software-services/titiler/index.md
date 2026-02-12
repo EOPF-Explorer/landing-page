@@ -39,21 +39,21 @@ onMounted(async () => {
 
 This guide demonstrates how to use Titiler-EOPF, a specialized tile server that provides on-the-fly visualization of EOPF's Zarr-formatted satellite data. Unlike client-side processing, Titiler handles complex calculations server-side and delivers optimized tiles for web mapping applications.
 
-<div v-if="loading" class="border info">
+<div v-if="loading">
 
-::: tip **Checking [API](https://api.explorer.eopf.copernicus.eu/raster) Status**:Verifying Titiler service availability...
+::: tip :bulb: **Checking [API](https://api.explorer.eopf.copernicus.eu/raster) Status**:Verifying Titiler service availability...
 :::
 
 </div>
-<div v-if="!apiStatus" class="border info">
+<div v-if="!apiStatus">
 
-::: warning **[API](https://api.explorer.eopf.copernicus.eu/raster) Unavailable**:: The Titiler service appears to be temporarily unavailable. Some examples may not work as expected.
+::: warning :warning: **[API](https://api.explorer.eopf.copernicus.eu/raster) Unavailable**:: The Titiler service appears to be temporarily unavailable. Some examples may not work as expected.
 :::
 
 </div>
 <br>
 
-::: info **🎯 What You'll Learn**
+::: info **<i class="mdi mdi-target"></i> What You'll Learn**
 This integration guide covers server-side tile generation using EOPF's Titiler service, enabling you to build responsive web applications without handling complex data processing in the browser. Each example demonstrates practical implementation patterns for real-world applications.
 
 **Sample Data** used here are available in [the Sentinel-2 L2A collection in STAC Browser](https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a)
@@ -63,12 +63,12 @@ This integration guide covers server-side tile generation using EOPF's Titiler s
 
 <br>
 
-::: info **🚀 Get Started in 5 Minutes**
+::: info **<i class="mdi mdi-rocket-launch"></i> Get Started in 5 Minutes**
 Ready to dive in? Start with the [RGB Visualization example](./rgb) to see Titiler serving EOPF tiles in a web map, then explore NDVI calculations and spatial cropping techniques
 :::
 <br>
 
-::: warning ⚠️ **Early Implementation**
+::: warning :warning: **Early Implementation**
 This Titiler integration represents an early implementation of EOPF data services. Data availability, API stability, and library alignment will evolve over time as the platform matures.
 :::
 ### API Documentation

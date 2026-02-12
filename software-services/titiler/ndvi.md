@@ -658,7 +658,7 @@ getVegetationStats(exampleGeometry).then(stats => {
 | **NDWI** | (Green - NIR) / (Green + NIR)                      | Water body detection                                | -1 to 1       |
 | **NBR**  | (NIR - SWIR2) / (NIR + SWIR2)                      | Burn scar detection                                 | -1 to 1       |
 
-::: info 💡 Performance Tip
+::: tip :bulb: Performance Tip
 Server-side calculations are cached, so subsequent requests for the same expression and parameters load much faster.
 :::
 

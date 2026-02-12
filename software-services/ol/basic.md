@@ -92,13 +92,15 @@ function initializeMap() {
 
 This example shows the minimal configuration needed to load and display EOPF Zarr data with OpenLayers.
 
-<div v-if="webglSupport === false" class="border warning">
+<div v-if="webglSupport === false">
 
-⚠️ **WebGL Not Supported**: Your browser doesn"t support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
+::: warning :warning: **WebGL Not Supported**
+ Your browser doesn"t support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
+:::
 
 </div>
 
-<Tutorial v-if="webglSupport">
+<Tutorial>
   
   <template #description>
     <p>This example demonstrates basic OpenLayers configuration with:</p>

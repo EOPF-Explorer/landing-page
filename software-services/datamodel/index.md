@@ -4,12 +4,12 @@ layout: page
 ---
 
 <script setup>
-import GeoZarrDiagram from "../.vitepress/components/GeoZarrDiagram.vue"
-import { timelineItems, getStatusColor } from "../.vitepress/utils/content.js"
+import GeoZarrDiagram from "../../.vitepress/components/GeoZarrDiagram.vue"
+import { timelineItems, getStatusColor } from "../../.vitepress/utils/content.js"
 </script>
 
 <div class="hero-section" style="text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 12px; margin-bottom: 2rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">🌍 Pioneering the GeoZarr Data Model</h1>
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><i class="mdi mdi-earth" style="font-size:2.5rem; height:2.5rem;width:2.5rem"></i> Pioneering the GeoZarr Data Model</h1>
   <p style="font-size: 1.2rem; color: #64748b; max-width: 800px; margin: 0 auto;">
     Driving the standardization of cloud-native geospatial data formats for the Earth Observation community
   </p>
@@ -73,14 +73,14 @@ Open, interoperable standards enable broader adoption and long-term sustainabili
 
 | Goal | How Zarr Conventions Help |
 |------|---------------------------|
-| 📦 **Common container format** | One format across all Sentinel missions reduces mission-specific reader software needs |
-| ☁️ **Cloud-native access** | Efficient network access without downloading entire products |
-| 🔍 **Progressive visualization** | Multiscales enable interactive exploration at any zoom level |
-| 🔗 **Ecosystem interoperability** | QGIS, ArcGIS, ENVI, Python, R, Julia, JavaScript can all read the same data |
-| 🛡️ **Future-proof standards** | Community-driven specifications ensure long-term sustainability |
+| <i class="mdi mdi-package"></i> **Common container format** | One format across all Sentinel missions reduces mission-specific reader software needs |
+| <i class="mdi mdi-cloud"></i> **Cloud-native access** | Efficient network access without downloading entire products |
+| <i class="mdi mdi-magnify"></i> **Progressive visualization** | Multiscales enable interactive exploration at any zoom level |
+| <i class="mdi mdi-link"></i> **Ecosystem interoperability** | QGIS, ArcGIS, ENVI, Python, R, Julia, JavaScript can all read the same data |
+| <i class="mdi mdi-security"></i> **Future-proof standards** | Community-driven specifications ensure long-term sustainability |
 
 <div style="margin-top: 1.5rem; padding: 1rem 1.5rem; border-left: 4px solid #22c55e; border-radius: 0 8px 8px 0;">
-  <p style="margin: 0; font-size: 0.95rem;"><strong>🎯 The Result:</strong> EOPF Zarr data uses community standards rather than bespoke data models — making it accessible across the entire Earth Observation ecosystem without mission-specific reader software.</p>
+  <p style="margin: 0; font-size: 0.95rem;"><strong><i class="mdi mdi-target"></i> The Result:</strong> EOPF Zarr data uses community standards rather than bespoke data models — making it accessible across the entire Earth Observation ecosystem without mission-specific reader software.</p>
 </div>
 
 ---
@@ -131,13 +131,13 @@ We authored the first comprehensive [STAC best practices for Zarr integration](h
 
 ### Learn More
 <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0 1.5rem 0;">
-  <a href="/datamodel/technical-deep-dive" class="button">
-    📚 Technical Deep Dive
+  <a href="./technical-deep-dive" class="button">
+    <i class="mdi mdi-library"></i> Technical Deep Dive
   </a>
   <a href="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" target="_blank" class="button border">
-    💬 Join the Discussion
+    <i class="mdi mdi-chat"></i> Join the Discussion
   </a>
   <a href="https://github.com/zarr-conventions/" target="_blank" class="button border">
-    🔧 Zarr Conventions
+    <i class="mdi mdi-tools"></i> Zarr Conventions
   </a>
 </div>

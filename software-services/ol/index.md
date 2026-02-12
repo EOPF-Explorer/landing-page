@@ -23,13 +23,13 @@ This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted s
 
 <div v-if="webglSupport === false">
 
-::: warning ⚠️ **WebGL Not Supported**
+::: warning :warning: **WebGL Not Supported**
 Your browser doesn't support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
 :::
 
 </div>
 
-::: info **🎯 What You'll Learn**
+::: info **<i class="mdi mdi-target"></i> What You'll Learn**
 This page describes the resources to use OpenLayers with EOPF's Sentinel data with interactive examples that demonstrate real-world applications of OpenLayers with EOPF's Sentinel-2 data, covering everything from basic setup to advanced image processing techniques.
 
 **Sample Data** used here are avalable in [the Sentinel-2 L2A collection in STAC Browser](https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a)
@@ -37,7 +37,7 @@ This page describes the resources to use OpenLayers with EOPF's Sentinel data wi
 
 ### Quick Start
 
-::: info **🚀 Get Started in 5 Minutes**
+::: info **<i class="mdi mdi-rocket-launch"></i> Get Started in 5 Minutes**
 Ready to dive in? Start with the [Basic Setup example](./basic) to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.
 :::
 
