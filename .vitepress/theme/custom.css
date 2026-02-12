@@ -151,7 +151,7 @@ pre {
   font-size: 18px;
   line-height: 1;
   font-weight: normal;
-  color:  #586069
+  color: #586069;
 }
 
 .copy.copied::before {

@@ -146,6 +146,11 @@ Switching from a 2D map to a 3D globe in **EOxElements** is as simple as changin
 - **Seamless Switching**: Use the `projection` attribute to toggle modes.
 - **Layer Sync**: OpenLayers tile layers are automatically projected onto the globe.
 - **Zero Config**: No complex 3D engine initialization required.
+
+::: tip :bulb: TIP
+Right click and drag to tilt the globe
+:::
+
  </template>
 
   <template #controls>
