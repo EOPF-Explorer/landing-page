@@ -229,7 +229,7 @@ const map = document.querySelector("#my-map");
 ```json[package.json]
 {
   "dependencies": {
-    "@eox/map": "^2.1.0-dev.1",
+    "@eox/map": "^2.1.0",
     "@eox/layout": "^1.0.0",
     "@eox/layercontrol": "^1.4.0"
   }

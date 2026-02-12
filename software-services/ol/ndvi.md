@@ -331,7 +331,7 @@ slider.addEventListener('change', (event) => {
 ```json [package.json]
 {
   "dependencies": {
-    "ol": "10.7.1-dev.1769880357980",
+    "ol": "^10.8.0",
     "chroma-js": "^3.2.0",
     "toolcool-range-slider": "^4.0.28"
   }

@@ -116,14 +116,14 @@ Contributions to the core zarr-python library:
 |----------|------|
 | Main PR | [PR #17194](https://github.com/openlayers/openlayers/pull/17194) |
 | Additional PR | [PR #17255](https://github.com/openlayers/openlayers/pull/17255) |
-| Live Example | [GeoZarr Example](https://deploy-preview-17194--ol-site.netlify.app/en/dev/examples/geozarr.html) |
+| Live Example | [GeoZarr Example](https://openlayers.org/en/main/examples/geozarr.html) |
 | Stretch Example | [GeoZarr Stretch Example](https://deploy-preview-17194--ol-site.netlify.app/en/latest/examples/geozarr-stretch.html) |
 
 **Features:**
 - Native GeoZarr rendering in the browser
 - Off-screen Canvas for 3D globe projection ([EOxMap](/software-services/eoxelements/globe) integration)
-- Hybrid rendering strategy: native + OpenLayers fallback
-- Status: Experimental in v10.7.1-dev
+- EOxMap Globe Hybrid rendering strategy: native + OpenLayers fallback
+- Status: Experimental in v10.8.0
 
 **TiTiler GeoZarr Adapter**
 

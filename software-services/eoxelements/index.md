@@ -56,7 +56,7 @@ npm install @eox/jsonform @eox/timecontrol @eox/layout
 <br/>
 
 ::: warning ⚠️ **GeoZarr Support**
-GeoZarr source requires `@eox/map` v2.1.0-dev.1 that is built on top of OpenLayers experimental release. The release will stabilize 
+GeoZarr source requires `@eox/map` v2.1.0 or later. The GeoZarr source functionality is still experimental, conforming to the evolving GeoZarr specification.
 :::
 
 ### Key Concepts

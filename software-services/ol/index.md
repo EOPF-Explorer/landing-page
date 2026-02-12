@@ -19,7 +19,7 @@ onMounted(() => {
 
 ### Overview
 
-This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted satellite data using the experimental GeoZarr support in OpenLayers 10.7.1-dev. Each example is presented on a separate page for optimal performance.
+This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted satellite data using the experimental GeoZarr support in OpenLayers. Each example is presented on a separate page for optimal performance.
 
 <div v-if="webglSupport === false">
 
@@ -50,7 +50,7 @@ Ready to dive in? Start with the [Basic Setup example](./basic) to see OpenLayer
 ::: info NPM (Recommended)
 
 ```bash
-npm install ol@dev stac-js@^0.1.2
+npm install ol stac-js@^0.1.2
 ```
 :::
 
@@ -59,7 +59,7 @@ npm install ol@dev stac-js@^0.1.2
 
 ::: info CDN (Quick Testing)
 ```html
-<script src="https://cdn.jsdelivr.net/npm/ol@dev/dist/ol.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
 ```
 :::
 
@@ -67,8 +67,8 @@ npm install ol@dev stac-js@^0.1.2
 </div>
 <br>
 
-::: warning ⚠️ **Development Version**
-OpenLayers tag **dev** (10.7.1-dev) contains experimental unreleased GeoZarr support that may change. For production use, wait for the stable 10.8.0 release.
+::: warning **Experimental**
+GeoZarr source requires `ol` v10.8.0 or later. The GeoZarr source functionality is still experimental, conforming to the evolving GeoZarr specification.
 :::
 
 ### Next Steps

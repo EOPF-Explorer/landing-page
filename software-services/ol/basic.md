@@ -93,7 +93,9 @@ function initializeMap() {
 This example shows the minimal configuration needed to load and display EOPF Zarr data with OpenLayers.
 
 <div v-if="webglSupport === false" class="border warning">
+
 ⚠️ **WebGL Not Supported**: Your browser doesn"t support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
+
 </div>
 
 <Tutorial v-if="webglSupport">
@@ -211,7 +213,7 @@ const map = new Map({
 ```json [package.json]
 {
   "dependencies": {
-    "ol": "10.7.1-dev.1769880357980"
+    "ol": "^10.8.0"
   }
 }
 ```
