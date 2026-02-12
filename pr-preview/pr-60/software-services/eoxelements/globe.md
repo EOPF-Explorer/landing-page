@@ -12,15 +12,43 @@ Switching from a 2D map to a 3D globe in **EOxElements** is as simple as changin
 * **Layer Sync**: OpenLayers tile layers are automatically projected onto the globe.
 * **Zero Config**: No complex 3D engine initialization required.
 
-  \<template #controls>
+::: tip :bulb: TIP
+Right click and drag to tilt the globe
+:::
 
-  \<template #demo>
+\<template #controls>
+
+
+\<button
+@click="toggleProjection"
+class="button border round small"
+style="margin-bottom: 1rem; width: 100%;"
+\>
+Switch to {{ projection === 'globe' ? '2D' : '3D' }}
+
+3D Locations
+
+\<button
+v-for="city in cities"
+:key="city.name"
+@click="flyToCity(city)"
+:disabled="isTouring"
+class="chip fill surface-variant"
+\>
+{{ city.name }}
 
 
 
 
 
-  \<template #code>
+
+\<template #demo>
+
+
+
+
+
+\<template #code>
 
 ::: code-group
 
