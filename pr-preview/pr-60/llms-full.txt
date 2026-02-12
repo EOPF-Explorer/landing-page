@@ -1,0 +1,3094 @@
+---
+url: /pr-preview/pr-60/software-services/eoxelements/globe.md
+---
+
+## 3D Globe Visualization &#x20;
+
+Switching from a 2D map to a 3D globe in **EOxElements** is as simple as changing the projection. By importing the globe extension, `eox-map` gains the ability to render OpenLayers layers on a 3D Earth using the **OpenGlobus** engine.
+
+#### Globe Integration
+
+* **Seamless Switching**: Use the `projection` attribute to toggle modes.
+* **Layer Sync**: OpenLayers tile layers are automatically projected onto the globe.
+* **Zero Config**: No complex 3D engine initialization required.
+
+  \<template #controls>
+
+  \<template #demo>
+
+
+
+
+
+  \<template #code>
+
+::: code-group
+
+```html [index.html]
+<!-- Set projection to 'globe' -->
+<eox-map 
+  projection="globe"
+  style="width: 100%; height: 600px;"
+></eox-map>
+```
+
+```javascript [config.js]
+import "@eox/map";
+import "@eox/map/src/plugins/globe";
+import { GlobusTerrain } from "@openglobus/og";
+
+const map = document.querySelector("eox-map");
+
+// Define standard OpenLayers layers
+map.layers = [
+  {
+    type: "Tile",
+    properties: { 
+      id: "basemap",
+      title: "OpenStreetMap" 
+    },
+    source: { 
+      type: "XYZ",
+      url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg",
+      crossOrigin: "anonymous",
+    }
+  },
+  {
+    type: "Tile",
+    properties: {
+      id: "mosaic",
+      title: "Sentinel-2 Mosaic"
+    },
+    source: {
+      type: "XYZ",
+      url: 'https://api.explorer.eopf.copernicus.eu/openeo/services/xyz/456c1e23-47f2-4567-98cf-dcde378a05f7/tiles/{z}/{x}/{y}?time=["2025-12-31","2026-01-23"]&cloud_cover=30',
+      crossOrigin: "anonymous",
+    }
+  }
+];
+
+const terrain = new GlobusTerrain("terrain", {
+   name: "Earth Terrain",
+   url: "https://terrain.openglobus.org/public/eu10",
+   maxZoom: 15
+});
+map.globe.planet.setTerrain(terrain);
+```
+
+:::
+
+### Key Concepts: Hybrid Architecture
+
+The 3D visualization in **EOxElements** employs a powerful hybrid architecture combining **OpenLayers** and **OpenGlobus**:
+
+1. **Dual Engines**: The component maintains an OpenLayers map instance for layer state and logic, while using OpenGlobus for 3D rendering.
+2. **Adaptive Rendering**:
+   * **Native Rendering**: Where possible (e.g., standard XYZ, WMS), layers are rendered directly by OpenGlobus for maximum performance and quality.
+   * **Fallback Rendering**: Complex OpenLayers layers (like GeoZarr or VectorTile) that OpenGlobus doesn't support natively are rendered to a texture (canvas) by OpenLayers and then projected onto the 3D globe.
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/eodash.md
+---
+
+## eodash&#x20;
+
+### Overview
+
+**eodash** is a STAC based EO dashboard builder that enables rapid deployment of Earth Observation data portals. It can be used as a standalone application, a library, or a web component.
+
+It handles the complexity of connecting components (Map, Timeline, Date Picker, Item Filters) to a central store state, allowing developers to focus on configuration rather than wiring components together.
+
+For more information and full documentation, visit:
+
+* **Library Website**: [eodash.org](https://eodash.org)
+* **Client library Documentation**: [eodash.github.io/eodash](https://eodash.github.io/eodash/)
+* **GitHub Repository**: [github.com/eodash](https://github.com/eodash)
+
+### Key Features
+
+* **Client-side Rendering**: Responsive and interactive dashboards rendered directly in the browser, ensuring a dynamic data visualization experience.
+* **Integrate your APIs**: Show customized charts to visualize your results and integrate all your data sources.
+* **Endpoint Integration**: Connect to various data sources and APIs, bringing your GeoZarr data into one place. Define and execute data processing workflows using a flexible configuration.
+* **Customizable Themes**: Customize the look and feel of your dashboard through theme definitions.
+
+::: warning GeoZarr Support
+Currently, **eodash** only supports **server-side** GeoZarr rendering. **Client-side** GeoZarr rendering is an upcoming feature.
+Please check the [GitHub Releases](https://github.com/eodash/eodash/releases) to stay tuned for updates.
+:::
+
+### STAC Catalog Generation
+
+The **[eodash\_catalog](https://github.com/eodash/eodash_catalog)** is a Python library designed to simplify the creation of STAC catalogs that utilize the [eodash extension](https://github.com/eodash/eodash_extension) to support eodash instances.
+
+It automates the generation of collection and item metadata, ensuring compatibility with the dashboard's visualization capabilities. Check the [Wiki](https://github.com/eodash/eodash_catalog/wiki) for detailed usage instructions and configuration examples.
+
+### Installation
+
+::: info NPM (Recommended)
+
+```bash
+npm install @eodash/eodash
+```
+
+:::
+
+::: info CDN (Quick Testing)
+
+```html
+<script type="module" src="https://unpkg.com/@eodash/eodash/dist/eodash.js"></script>
+```
+
+:::
+
+### Architecture
+
+eodash is built on a **reactive core architecture** that decouples state management from the user interface.
+
+1. **Centralized State Store**:\
+   At the heart of the application lies a global store that serves as the single source of truth. It manages critical application state such as the current time range, spatial extent (Area of Interest), active layers, and selected data items.
+
+2. **Configuration-Driven**:\
+   The dashboard's layout, capabilities, and data connections are entirely defined by a structured configuration object. This approach eliminates the need for boilerplate code, allowing instances to be spun up or reconfigured dynamically.
+
+3. **Reactive Data Flow**:\
+   Data fetched from the configured STAC endpoint is normalized and ingested into the central store. Changes to the state—whether triggered by user interaction or automated workflows—are instantly propagated to all subscribed components, ensuring a synchronized and consistent view across the entire dashboard without manual event handling.
+
+### Next Steps
+
+1. **Start with Examples**: Work through the [example](./dashboard) to understand the how it can be configured
+2. **Explore API Documentation**: checkout the [eodash](https://eodash.org) website for more information
+3. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/eodash/dashboard.md
+---
+
+## Web Component Dashboard Tutorial&#x20;
+
+This hands-on tutorial demonstrates how to embed a fully functional Earth Observation dashboard into your application using the **EODash Web Component**.
+
+By default, connecting to the EOPF STAC API allows the dashboard to automatically discover Collections and Items, rendering filters and maps without any additional glue code.
+
+### Dashboard Features
+
+* **Standard-Based**: Consumes STAC directly to populate UI.
+* **Responsive Grid**: `template.widgets.layout` defines the layout grid.
+* **Extensible**: Add custom widgets or use built-in ones (Map, LayerControl, DatePicker).
+
+\<template #code>
+
+::: code-group
+
+```html [index.html]
+<head>
+  <!-- Load the bundled web component -->
+  <link rel="stylesheet" href="https://unpkg.com/@eodash/eodash/dist/style.css" />
+  <script type="module" src="https://unpkg.com/@eodash/eodash/dist/eodash.js"></script>
+</head>
+
+<body>
+  <!-- Pass configuration via property -->
+
+  <eo-dash style="height:100vh;" .config="config"></eo-dash>  
+  
+  <script type="module">
+    
+    const dashboard = document.getElementById('dashboard');
+    dashboard.config = async() => (await import("./config.js")).default;
+  </script>
+</body>
+```
+
+```javascript [config.js]
+
+export default {
+  id: "my-dashboard",
+  stacEndpoint: {
+    endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
+    api: true
+  },
+  // Custom Branding
+  brand: {
+    noLayout: true,
+    name: "My EO Dashboard",
+    font: { family: "Poppins" },
+    theme: {
+      colors: {
+        primary: "#004170",
+        secondary: "#00417044",
+        surface: "#ffffff",
+      },
+    },
+    footerText: "Powered by EOPF",
+  },
+
+  // Explicit Layout Configuration
+  template: {
+    background: {
+      id: "background-map",
+      type: "internal",
+      widget: {
+        name: "EodashMap",
+      },
+    },
+    widgets: [
+      {
+        id: "filters",
+        type: "internal",
+        title: "Filters",
+        layout: { x: 0, y: 0, w: 3, h: 12 },
+        widget: {
+          name: "EodashItemCatalog",
+        },
+      },
+      {
+        id: "layers",
+        type: "internal",
+        title: "Layers",
+        layout: { x: 9, y: 0, w: 3, h: 12 },
+        widget: {
+          name: "EodashLayerControl",
+        },
+      },
+    ],
+  },
+};
+```
+
+:::
+
+### Key Concepts
+
+**Widget Interactivity**
+
+Widgets in eodash are not isolated; they share a central state. When you configure an `EodashItemCatalog` and an `EodashMap` with the same STAC endpoint, they automatically synchronize:
+
+* **Filtering**: Selecting a date or cloud cover range in the filter updates the map's WMS/WMTS layers.
+* **Spatial Search**: Panning the map can trigger updates in the item list.
+
+**Grid Layout System**
+
+The dashboard uses a responsive 12-column grid system. Widgets are positioned using `x`, `y`, `w` (width), and `h` (height) coordinates:
+
+```javascript
+layout: { x: 0, y: 0, w: 3, h: 12 } // Occupies the first 3 columns, full height
+```
+
+**STAC Connection**
+
+The `stacEndpoint` configuration acts as the single source of truth. eodash queries this endpoint to:
+
+1. Discover available collections.
+2. Fetch metadata for filters.
+3. Determines available visualisations (Web Map Layers) from STAC Assets.
+
+### Templates
+
+To accelerate development, `eodash` provides pre-configured templates that can be extended or used as-is.
+
+**Using `getBaseConfig`**
+
+You can use the `getBaseConfig` utility to inherit from a base template while overriding specific properties:
+
+```javascript
+import { getBaseConfig } from "@eodash/eodash/templates";
+
+export default getBaseConfig("explore", {
+  stacEndpoint: "https://my.endpoint.com/stac",
+  brand: {
+    name: "My Custom Explorer"
+  }
+});
+```
+
+**Available Templates**
+
+* **`lite`**: A minimal configuration suitable for simple data catalogs.
+* **`explore`**: A layout optimized for exploring scenes using STAC Items, tailored for eoAPI instances.
+* **`expert`**: An advanced configuration with comprehensive tools for power users, that displays collections in a thematic showcase.
+
+### Next Steps
+
+* **Custom Widgets**: Learn to build your own widgets using Vue.js or Web Components.
+* **Theming**: Customize the look and feel to match your brand identity.
+* **Deploy**: Publish your dashboard as a standalone app or embed it in existing portals.
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/eoxelements.md
+---
+
+## EOxElements&#x20;
+
+### Overview
+
+The **EOxElements** is a comprehensive suite of [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) designed specifically for Earth Observation (EO) data visualization. By encapsulating complex domain-specific logic into declarative HTML tags, it enables developers to build powerful geospatial applications with minimal code.
+
+Key components in the suite include:
+
+* **`<eox-map>`**: A powerful  **[OpenLayers](/software-services/ol/)** wrapper for declarative mapping.
+* **`<eox-layercontrol>`**: Layer management with support for optional/exclusive layers and tools.
+* **`<eox-timecontrol>`**: Interactive time slider and timeline for temporal data navigation.
+* **`<eox-chart>`**: Vega-Lite based charting for data visualization.
+* **`<eox-drawtools>`**: Vector feature drawing and editing.
+* **`<eox-jsonform>`**: Dynamic forms generated from JSON schemas.
+* **`<eox-storytelling>`**: Scrollytelling interfaces with map interactions.
+
+::: info&#x20;**&#x20;What You'll Learn**
+This integration guide covers building interactive geospatial applications using EOxElements with EOPF's GeoZarr-formatted Sentinel-2 data. Learn to create declarative map configurations, dynamic visualizations, and storytelling experiences using web components that work in any framework.
+
+**Sample Data** used here are available in [the Sentinel-2 L2A collection in STAC Browser](https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a)
+:::
+
+### Quick Start
+
+::: info&#x20;**&#x20;Get Started in 5 Minutes**
+Ready to dive in? Start with the [Basic Tutorial](./basic) to render a Sentinel-2 GeoZarr layer with controls, then explore advanced JSON Forms integration and storytelling layouts.
+:::
+
+### Installation
+
+::: info NPM (Recommended)
+
+```bash
+npm install @eox/map @eox/layercontrol @eox/drawtools
+npm install @eox/jsonform @eox/timecontrol @eox/layout
+```
+
+:::
+
+::: info CDN (Quick Testing)
+
+```html
+<script type="module" src="https://unpkg.com/@eox/map"></script>
+<script type="module" src="https://unpkg.com/@eox/layercontrol"></script>
+```
+
+:::
+
+::: warning :warning: **GeoZarr Support**
+GeoZarr source requires `@eox/map` v2.1.0 or later. The GeoZarr source functionality is still experimental, conforming to the evolving GeoZarr specification.
+:::
+
+### Key Concepts
+
+**Declarative Map Configuration**
+
+EOxElements uses a JSON-based configuration approach. Instead of writing imperative code, you define your map state as data:
+
+```javascript
+// Configure layers, sources, and styles declaratively
+const layers = [{
+  type: "WebGLTile",
+  source: {
+    type: "GeoZarr",
+    url: "https://path/to/data.zarr",
+    group: "measurements/reflectance",
+    bands: ["b04", "b03", "b02"]
+  },
+  style: { gamma: 1.5 }
+}];
+```
+
+**Web Components Architecture**
+
+EOxElements components work in any framework (Vue, React, Angular, vanilla JS).
+
+**Component Linking**
+
+Link controls to maps using the `for` attribute:
+
+```html
+<eox-layercontrol for="#my-map"></eox-layercontrol>
+<eox-map id="my-map"></eox-map>
+```
+
+### Coding with AI
+
+EOxElements is designed to be AI-friendly, supporting the **Model Context Protocol (MCP)** to assist developers in building applications faster.
+
+**EOxElements MCP Server**
+The [EOxElements MCP Server](https://eox-a.github.io/EOxElements/?path=/docs/coding-agents--docs) allows AI coding agents (like Cursor, Windsurf, or generic LLMs) to:
+
+* List available web components and their capabilities.
+* Retrieve full API documentation, properties, and events for specific elements.
+* Access usage examples and "stories" to generate accurate implementation code.
+
+If you are using an AI assistant, you can point it to the **[LLM Documentation](https://eox-a.github.io/EOxElements/llms.txt)**, a condensed reference file optimized for Large Language Models to understand the library's context and component APIs efficiently, or to use the MCP server without installing anything locally, you can point your coding agent to our hosted endpoint `https://elements.mcp.eox.at`.
+
+### Next Steps
+
+1. **Start with Examples**: Work through each [tutorial](#integration-examples) to understand the capabilities
+2. **Explore EOPF Data**: Browse available datasets in the [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
+3. **Read Component Docs**: Visit the [EOxElements Storybook](https://eox-a.github.io/EOxElements/) for API reference
+4. **Build Applications**: Create your own EO applications with declarative configurations
+5. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
+
+For more information, visit the [EOxElements GitHub repository](https://github.com/EOX-A/EOxElements) and the [EOPF Explorer project](https://github.com/EOPF-Explorer).
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/eoxelements/advanced.md
+---
+
+## Advanced Visualization with Layer Config &#x20;
+
+This tutorial demonstrates the **layerConfig** pattern - EOxElements' declarative approach for building dynamic visualization dashboards. By embedding JSON Schema configurations directly in layer properties, you create interactive controls without additional components.
+
+**What You'll Build:** A GeoZarr visualization dashboard where the layer control provides built-in configuration tools for band selection, gamma correction, and brightness adjustment - all defined declaratively in the layer configuration.
+
+The **layerConfig** approach embeds form schemas directly in layer properties.
+The eox-layercontrol automatically renders configuration tools based on these schemas,
+enabling dynamic style and source updates without custom form components.
+
+\<template #demo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\<template #code>
+
+::: code-group
+
+```html [index.html]
+<eox-layout gap="8" style="height: 600px;">
+  <eox-layout-item x="0" y="0" w="3" h="12">
+    <div class="card fill">
+      <!-- Layer Control with config tool enabled -->
+      <div class="padding">
+        <eox-layercontrol 
+          for="#map"
+          tools='["config", "opacity", "info", "legend"]'
+        ></eox-layercontrol>
+      </div>
+    </div>
+  </eox-layout-item>
+  
+  <eox-layout-item x="3" y="0" w="9" h="12">
+    <!-- Map element -->
+    <eox-map
+      id="map"
+      class="fill"
+      .center="[-20.12, 63.54]"
+      .zoom="10"
+    ></eox-map>
+  </eox-layout-item>
+</eox-layout>
+
+<script type="module" src="config.js"></script>
+```
+
+```javascript [config.js]
+import "@eox/map";
+import "@eox/map/src/plugins/advancedLayersAndSources"
+import "@eox/layercontrol";
+import "@eox/jsonform"; // Required for config tool
+import "@eox/layout"; // Layout architecture
+
+// Layer configuration with embedded schema
+export const layers = [
+  {
+    type: "Tile",
+    properties: { 
+      id: "basemap",
+      title: "OpenStreetMap" 
+    },
+    source: { 
+      type: "XYZ",
+      url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+    }
+  },
+  {
+    type: "WebGLTile",
+    properties: {
+      id: "s2-layer",
+      title: "Sentinel-2 GeoZarr",
+      layerControlExpand: true,
+      layerControlToolsExpand: true,
+      // Layer Config embedded in layer properties
+      layerConfig: {
+        type: "style",  // Updates style variables
+        schema: {
+          type: "object",
+          title: "Visualization Settings",
+          properties: {
+            red: {
+              title: "Red Channel",
+              type: "number",
+              enum: [1, 2, 3, 4],
+              options: {
+                enum_titles: ["Blue (B02)", "Green (B03)", "Red (B04)", "SWIR (B11)"]
+              },
+              default: 3
+            },
+            green: {
+              title: "Green Channel",
+              type: "number",
+              enum: [1, 2, 3, 4],
+              options: {
+                enum_titles: ["Blue (B02)", "Green (B03)", "Red (B04)", "SWIR (B11)"]
+              },
+              default: 2
+            },
+            blue: {
+              title: "Blue Channel",
+              type: "number",
+              enum: [1, 2, 3, 4],
+              options: {
+                enum_titles: ["Blue (B02)", "Green (B03)", "Red (B04)", "SWIR (B11)"]
+              },
+              default: 1
+            },
+            redMax: {
+              title: "Red Max Value",
+              type: "number",
+              minimum: 0.1,
+              maximum: 1,
+              default: 0.5,
+              format: "range"
+            },
+            greenMax: {
+              title: "Green Max Value",
+              type: "number",
+              minimum: 0.1,
+              maximum: 1,
+              default: 0.5,
+              format: "range"
+            },
+            blueMax: {
+              title: "Blue Max Value",
+              type: "number",
+              minimum: 0.1,
+              maximum: 1,
+              default: 0.5,
+              format: "range"
+            },
+            gamma: {
+              title: "Gamma Correction",
+              type: "number",
+              minimum: 0.5,
+              maximum: 3.0,
+              default: 1.5,
+              step:0.1,
+              format: "range"
+            }
+          }
+        },
+        legend: {
+          title: "Sentinel-2 RGB Composite",
+          domain: ["Low", "High"],
+          range: ["#000000", "#FFFFFF"]
+        }
+      }
+    },
+    source: {
+      type: "GeoZarr",
+      url: "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20260120T125339_N0511_R138_T27VWL_20260120T131151.zarr",
+      group: "measurements/reflectance",
+      bands: ["b04", "b03", "b02", "b11"]
+    },
+    style: {
+      // Variables that can be updated by layerConfig
+      variables: {
+        gamma: 1.5,
+        red: 1,
+        green: 2,
+        blue: 3,
+        redMax: 0.5,
+        greenMax: 0.5,
+        blueMax: 0.5
+      },
+      gamma: ["var", "gamma"],
+      color: [
+        "array",
+        ["/", ["band", ["var", "red"]], ["var", "redMax"]],
+        ["/", ["band", ["var", "green"]], ["var", "greenMax"]],
+        ["/", ["band", ["var", "blue"]], ["var", "blueMax"]],
+        // Alpha channel (nodata mask)
+        [
+          "case",
+          ["==", ["+", ["band", ["var", "red"]], ["band", ["var", "green"]], ["band", ["var", "blue"]]], 0],
+          0, 
+          1
+        ]
+      ]
+    }
+  }
+];
+
+const eoxMap = document.querySelector("eox-map");
+Object.assign(eoxMap, { 
+  layers,
+  });
+```
+
+:::
+
+### Key Concepts: Layer Config Pattern
+
+The **layerConfig** pattern provides a declarative way to create dynamic layer controls. It utilizes [json-editor](https://github.com/json-editor/json-editor) via `@eox/jsonform` to render forms directly from your schema.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `layerConfig.type` | `"style"` | Updates style variables when form changes |
+| `layerConfig.schema` | JSON Schema | Defines the form structure using [json-editor supported schemas](https://github.com/json-editor/json-editor?tab=readme-ov-file#supported-schemas) |
+| `layerConfig.legend` | Object | Optional legend configuration with title, domain, range |
+| `layerControlExpand` | Boolean | Auto-expand this layer in the control |
+| `layerControlToolsExpand` | Boolean | Auto-expand the tools section |
+
+### Schema Format Options
+
+The `schema` respects JSON Schema standards and `json-editor` extensions. The `format` property controls how inputs are rendered:
+
+| Format | Renders As | Use Case |
+|--------|-----------|----------|
+| `"range"` | Slider | Numeric values with min/max |
+| `"minmax"` | Paired sliders | Dynamic range selection |
+| (none) | Dropdown | Enumerated string values (`enum`) |
+| (none) | Number input | Numeric without range |
+
+### Tool Configuration
+
+Enable tools on the layer control via the `tools` property:
+
+```javascript
+tools: ["config", "opacity", "info", "legend", "datetime", "remove"]
+```
+
+| Tool | Description |
+|------|-------------|
+| `config` | Renders form from layerConfig schema |
+| `opacity` | Slider for layer opacity |
+| `info` | Shows layer description |
+| `legend` | Renders color legend from layerLegend |
+| `datetime` | Time slider from layerDatetime |
+| `remove` | Button to remove layer |
+
+### Next Steps
+
+Continue to the [3D Globe](./globe) tutorial to learn how to visualize data on a 3D globe with terrain handling.
+
+For more details and documentation, visit the [EOxElements Documentation](https://eox-a.github.io/EOxElements/).
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/eoxelements/basic.md
+---
+
+## EOxElements - Basic Tutorial &#x20;
+
+This tutorial demonstrates how to render a Sentinel-2 GeoZarr product using `eox-map` with `eox-layercontrol`, positioned with `eox-layout`.
+
+This setup includes:
+
+* **eox-layout**: A responsive 12×12 grid that positions the map and controls.
+* **eox-map**: The core component rendering the map using OpenLayers engine.
+* **eox-layercontrol**: Linked to the map via `for="eox-map#id"` to manage layers.
+* **GeoZarr Source**: Direct loading of Zarr data chunks.
+
+\<template #demo>
+
+
+
+
+
+
+
+
+
+
+
+
+\<template #code>
+
+::: code-group
+
+```html [index.html]
+<!-- Optional: Import components using a CDN -->
+<script type="module" src="https://unpkg.com/@eox/map"></script>
+<script type="module" src="https://unpkg.com/@eox/layercontrol"></script>
+<script type="module" src="https://unpkg.com/@eox/layout"></script>
+
+<!-- Responsive layout using eox-layout (12×12 grid) -->
+<eox-layout gap="8" style="width: 100%; height: 100vh;">
+  <!-- Layer control: left panel (3 columns wide, full height) -->
+  <eox-layout-item x="0" y="0" w="3" h="12">
+    <eox-layercontrol
+      for="eox-map#my-map" style="width: 100%; height: 100%; display: block;"
+      class="fill"
+    ></eox-layercontrol>
+  </eox-layout-item>
+
+  <!-- Map: main area (9 columns wide, full height) -->
+  <eox-layout-item x="3" y="0" w="9" h="12">
+    <eox-map
+      id="my-map"
+      style="width: 100%; height: 100%; display: block;"
+      projection="EPSG:3857">
+    </eox-map>
+  </eox-layout-item>
+</eox-layout>
+
+<script type="module" src="config.js"></script>
+```
+
+```javascript [config.js]
+import "@eox/map";
+import "@eox/map/src/plugins/advancedLayersAndSources"
+
+// Layer Configuration Object
+export const layers = [
+  {
+    type: "Group",
+    properties: { id: "base", title: "Base Layers" },
+    layers: [
+      {
+        type: "Tile",
+        properties: { id: "osm", title: "OpenStreetMap" },
+        source: {
+          type: "XYZ",
+          url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg",
+          attribution: "Data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors, Rendering &copy; <a href=\"https://eox.at\">EOX</a>"
+        },
+      },
+    ],
+  },
+  {
+    type: "Group",
+    properties: { id: "data", title: "Data", layerControlExpand: true },
+    layers: [
+      {
+        type: "WebGLTile",
+        properties: { id: "geozarr", title: "Sentinel-2 GeoZarr" },
+        source: {
+          type: "GeoZarr",
+          url:"https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr",
+          group: "measurements/reflectance",
+          bands: ["b04", "b03", "b02"],
+        },
+        style: {
+          gamma: 1.5,
+          color: [
+            "color",
+            ["interpolate", ["linear"], ["band", 1], 0, 0, 0.5, 255],
+            ["interpolate", ["linear"], ["band", 2], 0, 0, 0.5, 255],
+            ["interpolate", ["linear"], ["band", 3], 0, 0, 0.5, 255],
+            [
+              "case",
+              ["==", ["+", ["band", 1], ["band", 2], ["band", 3]], 0],
+              0,
+              1,
+            ],
+          ],
+        },
+      },
+    ],
+  },
+];
+
+const map = document.querySelector("#my-map");
+
+  // Assign properties via Object.assign
+  Object.assign(map, {
+    center: [14.09, 41.1],
+    zoom: 10,
+    layers,
+  });
+
+```
+
+```json[package.json]
+{
+  "dependencies": {
+    "@eox/map": "^2.1.0",
+    "@eox/layout": "^1.0.0",
+    "@eox/layercontrol": "^1.4.0"
+  }
+}
+```
+
+:::
+
+### Key Features
+
+* **Grid Layout**: `eox-layout` provides a 12×12 grid with `gap`, responsive values (`w="12/3/3"`), and scroll support
+* **Component Linking**: Use `for="eox-map#map-id"` to connect `eox-layercontrol` to any map instance
+* **Declarative Configuration**: Define map state as JSON objects via `Object.assign`, no imperative code required
+* **Layer Groups**: Organize layers hierarchically — use `layerControlExpand` to auto-expand groups
+* **Layer IDs**: Always set `properties.id` so `eox-map` can perform smart layer updates
+
+**GeoZarr Source Configuration**
+
+| Property | Description | Example |
+|----------|-------------|---------|
+| `type` | Source type identifier | `"GeoZarr"` |
+| `url` | URL to .zarr dataset | `"https://...data.zarr"` |
+| `group` | Multiscales group path | `"measurements/reflectance"` |
+| `bands` | Band identifiers to load | `["b04", "b03", "b02"]` |
+
+**WebGL Style Expressions**
+
+* `["band", n]` - Access band by index (1-based)
+* `["interpolate", ["linear"], ...]` - Scale reflectance to display values
+* `gamma: 1.5` - Brightness correction for satellite imagery
+* `["color", r, g, b, a]` - Combine channels into RGBA output
+
+### Next Steps
+
+Continue to the [Advanced Visualization](./advanced) tutorial to learn about the **layerConfig** pattern for embedding configuration forms directly in layer properties.
+
+For more details and documentation, visit the [EOxElements Documentation](https://eox-a.github.io/EOxElements/).
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/eoxelements/story.md
+---
+
+## Storytelling with EOxStoryTelling &#x20;
+
+This tutorial demonstrates how to use the **eox-storytelling** component to build narrative map tours with minimal configuration using Markdown.
+
+**What You'll Build:** A guided tour showing different spectral visualizations of the same Sentinel-2 GeoZarr data, entirely configured via Markdown.
+
+The **eox-storytelling** component interprets Markdown to create interactive stories.
+By using custom HTML comments `<!--{ ... }-->`, you can define map sections and control the view state (center, zoom, layers) for each step of the tour.
+
+\<template #code>
+
+::: code-group
+
+```html [index.html]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EOxElements Storytelling</title>
+    <!-- Optional: import using a CDN or NPM -->
+    <script src="https://unpkg.com/@eox/storytelling" type="module"></script>
+    <script src="https://unpkg.com/@eox/map" type="module"></script>
+</head>
+<body>
+    <!-- Pass markdown content to the component -->
+    <eox-storytelling id="story"></eox-storytelling>
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
+```
+
+```javascript [main.js]
+import "@eox/storytelling";
+import "@eox/map";
+import "@eox/map/src/plugins/advancedLayersAndSources";
+
+const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr";
+
+function createLayers(url, bands) {
+  return JSON.stringify([
+    {
+      type: "Tile",
+      properties: { title: "OpenStreetMap", id: "osm" },
+      source: {
+        type: "XYZ",
+        url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+      }
+    },
+    {
+      type: "WebGLTile",
+      properties: {
+          id: "sentinel-layer",
+          title: "Sentinel-2 GeoZarr",
+      },
+      source: {
+          type: "GeoZarr",
+          url: url,
+          group: "measurements/reflectance",
+          bands: bands,
+      },
+      style:  {
+            gamma: 1.5,
+            color: [
+              "color",
+              ["interpolate", ["linear"], ["band", 1], 0, 0, 0.5, 255],
+              ["interpolate", ["linear"], ["band", 2], 0, 0, 0.5, 255],
+              ["interpolate", ["linear"], ["band", 3], 0, 0, 0.5, 255],
+              [
+                "case",
+                ["==", ["+", ["band", 1], ["band", 2], ["band", 3]], 0],
+                0,
+                1,
+              ],
+            ],
+          },
+    }
+  ]);
+}
+
+const markdown = `
+# Sentinel-2 Band Comparison
+
+This story demonstrates visualizing different band combinations of Sentinel-2 data using **EOxElements**.
+
+## Band Combinations <!--{ as="eox-map" mode="tour" projection="EPSG:3857" }-->
+
+### <!--{ layers='${createLayers(urlNapoli, ["b04", "b03", "b02"])}' center='[14.24, 40.83]' zoom='11' }-->
+#### True Color (RGB)
+**Bands: Red (B04), Green (B03), Blue (B02)**
+This natural color composite shows the area as seen by the human eye.
+
+### <!--{ layers='${createLayers(urlNapoli, ["b12", "b8a", "b04"])}' center='[14.24, 40.83]' zoom='11' animationOptions="{'duration': 1000}" }-->
+#### Short-Wave Infrared (SWIR)
+**Bands: SWIR2 (B12), NIR2 (B8A), Red (B04)**
+Useful for penetrating atmospheric haze and highlighting moisture.
+`;
+
+document.querySelector("#story").markdown = markdown;
+```
+
+:::
+
+### Key Features
+
+* **Markdown-Driven**: define your story structure and content in plain Markdown.
+* **Scrollytelling**: Automatically syncs map state with scrolling text.
+* **Minimal Config**: No complex JavaScript or Layout setup required.
+
+### Next Steps
+
+For more details and documentation, visit the [EOxElements Documentation](https://eox-a.github.io/EOxElements/).
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/titiler/ndvi.md
+---
+
+## TiTiler - Vegetation Indices&#x20;
+
+\<template #controls>
+
+
+
+
+
+{{ expr.name }}
+
+
+Vegetation Index
+
+
+
+
+Description
+{{ expressions\[selectedExpression].description }}
+{{ expressions\[selectedExpression].formula }}
+
+
+
+
+
+
+{{ cm.name }} - {{ cm.description }}
+
+
+Color Map
+
+
+
+Rescale Range
+
+
+Min: {{ customRescaleMin.toFixed(2) }}
+
+
+Max: {{ customRescaleMax.toFixed(2) }}
+
+
+
+\<tc-range-slider
+ref="rescaleSlider"
+:value1="customRescaleMin"
+:value2="customRescaleMax"
+min="-1"
+max="1"
+step="0.01"
+@change="handleRescaleChange"
+/>
+
+
+
+
+
+\<template #demo>
+
+
+
+
+
+Generated Expression
+
+
+{{ buildTileUrl() }}
+
+\<button class="border small" @click="copyUrl">
+Copy URL
+
+
+
+
+
+
+
+
+
+
+\<template #code>
+
+::: code-group
+
+```javascript [Map Setup]
+import Map from 'ol/Map.js';
+import View from 'ol/View.js';
+import TileLayer from 'ol/layer/Tile.js';
+import XYZ from 'ol/source/XYZ.js';
+import { fromLonLat } from 'ol/proj.js';
+
+const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
+const collection = "sentinel-2-l2a";
+const itemId = "S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704";
+
+// Vegetation index expressions
+const expressions = {
+  ndvi: {
+    expression: "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)",
+    rescale: "-0.3,0.8",
+    colormap: "ylgn"
+  },
+  evi: {
+    expression: "2.5*((/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+6.0*/measurements/reflectance:b04-7.5*/measurements/reflectance:b02+1.0))",
+    rescale: "-0.3,1.5",
+    colormap: "viridis"
+  },
+  ndwi: {
+    expression: "(/measurements/reflectance:b03-/measurements/reflectance:b08)/(/measurements/reflectance:b03+/measurements/reflectance:b08)",
+    rescale: "-1,1",
+    colormap: "blues"
+  },
+  nbr: {
+    expression: "(/measurements/reflectance:b08-/measurements/reflectance:b12)/(/measurements/reflectance:b08+/measurements/reflectance:b12)",
+    rescale: "-1,1",
+    colormap: "rdpu"
+  }
+};
+
+// Build tile URL with expression and parameters
+function buildTileUrl(expression, rescaleMin, rescaleMax, colormap) {
+  const expr = expressions[expression];
+  const params = new URLSearchParams();
+  
+  params.set('expression', expr.expression);
+  params.set('rescale', `${rescaleMin},${rescaleMax}`);
+  params.set('colormap_name', colormap);
+  
+  return `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${params.toString()}`;
+}
+
+// Initialize OpenLayers map with Titiler layer
+function initializeMap(container, expression = 'ndvi', rescaleMin = -0.3, rescaleMax = 0.8, colormap = 'ylgn') {
+  const tileLayer = new TileLayer({
+    source: new XYZ({
+      url: buildTileUrl(expression, rescaleMin, rescaleMax, colormap),
+      crossOrigin: 'anonymous',
+      maxZoom: 18
+    }),
+    opacity: 0.9
+  });
+  
+  const map = new Map({
+    target: container,
+    layers: [
+      new TileLayer({
+        source: new XYZ({
+          url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+        })
+      }),
+      tileLayer
+    ],
+    view: new View({
+      center: fromLonLat([12.3, 45.2]), // Venice area
+      zoom: 11,
+    }),
+  });
+  
+  return { map, tileLayer };
+}
+
+// Update tile layer with new parameters
+function updateTileLayer(tileLayer, expression, rescaleMin, rescaleMax, colormap) {
+  const newSource = new XYZ({
+    url: buildTileUrl(expression, rescaleMin, rescaleMax, colormap),
+    crossOrigin: 'anonymous',
+    maxZoom: 18
+  });
+  tileLayer.setSource(newSource);
+}
+```
+
+```html [HTML]
+<div id="app">
+  <div class="controls" style="padding: 16px; background: #f6f8fa; margin-bottom: 16px;">
+    <div style="margin-bottom: 12px;">
+      <label style="font-weight: bold; display: block; margin-bottom: 8px;">Vegetation Index:</label>
+      <select v-model="selectedExpression" style="width: 100%; padding: 8px;">
+        <option value="ndvi">NDVI (Normalized Difference Vegetation Index)</option>
+        <option value="evi">EVI (Enhanced Vegetation Index)</option>
+        <option value="ndwi">NDWI (Normalized Difference Water Index)</option>
+        <option value="nbr">NBR (Normalized Burn Ratio)</option>
+      </select>
+    </div>
+    
+    <div style="margin-bottom: 12px;">
+      <label style="font-weight: bold; display: block; margin-bottom: 8px;">Colormap:</label>
+      <select v-model="selectedColormap" style="width: 100%; padding: 8px;">
+        <option value="ylgn">Yellow-Green</option>
+        <option value="viridis">Viridis</option>
+        <option value="plasma">Plasma</option>
+        <option value="blues">Blues</option>
+        <option value="rdpu">Red-Purple</option>
+        <option value="spectral">Spectral</option>
+      </select>
+    </div>
+    
+    <div style="margin-bottom: 12px;">
+      <label style="font-weight: bold; display: block; margin-bottom: 8px;">Rescale Range:</label>
+      <div style="display: flex; gap: 24px; margin-bottom: 8px;">
+        <span>Min: {{ customRescaleMin.toFixed(2) }}</span>
+        <span>Max: {{ customRescaleMax.toFixed(2) }}</span>
+      </div>
+      <tc-range-slider
+        ref="rescaleSlider"
+        :value1="customRescaleMin"
+        :value2="customRescaleMax"
+        min="-1"
+        max="1"
+        step="0.01"
+        @change="handleRescaleChange"
+      ></tc-range-slider>
+    </div>
+  </div>
+  <div ref="mapContainer" style="width: 100%; height: 500px;"></div>
+</div>
+```
+
+```javascript [Vue.js Integration]
+import { createApp } from 'vue';
+import { ref, watch, onMounted, nextTick, useTemplateRef } from 'vue';
+import 'toolcool-range-slider';
+
+createApp({
+  setup() {
+    const rescaleSliderRef = useTemplateRef('rescaleSlider');
+    const mapContainer = ref(null);
+    
+    const selectedExpression = ref('ndvi');
+    const customRescaleMin = ref(-0.3);
+    const customRescaleMax = ref(0.8);
+    const selectedColormap = ref('ylgn');
+    
+    let map = null;
+    let tileLayer = null;
+    
+    function handleRescaleChange(event) {
+      customRescaleMin.value = parseFloat(event.detail.value1);
+      customRescaleMax.value = parseFloat(event.detail.value2);
+    }
+    
+    function resetRescale() {
+      const expr = expressions[selectedExpression.value];
+      const [min, max] = expr.rescale.split(',').map(Number);
+      customRescaleMin.value = min;
+      customRescaleMax.value = max;
+      selectedColormap.value = expr.colormap;
+      
+      // Update slider
+      if (rescaleSliderRef.value) {
+        rescaleSliderRef.value.value1 = min;
+        rescaleSliderRef.value.value2 = max;
+      }
+    }
+    
+    onMounted(() => {
+      nextTick(() => {
+        const result = initializeMap(
+          mapContainer.value,
+          selectedExpression.value,
+          customRescaleMin.value,
+          customRescaleMax.value,
+          selectedColormap.value
+        );
+        map = result.map;
+        tileLayer = result.tileLayer;
+        
+        // Initialize range slider
+        if (rescaleSliderRef.value) {
+          rescaleSliderRef.value.setAttribute('min', '-1');
+          rescaleSliderRef.value.setAttribute('max', '1');
+          rescaleSliderRef.value.setAttribute('step', '0.01');
+        }
+      });
+    });
+    
+    // Watch for changes with debouncing
+    watch(selectedExpression, () => {
+      resetRescale();
+      setTimeout(() => {
+        if (tileLayer) {
+          updateTileLayer(
+            tileLayer,
+            selectedExpression.value,
+            customRescaleMin.value,
+            customRescaleMax.value,
+            selectedColormap.value
+          );
+        }
+      }, 100);
+    }, { flush: 'post' });
+    
+    watch([customRescaleMin, customRescaleMax, selectedColormap], () => {
+      setTimeout(() => {
+        if (tileLayer) {
+          updateTileLayer(
+            tileLayer,
+            selectedExpression.value,
+            customRescaleMin.value,
+            customRescaleMax.value,
+            selectedColormap.value
+          );
+        }
+      }, 100);
+    }, { flush: 'post' });
+    
+    return {
+      mapContainer,
+      rescaleSliderRef,
+      selectedExpression,
+      customRescaleMin,
+      customRescaleMax,
+      selectedColormap,
+      handleRescaleChange
+    };
+  }
+}).mount('#app');
+```
+
+```javascript [Direct API Usage]
+// Titiler API endpoints for direct usage
+
+const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
+const collection = "sentinel-2-l2a";
+const itemId = "S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704";
+
+// 1. Get Tile with NDVI Expression
+const ndviExpression = "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
+const tileUrl = `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?expression=${encodeURIComponent(ndviExpression)}&rescale=-0.3,0.8&colormap_name=ylgn`;
+
+// 2. Get Statistics for an Area
+async function getVegetationStats(geometry) {
+  const response = await fetch(
+    `${baseUrl}/collections/${collection}/items/${itemId}/statistics`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        expression: ndviExpression,
+        geometry: geometry, // GeoJSON Polygon
+        rescale: "-1,1"
+      }),
+    }
+  );
+  
+  const stats = await response.json();
+  console.log("NDVI Statistics:", stats);
+  // Returns: { min, max, mean, count, sum, std, median, ... }
+  return stats;
+}
+
+// 3. Get Item Metadata
+async function getItemInfo() {
+  const response = await fetch(
+    `${baseUrl}/collections/${collection}/items/${itemId}/info`
+  );
+  const info = await response.json();
+  console.log("Available bands:", Object.keys(info));
+  return info;
+}
+
+// 4. Preview with Custom Expression
+async function getPreviewImage(width = 512, height = 512) {
+  const url = `${baseUrl}/collections/${collection}/items/${itemId}/preview.png?expression=${encodeURIComponent(ndviExpression)}&rescale=-0.3,0.8&colormap_name=ylgn&width=${width}&height=${height}`;
+  
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return URL.createObjectURL(blob);
+}
+
+// Example usage
+const exampleGeometry = {
+  "type": "Polygon",
+  "coordinates": [[
+    [12.3, 45.2],
+    [12.4, 45.2],
+    [12.4, 45.3],
+    [12.3, 45.3],
+    [12.3, 45.2]
+  ]]
+};
+
+getVegetationStats(exampleGeometry).then(stats => {
+  console.log(`Mean NDVI: ${stats.mean.toFixed(3)}`);
+  console.log(`Std Dev: ${stats.std.toFixed(3)}`);
+});
+```
+
+```json [package.json]
+{
+  "dependencies": {
+    "ol": "^10.2.1",
+    "vue": "^3.4.0",
+    "toolcool-range-slider": "^4.0.28"
+  }
+}
+```
+
+:::
+
+### Common Vegetation Indices
+
+| Index    | Formula                                            | Use Case                                            | Typical Range |
+| -------- | -------------------------------------------------- | --------------------------------------------------- | ------------- |
+| **NDVI** | (NIR - Red) / (NIR + Red)                          | General vegetation health                           | -1 to 1       |
+| **EVI**  | 2.5 × ((NIR - Red) / (NIR + 6×Red - 7.5×Blue + 1)) | Enhanced sensitivity, less atmospheric interference | 0 to 2        |
+| **NDWI** | (Green - NIR) / (Green + NIR)                      | Water body detection                                | -1 to 1       |
+| **NBR**  | (NIR - SWIR2) / (NIR + SWIR2)                      | Burn scar detection                                 | -1 to 1       |
+
+::: tip :bulb: Performance Tip
+Server-side calculations are cached, so subsequent requests for the same expression and parameters load much faster.
+:::
+
+### Key Concepts
+
+**Server-Side Expressions**
+
+Titiler processes mathematical expressions on the server using band references:
+
+```javascript
+// NDVI calculation
+expression = "(B08 - B04) / (B08 + B04)";
+
+// URL-encoded for API
+expression =
+  "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
+```
+
+**Band References in Expressions**
+
+* **NIR Band**: `/measurements/reflectance:b08` (10m resolution)
+* **Red Band**: `/measurements/reflectance:b04` (10m resolution)
+* **Green Band**: `/measurements/reflectance:b03` (10m resolution)
+* **Blue Band**: `/measurements/reflectance:b02` (10m resolution)
+* **SWIR Bands**: `/measurements/reflectance:b11`, `/measurements/reflectance:b12` (20m resolution)
+
+**Color Mapping**
+
+The `colormap_name` parameter applies predefined color schemes:
+
+* **ylgn**: Yellow-Green (ideal for vegetation)
+* **viridis**: Perceptually uniform (good for scientific data)
+* **blues**: Blue gradient (perfect for water indices)
+
+**Value Rescaling**
+
+The `rescale` parameter normalizes index values for optimal visualization:
+
+* **NDVI**: `-0.3,0.8` (optimized vegetation range)
+* **EVI**: `-0.3,1.5` (enhanced range for better sensitivity)
+* **NDWI**: `-1,1` (water index ranges)
+
+## Next Steps
+
+* **Spatial Operations**: Learn about [cropping and area extraction](./crop)
+* **RGB Visualization**: Explore [band combinations and color enhancement](./rgb)
+* **Advanced Expressions**: Check the [API documentation](https://api.explorer.eopf.copernicus.eu/raster/api.html) for more complex mathematical operations
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/ol/basic.md
+---
+
+## OpenLayers - Basic Map Setup&#x20;
+
+This example shows the minimal configuration needed to load and display EOPF Zarr data with OpenLayers.
+
+::: warning :warning: **WebGL Not Supported**
+Your browser doesn"t support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
+:::
+
+\<template #description>
+This example demonstrates basic OpenLayers configuration with:
+
+OSM Base Layer - Provides geographic context
+GeoZarr Source - Loads Sentinel-2 reflectance data
+Gamma Correction - Brightens the image for better visibility
+Auto-fit View - Automatically centers and zooms to data extent
+Transparency Handling - Makes zero values transparent
+
+
+
+\<template #demo>
+
+
+
+\<template #code>
+
+::: code-group
+
+```html [index.html]
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenLayers Basic EOPF Example</title>
+    <link rel="stylesheet" href="node_modules/ol/ol.css" />
+    <style>
+      .map {
+        height: 500px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" class="map"></div>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
+```
+
+```javascript [main.js]
+import Map from "ol/Map.js";
+import {
+  getView,
+  withExtentCenter,
+  withHigherResolutions,
+  withLowerResolutions,
+  withZoom,
+} from "ol/View.js";
+import WebGLTileLayer from "ol/layer/WebGLTile.js";
+import TileLayer from "ol/layer/Tile.js";
+import GeoZarr from "ol/source/GeoZarr.js";
+import XYZ from "ol/source/XYZ.js";
+
+// EOPF Zarr URL from STAC Browser (root store only, no group path)
+const zarrUrl =
+  "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr";
+
+// Create GeoZarr source
+const source = new GeoZarr({
+  url: zarrUrl,
+  group: "measurements/reflectance", // Zarr group path
+  bands: ["b04", "b03", "b02"], // RGB band mapping (Red, Green, Blue)
+});
+
+// Initialize map with base layer
+const map = new Map({
+  layers: [
+    // Base layer for geographic context
+    new TileLayer({
+      source: new XYZ({
+        url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+      }),
+    }),
+    // Satellite data layer
+    new WebGLTileLayer({
+      source,
+      style: {
+        gamma: 1.5, // Gamma correction for brightness
+        color: [
+          "color",
+          // Red channel (Band 4 - Red)
+          ["interpolate", ["linear"], ["band", 1], 0, 0, 0.5, 255],
+          // Green channel (Band 3 - Green)
+          ["interpolate", ["linear"], ["band", 2], 0, 0, 0.5, 255],
+          // Blue channel (Band 2 - Blue)
+          ["interpolate", ["linear"], ["band", 3], 0, 0, 0.5, 255],
+          // Alpha channel (transparency for no-data values)
+          [
+            "case",
+            ["==", ["+", ["band", 1], ["band", 2], ["band",
+            3]], 0],
+            0, // Transparent if all bands are 0
+            1, // Opaque otherwise
+          ],
+        ],
+      },
+    }),
+  ],
+  target: "map",
+  view: getView(
+    source,
+    withLowerResolutions(1), // Add 1 lower resolution level
+    withHigherResolutions(2), // Add 2 higher resolution levels
+    withExtentCenter(), // Center view on data extent
+    withZoom(2) // Set initial zoom level
+  ),
+});
+```
+
+```json [package.json]
+{
+  "dependencies": {
+    "ol": "^10.8.0"
+  }
+}
+```
+
+:::
+
+### Key Features
+
+* **Automatic Extent Fitting**: The map automatically centers on the data
+* **WebGL Rendering**: Hardware-accelerated rendering for smooth performance
+* **Multiscales Support**: Leverages [Multiscales Zarr conventions](https://github.com/zarr-conventions/multiscales) for pyramid levels access
+* **Transparency**: Zero values are rendered as transparent
+
+### Configuration Details
+
+**Band Mapping**
+
+* `bands: ["b04", "b03", "b02"]` maps to Red, Green, Blue channels
+* Sentinel-2 bands correspond to: B04 (Red), B03 (Green), B02 (Blue)
+
+**Style Expressions**
+
+* `["interpolate", ["linear"], ...]` scales reflectance values (0-1) to display values (0-255)
+* `gamma: 1.5` applies brightness correction
+* Conditional alpha creates transparency for no-data pixels
+
+**View Configuration**
+
+* `withExtentCenter()` automatically fits the view to data bounds
+* `withLowerResolutions(1)` and `withHigherResolutions(2)` enable zoom levels beyond the native resolution
+* `withZoom(2)` sets a reasonable initial zoom level
+
+### Next Steps
+
+Continue to the [NDVI example](./ndvi) to see infrared band combinations for vegetation analysis.
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/ol/ndvi.md
+---
+
+## OpenLayers - NDVI Calculation&#x20;
+
+This example demonstrates real-time calculation of the Normalized Difference Vegetation Index (NDVI) directly in the browser using WebGL expressions.
+
+::: warning :warning: **WebGL Not Supported**
+Your browser doesn't support WebGL, which is required for GeoZarr visualization and NDVI calculation.
+:::
+
+\<template #controls>
+
+
+
+
+Min NDVI:
+{{ minValue.toFixed(2) }}
+
+
+Max NDVI:
+{{ maxValue.toFixed(2) }}
+
+
+
+\<tc-range-slider
+ref="rangeSlider"
+value1="-0.5"
+value2="0.7"
+step="0.01"
+@change="handleRangeChange"
+/>
+
+
+
+
+
+\<template #demo>
+
+
+
+\<template #code>
+
+:::code-group
+
+```html [HTML]
+<div id="controls" style="padding: 16px; background: #f6f8fa; margin-bottom: 16px;">
+  <div style="display: flex; gap: 24px; align-items: center; margin-bottom: 12px;">
+    <div>
+      <label style="font-weight: bold;">Min NDVI:</label>
+      <span id="minValue">-0.50</span>
+    </div>
+    <div>
+      <label style="font-weight: bold;">Max NDVI:</label>
+      <span id="maxValue">0.70</span>
+    </div>
+  </div>
+  <tc-range-slider
+    id="ndviSlider"
+    value1="-0.5"
+    value2="0.7"
+    min="-1"
+    max="1"
+    step="0.01"
+  ></tc-range-slider>
+</div>
+<div id="map" style="width: 100%; height: 500px;"></div>
+```
+
+```javascript [JavaScript]
+import { scale as chromaScale } from 'chroma-js';
+import Map from 'ol/Map.js';
+import WebGLTileLayer from 'ol/layer/WebGLTile.js';
+import TileLayer from 'ol/layer/Tile.js';
+import View from 'ol/View.js';
+import GeoZarr from 'ol/source/GeoZarr.js';
+import XYZ from 'ol/source/XYZ.js';
+import 'toolcool-range-slider';
+
+const segments = 10;
+let minColor = '#8B4513';  // Brown
+let maxColor = '#00FF00';  // Green
+let minValue = -0.5;
+let maxValue = 0.7;
+
+function getVariables() {
+  const variables = {};
+  const scale = chromaScale([minColor, maxColor]).mode('lab');
+  const delta = (maxValue - minValue) / segments;
+
+  for (let i = 0; i <= segments; ++i) {
+    const color = scale(i / segments).rgb();
+    const value = minValue + i * delta;
+    variables[`value${i}`] = value;
+    variables[`red${i}`] = color[0];
+    variables[`green${i}`] = color[1];
+    variables[`blue${i}`] = color[2];
+  }
+  return variables;
+}
+
+function colors() {
+  const stops = [];
+  for (let i = 0; i <= segments; ++i) {
+    stops[i * 2] = ['var', `value${i}`];
+    const red = ['var', `red${i}`];
+    const green = ['var', `green${i}`];
+    const blue = ['var', `blue${i}`];
+    stops[i * 2 + 1] = ['color', red, green, blue];
+  }
+  return stops;
+}
+
+const ndvi = [
+  '/',
+  ['-', ['band', 2], ['band', 1]], // NIR - Red
+  ['+', ['band', 2], ['band', 1]], // NIR + Red
+];
+
+const source = new GeoZarr({
+  url: 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr',
+  group: 'measurements/reflectance',
+  bands: ['b04', 'b8a'], // Red, NIR
+});
+
+const layer = new WebGLTileLayer({
+  style: {
+    variables: getVariables(),
+    color: ['interpolate', ['linear'], ndvi, ...colors()],
+  },
+  source: source,
+});
+
+const map = new Map({
+  target: 'map',
+  layers: [
+    new TileLayer({
+      source: new XYZ({
+        url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+      }),
+    }),
+    layer
+  ],
+  view: new View({
+    center: fromLonLat([2.35, 48.85]),
+    zoom: 12,
+  }),
+});
+
+// Handle range slider changes
+const slider = document.getElementById('ndviSlider');
+const minValueSpan = document.getElementById('minValue');
+const maxValueSpan = document.getElementById('maxValue');
+
+slider.addEventListener('change', (event) => {
+  minValue = parseFloat(event.detail.value1);
+  maxValue = parseFloat(event.detail.value2);
+  minValueSpan.textContent = minValue.toFixed(2);
+  maxValueSpan.textContent = maxValue.toFixed(2);
+  layer.updateStyleVariables(getVariables());
+});
+```
+
+```json [package.json]
+{
+  "dependencies": {
+    "ol": "^10.8.0",
+    "chroma-js": "^3.2.0",
+    "toolcool-range-slider": "^4.0.28"
+  }
+}
+```
+
+:::
+
+### Interpretation
+
+**NDVI Ranges**
+
+* **0.8 to 1.0** - Dense healthy vegetation
+* **0.5 to 0.8** - Moderate vegetation
+* **0.2 to 0.5** - Sparse vegetation
+* **0.0 to 0.2** - Rock, sand, or snow
+* **-1.0 to 0.0** - Water, clouds, or snow
+
+### Applications
+
+* **Agriculture**
+  * **Crop health monitoring** - Identify stressed areas
+  * **Yield prediction** - Correlate NDVI with crop productivity
+  * **Irrigation planning** - Target water application
+
+* **Environmental Monitoring**
+  * **Deforestation detection** - Monitor forest cover changes
+  * **Drought assessment** - Track vegetation stress
+  * **Phenology studies** - Seasonal vegetation cycles
+
+* **Urban Planning**
+  * **Green space assessment** - Quantify urban vegetation
+  * **Heat island mapping** - Identify cooling vegetation
+  * **Development impact** - Monitor vegetation loss
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/ol/stac.md
+---
+
+## OpenLayers - STAC Integration&#x20;
+
+This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTemporal Asset Catalog) API to search and visualize Sentinel-2 data using spatial-temporal filters
+
+::: warning  **:warning: WebGL Not Supported**
+Your browser doesn't support WebGL, which is required for this example.
+:::
+
+### Features
+
+* **Spatial Search**: Draw bounding box on the map to define search area
+* **Temporal Filtering**: Select date range for time-based search
+* **STAC Integration**: Query EOPF's STAC catalog using STAC API
+* **Scene Visualization**: Display footprints and load RGB imagery automatically
+
+\<template #controls>
+
+::: tip :bulb: TIP
+**Draw a bounding box** on the map to define your search area
+:::
+
+\<template #demo>
+
+
+
+
+Search Results ({{ searchResults.length }})
+Scene footprints are displayed in orange. Satellite imagery will load progressively.
+
+
+
+
+No results found for the selected area and time range. Try expanding your search criteria.
+
+
+
+
+
+\<template #code>
+
+::: code-group
+
+```html [HTML]
+<div class="demo-container">
+  <div class="controls-panel">
+    <!-- Date controls -->
+    <div class="field">
+      <label>Start</label>
+      <input type="date" id="startDate" />
+    </div>
+    <div class="field">
+      <label>End</label>
+      <input type="date" id="endDate" />
+    </div>
+    
+    <!-- Search button -->
+    <button id="searchBtn" onclick="searchSTAC()">
+      Search STAC
+    </button>
+  </div>
+
+  <div id="map" class="map-container"></div>
+</div>
+```
+
+```javascript [Search Logic]
+import Feature from 'ol/Feature.js';
+import { Polygon } from 'ol/geom.js';
+
+async function searchSTAC() {
+  const startDate = document.getElementById('startDate').value;
+  const endDate = document.getElementById('endDate').value;
+  const btn = document.getElementById('searchBtn');
+
+  if (!selectedBbox || !startDate || !endDate) {
+    alert('Please draw a bounding box and select dates');
+    return;
+  }
+
+  try {
+    btn.disabled = true;
+    btn.innerText = 'Searching...';
+
+    // Clear previous results
+    footprintsLayer.getSource().clear();
+    currentDataLayers.forEach(l => map.removeLayer(l));
+    currentDataLayers = [];
+
+    // Construct STAC Query
+    const [minx, miny, maxx, maxy] = selectedBbox;
+    const stacUrl = new URL('https://api.explorer.eopf.copernicus.eu/stac/search');
+    stacUrl.searchParams.set('bbox', `${minx},${miny},${maxx},${maxy}`);
+    stacUrl.searchParams.set('datetime', `${startDate}T00:00:00Z/${endDate}T23:59:59Z`);
+    stacUrl.searchParams.set('collections', 'sentinel-2-l2a');
+    stacUrl.searchParams.set('limit', '10');
+
+    // Fetch Results
+    const response = await fetch(stacUrl);
+    const data = await response.json();
+    
+    if (data.features?.length > 0) {
+      displayFootprints(data.features);
+    } else {
+      alert('No images found in this area/date range');
+    }
+
+  } catch (error) {
+    console.error(error);
+    alert('Search failed');
+  } finally {
+    btn.disabled = false;
+    btn.innerText = 'Search STAC';
+  }
+}
+
+function displayFootprints(features) {
+  const source = footprintsLayer.getSource();
+  
+  features.forEach(item => {
+    // Create footprint feature
+    const feature = new Feature({
+      geometry: new Polygon(item.geometry.coordinates)
+        .transform('EPSG:4326', 'EPSG:3857')
+    });
+    source.addFeature(feature);
+
+    // Trigger visual loading
+    loadScene(item);
+  });
+
+  // Fit map to results
+  map.getView().fit(source.getExtent(), { padding: [50,50,50,50] });
+}
+```
+
+```javascript [Scene Loading]
+import WebGLTileLayer from 'ol/layer/WebGLTile.js';
+import GeoZarr from 'ol/source/GeoZarr.js';
+
+async function loadScene(stacItem) {
+  // 1. Find Zarr URL
+  // Find reflectance asset or store link
+  let zarrAsset = stacItem.assets?.reflectance
+  let zarrUrl
+  if (zarrAsset) {
+    zarrUrl = zarrAsset.href
+    } else {
+      const storeLink = stacItem.links?.find(link => link.rel === 'store')
+      if (storeLink) {
+      zarrUrl = storeLink.href
+      } else {
+        console.error('No Zarr data found in STAC item:', stacItem)
+        return
+    }
+  }
+  // 2. Configure GeoZarr Source (RGB)
+  const source = new GeoZarr({
+    url: zarrLink.includes('/measurements/reflectance') 
+      ? zarrLink.replace('/measurements/reflectance', '') 
+      : zarrLink,
+    group: 'measurements/reflectance',
+    bands: ['b04', 'b03', 'b02'] // Red, Green, Blue
+  });
+
+  // 3. Create Layer with Styling
+  const layer = new WebGLTileLayer({
+    source,
+    style: {
+      gamma: 1.5,
+      color: [
+        'color',
+        ['interpolate', ['linear'], ['band', 1], 0, 0, 0.5, 255], // Red
+        ['interpolate', ['linear'], ['band', 2], 0, 0, 0.5, 255], // Green
+        ['interpolate', ['linear'], ['band', 3], 0, 0, 0.5, 255], // Blue
+        ['case', ['==', ['+', ['band', 1], ['band', 2], ['band', 3]], 0], 0, 1], // Mask nodata
+      ],
+    },
+  });
+
+  // 4. Add to Map
+  map.addLayer(layer);
+  currentDataLayers.push(layer);
+}
+```
+
+```javascript [Map Setup]
+import Map from 'ol/Map.js';
+import View from 'ol/View.js';
+import TileLayer from 'ol/layer/Tile.js';
+import VectorLayer from 'ol/layer/Vector.js';
+import VectorSource from 'ol/source/Vector.js';
+import XYZ from 'ol/source/XYZ.js';
+import { Draw } from 'ol/interaction.js';
+import { createBox } from 'ol/interaction/Draw.js';
+import { transformExtent } from 'ol/proj.js';
+import { Style, Stroke, Fill } from 'ol/style.js';
+
+// Global Variables
+let map;
+let boundingBoxLayer;
+let footprintsLayer;
+let selectedBbox = null;
+let currentDataLayers = [];
+
+function initializeMap() {
+  // 1. Base Map
+  const baseLayer = new TileLayer({
+    source: new XYZ({
+      url: "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"
+    }),
+  });
+
+  // 2. Interaction Layer (for drawing bbox)
+  const bboxSource = new VectorSource();
+  boundingBoxLayer = new VectorLayer({
+    source: bboxSource,
+    style: new Style({
+      stroke: new Stroke({ color: '#3399CC', width: 2, lineDash: [10, 10] }),
+      fill: new Fill({ color: 'rgba(51, 153, 204, 0.1)' })
+    })
+  });
+
+  // 3. Results Layer (for footprints)
+  const footprintsSource = new VectorSource();
+  footprintsLayer = new VectorLayer({
+    source: footprintsSource,
+    style: new Style({
+      stroke: new Stroke({ color: '#ff6b35', width: 2 }),
+      fill: new Fill({ color: 'rgba(255, 107, 53, 0.1)' })
+    })
+  });
+
+  // 4. Create Map
+  map = new Map({
+    target: 'map',
+    layers: [baseLayer, boundingBoxLayer, footprintsLayer],
+    view: new View({
+      center: [260000, 6250000], // Paris
+      zoom: 8
+    })
+  });
+
+  // 5. Add Draw Interaction
+  const drawInteraction = new Draw({
+    source: bboxSource,
+    type: 'Circle',
+    geometryFunction: createBox()
+  });
+
+  map.addInteraction(drawInteraction);
+
+  // Handle Bbox Selection
+  drawInteraction.on('drawend', (event) => {
+    // Clear previous boxes so only one remains
+    bboxSource.clear();
+    
+    // Note: The new feature is added after this event, so we use the event feature
+    const extent = event.feature.getGeometry().getExtent();
+    selectedBbox = transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
+  });
+
+  // Initialize Dates
+  const today = new Date();
+  const prior = new Date();
+  prior.setDate(today.getDate() - 30);
+  document.getElementById('endDate').value = today.toISOString().split('T')[0];
+  document.getElementById('startDate').value = prior.toISOString().split('T')[0];
+}
+
+// Start Application
+initializeMap();
+```
+
+```json [package.json]
+{
+  "dependencies": {
+    "ol": "^10.8.0"
+  }
+}
+```
+
+:::
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/ol.md
+---
+
+## OpenLayers Integration&#x20;
+
+### Overview
+
+This guide demonstrates how to integrate OpenLayers with EOPF's Zarr-formatted satellite data using the experimental GeoZarr support in OpenLayers. Each example is presented on a separate page for optimal performance.
+
+::: warning :warning: **WebGL Not Supported**
+Your browser doesn't support WebGL, which is required for GeoZarr visualization. Please use a modern browser with WebGL enabled.
+:::
+
+::: info&#x20;**&#x20;What You'll Learn**
+This page describes the resources to use OpenLayers with EOPF's Sentinel data with interactive examples that demonstrate real-world applications of OpenLayers with EOPF's Sentinel-2 data, covering everything from basic setup to advanced image processing techniques.
+
+**Sample Data** used here are avalable in [the Sentinel-2 L2A collection in STAC Browser](https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a)
+:::
+
+### Quick Start
+
+::: info&#x20;**&#x20;Get Started in 5 Minutes**
+Ready to dive in? Start with the [Basic Setup example](./basic) to see OpenLayers and EOPF Zarr data working together, then explore the other examples to learn advanced techniques.
+:::
+
+### Installation
+
+::: info NPM (Recommended)
+
+```bash
+npm install ol stac-js@^0.1.2
+```
+
+:::
+
+::: info CDN (Quick Testing)
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
+```
+
+:::
+
+::: warning **Experimental**
+GeoZarr source requires `ol` v10.8.0 or later. The GeoZarr source functionality is still experimental, conforming to the evolving GeoZarr specification.
+:::
+
+### Next Steps
+
+1. **Start with Examples**: Work through each [examples](#interactive-examples) to understand the capabilities
+2. **Explore EOPF Data**: Browse available datasets in the [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
+3. **Custom Applications**: Build your own Sentinel data applications
+4. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
+
+For more advanced features and the latest updates, follow the [OpenLayers development](https://github.com/openlayers/openlayers) and [EOPF Explorer project](https://github.com/EOPF-Explorer) on GitHub.
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/datamodel.md
+---
+
+### Our Mission
+
+The EOPF Explorer project is at the forefront of establishing **GeoZarr** as the foundation for cloud-native Earth Observation data. Through intensive collaboration with the Zarr community, we've developed and released foundational conventions that enable interoperable, efficient access to geospatial data across the entire EO ecosystem.
+
+> *"This standardization work ensures that EOPF Zarr data is not locked into proprietary formats or single-application workflows, but becomes a true cloud-native standard accessible across the entire Earth Observation ecosystem."*
+
+***
+
+### The Journey: From Vision to Community Standards
+
+***
+
+### The Foundation: Zarr Conventions
+
+At the Zarr Summit in Rome, we established a new approach: instead of a monolithic GeoZarr specification, we created modular **Zarr Conventions** that can be adopted incrementally and evolved independently.
+
+***
+
+### Why This Matters
+
+Open, interoperable standards enable broader adoption and long-term sustainability of Earth Observation data. EOPF Explorer's Zarr Conventions work establishes a community-driven foundation for cloud-native Earth Observation:
+
+| Goal | How Zarr Conventions Help |
+|------|---------------------------|
+|  **Common container format** | One format across all Sentinel missions reduces mission-specific reader software needs |
+|  **Cloud-native access** | Efficient network access without downloading entire products |
+|  **Progressive visualization** | Multiscales enable interactive exploration at any zoom level |
+|  **Ecosystem interoperability** | QGIS, ArcGIS, ENVI, Python, R, Julia, JavaScript can all read the same data |
+|  **Future-proof standards** | Community-driven specifications ensure long-term sustainability |
+
+***
+
+### Client Software Enablement
+
+Our conventions work is enabling a growing ecosystem of tools:
+
+##### TiTiler
+
+Dynamic tile server with OGC Tiles API, WMS/WMTS endpoints, and band arithmetic.
+
+* [TiTiler EOPF API](https://api.explorer.eopf.copernicus.eu/raster/)
+
+##### GDAL (v3.12+)
+
+The de facto standard for geospatial data access now supports EOPF Zarr, enabling access from **QGIS**, **ArcGIS**, **ENVI**, and the entire desktop GIS ecosystem.
+
+* [GDAL Zarr Driver Documentation](https://gdal.org/en/stable/drivers/raster/zarr.html)
+* Phase 2 (full conventions support) in progress
+
+##### OpenLayers
+
+Browser-based visualization with native GeoZarr rendering, including off-screen Canvas for 3D globe projection using [EOxMap](/software-services/eoxelements/globe).
+
+* [OpenLayers GeoZarr Example](https://openlayers.org/en/main/examples/geozarr.html)
+* Requires `ol` v10.8.0 or later. The implementation is still experimental, conforming to the evolving specification.
+
+***
+
+### Community Leadership
+
+##### GeoZarr SWG Contributions
+
+We actively contributed to the OGC GeoZarr Specifications Working Group (SWG), submitting multiple proposals that shaped the current discussion on terminology, multiscales, and dimension binding. We proposed a pragmatic strategy that uses the established conventions as the foundation for GeoZarr v1.
+
+##### STAC Integration
+
+We authored the first comprehensive [STAC best practices for Zarr integration](https://github.com/radiantearth/stac-best-practices/blob/main/best-practices-zarr.md) and participated in the [STAC+Zarr Sprint at ESA/ESRIN](https://cloudnativegeo.org/blog/2025/11/stac-zarr-community-sprint-2025-recap/).
+
+***
+
+### Learn More
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/titiler/rgb.md
+---
+
+## TiTiler - RGB Visualization&#x20;
+
+This example demonstrates how to create RGB band combinations using Titiler's tile service with EOPF Sentinel-2 data. The server handles all image processing and returns optimized tiles for web mapping applications.
+
+\<template #demo>
+
+
+
+
+
+Generated Tile URL
+
+
+{{ buildTileUrl() }}
+
+\<button class="border small" @click="copyUrl">
+
+{{ copyButtonText }}
+
+
+
+
+
+
+
+
+
+
+\<template #code>
+
+::: code-group
+
+```javascript [OpenLayers Integration]
+import Map from 'ol/Map.js';
+import View from 'ol/View.js';
+import TileLayer from 'ol/layer/Tile.js';
+import { XYZ } from 'ol/source.js';
+import { fromLonLat } from 'ol/proj.js';
+
+// Titiler tile URL with band variables
+const tileUrl =
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "variables=/measurements/reflectance:b04&" +
+  "variables=/measurements/reflectance:b03&" +
+  "variables=/measurements/reflectance:b02&" +
+  "rescale=0,1&" +
+  "color_formula=gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2";
+
+const map = new Map({
+  target: "map",
+  layers: [
+    new TileLayer({
+      source: new XYZ({
+        url: tileUrl,
+        crossOrigin: "anonymous",
+      }),
+    }),
+  ],
+  view: new View({
+    center: fromLonLat([12.3, 45.8]),
+    zoom: 11,
+  }),
+});
+```
+
+```javascript [Leaflet Integration]
+import L from 'leaflet';
+
+// Create Leaflet map
+const map = L.map('map').setView([45.8, 12.3], 11);
+
+// Add base layer
+L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg').addTo(map);
+
+// Build Titiler URL
+const tileUrl =
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "variables=/measurements/reflectance:b04&" +
+  "variables=/measurements/reflectance:b03&" +
+  "variables=/measurements/reflectance:b02&" +
+  "rescale=0,1&" +
+  "color_formula=gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2";
+
+// Add Titiler layer
+const sentinelLayer = L.tileLayer(tileUrl, {
+  opacity: 0.8,
+  attribution: 'Data: Copernicus Sentinel-2 | Processing: EOPF'
+});
+
+sentinelLayer.addTo(map);
+```
+
+```javascript [API Direct Usage]
+// Direct API calls for custom processing
+const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster';
+const collection = 'sentinel-2-l2a';
+const itemId = 'S2B_MSIL2A_20251218T110359_N0511_R094_T32VLK_20251218T115223';
+
+async function getTileInfo() {
+  const response = await fetch(
+    `${baseUrl}/collections/${collection}/items/${itemId}/tiles`
+  );
+  const tilesets = await response.json();
+  console.log('Available tilesets:', tilesets);
+  return tilesets;
+}
+
+async function getItemMetadata() {
+  const response = await fetch(
+    `${baseUrl}/collections/${collection}/items/${itemId}`
+  );
+  const metadata = await response.json();
+  console.log('Item metadata:', metadata);
+  return metadata;
+}
+
+// Build custom tile URL
+function buildTileUrl(variables, rescale, colorFormula) {
+  const params = new URLSearchParams();
+  
+  variables.forEach(variable => {
+    params.append('variables', variable);
+  });
+  
+  params.set('rescale', rescale);
+  params.set('color_formula', colorFormula);
+  
+  return `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${params.toString()}`;
+}
+
+// Usage
+const trueColorUrl = buildTileUrl(
+  ['/measurements/reflectance:b04', '/measurements/reflectance:b03', '/measurements/reflectance:b02'],
+  '0,1',
+  'gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2'
+);
+```
+
+:::
+
+### API Parameters
+
+| Parameter       | Description                      | Example                         |
+| --------------- | -------------------------------- | ------------------------------- |
+| `variables`     | Band path in Zarr structure      | `/measurements/reflectance:b04` |
+| `rescale`       | Min,max values for normalization | `0,1` or `0,0.3`                |
+| `color_formula` | Color enhancement pipeline       | `gamma rgb 1.3, saturation 1.2` |
+| `format`        | Output image format              | `png` (default), `webp`, `jpeg` |
+
+### Key Concepts
+
+**Variable Format**
+
+Titiler uses specific paths to reference bands in Zarr data in the form of `group:variable`. For Sentinel-2 reflectance data, the relevant group is `/measurements/reflectance`. Example band paths:
+
+```
+/measurements/reflectance:b04  # Red band (10m resolution)
+/measurements/reflectance:b11  # SWIR band (20m resolution)
+```
+
+**Color Enhancement**
+
+The `color_formula` parameter applies color corrections:
+
+* **Gamma correction**: `gamma rgb 1.3` - Brightens mid-tones
+* **Sigmoidal contrast**: `sigmoidal rgb 6 0.1` - Enhances contrast
+* **Saturation**: `saturation 1.2` - Boosts color intensity
+
+**Rescaling**
+
+The `rescale` parameter normalizes reflectance values:
+
+* `0,1` - Full reflectance range (0-100%)
+* `0,0.3` - Compressed range for better contrast
+
+::: tip :bulb: TIP
+Use the [interactive API documentation](https://api.explorer.eopf.copernicus.eu/raster/api.html) to explore all available parameters and test different combinations.
+:::
+
+### Next Steps
+
+* **NDVI Calculations**: Learn [server-side vegetation index calculations](./ndvi)
+* **Spatial Operations**: Explore [cropping and spatial filtering](./crop)
+* **STAC Integration**: Browse available datasets in the [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
+
+::: warning :warning: **Performance Note**
+Titiler generates tiles on-demand. Initial requests may be slower while tiles are computed and cached.
+:::
+
+---
+
+---
+url: /pr-preview/pr-60/software-services.md
+---
+
+### Software & Services
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/titiler/crop.md
+---
+
+## TiTiler - Spatial Cropping&#x20;
+
+This example demonstrates how to extract specific areas from satellite scenes using Titiler's spatial operations. You can crop data using bounding boxes or draw custom areas directly on the map
+
+::: tip :bulb: TIP
+Size Limits: Large crop areas may take longer to process.
+:::
+
+\<template #controls>
+
+
+
+
+True Color RGB
+NDVI Vegetation Index
+
+Visualization
+
+
+
+Crop Area (Lon/Lat)
+
+
+
+
+Min Lon
+
+
+
+
+
+Min Lat
+
+
+
+
+
+Max Lon
+
+
+
+
+
+Max Lat
+
+
+
+
+
+
+
+\<template #demo>
+
+
+
+
+
+
+Crop Preview
+
+
+\<img :src="previewUrl" alt="Crop Preview" class="responsive rounded border"
+@error="imageError = true" @load="imageError = false"
+v-show="!imageError" />
+
+
+
+Preview URL:
+{{ bboxUrl }}
+No data availability for this area
+
+
+
+Download High-Res
+
+\<button class="small border" @click="copyUrl">
+Copy URL
+
+
+
+
+
+
+
+
+
+
+\<template #code>
+
+::: code-group
+
+```javascript [Bbox Crop API]
+// Using the correct bbox API endpoint
+const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
+const collection = "sentinel-2-l2a";
+const itemId = "S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704";
+
+// Define crop coordinates
+const bbox = "12.2,45.7,12.4,45.9"; // minLon,minLat,maxLon,maxLat
+
+// Build crop URL with bbox in path
+const cropUrl =
+  `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/1024x1024.png?` +
+  `variables=/measurements/reflectance:b04&` +
+  `variables=/measurements/reflectance:b03&` +
+  `variables=/measurements/reflectance:b02&` +
+  `rescale=0,1&` +
+  `color_formula=gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2`;
+
+// Download cropped image
+fetch(cropUrl)
+  .then((response) => response.blob())
+  .then((blob) => {
+    const url = URL.createObjectURL(blob);
+    // Display in img element or download
+    const img = document.createElement("img");
+    img.src = url;
+    document.body.appendChild(img);
+  });
+```
+
+```javascript [NDVI Crop Example]
+// Crop with NDVI calculation using bbox API
+const bbox = "12.05,45.32,12.6,45.57";
+const ndviExpression =
+  "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
+
+const ndviCropUrl =
+  `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/1024x1024.png?` +
+  `expression=${encodeURIComponent(ndviExpression)}&` +
+  `rescale=-0.3,0.8&` +
+  `colormap_name=rdylgn`;
+
+// Display NDVI crop
+fetch(ndviCropUrl)
+  .then((response) => response.blob())
+  .then((blob) => {
+    const url = URL.createObjectURL(blob);
+    document.getElementById("ndvi-preview").src = url;
+  });
+
+// Alternative with async/await
+async function getCropImage(bbox, bandConfig) {
+  const params = new URLSearchParams();
+
+  if (bandConfig.variables) {
+    bandConfig.variables.forEach((variable) => {
+      params.append("variables", variable);
+    });
+    params.set("rescale", bandConfig.rescale);
+    params.set("color_formula", bandConfig.colorFormula);
+  } else if (bandConfig.expression) {
+    params.set("expression", bandConfig.expression);
+    params.set("rescale", bandConfig.rescale);
+    params.set("colormap_name", bandConfig.colormap);
+  }
+
+  const url = `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/1024x1024.png?${params}`;
+
+  try {
+    const response = await fetch(url);
+    return await response.blob();
+  } catch (error) {
+    console.error("Crop failed:", error);
+    throw error;
+  }
+}
+```
+
+```javascript [Leaflet Integration]
+import L from "leaflet";
+
+// Create map with drawing controls
+const map = L.map("map").setView([45.8, 12.3], 11);
+L.tileLayer("https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg").addTo(map);
+
+// Drawing logic
+let currentRectangle = null;
+let startPoint = null;
+let isDrawing = false;
+
+// Initialize drawing immediately
+enableDrawing();
+
+function enableDrawing() {
+  map.on("mousedown", startDraw);
+  map.getContainer().style.cursor = "crosshair";
+}
+
+function startDraw(e) {
+  // Remove previous rectangle if any
+  if (currentRectangle) {
+    map.removeLayer(currentRectangle);
+    currentRectangle = null;
+  }
+  
+  startPoint = e.latlng;
+  isDrawing = true;
+  
+  currentRectangle = L.rectangle([startPoint, startPoint], {
+    color: "#ff7800",
+    weight: 2,
+    fillOpacity: 0.1,
+  }).addTo(map);
+
+  map.on("mousemove", updateRectangle);
+  map.on("mouseup", finishDraw);
+}
+
+function updateRectangle(e) {
+  if (isDrawing && currentRectangle) {
+    const bounds = L.latLngBounds([startPoint, e.latlng]);
+    currentRectangle.setBounds(bounds);
+  }
+}
+
+function finishDraw(e) {
+  isDrawing = false;
+  map.off("mousemove", updateRectangle);
+  map.off("mouseup", finishDraw);
+
+  if (currentRectangle) {
+    const bounds = currentRectangle.getBounds();
+    const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
+
+    // Update URL or application state
+    console.log("New Bbox:", bbox);
+  }
+}
+```
+
+:::
+
+### Key Concepts
+
+**Spatial Operations**
+Titiler supports several spatial operations for data extraction:
+
+**1. Bounding Box Crop**
+
+```
+/crop?bbox=minx,miny,maxx,maxy
+```
+
+Extracts a rectangular area defined by geographic coordinates.
+
+**2. Feature-Based Crop**
+
+```
+/crop?geom={"type":"Polygon","coordinates":[[[...]]]}
+```
+
+Crops using complex geometries (polygons, multi-polygons).
+
+**3. Preview Generation**
+
+```
+/preview?bbox=minx,miny,maxx,maxy&max_size=512
+```
+
+Generates web-friendly previews with size constraints.
+
+**Coordinate Systems**
+
+All coordinates use **WGS84 (EPSG:4326)** longitude/latitude format:
+
+* **Longitude**: East-West position (-180 to +180)
+* **Latitude**: North-South position (-90 to +90)
+
+Titiler automatically reprojects to the data's native coordinate system.
+
+**Output Formats**
+
+Cropped data can be returned in multiple formats:
+
+* **GeoTIFF**: Full-resolution georeferenced data
+* **PNG**: Web-ready images with transparency
+* **JPEG**: Compressed images for smaller file sizes
+
+### API Parameters
+
+| Parameter    | Description                         | Example                         |
+| ------------ | ----------------------------------- | ------------------------------- |
+| `bbox`       | Bounding box as minx,miny,maxx,maxy | `12.2,45.7,12.4,45.9`           |
+| `geom`       | GeoJSON geometry for complex shapes | `{"type":"Polygon",...}`        |
+| `max_size`   | Maximum output dimension (preview)  | `512`, `1024`                   |
+| `format`     | Output format                       | `png`, `jpeg`, `tiff`           |
+| `variables`  | Band selection (same as tiles)      | `/measurements/reflectance:b04` |
+| `expression` | Mathematical expressions            | NDVI, EVI calculations          |
+| `rescale`    | Value normalization                 | `0,1`, `-1,1`                   |
+
+::: tip :bulb: TIP
+Use the preview endpoint with `max_size=512` for quick web previews, then the full crop endpoint for high-resolution analysis.
+:::
+
+### Next Steps
+
+* **API Documentation**: Check the [complete API reference](https://api.explorer.eopf.copernicus.eu/raster/api.html) for advanced cropping options
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/datamodel/technical-deep-dive.md
+---
+
+## Technical Deep Dive - GeoZarr Standards
+
+This page provides comprehensive links to all our contributions, proposals, and technical resources for the GeoZarr standardization effort.
+
+***
+
+### Zarr Conventions (Released)
+
+The three foundational conventions released at the Zarr Summit Rome, October 2025:
+
+| Convention | Description | Repository |
+|------------|-------------|------------|
+| **Multiscales** | Encoding multiscale pyramid information for data stored in Zarr groups | [zarr-conventions/multiscales](https://github.com/zarr-conventions/multiscales) |
+| **Projection (geo-proj)** | Encoding datum and coordinate reference system (CRS) information for geospatial data | [zarr-conventions/geo-proj](https://github.com/zarr-conventions/geo-proj) |
+| **Spatial** | Describing the relationship between array indices and spatial coordinates | [zarr-conventions/spatial](https://github.com/zarr-conventions/spatial) |
+
+**Zarr Conventions Organization:** [github.com/zarr-conventions](https://github.com/zarr-conventions/)
+
+***
+
+### GeoZarr OGC SWG Contributions
+
+Pull requests submitted to the GeoZarr OGC Specifications Working Group:
+
+| Contribution | Status | Link |
+|--------------|--------|------|
+| Clarify terminology across specification | Open | [PR #89](https://github.com/zarr-developers/geozarr-spec/pull/89) |
+| GeoZarr Multiscales Clarifications | Open | [PR #86](https://github.com/zarr-developers/geozarr-spec/pull/86) |
+| Make dimension binding for data variables match coordinate variables | Open | [PR #85](https://github.com/zarr-developers/geozarr-spec/pull/85) |
+| RFC: Reformat GeoZarr as registration of Zarr translations | Open | [PR #67](https://github.com/zarr-developers/geozarr-spec/pull/67) |
+
+**GeoZarr Specification Repository:** [github.com/zarr-developers/geozarr-spec](https://github.com/zarr-developers/geozarr-spec)
+
+***
+
+### Zarr Extensions Proposals
+
+Proposals for Zarr v3 extensions:
+
+| Proposal | Description | Link |
+|----------|-------------|------|
+| Registered attributes in Zarr v3 | Framework for attribute registration | [PR #23](https://github.com/zarr-developers/zarr-extensions/pull/23) |
+| Projection Attribute Extension for Zarr v3 | CRS encoding extension | [PR #21](https://github.com/zarr-developers/zarr-extensions/pull/21) |
+
+***
+
+### Core Libraries Development
+
+**eopf-geozarr Library (v0.6.1)**
+
+Our Python library for working with GeoZarr data:
+
+* **Pydantic GeoZarr model** for validation
+* **Converter modules** for Sentinel-1, Sentinel-2, Sentinel-3
+* **CLI** for dataset inspection, validation, and conversion
+* **Docker image** for containerized workflows
+
+| Resource | Link |
+|----------|------|
+| Documentation | [eopf-explorer.github.io/data-model](https://eopf-explorer.github.io/data-model/) |
+| Repository | [github.com/EOPF-Explorer/data-model](https://github.com/EOPF-Explorer/data-model) |
+
+**zarr-python Enhancements**
+
+Contributions to the core zarr-python library:
+
+| Enhancement | Type | Link |
+|-------------|------|------|
+| Option to preserve child metadata during consolidation at parent level | Issue | [#3289](https://github.com/zarr-developers/zarr-python/issues/3289) |
+| Fix invalid blosc defaults | PR | [#3530](https://github.com/zarr-developers/zarr-python/pull/3530) |
+| Don't serialize consolidated metadata if it's None | PR | [#3535](https://github.com/zarr-developers/zarr-python/pull/3535) |
+| Refactored warnings | PR | [#3098](https://github.com/zarr-developers/zarr-python/pull/3098) |
+
+**xarray Ecosystem**
+
+| Contribution | Repository | Link |
+|--------------|------------|------|
+| Fix Zarr Encoding Documentation | xarray | [PR #10720](https://github.com/pydata/xarray/pull/10720) |
+| Implement Zarr spatial and proj conventions support | rioxarray | [PR #883](https://github.com/corteva/rioxarray/pull/883) |
+
+***
+
+## Client Software
+
+**GDAL GeoZarr Driver**
+
+| Phase | Status | Description |
+|-------|--------|-------------|
+| Phase 1 |  Complete (v3.12) | EOPF Sample and V0 support |
+| Phase 2 |  In Progress | Full Zarr conventions support |
+
+* **Documentation:** [gdal.org/drivers/raster/zarr.html](https://gdal.org/en/stable/drivers/raster/zarr.html)
+* **Releases:** [github.com/OSGeo/gdal/releases](https://github.com/OSGeo/gdal/releases)
+
+**Impact:** Enables access from QGIS, ArcGIS, ENVI, R, Python ecosystem.
+
+**OpenLayers GeoZarr Support**
+
+| Resource | Link |
+|----------|------|
+| Main PR | [PR #17194](https://github.com/openlayers/openlayers/pull/17194) |
+| Additional PR | [PR #17255](https://github.com/openlayers/openlayers/pull/17255) |
+| Live Example | [GeoZarr Example](https://openlayers.org/en/main/examples/geozarr.html) |
+| Stretch Example | [GeoZarr Stretch Example](https://deploy-preview-17194--ol-site.netlify.app/en/latest/examples/geozarr-stretch.html) |
+
+**Features:**
+
+* Native GeoZarr rendering in the browser
+* Off-screen Canvas for 3D globe projection ([EOxMap](/software-services/eoxelements/globe) integration)
+* EOxMap Globe Hybrid rendering strategy: native + OpenLayers fallback
+* Status: Experimental in v10.8.0
+
+**TiTiler GeoZarr Adapter**
+
+| Endpoint | URL |
+|----------|-----|
+| Raster API | [api.explorer.eopf.copernicus.eu/raster](https://api.explorer.eopf.copernicus.eu/raster/) |
+| OpenEO API | [api.explorer.eopf.copernicus.eu/openeo](https://api.explorer.eopf.copernicus.eu/openeo/) |
+| Repository | [github.com/EOPF-Explorer/titiler-eopf](https://github.com/EOPF-Explorer/titiler-eopf) |
+
+***
+
+### STAC Integration
+
+**STAC+Zarr Best Practices**
+
+The first comprehensive guide for integrating Zarr with STAC:
+
+* **Best Practices Document:** [stac-best-practices/best-practices-zarr.md](https://github.com/radiantearth/stac-best-practices/blob/main/best-practices-zarr.md)
+
+**EOPF STAC Patterns**
+
+| Resource | Link |
+|----------|------|
+| EOPF STAC PR | [PR #54](https://github.com/EOPF-Sample-Service/eopf-stac/pull/54) |
+| Live Catalog | [api.explorer.eopf.copernicus.eu/browser](https://api.explorer.eopf.copernicus.eu/browser/) |
+
+**Achievements:**
+
+* Largest effort to-date representing Zarr stores in STAC
+* Assets vs bands pattern establishment
+* ESA-specific best practices
+
+***
+
+### Community Resources
+
+**Zarr Summit Rome (October 2025)**
+
+* **Recap:** [cloudnativegeo.org/blog/2025/11/2025-zarr-summit-recap](https://cloudnativegeo.org/blog/2025/11/2025-zarr-summit-recap/)
+* **Outcome:** Established the Zarr Conventions framework
+
+**First STAC Sprint in Europe**
+
+* **Location:** ESA/ESRIN
+* **Flagship:** EOPF Zarr Sentinel products
+
+***
+
+### Project Coordination
+
+| Resource | Link |
+|----------|------|
+| GitHub Organization | [github.com/EOPF-Explorer](https://github.com/EOPF-Explorer) |
+| Risk Register | [Coordination Issues](https://github.com/EOPF-Explorer/coordination/issues?q=is%3Aissue%20label%3Arisk) |
+| Discussion Forum | [EOPF Discourse](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) |
+
+**Relevant Coordination Issues**
+
+| Issue | Topic | Link |
+|-------|-------|------|
+| #166 | OpenLayers coordination | [Issue #166](https://github.com/EOPF-Explorer/coordination/issues/166) |
+| #169 | Technical coordination | [Issue #169](https://github.com/EOPF-Explorer/coordination/issues/169) |
+| #180 | Standards coordination | [Issue #180](https://github.com/EOPF-Explorer/coordination/issues/180) |
+
+***
+
+### Data Model Specifications
+
+**V0: Maximalist Compatibility (September 2025)**
+
+Following GeoZarr 0.4:
+
+* Zarr v3
+* Climate and Forecast (CF) conventions integration
+* Grid mapping 0D array implementation
+* Simple CRS + Affine transform approach
+* GDAL compatibility in v3.12
+
+**V1: Zarr Conventions (January 2026)**
+
+* Multiscales Zarr convention
+* Projection Zarr convention
+* Spatial Zarr convention
+* Full GDAL support path
+
+**Multiscales Pyramid Implementation**
+
+| Resolution | Type | Notes |
+|------------|------|-------|
+| 10m | Native | Untouched from Zarr Samples Service |
+| 20m | Native | Untouched from Zarr Samples Service |
+| 60m | Native | Untouched from Zarr Samples Service |
+| 120m | Overview | Downsampled from 60m by averaging |
+| 360m | Overview | Downsampled from 120m by averaging |
+| 720m | Overview | Downsampled from 360m by averaging |
+
+**Chunking Strategy:**
+
+* Dynamic chunking according to shard size
+* Scene-per-band aligned sharding strategy
+* Consolidated metadata at multiscale group level
+
+***
+
+---
+
+---
+url: /pr-preview/pr-60/software-services/titiler.md
+---
+
+## Titiler Integration&#x20;
+
+### Overview
+
+This guide demonstrates how to use Titiler-EOPF, a specialized tile server that provides on-the-fly visualization of EOPF's Zarr-formatted satellite data. Unlike client-side processing, Titiler handles complex calculations server-side and delivers optimized tiles for web mapping applications.
+
+::: tip :bulb: **Checking [API](https://api.explorer.eopf.copernicus.eu/raster) Status**:Verifying Titiler service availability...
+:::
+
+::: warning :warning: **[API](https://api.explorer.eopf.copernicus.eu/raster) Unavailable**:: The Titiler service appears to be temporarily unavailable. Some examples may not work as expected.
+:::
+
+::: info&#x20;**&#x20;What You'll Learn**
+This integration guide covers server-side tile generation using EOPF's Titiler service, enabling you to build responsive web applications without handling complex data processing in the browser. Each example demonstrates practical implementation patterns for real-world applications.
+
+**Sample Data** used here are available in [the Sentinel-2 L2A collection in STAC Browser](https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a)
+:::
+
+### Quick Start
+
+::: info&#x20;**&#x20;Get Started in 5 Minutes**
+Ready to dive in? Start with the [RGB Visualization example](./rgb) to see Titiler serving EOPF tiles in a web map, then explore NDVI calculations and spatial cropping techniques
+:::
+
+
+::: warning :warning: **Early Implementation**
+This Titiler integration represents an early implementation of EOPF data services. Data availability, API stability, and library alignment will evolve over time as the platform matures.
+:::
+
+### API Documentation
+
+::: info Interactive API Docs
+[Swagger UI Documentation](https://api.explorer.eopf.copernicus.eu/raster/api.html)
+
+Complete API reference with interactive examples and endpoint testing.
+:::
+
+::: info Base URL
+<https://api.explorer.eopf.copernicus.eu/raster/>
+
+All tile endpoints use this base URL for production integration.
+
+:::
+
+### Key Concepts
+
+**Server-Side Processing**
+
+Titiler-EOPF performs all data processing server-side, including:
+
+* **On-the-fly tile generation** from Zarr datasets
+* **Mathematical expressions** for band combinations and indices
+* **Color enhancement** with gamma correction and contrast adjustment
+* **Spatial operations** like cropping and reprojection
+
+**Variable Naming Convention**
+
+Band references use the format:
+
+```
+/measurements/reflectance:b04
+```
+
+* `measurements/reflectance` - Multiscales group path in Zarr structure
+* `b04` - Specific band identifier (Red band)
+
+**URL Structure**
+
+Tile endpoints follow this pattern:
+
+```
+/raster/collections/{collection}/items/{item}/tiles/WebMercatorQuad/{z}/{x}/{y}.png
+```
+
+### Deployment Options
+
+**1. [EOPF Explorer TiTiler](https://api.explorer.eopf.copernicus.eu/raster/) (Recommended)**
+
+* **Pre-configured** with STAC catalog integration
+* **Production-ready** endpoints with optimized performance
+* **No authentication** required for public data
+* **Automatic updates** with latest EOPF data
+
+**2. Self-Hosted Instance**
+
+For custom deployments, see the [titiler-eopf repository](https://github.com/EOPF-Explorer/titiler-eopf) for:
+
+* Docker Compose setup instructions
+* Kubernetes/Helm deployment guides
+* Environment configuration examples
+* Custom data source integration
+
+### Next Steps
+
+1. **Start with Examples**: Work through each [example](#integration-examples) to understand the capabilities
+2. **Explore API Documentation**: Use the [interactive Swagger UI](https://api.explorer.eopf.copernicus.eu/raster/api.html) to test endpoints
+3. **Browse EOPF Data**: Find datasets in the [STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
+4. **Build Applications**: Integrate Titiler tiles into your web mapping projects
+5. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
+
+For the latest updates and advanced features, follow the [Titiler-EOPF project](https://github.com/EOPF-Explorer/titiler-eopf) and [EOPF Explorer platform](https://github.com/EOPF-Explorer) on GitHub.
+
+---
+
+---
+url: /pr-preview/pr-60/sentinelexplorer.md
+---
+
+
+---
+
+---
+url: /pr-preview/pr-60/story.md
+---
+
+\<eox-storytelling
+show-nav
+v-if="storyurl"
+:markdown-url="storyurl"
+class="full-width"
+style="transform: translateY(var(--vp-nav-height)); margin-top: calc(var(--vp-nav-height) \* -1 - 90px - 48px); margin-bottom: var(--vp-nav-height);"
+
+>
