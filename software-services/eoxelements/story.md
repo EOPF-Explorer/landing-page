@@ -78,11 +78,6 @@ This story demonstrates the power of multispectral imaging by visualizing differ
 **Bands: Red (B04), Green (B03), Blue (B02)**
 This natural color composite shows the area as seen by the human eye. It is useful for general interpretation of land cover, water features, and cloud patterns.
 
-### <!--{ layers='${createLayers(urlNapoli, ["b08", "b04", "b03"])}' center='[14.24, 40.83]' zoom='11' animationOptions="{'duration': 1000}" }-->
-#### False Color Infrared
-**Bands: NIR (B08), Red (B04), Green (B03)**
-In this composite, vegetation appears red because it reflects near-infrared light strongly. Darker red indicates denser, healthier vegetation. This combination is excellent for monitoring plant health and distinguishing between vegetation and bare soil.
-
 ### <!--{ layers='${createLayers(urlNapoli, ["b12", "b8a", "b04"])}' center='[14.24, 40.83]' zoom='11' animationOptions="{'duration': 1000}" }-->
 #### Short-Wave Infrared (SWIR)
 **Bands: SWIR2 (B12), NIR2 (B8A), Red (B04)**
@@ -192,11 +187,6 @@ This story demonstrates visualizing different band combinations of Sentinel-2 da
 #### True Color (RGB)
 **Bands: Red (B04), Green (B03), Blue (B02)**
 This natural color composite shows the area as seen by the human eye.
-
-### <!--{ layers='${createLayers(urlNapoli, ["b08", "b04", "b03"])}' center='[14.24, 40.83]' zoom='11' animationOptions="{'duration': 1000}" }-->
-#### False Color Infrared
-**Bands: NIR (B08), Red (B04), Green (B03)**
-Vegetation appears red because it reflects near-infrared light strongly.
 
 ### <!--{ layers='${createLayers(urlNapoli, ["b12", "b8a", "b04"])}' center='[14.24, 40.83]' zoom='11' animationOptions="{'duration': 1000}" }-->
 #### Short-Wave Infrared (SWIR)
