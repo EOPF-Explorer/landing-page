@@ -1,8 +1,6 @@
 import { defineConfig } from "vitepress";
 //@ts-expect-error does not have types
 import baseConfig from "@eox/pages-theme-eox/config";
-import llmstxt from 'vitepress-plugin-llms'
-
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -42,12 +40,6 @@ export default defineConfig({
   },
   base: "/",
   vite:{
-    plugins: [
-      //@ts-expect-error
-       llmstxt({
-        ignoreFiles:["**/sentinelexplorer/**/*"],
-        excludeIndexPage:false,
-      })],
     server: {
       allowedHosts: true,
     }
