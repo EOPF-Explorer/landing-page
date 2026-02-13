@@ -246,63 +246,68 @@ watch([customRescaleMin, customRescaleMax, selectedColormap], () => {
 ## TiTiler - Vegetation Indices <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 <Tutorial height="800px">
-  <template #description>
-    <p>This example demonstrates how to calculate vegetation indices using Titiler's server-side mathematical expressions. All calculations are performed on the server, returning pre-computed tiles optimized for web display.</p>
-  </template>
 
-  <template #controls>
-    <div class="grid small-space">
-      <div class="s12">
-        <div class="field label border">
-          <select v-model="selectedExpression">
-            <option v-for="(expr, key) in expressions" :key="key" :value="key">
-              {{ expr.name }}
-            </option>
-          </select>
-          <label>Vegetation Index</label>
-        </div>
-      </div>
-      <div class="s12" v-if="expressions[selectedExpression]">
-        <article class="surface-variant padding no-elevate">
-          <div class="bold">Description</div>
-          <p class="medium-text">{{ expressions[selectedExpression].description }}</p>
-          <pre class="medium-text"><code>{{ expressions[selectedExpression].formula }}</code></pre>
-        </article>
-      </div>
-      <div class="s12">
-        <div class="field label border">
-          <select v-model="selectedColormap">
-            <option v-for="cm in colormaps" :key="cm.value" :value="cm.value">
-              {{ cm.name }} - {{ cm.description }}
-            </option>
-          </select>
-          <label>Color Map</label>
-        </div>
-      </div>
-      <div class="s12">
-        <label class="bold medium-text">Rescale Range</label>
-        <div class="grid small-space">
-          <div class="s6 center-align small-text">
-            Min: {{ customRescaleMin.toFixed(2) }}
-          </div>
-          <div class="s6 center-align small-text">
-            Max: {{ customRescaleMax.toFixed(2) }}
-          </div>
-        </div>
-        <div class="small-margin top-margin">
-          <tc-range-slider
-            ref="rescaleSlider"
-            :value1="customRescaleMin"
-            :value2="customRescaleMax"
-            min="-1"
-            max="1"
-            step="0.01"
-            @change="handleRescaleChange"
-          />
-        </div>
+ <template #description>
+
+This example demonstrates how to calculate vegetation indices using Titiler's server-side mathematical expressions. All calculations are performed on the server, returning pre-computed tiles optimized for web display.
+
+</template>
+
+<template #controls>
+  <div class="grid padding small-space">
+  <br/>
+    <div class="s12">
+      <div class="field label border">
+        <select v-model="selectedExpression" style="cursor:pointer !important;">
+          <option v-for="(expr, key) in expressions" :key="key" :value="key">
+            {{ expr.name }}
+          </option>
+        </select>
+        <label>Select a Vegetation Index</label>
       </div>
     </div>
-  </template>
+    <div class="s12" v-if="expressions[selectedExpression]">
+      <article class="padding no-elevate surface-variant">
+        <div class="bold">Description</div>
+        <p class="medium-text">{{ expressions[selectedExpression].description }}</p>
+        <pre class="medium-text"><code>{{ expressions[selectedExpression].formula }}</code></pre>
+      </article>
+    </div>
+    <br/>
+    <div class="s12">
+      <div class="field label border">
+        <select v-model="selectedColormap" style="cursor:pointer !important;">
+          <option v-for="cm in colormaps" :key="cm.value" :value="cm.value">
+            {{ cm.name }} - {{ cm.description }}
+          </option>
+        </select>
+        <label>Select Color Map</label>
+      </div>
+    </div>
+    <div class="s12">
+      <label class="bold medium-text">Rescale Range</label>
+      <div class="grid small-space">
+        <div class="s6 center-align small-text">
+          Min: {{ customRescaleMin.toFixed(2) }}
+        </div>
+        <div class="s6 center-align small-text">
+          Max: {{ customRescaleMax.toFixed(2) }}
+        </div>
+      </div>
+      <div class="small-margin top-margin">
+        <tc-range-slider
+          ref="rescaleSlider"
+          :value1="customRescaleMin"
+          :value2="customRescaleMax"
+          min="-1"
+          max="1"
+          step="0.01"
+          @change="handleRescaleChange"
+        />
+      </div>
+    </div>
+  </div>
+</template>
 
   <template #demo>
     <div class="relative" style="width: 100%; height: 100%;">
