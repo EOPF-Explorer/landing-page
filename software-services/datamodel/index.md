@@ -9,7 +9,7 @@ import { timelineItems, getStatusColor } from "../../.vitepress/utils/content.js
 </script>
 
 <div class="hero-section" style="text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 12px; margin-bottom: 2rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><i class="mdi mdi-earth" style="font-size:2.5rem; height:2.5rem;width:2.5rem"></i> Pioneering the GeoZarr Data Model</h1>
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">🌍 Pioneering the GeoZarr Data Model</h1>
   <p style="font-size: 1.2rem; color: #64748b; max-width: 800px; margin: 0 auto;">
     Driving the standardization of cloud-native geospatial data formats for the Earth Observation community
   </p>

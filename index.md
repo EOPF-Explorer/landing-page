@@ -25,7 +25,7 @@ hero:
   icon="mdi-earth-plus"
   landing
   primaryButton="Learn More"
-  primaryLink="/datamodel/"
+  primaryLink="/software-services/datamodel/"
   tagline="Pioneering the GeoZarr Data Model"
   title="Data Model"
 >
