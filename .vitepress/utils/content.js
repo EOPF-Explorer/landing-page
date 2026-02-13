@@ -149,7 +149,7 @@ export const servicesContent = [
   {
     id: "sentinel-explorer",
     title: "Sentinel Explorer",
-    content: "Interactive viewer for Sentinel Zarr scenes with band combinations and indicators.",
+    content: "Interactive viewer for Sentinel Zarr scenes based on eodash and TiTiler band combinations and indicators.",
     image: "/assets/sentinel-2.png",
     tags: ["<i class='mdi mdi-map-search'></i> screening", "interactive", "zarr", "sentinel-1", "sentinel-2"],
     category: "Screening",
