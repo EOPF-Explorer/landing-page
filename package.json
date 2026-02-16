@@ -26,9 +26,9 @@
     "stac-js": "^0.1.9"
   },
   "devDependencies": {
-    "@eox/pages-theme-eox": "^0.11.5",
+    "@eox/pages-theme-eox": "^1.1.0",
     "@types/chroma-js": "^3.1.2",
-    "eslint-plugin-vue": "^10.7.0",
+    "eslint-plugin-vue": "^10.8.0",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.4"
   }

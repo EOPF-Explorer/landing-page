@@ -5,7 +5,6 @@ layout: page
 
 <script setup>
 import { onMounted, useTemplateRef, nextTick, ref } from "vue";
-import Tutorial from '../../.vitepress/components/Tutorial.vue';
 import { inAndOut } from "ol/easing";
 import { transformExtent } from "ol/proj"
 
@@ -138,7 +137,7 @@ function toggleProjection() {
 
 Switching from a 2D map to a 3D globe in **EOxElements** is as simple as changing the projection. By importing the globe extension, `eox-map` gains the ability to render OpenLayers layers on a 3D Earth using the **OpenGlobus** engine.
 
-<Tutorial height="600px">
+<Tutorial demoHeight="600px">
  <template #description>
 
 #### Globe Integration

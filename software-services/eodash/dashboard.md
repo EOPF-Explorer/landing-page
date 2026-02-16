@@ -4,8 +4,6 @@ layout: page
 ---
 
 <script setup>
-import Tutorial from '../../.vitepress/components/Tutorial.vue';
-
 const config = async() => (await import("./dashboard-config.js")).default
 </script>
 
@@ -15,7 +13,7 @@ This hands-on tutorial demonstrates how to embed a fully functional Earth Observ
 
 By default, connecting to the EOPF STAC API allows the dashboard to automatically discover Collections and Items, rendering filters and maps without any additional glue code.
 
-<Tutorial height="600px">
+<Tutorial demoHeight="600px">
  <template #description>
 
 ### Dashboard Features

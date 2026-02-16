@@ -16,7 +16,6 @@ import GeoZarr from 'ol/source/GeoZarr.js'
 import XYZ from 'ol/source/XYZ.js'
 import 'ol/ol.css'
 import { checkWebGLSupport } from '../index'
-import Tutorial from '../../.vitepress/components/Tutorial.vue'
 
 
 const sliderRef = useTemplateRef("rangeSlider")
@@ -165,7 +164,7 @@ Your browser doesn't support WebGL, which is required for GeoZarr visualization 
 ::: 
 </div>
 
-<Tutorial v-if="webglSupport" height="600px">
+<Tutorial demoHeight="600px">
   <template #description>
     <p>This example demonstrates NDVI calculation with:</p>
     <ul>

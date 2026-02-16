@@ -17,7 +17,6 @@ import { Draw } from 'ol/interaction.js'
 import { createBox } from 'ol/interaction/Draw.js'
 import { Style, Fill, Stroke } from 'ol/style.js'
 import 'ol/ol.css'
-import Tutorial from '../../.vitepress/components/Tutorial.vue'
 
 const copyUrl = async () => {
   try {
@@ -253,7 +252,7 @@ function initializeMap() {
 
 This example demonstrates how to extract specific areas from satellite scenes using Titiler's spatial operations. You can crop data using bounding boxes or draw custom areas directly on the map
 
-<Tutorial height="800px">
+<Tutorial demoHeight="800px">
   <template #description>
     <h3>Features</h3>
     <ul>

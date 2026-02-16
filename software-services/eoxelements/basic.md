@@ -4,7 +4,6 @@ layout: page
 ---
 
 <script setup>
-import Tutorial from '../../.vitepress/components/Tutorial.vue'
 import { useTemplateRef, onMounted, nextTick } from "vue"
 
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20260120T125339_N0511_R138_T27VWL_20260120T131151.zarr';

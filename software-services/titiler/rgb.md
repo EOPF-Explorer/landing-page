@@ -12,7 +12,6 @@ import XYZ from "ol/source/XYZ"
 import { fromLonLat } from 'ol/proj'
 import 'ol/ol.css'
 import { createCopyUrlFunction } from '../index'
-import Tutorial from '../../.vitepress/components/Tutorial.vue'
 
 /**
  * @typedef {Object} BandCombination
@@ -181,7 +180,7 @@ function initializeMap() {
 
 This example demonstrates how to create RGB band combinations using Titiler's tile service with EOPF Sentinel-2 data. The server handles all image processing and returns optimized tiles for web mapping applications.
 
-<Tutorial height="800px">
+<Tutorial demoHeight="800px">
   <template #controls>
     <div class="grid small-space">
       <div class="s12">

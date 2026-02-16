@@ -4,7 +4,6 @@ layout: page
 ---
 
 <script setup>
-import Tutorial from '../../.vitepress/components/Tutorial.vue'
 
 const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr";
 
@@ -73,12 +72,12 @@ This story demonstrates the power of multispectral imaging by visualizing differ
 
 ## Band Combinations <!--{ as="eox-map" mode="tour" projection="EPSG:3857" }-->
 
-### <!--{ layers='${createLayers(urlNapoli, ["b04", "b03", "b02"])}' center='[14.24, 40.83]' zoom='11' }-->
+### <!--{ layers='${createLayers(urlNapoli, ["b04", "b03", "b02"])}' center='[14.24, 40.83]' zoom='12' }-->
 #### True Color (RGB)
 **Bands: Red (B04), Green (B03), Blue (B02)**
 This natural color composite shows the area as seen by the human eye. It is useful for general interpretation of land cover, water features, and cloud patterns.
 
-### <!--{ layers='${createLayers(urlNapoli, ["b12", "b8a", "b04"])}' center='[14.24, 40.83]' zoom='11' animationOptions="{'duration': 1000}" }-->
+### <!--{ layers='${createLayers(urlNapoli, ["b12", "b8a", "b04"])}' center='[14.24, 40.83]' zoom='12' animationOptions="{'duration': 1000}" }-->
 #### Short-Wave Infrared (SWIR)
 **Bands: SWIR2 (B12), NIR2 (B8A), Red (B04)**
 This combination uses short-wave infrared bands to penetrate atmospheric haze and highlighted moisture content. Water bodies appear dark, while bare soil and built-up areas appear in various shades of brown and grey.
@@ -92,7 +91,7 @@ This tutorial demonstrates how to use the **eox-storytelling** component to buil
 **What You'll Build:** A guided tour showing different spectral visualizations of the same Sentinel-2 GeoZarr data, entirely configured via Markdown.
 
 
-<Tutorial height="800px">
+<Tutorial demoHeight="800px">
   <template #description>
   
   The **eox-storytelling** component interprets Markdown to create interactive stories. 
@@ -183,12 +182,12 @@ This story demonstrates visualizing different band combinations of Sentinel-2 da
 
 ## Band Combinations <!--{ as="eox-map" mode="tour" projection="EPSG:3857" }-->
 
-### <!--{ layers='${createLayers(urlNapoli, ["b04", "b03", "b02"])}' center='[14.24, 40.83]' zoom='11' }-->
+### <!--{ layers='${createLayers(urlNapoli, ["b04", "b03", "b02"])}' center='[14.24, 40.83]' zoom='12' }-->
 #### True Color (RGB)
 **Bands: Red (B04), Green (B03), Blue (B02)**
 This natural color composite shows the area as seen by the human eye.
 
-### <!--{ layers='${createLayers(urlNapoli, ["b12", "b8a", "b04"])}' center='[14.24, 40.83]' zoom='11' animationOptions="{'duration': 1000}" }-->
+### <!--{ layers='${createLayers(urlNapoli, ["b12", "b8a", "b04"])}' center='[14.24, 40.83]' zoom='12' animationOptions="{'duration': 1000}" }-->
 #### Short-Wave Infrared (SWIR)
 **Bands: SWIR2 (B12), NIR2 (B8A), Red (B04)**
 Useful for penetrating atmospheric haze and highlighting moisture.

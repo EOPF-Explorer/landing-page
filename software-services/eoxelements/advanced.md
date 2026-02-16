@@ -5,7 +5,6 @@ layout: page
 
 <script setup>
 import { useTemplateRef, onMounted, nextTick } from "vue";
-import Tutorial from '../../.vitepress/components/Tutorial.vue'
 
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20260120T125339_N0511_R138_T27VWL_20260120T131151.zarr';
 
@@ -171,7 +170,7 @@ This tutorial demonstrates the **layerConfig** pattern - EOxElements' declarativ
 
 **What You'll Build:** A GeoZarr visualization dashboard where the layer control provides built-in configuration tools for band selection, gamma correction, and brightness adjustment - all defined declaratively in the layer configuration.
 
-<Tutorial height="650px">
+<Tutorial demoHeight="650px">
   <template #description>
 
 The **layerConfig** approach embeds form schemas directly in layer properties. 

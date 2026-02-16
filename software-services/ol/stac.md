@@ -22,7 +22,6 @@ import { Style, Stroke, Fill } from 'ol/style.js'
 import { transformExtent } from 'ol/proj.js'
 import 'ol/ol.css'
 import { checkWebGLSupport } from '../index'
-import Tutorial from '../../.vitepress/components/Tutorial.vue'
 
 /** @type {import('vue').Ref<boolean | null>} */
 const webglSupport = ref(null)
@@ -337,7 +336,7 @@ function clearAll() {
 
 This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTemporal Asset Catalog) API to search and visualize Sentinel-2 data using spatial-temporal filters
 
-<Tutorial height="600px">
+<Tutorial demoHeight="600px">
  <template #description>
 <article class="border" v-if="webglSupport === false">
 

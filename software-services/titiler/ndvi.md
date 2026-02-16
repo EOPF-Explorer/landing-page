@@ -11,7 +11,6 @@ import TileLayer from 'ol/layer/Tile.js'
 import XYZ from "ol/source/XYZ"
 import { fromLonLat } from 'ol/proj.js'
 import 'ol/ol.css'
-import Tutorial from '../../.vitepress/components/Tutorial.vue'
 
 /**
  * @typedef {Object} VegetationIndex
@@ -245,7 +244,7 @@ watch([customRescaleMin, customRescaleMax, selectedColormap], () => {
 
 ## TiTiler - Vegetation Indices <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
-<Tutorial height="800px">
+<Tutorial demoHeight="800px">
 
  <template #description>
 

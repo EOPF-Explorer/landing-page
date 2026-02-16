@@ -15,7 +15,6 @@ import XYZ from "ol/source/XYZ.js"
 import "ol/ol.css"
 import { checkWebGLSupport } from "../index"
 
-import Tutorial from "../../.vitepress/components/Tutorial.vue"
 
 /** @type {import("vue").Ref<boolean | null>} */
 const webglSupport = ref(null)
