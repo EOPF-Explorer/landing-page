@@ -165,7 +165,7 @@ onMounted(() => {
 });
 </script>
 
-## Advanced Visualization with Layer Config  <img src="/media/EOX-logo.svg" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## Advanced Visualization with Layer Config  <img src="/media/EOxElements.png" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 This tutorial demonstrates the **layerConfig** pattern - EOxElements' declarative approach for building dynamic visualization dashboards. By embedding JSON Schema configurations directly in layer properties, you create interactive controls without additional components.
 

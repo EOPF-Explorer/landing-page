@@ -91,7 +91,7 @@ onMounted(() => {
 })
 </script>
 
-## EOxElements - Basic Tutorial  <img src="/media/EOX-logo.svg" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## EOxElements - Basic Tutorial  <img src="/media/EOxElements.png" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 This tutorial demonstrates how to render a Sentinel-2 GeoZarr product using `eox-map` with `eox-layercontrol`, positioned with `eox-layout`.
 

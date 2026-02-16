@@ -134,7 +134,7 @@ function toggleProjection() {
 }
 </script>
 
-## 3D Globe Visualization  <img src="/media/EOX-logo.svg" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## 3D Globe Visualization  <img src="/media/EOxElements.png" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 Switching from a 2D map to a 3D globe in **EOxElements** is as simple as changing the projection. By importing the globe extension, `eox-map` gains the ability to render OpenLayers layers on a 3D Earth using the **OpenGlobus** engine.
 

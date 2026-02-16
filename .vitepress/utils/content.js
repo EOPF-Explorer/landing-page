@@ -69,7 +69,7 @@ export const tableData = [
       'Zarr (EOPF Sample Service)': tick,
       'SAFE': cross,
     },
-    content: '<a href="https://zarr.readthedocs.io/">Zarr</a> is a <a href="https://guide.cloudnativegeo.org/zarr/intro.html">Cloud-Native</a> container format with self-describing chunked arrays that allows for reading metadata and dimensionality without loading the whole product. Read more: <a href="https://eopf-toolkit.github.io/eopf-101/02_about_eopf_zarr/21_what_is_zarr.html">EOPF Toolkit 101 – What is Zarr?</a>.<br/><br/>The <a href="https://sentiwiki.copernicus.eu/web/safe-format">Sentinel SAFE format (SentiWiki)</a> uses traditional file-based hierarchy with multiple XML metadata files and binary data in separate directories.',
+    content: '<a href="https://zarr.readthedocs.io/">Zarr</a> is a <a href="https://guide.cloudnativegeo.org/zarr/intro.html">Cloud-Native</a> container format with self-describing chunked arrays that allows for reading metadata and dimensionality without loading the whole product. Read more: <a href="https://eopf-toolkit.github.io/eopf-101/02_about_eopf_zarr/21_what_is_zarr.html">EOPF Toolkit 101 - What is Zarr?</a>.<br/><br/>The <a href="https://sentiwiki.copernicus.eu/web/safe-format">Sentinel SAFE format (SentiWiki)</a> uses traditional file-based hierarchy with multiple XML metadata files and binary data in separate directories.',
   },
   {
     summary: {
@@ -196,7 +196,7 @@ export const servicesContent = [
     id: "eoxelements",
     title: "EOxElements",
     content: "Native Web Component support for GeoZarr visualization in the browser, enabling declarative map configuration and storytelling.",
-    image: "/media/EOX-logo.svg",
+    image: "/media/EOxElements.png",
     tags: ["<i class='mdi mdi-map-search'></i> screening", "web-components", "geospatial", "client-side"],
     category: "Screening",
     type: "software",

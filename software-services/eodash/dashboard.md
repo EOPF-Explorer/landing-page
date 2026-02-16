@@ -1,5 +1,5 @@
 ---
-title: EODash Tutorial
+title: eodash Tutorial
 layout: page
 ---
 

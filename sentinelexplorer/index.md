@@ -25,7 +25,7 @@ eo-dash {
   width: 100%;
 }
 </style>
-<style>
+<style scoped>
   .VPPage:has(eo-dash) {
     padding: 0;
     max-width: unset;
