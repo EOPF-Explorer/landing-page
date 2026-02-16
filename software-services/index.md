@@ -95,7 +95,7 @@ layout: page
           ...r,
           content: `<div class="vertical-margin">${renderTags(r.tags)}</div>${r.content}`,
           icon:{
-            html: `<img src="${r.image}" style="height: 150px; width: 100%; object-fit:${r.contain ? 'contain' : 'cover'};" />`,
+            html: `<img src="${withBase(r.image)}" style="height: 150px; width: 100%; object-fit:${r.contain ? 'contain' : 'cover'};" />`,
             height: 200,
             width: "100%"
           },
