@@ -143,7 +143,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           id: "Layercontrol",
           type: "internal",
           title: "Layers",
-          layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 12 },
+          layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 6 },
           widget: {
             name: "EodashLayerControl",
             properties: {
@@ -155,17 +155,17 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           id: "ItemCatalog",
           title: "Catalog",
           type: "internal",
-          layout: { x: 0, y: 0, w: "3/3/2", h: 12 },
+          layout: { x: 0, y: 0, w: "3/3/2", h: 11 },
           widget: {
             name: "EodashItemCatalog",
             properties: {
-              layoutTarget: "expert",
+              layoutTarget: "mosaic",
             },
           },
         },
       ],
     },
-    expert: {
+    mosaic: {
       loading: {
         id: "loading",
         type: "web-component",
@@ -182,7 +182,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         },
       },
       background: {
-        id: "expert-background-map",
+        id: "mosaic-background-map",
         type: "internal",
         widget: {
           name: "EodashMap",
@@ -218,12 +218,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             properties: {
               layoutTarget: "explore",
               layoutIcon: mdiMapSearch,
-              itemFilterConfig: {
-                resultType: "cards",
-                subTitleProperty: "subtitle",
-                imageProperty: "assets.thumbnail.href",
-                aggregateResults: "collection_group",
-              },
+              showIndicatorsBtn: false,
             },
           },
         },
@@ -265,7 +260,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           defineWidget: (selectedSTAC) => {
             return selectedSTAC
               ? {
-                  id: "expert-datetime",
+                  id: "mosaic-datetime",
                   type: "internal",
                   layout: { x: 1, y: 8, w: 10, h: 3 },
                   title: "Time Slider",
@@ -349,9 +344,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           layout: { x: 0, y: 0, w: "3/3/2", h: 6 },
           widget: {
             name: "EodashItemCatalog",
-            properties:{
-              layoutTarget: "expert",
-            }
+            properties: {
+              layoutTarget: "mosaic",
+            },
           },
         },
         {
@@ -363,7 +358,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             name: "EodashItemCatalog",
             properties: {
               enableCompare: true,
-              layoutTarget: "expert",
+              layoutTarget: "mosaic",
             },
           },
         },
@@ -374,9 +369,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           layout: { x: 0, y: 6, w: "3/3/2", h: 6 },
           widget: {
             name: "EodashLayerControl",
-            properties:{
-               tools: ["info", "config", "legend", "opacity"],
-            }
+            properties: {
+              tools: ["info", "config", "legend", "opacity"],
+            },
           },
         },
         {
