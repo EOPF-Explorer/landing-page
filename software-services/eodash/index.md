@@ -3,7 +3,7 @@ title: eodash
 layout: page
 ---
 
-## eodash <img src="https://eodash.org/eodash_logo.png" alt="EODash Logo" style="height:60px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## eodash <img src="https://eodash.org/eodash_logo.png" alt="eodash Logo" style="height:60px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 ### Overview
 

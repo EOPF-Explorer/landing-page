@@ -150,10 +150,10 @@ You can use the `getBaseConfig` utility to inherit from a base template while ov
 ```javascript
 import { getBaseConfig } from "@eodash/eodash/templates";
 
-export default getBaseConfig("explore", {
-  stacEndpoint: "https://my.endpoint.com/stac",
+export default getBaseConfig({
+  stacEndpoint: "https://my.endpoint.com/stac/catalog.json",
   brand: {
-    name: "My Custom Explorer"
+    name: "My Custom Explorer",
   }
 });
 ```
