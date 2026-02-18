@@ -15,7 +15,7 @@ onMounted(()=>{
 const config = async() => (await import("./sentinel-explorer-config")).default
 </script>
 
-<style scoped>
+<style>
 eo-dash {
   --primary: #003047 !important;
   --secondary: #00ae9d !important;
