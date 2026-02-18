@@ -242,7 +242,7 @@ watch([customRescaleMin, customRescaleMax, selectedColormap], () => {
 
 
 
-## TiTiler - Vegetation Indices <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## TiTiler - Vegetation Indices 
 
 <Tutorial demoHeight="800px">
 

@@ -93,7 +93,8 @@ eodash is built on a **reactive core architecture** that decouples state managem
       ],
       link: {
         text: 'Start Tutorial',
-        href: './dashboard'
+        href: './dashboard',
+        target:'_self'
       }
     }
   ]"

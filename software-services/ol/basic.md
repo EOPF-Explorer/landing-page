@@ -87,7 +87,7 @@ function initializeMap() {
 }
 </script>
 
-## OpenLayers - Basic Map Setup <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
+## OpenLayers - Basic Map Setup 
 
 This example shows the minimal configuration needed to load and display EOPF Zarr data with OpenLayers.
 

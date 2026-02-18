@@ -170,7 +170,8 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './rgb'
+        href: './rgb',
+        target:'_self'
       }
     },
     {
@@ -184,7 +185,8 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './ndvi'
+        href: './ndvi',
+        target:'_self'
       }
     },
     {
@@ -198,7 +200,8 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './crop'
+        href: './crop',
+        target:'_self'
       }
     }
   ]"

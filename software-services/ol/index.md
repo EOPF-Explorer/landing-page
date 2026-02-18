@@ -95,7 +95,8 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       ],
       link: {
         text: 'View Example',
-        href: './basic'
+        href: './basic',
+        target:'_self'
       }
     },
     {
@@ -109,7 +110,8 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       ],
       link: {
         text: 'View Example',
-        href: './ndvi'
+        href: './ndvi',
+        target:'_self'
       }
     },
     {
@@ -123,7 +125,8 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       ],
       link: {
         text: 'View Example',
-        href: './stac'
+        href: './stac',
+        target:'_self'
       }
     }
   ]"

@@ -7,9 +7,9 @@ layout: page
 const config = async() => (await import("./dashboard-config.js")).default
 </script>
 
-## Web Component Dashboard Tutorial <img src="https://eodash.org/eodash_logo.png" alt="EODash Logo" style="height:60px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## eodash - Dashboard Tutorial 
 
-This hands-on tutorial demonstrates how to embed a fully functional Earth Observation dashboard into your application using the **EODash Web Component**.
+This hands-on tutorial demonstrates how to embed a fully functional Earth Observation dashboard into your application using the **eodash Web Component**.
 
 By default, connecting to the EOPF STAC API allows the dashboard to automatically discover Collections and Items, rendering filters and maps without any additional glue code.
 

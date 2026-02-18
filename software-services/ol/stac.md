@@ -332,7 +332,7 @@ function clearAll() {
 }
 
 </script>
-## OpenLayers - STAC Integration <img src="/assets/openlayers-logo.png" alt="OpenLayers Logo" style="height:100px; vertical-align:middle; margin-left:8px; float:right;" />
+## OpenLayers - STAC Integration
 
 This example demonstrates how to integrate OpenLayers with EOPF's STAC (SpatioTemporal Asset Catalog) API to search and visualize Sentinel-2 data using spatial-temporal filters
 

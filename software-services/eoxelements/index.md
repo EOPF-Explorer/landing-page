@@ -130,7 +130,8 @@ For more information, visit the [EOxElements GitHub repository](https://github.c
       ],
       link: {
         text: 'View Tutorial',
-        href: './basic'
+        href: './basic',
+        target:'_self'
       }
     },
     {
@@ -144,7 +145,8 @@ For more information, visit the [EOxElements GitHub repository](https://github.c
       ],
       link: {
         text: 'View Tutorial',
-        href: './advanced'
+        href: './advanced',
+        target:'_self'
       }
     },
     {
@@ -158,7 +160,8 @@ For more information, visit the [EOxElements GitHub repository](https://github.c
       ],
       link: {
         text: 'View Tutorial',
-        href: './globe'
+        href: './globe',
+        target:'_self'
       }
     },
     {
@@ -172,7 +175,8 @@ For more information, visit the [EOxElements GitHub repository](https://github.c
       ],
       link: {
         text: 'View Tutorial',
-        href: './story'
+        href: './story',
+        target:'_self'
       }
     }
   ]"

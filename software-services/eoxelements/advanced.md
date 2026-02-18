@@ -164,13 +164,13 @@ onMounted(() => {
 });
 </script>
 
-## Advanced Visualization with Layer Config  <img src="/media/EOxElements.png" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## EOxElements - Advanced Visualization
 
 This tutorial demonstrates the **layerConfig** pattern - EOxElements' declarative approach for building dynamic visualization dashboards. By embedding JSON Schema configurations directly in layer properties, you create interactive controls without additional components.
 
 **What You'll Build:** A GeoZarr visualization dashboard where the layer control provides built-in configuration tools for band selection, gamma correction, and brightness adjustment - all defined declaratively in the layer configuration.
 
-<Tutorial demoHeight="650px">
+<Tutorial demoHeight="800px">
   <template #description>
 
 The **layerConfig** approach embeds form schemas directly in layer properties. 
@@ -182,12 +182,12 @@ enabling dynamic style and source updates without custom form components.
   <template #demo>
     <ClientOnly>
     <eox-layout gap="8" class="surface-variant" style="height: 650px;">
-        <eox-layout-item x="0" y="0" w="3" h="12">
+        <eox-layout-item x="0" y="0" w="3" h="12" class="scroll">
             <div class="card fill">
                 <div class="padding">
                     <eox-layercontrol 
                         ref="eoxLayercontrol"
-                        class="scroll"
+                        class=""
                         :tools='["config", "opacity", "info", "legend"]'
                     ></eox-layercontrol>
                 </div>

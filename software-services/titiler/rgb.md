@@ -176,7 +176,7 @@ function initializeMap() {
 }
 </script>
 
-## TiTiler - RGB Visualization <img src="https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png" alt="Titiler Logo" style="height:100px;vertical-align:middle;margin-left:0.5rem;float:right;" />
+## TiTiler - RGB Visualization
 
 This example demonstrates how to create RGB band combinations using Titiler's tile service with EOPF Sentinel-2 data. The server handles all image processing and returns optimized tiles for web mapping applications.
 
