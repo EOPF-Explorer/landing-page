@@ -26,7 +26,7 @@ By default, connecting to the EOPF STAC API allows the dashboard to automaticall
   <template #demo>
     <ClientOnly>
       <div style="height: 600px;">
-        <eo-dash .config="config"></eo-dash>
+        <eo-dash style="height: 600px !important" .config="config"></eo-dash>
       </div>
     </ClientOnly>
   </template>
