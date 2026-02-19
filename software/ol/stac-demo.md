@@ -215,7 +215,7 @@ import { Polygon } from 'ol/geom.js'
 import { Style, Stroke, Fill } from 'ol/style.js'
 import { transformExtent } from 'ol/proj.js'
 import 'ol/ol.css'
-import { checkWebGLSupport } from '../index'
+import { checkWebGLSupport } from '../../software-services/index'
 
 const webglSupport = ref(null)
 const mapRef = ref()
