@@ -11,28 +11,32 @@
  * Supports both modern Clipboard API and legacy fallback.
  *
  * @param {() => string} buildTileUrlFn - Function that returns the URL to copy
- * @returns {(copyButtonText: VueRef, copyButtonClass: VueRef) => void} Function that handles the copy operation
+ * @returns {(copyButtonText: VueRef, copyButtonClass: VueRef, copyButtonIcon: VueRef) => void} Function that handles the copy operation
  */
 export function createCopyUrlFunction(buildTileUrlFn) {
-  return function (copyButtonText, copyButtonClass) {
+  return function (copyButtonText, copyButtonClass, copyButtonIcon) {
     const url = buildTileUrlFn();
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard
         .writeText(url)
         .then(() => {
-          copyButtonText.value = "✅ Copied!";
+          copyButtonText.value = "Copied!";
           copyButtonClass.value = "copy-button copied";
+          if (copyButtonIcon) copyButtonIcon.value = "check";
           setTimeout(() => {
-            copyButtonText.value = "📋 Copy URL";
+            copyButtonText.value = "Copy URL";
             copyButtonClass.value = "copy-button";
+            if (copyButtonIcon) copyButtonIcon.value = "content-copy";
           }, 2000);
         })
         .catch((err) => {
           console.error("Failed to copy: ", err);
-          copyButtonText.value = "❌ Failed";
+          copyButtonText.value = "Failed";
+          if (copyButtonIcon) copyButtonIcon.value = "alert-circle";
           setTimeout(() => {
-            copyButtonText.value = "📋 Copy URL";
+            copyButtonText.value = "Copy URL";
+            if (copyButtonIcon) copyButtonIcon.value = "content-copy";
           }, 2000);
         });
     } else {
@@ -48,17 +52,20 @@ export function createCopyUrlFunction(buildTileUrlFn) {
 
       try {
         document.execCommand("copy");
-        copyButtonText.value = "✅ Copied!";
+        copyButtonText.value = "Copied!";
         copyButtonClass.value = "copy-button copied";
         setTimeout(() => {
-          copyButtonText.value = "📋 Copy URL";
+          copyButtonText.value = "Copy URL";
           copyButtonClass.value = "copy-button";
+          if (copyButtonIcon) copyButtonIcon.value = "content-copy";
         }, 2000);
       } catch (err) {
         console.error("Fallback copy failed: ", err);
-        copyButtonText.value = "❌ Failed";
+        copyButtonText.value = "Failed";
+        if (copyButtonIcon) copyButtonIcon.value = "alert-circle";
         setTimeout(() => {
-          copyButtonText.value = "📋 Copy URL";
+          copyButtonText.value = "Copy URL";
+          if (copyButtonIcon) copyButtonIcon.value = "content-copy";
         }, 2000);
       } finally {
         document.body.removeChild(textArea);
@@ -73,7 +80,7 @@ export const checkWebGLSupport = () => {
     const gl =
       canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
     return gl !== null && gl !== undefined;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

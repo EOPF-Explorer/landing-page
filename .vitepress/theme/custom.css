@@ -5,6 +5,8 @@
   --vp-font-family-base: "Open Sans", sans-serif !important;
   --eox-body-font-family: "Open Sans", sans-serif !important;
   --eox-header-font-family: "Exo 2", sans-serif !important;
+  --vp-custom-block-font-size: 1rem !important;
+  --vp-custom-block-info-code-bg: transparent !important;
 }
 header img.background-image {
   opacity: 0.9 !important;
@@ -12,6 +14,19 @@ header img.background-image {
 
 .news-banner {
   top: calc(var(--vp-nav-height) - 10px) !important;
+}
+p,
+li,
+span,
+a,
+div,
+input,
+button,
+textarea,
+select,
+label,
+article {
+  font-family: "Open Sans", sans-serif !important;
 }
 
 body {
@@ -74,7 +89,7 @@ h6 {
 }
 
 .timeline-item::before {
-  content: '';
+  content: "";
   position: absolute;
   left: -2.4rem;
   top: 0.5rem;
@@ -94,4 +109,61 @@ h6 {
 .timeline-item.ongoing::before {
   background: #f59e0b;
   box-shadow: 0 0 0 2px #f59e0b;
+}
+
+pre {
+  border-radius: 8px;
+  padding: 12px;
+  overflow-x: auto;
+  font-family: monospace;
+  margin: 10px 0;
+  border: 1px solid var(--outline-variant);
+}
+
+/* VitePress copy button styling */
+.copy {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--vp-code-copy-code-bg, #f6f8fa);
+  border: 1px solid var(--vp-code-copy-code-border-color, #e1e4e8);
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 2;
+  opacity: 1 !important;
+  transition: background-color 0.2s ease;
+  background-image: none !important;
+}
+
+.copy:hover {
+  background-color: var(--vp-code-copy-code-hover-bg, #e1e4e8);
+}
+
+/* Copy button icons */
+.copy::before {
+  content: "\F018F";
+  font-family: "Material Design Icons";
+  font-size: 18px;
+  line-height: 1;
+  font-weight: normal;
+  color: #586069;
+}
+
+.copy.copied::before {
+  content: "\F012C";
+  font-family: "Material Design Icons";
+  font-size: 18px;
+  color: #22c55e;
+  position: absolute;
+  font-weight: normal;
+}
+
+/* Hide language labels to prevent overlap with copy button */
+div[class*="language-"] > span.lang {
+  display: none !important;
 }

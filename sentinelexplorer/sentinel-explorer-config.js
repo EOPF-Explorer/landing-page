@@ -349,9 +349,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           layout: { x: 0, y: 0, w: "3/3/2", h: 6 },
           widget: {
             name: "EodashItemCatalog",
-            properties:{
+            properties: {
               layoutTarget: "expert",
-            }
+            },
           },
         },
         {
@@ -374,9 +374,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           layout: { x: 0, y: 6, w: "3/3/2", h: 6 },
           widget: {
             name: "EodashLayerControl",
-            properties:{
-               tools: ["info", "config", "legend", "opacity"],
-            }
+            properties: {
+              tools: ["info", "config", "legend", "opacity"],
+            },
           },
         },
         {

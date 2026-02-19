@@ -3,10 +3,8 @@ title: Titiler Integration
 layout: page
 ---
 
-<style scoped>
-/* Import common CSS first to avoid FOUC */
-@import "./software.css";
 
+<style scoped>
 .large-space {
   block-size: 0rem !important;
 }
@@ -15,7 +13,7 @@ layout: page
 <script setup>
 import { ref, onMounted } from 'vue'
 
-const apiStatus = ref(null)
+const apiStatus = ref(false)
 const loading = ref(true)
 
 onMounted(async () => {
@@ -41,47 +39,61 @@ onMounted(async () => {
 
 This guide demonstrates how to use Titiler-EOPF, a specialized tile server that provides on-the-fly visualization of EOPF's Zarr-formatted satellite data. Unlike client-side processing, Titiler handles complex calculations server-side and delivers optimized tiles for web mapping applications.
 
-<div v-if="loading" class="info">
-🔄 <strong>Checking <a href="https://api.explorer.eopf.copernicus.eu/raster" target="_blank">API</a> Status</strong>: Verifying Titiler service availability...
-</div>
+<div v-if="loading">
 
-<div v-else-if="apiStatus === false" class="warning">
-⚠️ <strong><a href="https://api.explorer.eopf.copernicus.eu/raster" target="_blank">API Unavailable</a></strong>: The Titiler service appears to be temporarily unavailable. Some examples may not work as expected.
-</div>
+::: tip :bulb: **Checking [API](https://api.explorer.eopf.copernicus.eu/raster) Status**:Verifying Titiler service availability...
+:::
 
-<div v-else-if="apiStatus === true" class="success">
-✅ <strong><a href="https://api.explorer.eopf.copernicus.eu/raster" target="_blank">API Available</a></strong>: Titiler service is running and ready for integration.
 </div>
+<div v-if="!apiStatus">
 
-<div class="overview-section">
-<strong>🎯 What You'll Learn</strong>
-<p>This integration guide covers server-side tile generation using EOPF's Titiler service, enabling you to build responsive web applications without handling complex data processing in the browser. Each example demonstrates practical implementation patterns for real-world applications.</p>
+::: warning :warning: **[API](https://api.explorer.eopf.copernicus.eu/raster) Unavailable**:: The Titiler service appears to be temporarily unavailable. Some examples may not work as expected.
+:::
 
-<p><strong>Sample Data</strong> used here are available in <a href="https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a">the Sentinel-2 L2A collection in STAC Browser</a></p>
 </div>
+<br>
+
+::: info **<i class="mdi mdi-target"></i> What You'll Learn**
+This integration guide covers server-side tile generation using EOPF's Titiler service, enabling you to build responsive web applications without handling complex data processing in the browser. Each example demonstrates practical implementation patterns for real-world applications.
+
+**Sample Data** used here are available in [the Sentinel-2 L2A collection in STAC Browser](https://api.explorer.eopf.copernicus.eu/browser/external/api.explorer.eopf.copernicus.eu/stac/collections/sentinel-2-l2a)
+:::
 
 ### Quick Start
 
-<div class="quick-start">
-<strong>🚀 Get Started in 5 Minutes</strong>
-<p>Ready to dive in? Start with the <a href="/titiler/rgb">RGB Visualization example</a> to see Titiler serving EOPF tiles in a web map, then explore NDVI calculations and spatial cropping techniques.</p>
-</div>
+<br>
 
-⚠️ **Early Implementation**: This Titiler integration represents an early implementation of EOPF data services. Data availability, API stability, and library alignment will evolve over time as the platform matures.
+::: info **<i class="mdi mdi-rocket-launch"></i> Get Started in 5 Minutes**
+Ready to dive in? Start with the [RGB Visualization example](./rgb) to see Titiler serving EOPF tiles in a web map, then explore NDVI calculations and spatial cropping techniques
+:::
+<br>
 
+::: warning :warning: **Early Implementation**
+This Titiler integration represents an early implementation of EOPF data services. Data availability, API stability, and library alignment will evolve over time as the platform matures.
+:::
 ### API Documentation
 
-<div class="installation-grid">
-  <div class="installation-method">
-    <strong>Interactive API Docs</strong>
-    <p><a href="https://api.explorer.eopf.copernicus.eu/raster/api.html" target="_blank">Swagger UI Documentation</a></p>
-    <p>Complete API reference with interactive examples and endpoint testing.</p>
-  </div>
+<div class="grid">
+  <div class="s12 m6">
 
-  <div class="installation-method">
-    <strong>Base URL</strong>
-    <pre><a href="https://api.explorer.eopf.copernicus.eu/raster/" target="_blank">https://api.explorer.eopf.copernicus.eu/raster/</a></pre>
-    <p>All tile endpoints use this base URL for production integration.</p>
+::: info Interactive API Docs
+[Swagger UI Documentation](https://api.explorer.eopf.copernicus.eu/raster/api.html)
+
+Complete API reference with interactive examples and endpoint testing.
+:::
+
+  </div>
+  <div class="s12 m6">
+
+::: info Base URL
+[https://api.explorer.eopf.copernicus.eu/raster/](https://api.explorer.eopf.copernicus.eu/raster/)
+
+All tile endpoints use this base URL for production integration.
+
+<br/>
+
+:::
+
   </div>
 </div>
 
@@ -158,7 +170,8 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './titiler/rgb'
+        href: './rgb',
+        target:'_self'
       }
     },
     {
@@ -172,7 +185,8 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './titiler/ndvi'
+        href: './ndvi',
+        target:'_self'
       }
     },
     {
@@ -186,7 +200,8 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './titiler/crop'
+        href: './crop',
+        target:'_self'
       }
     }
   ]"

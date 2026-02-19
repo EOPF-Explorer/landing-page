@@ -3,9 +3,6 @@ title: Technical Deep Dive - GeoZarr Standards
 layout: page
 ---
 
-<script setup>
-import { withBase } from 'vitepress';
-</script>
 
 ## Technical Deep Dive - GeoZarr Standards
 
@@ -105,8 +102,8 @@ Contributions to the core zarr-python library:
 
 | Phase | Status | Description |
 |-------|--------|-------------|
-| Phase 1 | ✅ Complete (v3.12) | EOPF Sample and V0 support |
-| Phase 2 | 🔄 In Progress | Full Zarr conventions support |
+| Phase 1 | <i class="mdi mdi-check-circle"></i> Complete (v3.12) | EOPF Sample and V0 support |
+| Phase 2 | <i class="mdi mdi-sync"></i> In Progress | Full Zarr conventions support |
 
 - **Documentation:** [gdal.org/drivers/raster/zarr.html](https://gdal.org/en/stable/drivers/raster/zarr.html)
 - **Releases:** [github.com/OSGeo/gdal/releases](https://github.com/OSGeo/gdal/releases)
@@ -119,14 +116,14 @@ Contributions to the core zarr-python library:
 |----------|------|
 | Main PR | [PR #17194](https://github.com/openlayers/openlayers/pull/17194) |
 | Additional PR | [PR #17255](https://github.com/openlayers/openlayers/pull/17255) |
-| Live Example | [GeoZarr Example](https://deploy-preview-17194--ol-site.netlify.app/en/dev/examples/geozarr.html) |
+| Live Example | [GeoZarr Example](https://openlayers.org/en/main/examples/geozarr.html) |
 | Stretch Example | [GeoZarr Stretch Example](https://deploy-preview-17194--ol-site.netlify.app/en/latest/examples/geozarr-stretch.html) |
 
 **Features:**
 - Native GeoZarr rendering in the browser
-- Off-screen Canvas for 3D globe projection (OpenGlobus integration)
-- Hybrid rendering strategy: native + OpenLayers fallback
-- Status: Experimental in v10.7.1-dev
+- Off-screen Canvas for 3D globe projection ([EOxMap](/software-services/eoxelements/globe) integration)
+- EOxMap Globe Hybrid rendering strategy: native + OpenLayers fallback
+- Status: Experimental in v10.8.0
 
 **TiTiler GeoZarr Adapter**
 
