@@ -187,7 +187,6 @@ enabling dynamic style and source updates without custom form components.
                 <div class="padding">
                     <eox-layercontrol 
                         ref="eoxLayercontrol"
-                        class=""
                         :tools='["config", "opacity", "info", "legend"]'
                     ></eox-layercontrol>
                 </div>
@@ -403,6 +402,13 @@ Object.assign(eoxMap, {
   font-size: 0.85rem;
   color: var(--vp-c-text-2);
   margin-bottom: 1rem;
+}
+
+/* Ensure scrollbars are visible in Chrome for scrollable panels */
+.scroll {
+  overflow: auto;
+  scrollbar-width: auto;
+  scrollbar-color: #7a7a7a #fff;
 }
 </style>
 
