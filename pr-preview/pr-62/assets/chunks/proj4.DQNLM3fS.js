@@ -1,1 +1,0 @@
-import"./XYZ.DUxXAAi-.js";import"./index.OUYS7i6-.js";async function o(r){throw new Error("Proj4 must be registered first with register(proj4)")}async function i(r){return await o()}export{i as fromEPSGCode,o as fromProjectionCode};
