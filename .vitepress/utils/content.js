@@ -1,24 +1,9 @@
 import { withBase } from 'vitepress';
 
-const discoveryIcon = `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M23.7201 17.3332V26.6665H5.05339V7.99984H11.7467C11.8134 7.05317 12.0401 6.15984 12.3867 5.33317H5.05339C3.58672 5.33317 2.38672 6.53317 2.38672 7.99984V26.6665C2.38672 28.1332 3.58672 29.3332 5.05339 29.3332H23.7201C25.1867 29.3332 26.3867 28.1332 26.3867 26.6665V19.9998L23.7201 17.3332ZM21.7201 23.9998H7.05339L10.7201 19.2932L13.3334 22.4398L17.0001 17.7198L21.7201 23.9998ZM25.4534 11.8532C26.0401 10.9198 26.3867 9.83984 26.3867 8.6665C26.3867 5.3465 23.7067 2.6665 20.3867 2.6665C17.0667 2.6665 14.3867 5.3465 14.3867 8.6665C14.3867 11.9865 17.0667 14.6665 20.3734 14.6665C21.5467 14.6665 22.64 14.3198 23.56 13.7332L27.7201 17.8932L29.6134 15.9998L25.4534 11.8532ZM20.3867 11.9998C18.5467 11.9998 17.0534 10.5065 17.0534 8.6665C17.0534 6.8265 18.5467 5.33317 20.3867 5.33317C22.2267 5.33317 23.7201 6.8265 23.7201 8.6665C23.7201 10.5065 22.2267 11.9998 20.3867 11.9998Z" fill="black"/>
-</svg>`;
-const screeningIcon = `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15.9993 29.3332C8.65268 29.3332 2.66602 23.3465 2.66602 15.9998C2.66602 8.65317 8.65268 2.6665 15.9993 2.6665C23.346 2.6665 29.3327 8.05317 29.3327 14.6665C29.3327 19.0798 25.746 22.6665 21.3327 22.6665H18.9727C18.5993 22.6665 18.306 22.9598 18.306 23.3332C18.306 23.4932 18.3727 23.6398 18.4793 23.7732C19.026 24.3998 19.3327 25.1865 19.3327 25.9998C19.3327 27.8398 17.8393 29.3332 15.9993 29.3332ZM15.9993 5.33317C10.1193 5.33317 5.33268 10.1198 5.33268 15.9998C5.33268 21.8798 10.1193 26.6665 15.9993 26.6665C16.3727 26.6665 16.666 26.3732 16.666 25.9998C16.666 25.7865 16.5593 25.6265 16.4793 25.5332C15.9327 24.9198 15.6393 24.1332 15.6393 23.3332C15.6393 21.4932 17.1327 19.9998 18.9727 19.9998H21.3327C24.2794 19.9998 26.666 17.6132 26.666 14.6665C26.666 9.51984 21.8793 5.33317 15.9993 5.33317Z" fill="black"/>
-<path d="M8.66602 17.3332C9.77059 17.3332 10.666 16.4377 10.666 15.3332C10.666 14.2286 9.77059 13.3332 8.66602 13.3332C7.56145 13.3332 6.66602 14.2286 6.66602 15.3332C6.66602 16.4377 7.56145 17.3332 8.66602 17.3332Z" fill="black"/>
-<path d="M12.666 11.9998C13.7706 11.9998 14.666 11.1044 14.666 9.99984C14.666 8.89527 13.7706 7.99984 12.666 7.99984C11.5614 7.99984 10.666 8.89527 10.666 9.99984C10.666 11.1044 11.5614 11.9998 12.666 11.9998Z" fill="black"/>
-<path d="M19.3327 11.9998C20.4373 11.9998 21.3327 11.1044 21.3327 9.99984C21.3327 8.89527 20.4373 7.99984 19.3327 7.99984C18.2281 7.99984 17.3327 8.89527 17.3327 9.99984C17.3327 11.1044 18.2281 11.9998 19.3327 11.9998Z" fill="black"/>
-<path d="M23.3327 17.3332C24.4373 17.3332 25.3327 16.4377 25.3327 15.3332C25.3327 14.2286 24.4373 13.3332 23.3327 13.3332C22.2281 13.3332 21.3327 14.2286 21.3327 15.3332C21.3327 16.4377 22.2281 17.3332 23.3327 17.3332Z" fill="black"/>
-</svg>
-`
-const analysisIcon = `<svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.3333 0C5.97333 0 0 5.97333 0 13.3333C0 20.6933 5.97333 26.6667 13.3333 26.6667C20.6933 26.6667 26.6667 20.6933 26.6667 13.3333C26.6667 5.97333 20.6933 0 13.3333 0ZM23.9067 12H14.6667V2.76C19.48 3.36 23.3067 7.18667 23.9067 12ZM2.66667 13.3333C2.66667 7.90667 6.74667 3.41333 12 2.76V23.9067C6.74667 23.2533 2.66667 18.76 2.66667 13.3333ZM14.6667 23.9067V14.6667H23.9067C23.3067 19.48 19.48 23.3067 14.6667 23.9067Z" fill="black"/>
-</svg>
-`
-const showcasesIcon = `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M18.6673 14.6665C18.6673 13.1998 17.4673 11.9998 16.0007 11.9998C14.534 11.9998 13.334 13.1998 13.334 14.6665C13.334 16.1332 14.534 17.3332 16.0007 17.3332C17.4673 17.3332 18.6673 16.1332 18.6673 14.6665ZM10.6407 24.3332C10.254 23.1332 9.88065 21.7465 9.62732 20.3332L8.00065 21.4265V25.3998L10.6407 24.3332ZM16.0007 2.6665C16.0007 2.6665 22.6673 5.33317 22.6673 17.3332L25.4806 19.2132C26.2273 19.7065 26.6673 20.5465 26.6673 21.4265V29.3332L20.0007 26.6665H12.0007L5.33398 29.3332V21.4265C5.33398 20.5332 5.77398 19.7065 6.52065 19.2132L9.33398 17.3332C9.33398 5.33317 16.0007 2.6665 16.0007 2.6665ZM16.0007 5.81317C16.0007 5.81317 12.0007 8.5065 12.0007 17.3332C12.0007 20.3332 13.334 23.9998 13.334 23.9998H18.6673C18.6673 23.9998 20.0007 20.3332 20.0007 17.3332C20.0007 8.5065 16.0007 5.81317 16.0007 5.81317ZM24.0007 25.3998V21.4265L22.374 20.3465C22.1207 21.7465 21.7473 23.1465 21.3607 24.3465L24.0007 25.3998Z" fill="black"/>
-</svg>
-`
+const discoveryIcon = `<i class="mdi mdi-compass-outline" style="font-size: 32px; height: 32px; width: 32px;"></i>`;
+const screeningIcon = `<i class="mdi mdi-palette-outline" style="font-size: 32px;height: 32px; width: 32px;"></i>`;
+const analysisIcon = `<i class="mdi mdi-chart-box-outline" style="font-size: 32px; height: 32px; width: 32px;"></i>`;
+const showcasesIcon = `<i class="mdi mdi-rocket-outline" style="font-size: 32px; height: 32px; width: 32px;"></i>`;
 
 export const cardsContent = [
   {
@@ -84,7 +69,7 @@ export const tableData = [
       'Zarr (EOPF Sample Service)': tick,
       'SAFE': cross,
     },
-    content: '<a href="https://zarr.readthedocs.io/">Zarr</a> is a <a href="https://guide.cloudnativegeo.org/zarr/intro.html">Cloud-Native</a> container format with self-describing chunked arrays that allows for reading metadata and dimensionality without loading the whole product. Read more: <a href="https://eopf-toolkit.github.io/eopf-101/02_about_eopf_zarr/21_what_is_zarr.html">EOPF Toolkit 101 – What is Zarr?</a>.<br/><br/>The <a href="https://sentiwiki.copernicus.eu/web/safe-format">Sentinel SAFE format (SentiWiki)</a> uses traditional file-based hierarchy with multiple XML metadata files and binary data in separate directories.',
+    content: '<a href="https://zarr.readthedocs.io/">Zarr</a> is a <a href="https://guide.cloudnativegeo.org/zarr/intro.html">Cloud-Native</a> container format with self-describing chunked arrays that allows for reading metadata and dimensionality without loading the whole product. Read more: <a href="https://eopf-toolkit.github.io/eopf-101/02_about_eopf_zarr/21_what_is_zarr.html">EOPF Toolkit 101 - What is Zarr?</a>.<br/><br/>The <a href="https://sentiwiki.copernicus.eu/web/safe-format">Sentinel SAFE format (SentiWiki)</a> uses traditional file-based hierarchy with multiple XML metadata files and binary data in separate directories.',
   },
   {
     summary: {
@@ -154,18 +139,19 @@ export const servicesContent = [
     title: "EOPF Explorer STAC Browser",
     content: "EOPF Sentinel Zarr catalog browser revealing Sentinel scenes at a glance.",
     image: "https://stacspec.org/public/images-original/STAC-01.png",
-    tags: ["🧭 discovery", "catalog", "sentinel", "metadata"],
+    tags: ["<i class='mdi mdi-compass-outline'></i> discovery", "catalog", "sentinel", "metadata"],
     category: "Discovery",
     type: "service",
     link: "https://api.explorer.eopf.copernicus.eu/browser",
+    contain: true,
     order: 1
   },
   {
     id: "sentinel-explorer",
     title: "Sentinel Explorer",
-    content: "Interactive viewer for Sentinel Zarr scenes with band combinations and indicators.",
-    image: "assets/sentinel-2.png",
-    tags: ["🗺️ screening", "interactive", "zarr", "sentinel-1", "sentinel-2"],
+    content: "Interactive viewer for Sentinel Zarr scenes based on eodash and TiTiler band combinations and indicators.",
+    image: "/assets/sentinel-2.png",
+    tags: ["<i class='mdi mdi-map'></i> screening", "interactive", "zarr", "sentinel-1", "sentinel-2"],
     category: "Screening",
     type: "service",
     link: "/sentinelexplorer/",
@@ -176,7 +162,7 @@ export const servicesContent = [
     title: "Normalized Difference Vegetation Index (NDVI) & More",
     content: "Discover how to integrate popular spectral indices into your stories.",
     image: "https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ndvi/fig/fig1.png",
-    tags: ["🌟 showcase", "ndvi", "vegetation", "indices", "Sentinel-2"],
+    tags: ["<i class='mdi mdi-star'></i> showcase", "ndvi", "vegetation", "indices", "Sentinel-2"],
     category: "Showcases",
     type: "story",
     link: "/story/?id=ndvi",
@@ -187,29 +173,55 @@ export const servicesContent = [
     title: "TiTiler for EOPF Zarr",
     content: "On-the-fly tile server for visualizing Sentinel Zarr data with custom styling, expressions, and reprojection.",
     image: "https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png",
-    tags: ["🗺️ screening", "arithmetic", "expressions", "band-math"],
+    tags: ["<i class='mdi mdi-map'></i> screening", "arithmetic", "expressions", "band-math"],
     category: "Screening",
     type: "software",
-    link: "software/titiler",
+    link: "./titiler",
+    contain: true,
     order: 4
   },
   {
     id: "openlayers-geozarr",
     title: "OpenLayers",
     content: "Web mapping library with GeoZarr support for visualizing Sentinel Zarr in the browser using Zarr conventions.",
-    image: "assets/openlayers-logo.png",
-    tags: ["🗺️ screening", "web-mapping", "visualization", "geozarr"],
+    image: "/assets/openlayers-logo.png",
+    tags: ["<i class='mdi mdi-map'></i> screening", "web-mapping", "visualization", "geozarr"],
     category: "Screening",
     type: "software",
-    link: "software/ol",
+    link: "./ol",
+    contain: true,
     order: 5
+  },
+  {
+    id: "eoxelements",
+    title: "EOxElements",
+    content: "Native Web Component support for GeoZarr visualization in the browser, enabling declarative map configuration and storytelling.",
+    image: "/media/EOxElements.png",
+    tags: ["<i class='mdi mdi-map'></i> screening", "web-components", "geospatial", "client-side"],
+    category: "Screening",
+    type: "software",
+    link: "./eoxelements",
+    contain: true,
+    order: 6
+  },
+  {
+    id: "eodash",
+    title: "eodash",
+    content: "Configuration-first dashboard builder for rapid deployment of EO portals.",
+    image: "https://eodash.org/eodash_logo.png",
+    tags: ["<i class='mdi mdi-map'></i> screening", "dashboard", "web-components", "geozarr"],
+    category: "Screening",
+    type: "software",
+    link: "./eodash",
+    contain: true,
+    order: 7
   },
   {
     id: "openeo-web-editor",
     title: "openEO Web editor",
     content: "Build sophisticated analysis workflows with cloud-based processing.",
-    image: "assets/openeo-logo.png",
-    tags: ["📊 analysis", "workflow", "openeo", "cloud-processing"],
+    image: "/assets/openeo-logo.png",
+    tags: ["<i class='mdi mdi-chart-box'></i> analysis", "workflow", "openeo", "cloud-processing"],
     category: "Analysis",
     type: "service",
     link: "https://editor.openeo.org/?server=https%3A%2F%2Fapi.explorer.eopf.copernicus.eu%2Fopeneo%2F",
@@ -220,7 +232,7 @@ export const servicesContent = [
     title: "Monitoring Cyanobacteria in Venice Lagoon",
     content: "Real-time chlorophyll-a detection using the Normalised Difference Chlorophyll Index and satellite data",
     image: "https://github.com/EOPF-Explorer/eodash-assets/blob/main/narratives/NDCI/hero.png?raw=true",
-    tags: ["🌟 showcase", "ndci", "algae", "indices", "Sentinel-2"],
+    tags: ["<i class='mdi mdi-star'></i> showcase", "ndci", "algae", "indices", "Sentinel-2"],
     category: "Showcases",
     type: "story",
     link: "https://explorer.eopf.copernicus.eu/story/?id=ndci",
@@ -230,8 +242,8 @@ export const servicesContent = [
     id: "eoxmap-geozarr-story",
     title: "EOPF Zarr Client Side Rendering",
     content: "A story on how to visualize Sentinel Zarr data using EOxMap with GeoZarr support.",
-    image: "assets/openlayers-story.png",
-    tags: ["🗺️ screening", "web-mapping", "visualization", "geozarr"],
+    image: "/assets/openlayers-story.png",
+    tags: ["<i class='mdi mdi-map'></i> screening", "web-mapping", "visualization", "geozarr"],
     category: "Screening",
     order: 8,
     type: "story",
@@ -241,23 +253,34 @@ export const servicesContent = [
     id: "geozarr-data-model",
     title: "Pioneering the GeoZarr Data Model",
     content: "Learn how EOPF Explorer drives GeoZarr specification development and Zarr Conventions, establishing the foundation for cloud-native Earth Observation standards.",
-    image: "assets/geozarr.png",
-    tags: ["📚 documentation", "standards", "geozarr", "zarr", "conventions", "community"],
+    image: "/assets/geozarr.png",
+    tags: ["<i class='mdi mdi-library'></i> documentation", "standards", "geozarr", "zarr", "conventions", "community"],
     category: "Documentation",
     type: "story",
-    link: "datamodel/",
+    link: "./datamodel/",
+    contain: true,
     order: 9
   },
   {
     id: "zarr-layer-carbon-plan",
     title: "Flexible zarr rendering for MapLibre/Mapbox",
     content: "A interesting experiment by CarbonPlan on rendering zarr data in the browser using WebGLShaders.",
-    image: "assets/zarr-layer-carbon-plan.png", 
-    tags: ["🗺️ screening", "experimental", "web-mapping", "WebGL", "geozarr"],
+    image: "/assets/zarr-layer-carbon-plan.png", 
+    tags: ["<i class='mdi mdi-map'></i> screening", "experimental", "web-mapping", "WebGL", "geozarr"],
     category: "Screening",
     type: "software",
     link: "https://zarr-layer.demo.carbonplan.org/",
     order: 10
+  },
+  {
+    id: "openeo-studio",
+    title: "openEO Studio",
+    content: "Run and visualize openEO processes directly in your browser with openEO Studio.",
+    image: "assets/openeo-studio.png",
+    tags: ["📊 analysis", "workflow", "openeo", "cloud-processing"],
+    category: "Analysis",
+    type: "service",
+    link: "https://studio.explorer.eopf.copernicus.eu/"
   }
 ]
 
@@ -316,7 +339,11 @@ export const timelineItems = [
     description: 'Using established conventions as the foundation for the official OGC-approved GeoZarr specification.'
   }
 ]
-
+/**
+ * 
+ * @param {"completed" | "ongoing" | "planned"} status 
+ * @returns 
+ */
 export const getStatusColor = (status) => {
   const colors = {
     completed: '#22c55e',

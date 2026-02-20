@@ -20,8 +20,9 @@ export default defineConfig({
         if (classIndex < 0) {
           token.attrPush(['class', 'link']);
         } else {
-          const currentClass = token.attrs[classIndex][1];
-          if (!currentClass.includes('link')) {
+          const currentClass = token.attrs?.[classIndex][1];
+          if (!currentClass?.includes('link')) {
+            //@ts-expect-error todo
             token.attrs[classIndex][1] = currentClass + ' link';
           }
         }
@@ -39,14 +40,12 @@ export default defineConfig({
   },
   base: "/",
   vite:{
-    optimizeDeps:{
-      include:["@eox/pages-theme-eox","@eodash/eodash/webcomponent" ]
-    },
     server: {
-      allowedHosts:true,
+      allowedHosts: true,
     }
   },
   themeConfig: {
+    externalLinkIcon:true,
     nav: [
       { text: "Data Catalog", link: "https://api.explorer.eopf.copernicus.eu/browser" },
       { text: "Dynamic Browser", link: "/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a" },
