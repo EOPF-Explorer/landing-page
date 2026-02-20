@@ -92,7 +92,6 @@ watch(
    () => page.value.isNotFound,
   async (isNotFound) => {
     if (!isNotFound || !inBrowser) return;
-    console.log("Page not found:", isNotFound);
     const redirects = Object.entries({
       "/software/ol/stac-demo": "/software-services/ol/stac",
     });
