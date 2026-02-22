@@ -84,20 +84,5 @@
 </template>
 <script setup>
 import { useData, inBrowser, useRouter } from "vitepress";
-import { watch } from "vue";
 const { theme, page } = useData();
-const { go, route, } = useRouter();
-
-watch(
-   () => page.value.isNotFound,
-  async (isNotFound) => {
-    if (!isNotFound || !inBrowser) return;
-    const redirects = Object.entries({
-      "/software/ol/stac-demo": "/software-services/ol/stac",
-    });
-    const redirect = redirects.find(([from]) => route.path.startsWith(from));
-    if (!redirect) return;
-    await go(redirect[1])
-  },{immediate: true}
-);
 </script>
