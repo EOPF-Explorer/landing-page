@@ -1,6 +1,6 @@
 import { mdiMapSearch } from "@mdi/js";
 
-const initialLayers = [
+const baseLayers = [
   {
     type: "Group",
     properties: {
@@ -70,6 +70,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
     api: true,
     rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
     mosaicEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
+    supportedUpscalingEndpoints: ["api.explorer.eopf.copernicus.eu/raster/"],
   },
   brand: {
     name: "Sentinel Explorer",
@@ -137,7 +138,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers,
+            baseLayers,
           },
         },
       },
@@ -246,7 +247,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers,
+            baseLayers,
           },
         },
       },
@@ -261,10 +262,8 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             properties: {
               onVnodeBeforeMount: async () => {
                 if (
-                  //@ts-expect-error todo
                   window.eodashStore.states.indicator.value !== "sentinel-2-l2a"
                 ) {
-                  //@ts-expect-error todo
                   await window.eodashStore.stac
                     .useSTAcStore()
                     .loadSelectedSTAC("sentinel-2-l2a");
@@ -313,7 +312,6 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
                     properties: {
                       animate: false,
                       useMosaic: true,
-                      datepickerRange: true,
                       filters: [
                         {
                           key: "eo:cloud_cover",
@@ -377,7 +375,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers,
+            baseLayers,
           },
         },
       },
