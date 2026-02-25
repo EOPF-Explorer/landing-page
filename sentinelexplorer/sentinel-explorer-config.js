@@ -1,6 +1,6 @@
 import { mdiMapSearch } from "@mdi/js";
 
-const initialLayers = [
+const baseLayers = [
   {
     type: "Group",
     properties: {
@@ -20,9 +20,10 @@ const initialLayers = [
         },
         source: {
           type: "XYZ",
-          url: "https://s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpeg",
+          url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpeg",
           projection: "EPSG:3857",
         },
+        preload: Infinity,
       },
       {
         type: "Tile",
@@ -36,9 +37,10 @@ const initialLayers = [
         },
         source: {
           type: "XYZ",
-          url: "https://s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
+          url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
           projection: "EPSG:3857",
         },
+        preload: Infinity,
       },
       {
         type: "Tile",
@@ -52,9 +54,10 @@ const initialLayers = [
         },
         source: {
           type: "XYZ",
-          url: "https://s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg",
+          url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg",
           projection: "EPSG:3857",
         },
+        preload: Infinity,
       },
     ],
     interactions: [],
@@ -67,6 +70,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
     api: true,
     rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
     mosaicEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
+    supportedUpscalingEndpoints: ["api.explorer.eopf.copernicus.eu/raster/"],
   },
   brand: {
     name: "Sentinel Explorer",
@@ -134,16 +138,16 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers,
+            baseLayers,
           },
         },
       },
       widgets: [
         {
-          id: "Layercontrol",
+          id: "explore-layercontrol",
           type: "internal",
           title: "Layers",
-          layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 12 },
+          layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 7 },
           widget: {
             name: "EodashLayerControl",
             properties: {
@@ -152,20 +156,60 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           },
         },
         {
+          id: "StacInfo",
+          type: "internal",
+          title: "Information",
+          layout: { x: "9/9/10", y: 7, w: "3/3/2", h: 5 },
+          widget: {
+            name: "EodashStacInfo",
+            properties: {
+              level: "item",
+              allowHtml: true,
+              header: ["collection"],
+              // tags:["instruments"],
+              body: [
+                "datetime",
+                "platform",
+                "constellation",
+                "instruments",
+                "eo:cloud_cover",
+                "processing:level",
+                "product:type",
+                "eo:snow_cover",
+                "view:sun_elevation",
+                "processing:facility",
+              ],
+              footer: ["providers"],
+              featured: [
+                "id",
+                "processing:software",
+                { key: "assets", filter: (asset) => !!asset },
+                {
+                  key: "links",
+                  filter: (link) =>
+                    link.rel == "self" ||
+                    (!!link.title && !["xyz", "tilejson"].includes(link.rel)),
+                },
+              ],
+            },
+          },
+        },
+        {
           id: "ItemCatalog",
           title: "Catalog",
           type: "internal",
-          layout: { x: 0, y: 0, w: "3/3/2", h: 12 },
+          layout: { x: 0, y: 0, w: "3/3/2", h: 11 },
           widget: {
             name: "EodashItemCatalog",
             properties: {
-              layoutTarget: "expert",
+              layoutTarget: "mosaic",
+              hoverProperties: ["datetime", "eo:cloud_cover"],
             },
           },
         },
       ],
     },
-    expert: {
+    mosaic: {
       loading: {
         id: "loading",
         type: "web-component",
@@ -182,7 +226,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         },
       },
       background: {
-        id: "expert-background-map",
+        id: "mosaic-background-map",
         type: "internal",
         widget: {
           name: "EodashMap",
@@ -203,37 +247,31 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers,
+            baseLayers,
           },
         },
       },
       widgets: [
         {
-          id: "Tools",
-          type: "internal",
-          title: "Tools",
-          layout: { x: 0, y: 0, w: "3/3/2", h: 1 },
-          widget: {
-            name: "EodashTools",
-            properties: {
-              layoutTarget: "explore",
-              layoutIcon: mdiMapSearch,
-              itemFilterConfig: {
-                resultType: "cards",
-                subTitleProperty: "subtitle",
-                imageProperty: "assets.thumbnail.href",
-                aggregateResults: "collection_group",
-              },
-            },
-          },
-        },
-        {
-          id: "Layercontrol",
+          id: "mosaic-layercontrol",
           type: "internal",
           title: "Layers",
-          layout: { x: 0, y: 1, w: "3/3/2", h: 7 },
+          layout: { x: 0, y: 0, w: "3/3/2", h: 7 },
           widget: {
             name: "EodashLayerControl",
+            properties: {
+              onVnodeBeforeMount: async () => {
+                if (
+                  window.eodashStore.states.indicator.value !== "sentinel-2-l2a"
+                ) {
+                  await window.eodashStore.stac
+                    .useSTAcStore()
+                    .loadSelectedSTAC("sentinel-2-l2a");
+                }
+              },
+              layoutTarget: "explore",
+              layoutIcon: mdiMapSearch,
+            },
           },
         },
         {
@@ -265,7 +303,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           defineWidget: (selectedSTAC) => {
             return selectedSTAC
               ? {
-                  id: "expert-datetime",
+                  id: "mosaic-datetime",
                   type: "internal",
                   layout: { x: 1, y: 8, w: 10, h: 3 },
                   title: "Time Slider",
@@ -337,7 +375,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableBackToPOIs: false,
               enableSearch: false,
             },
-            initialLayers,
+            baseLayers,
           },
         },
       },
@@ -350,7 +388,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           widget: {
             name: "EodashItemCatalog",
             properties: {
-              layoutTarget: "expert",
+              layoutTarget: "mosaic",
             },
           },
         },
@@ -363,7 +401,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             name: "EodashItemCatalog",
             properties: {
               enableCompare: true,
-              layoutTarget: "expert",
+              layoutTarget: "mosaic",
             },
           },
         },
