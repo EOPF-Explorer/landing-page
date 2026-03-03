@@ -270,17 +270,18 @@ export const servicesContent = [
     category: "Screening",
     type: "software",
     link: "https://zarr-layer.demo.carbonplan.org/",
-    order: 10
+    order: 11
   },
   {
     id: "openeo-studio",
     title: "openEO Studio",
     content: "Run and visualize openEO processes directly in your browser with openEO Studio.",
-    image: "assets/openeo-studio.png",
-    tags: ["📊 analysis", "workflow", "openeo", "cloud-processing"],
+    image: "/assets/openeo-studio.png",
+    tags: ["<i class='mdi mdi-chart-box'></i> analysis", "workflow", "openeo", "cloud-processing"],
     category: "Analysis",
     type: "service",
-    link: "https://studio.explorer.eopf.copernicus.eu/"
+    link: "https://studio.explorer.eopf.copernicus.eu/",
+    order: 10
   }
 ]
 

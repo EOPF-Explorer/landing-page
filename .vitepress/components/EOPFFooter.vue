@@ -83,6 +83,6 @@
   </footer>
 </template>
 <script setup>
-import { useData } from "vitepress";
-const { theme } = useData();
+import { useData, inBrowser, useRouter } from "vitepress";
+const { theme, page } = useData();
 </script>

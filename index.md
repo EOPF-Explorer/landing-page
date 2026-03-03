@@ -10,9 +10,13 @@ hero:
     src: /assets/globe-hero.jpg
     alt: Background Image
   actions:
+    # - theme: brand
+    #   text: Explore Data
+    #   link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
     - theme: brand
-      text: Explore Data
-      link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
+      text: Join Our Webinar
+      link: https://www.tickettailor.com/events/thrivegeo/2055688
+      taget: _blank
     - theme: brand
       text: Software & Services
       link: /software-services
@@ -142,13 +146,13 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 
 #### Acknowledgments
 
-EOPF Explorer is a project funded by the European Space Agency (ESA) and developed by a consortium led by Development Seed and EOX. We gratefully acknowledge the contributions of the open-source community and our external experts who make this project possible.
+EOPF Explorer is a project funded by the European Space Agency (ESA) and developed by a consortium led by Development Seed and EOX, and a community outreach led by ThriveGEO. We gratefully acknowledge the contributions of the open-source community and our external experts who make this project possible.
 
 Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire geospatial open-source ecosystem.
 
 <!-- logos section -->
 <p style="text-align:start">
-<a style="display:inline" href="https://developmentseed.org/" target="_blank"><img :src="withBase('/media/devseed-logo.svg')" style="width:8.5rem; padding:1rem;display:inline; "/></a> <a style="display:inline;" href="https://eox.at/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/EOX-logo.svg')"/></a>
+<a style="display:inline" href="https://developmentseed.org/" target="_blank"><img :src="withBase('/media/devseed-logo.svg')" style="width:8.5rem; padding:1rem;display:inline; "/></a><a style="display:inline;" href="https://eox.at/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/EOX-logo.svg')"/></a><a style="display:inline;" href="https://thrivegeo.com/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/thrivegeo-logo.png')"/></a>
 </p>
 
 
