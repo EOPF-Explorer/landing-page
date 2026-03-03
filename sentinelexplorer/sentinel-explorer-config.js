@@ -116,7 +116,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         },
       },
       background: {
-        id: "explore-background-map",
+        id: "background-map",
         type: "internal",
         widget: {
           name: "EodashMap",
@@ -226,7 +226,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         },
       },
       background: {
-        id: "mosaic-background-map",
+        id: "background-map",
         type: "internal",
         widget: {
           name: "EodashMap",
@@ -262,12 +262,31 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             properties: {
               onVnodeBeforeMount: async () => {
                 if (
+                  //@ts-expect-error todo
                   window.eodashStore.states.indicator.value !== "sentinel-2-l2a"
                 ) {
+                  //@ts-expect-error todo
                   await window.eodashStore.stac
                     .useSTAcStore()
                     .loadSelectedSTAC("sentinel-2-l2a");
                 }
+              },
+              onVnodeBeforeUnmount: async () => {
+                /** @type {import("@eox/map/src/layers").EOxLayerTypeGroup[]} */
+                //@ts-expect-error todo
+                const layers = window.eodashStore.actions.getLayers();
+                const updatedLayers = layers.map((layer) => {
+                  const id = layer.properties?.id;
+                  if (!id?.includes("Analysis")) return layer;
+
+                  const updatedGroupLayers = layer.layers.filter(
+                    (l) => !l.properties?.id.includes("mosaic"),
+                  );
+                  layer.layers = updatedGroupLayers;
+                  return layer;
+                });
+                //@ts-expect-error todo
+                window.eodashStore.states.mapEl.value.layers = updatedLayers;
               },
               layoutTarget: "explore",
               layoutIcon: mdiMapSearch,
@@ -353,7 +372,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         },
       },
       background: {
-        id: "explore-background-map",
+        id: "background-map",
         type: "internal",
         widget: {
           name: "EodashMap",
