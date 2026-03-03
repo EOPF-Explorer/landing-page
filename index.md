@@ -152,7 +152,7 @@ Built on the shoulders of giants: xarray, zarr, OpenLayers, GDAL, and the entire
 
 <!-- logos section -->
 <p style="text-align:start">
-<a style="display:inline" href="https://developmentseed.org/" target="_blank"><img :src="withBase('/media/devseed-logo.svg')" style="width:8.5rem; padding:1rem;display:inline; "/></a><a style="display:inline;" href="https://eox.at/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/EOX-logo.svg')"/></a><a style="display:inline;" href="https://eox.at/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/thrivegeo-logo.png')"/></a>
+<a style="display:inline" href="https://developmentseed.org/" target="_blank"><img :src="withBase('/media/devseed-logo.svg')" style="width:8.5rem; padding:1rem;display:inline; "/></a><a style="display:inline;" href="https://eox.at/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/EOX-logo.svg')"/></a><a style="display:inline;" href="https://thrivegeo.com/" target="_blank"> <img style="width:8.5rem; padding:1rem; display:inline; " :src="withBase('/media/thrivegeo-logo.png')"/></a>
 </p>
 
 
