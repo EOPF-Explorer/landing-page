@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 //@ts-expect-error does not have types
 import baseConfig from "@eox/pages-theme-eox/config";
 
@@ -42,7 +43,27 @@ export default defineConfig({
   vite:{
     server: {
       allowedHosts: true,
-    }
+    },
+    plugins: [
+      viteStaticCopy({
+        targets: ['Assets', 'Workers', 'ThirdParty', 'Widgets'].map((dir) => ({
+          src: `node_modules/cesium/Build/Cesium/${dir}/*`,
+          dest: `cesium/${dir}`,
+        })),
+      }),
+    ],
+    optimizeDeps: {
+      include: ['cesium'],
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            cesium: ['cesium'],
+          },
+        },
+      },
+    },
   },
   themeConfig: {
     externalLinkIcon:true,
