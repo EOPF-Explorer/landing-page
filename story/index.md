@@ -70,8 +70,7 @@ onMounted(() => {
     if (window && typeof window !== 'undefined' && 'URLSearchParams' in window) {
         const searchParams = new URLSearchParams(window.location.search);
         storyfile = searchParams.get('id');
-        // Load from local public/narratives/ folder for testing
-        storyurl.value = withBase(`/narratives/${storyfile}.md`);
+        storyurl.value = `https://eopf-explorer.github.io/narratives/${storyfile}.md`;
     }
 })
 </script>
@@ -81,7 +80,8 @@ onMounted(() => {
     v-if="storyurl" 
     :markdown-url="storyurl"
     class="full-width"
-    style="transform: translateY(var(--vp-nav-height)); margin-top: calc(var(--vp-nav-height) * -1 - 90px - 48px); margin-bottom: var(--vp-nav-height);">
+    style="transform: translateY(var(--vp-nav-height)); margin-top: calc(var(--vp-nav-height) * -1 - 90px - 48px); margin-bottom: var(--vp-nav-height);"
+>
 </eox-storytelling>
 <br/>
 <!-- logos section -->
