@@ -258,7 +258,9 @@ async function initializeMap() {
     let terrainProvider
     if (token) {
         try {
-            terrainProvider = await Cesium.CesiumTerrainProvider.fromIonAssetId(1)
+            terrainProvider = await Cesium.CesiumTerrainProvider.fromIonAssetId(1, {
+                requestWaterMask: true,
+            })
         } catch (e) {
             console.warn('Failed to load Cesium Ion terrain, falling back to ellipsoid:', e)
             terrainProvider = undefined
@@ -284,6 +286,9 @@ async function initializeMap() {
     if (terrainProvider) viewerOptions.terrainProvider = terrainProvider
 
     cesiumViewer = new Cesium.Viewer(mapRef.value, viewerOptions)
+
+    // Enable lighting for animated water reflections
+    cesiumViewer.scene.globe.enableLighting = true
 
     // Dark OSM base layer
     const darkOsmProvider = new Cesium.UrlTemplateImageryProvider({

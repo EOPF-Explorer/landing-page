@@ -23,7 +23,7 @@ layout: page
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import GlobeTour from '../.vitepress/components/GlobeTour.vue'
-import defaultTourScript from './default-tour.js'
+import defaultTourScript from './tour-lava-flow.js'
 
 const tourConfig = ref(null)
 const loadError = ref(null)
