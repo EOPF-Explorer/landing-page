@@ -121,7 +121,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         widget: {
           name: "EodashMap",
           properties: {
-            zoomToExtent: true,
+            zoomToExtent: false,
             enableCompare: true,
             btns: {
               enableZoom: true,
@@ -231,7 +231,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         widget: {
           name: "EodashMap",
           properties: {
-            zoomToExtent: true,
+            zoomToExtent: false,
             enableCompare: true,
             btns: {
               enableZoom: true,
@@ -377,7 +377,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
         widget: {
           name: "EodashMap",
           properties: {
-            zoomToExtent: true,
+            zoomToExtent: false,
             enableCompare: true,
             btns: {
               enableZoom: true,
