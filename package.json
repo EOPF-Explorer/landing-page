@@ -10,7 +10,7 @@
     "check": "vue-tsc && eslint ."
   },
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@e8df3c5",
+    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@55ae5dc",
     "@eox/chart": "^1.1.0",
     "@eox/drawtools": "^1.2.0",
     "@eox/elements-utils": "^1.1.1",
@@ -18,7 +18,7 @@
     "@eox/jsonform": "^1.9.0",
     "@eox/layercontrol": "^1.4.0",
     "@eox/layout": "^1.0.0",
-    "@eox/map": "^2.1.0",
+    "@eox/map": "https://pkg.pr.new/EOX-A/EOxElements/@eox/map@05e91fb",
     "@eox/storytelling": "^1.10.1",
     "@eox/timecontrol": "^2.1.1",
     "chroma-js": "^3.2.0",
