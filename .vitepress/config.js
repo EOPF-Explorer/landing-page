@@ -40,8 +40,14 @@ export default defineConfig({
   },
   base: "/",
   vite:{
+    optimizeDeps:{
+      include:["@eodash/eodash/webcomponent","@eox/map"]
+    },
     server: {
       allowedHosts: true,
+    },
+    ssr: {
+      noExternal: ["@eodash/eodash/webcomponent","@eox/map"]
     }
   },
   themeConfig: {
