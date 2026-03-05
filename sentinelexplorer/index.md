@@ -6,9 +6,10 @@ footer: false
 <script setup>
 import {onMounted} from "vue"
 
-onMounted(()=>{
+onMounted(async()=>{
   if (document.querySelector(".layout-home")) {
     window.location.reload();
+    await import("@eox/map");
   }
 })
   
