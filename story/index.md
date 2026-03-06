@@ -17,6 +17,52 @@ if (!import.meta.env.SSR) {
     if (window) import("@eox/map/src/plugins/advancedLayersAndSources");
 }
 
+/**
+ * Patch: enable setStyle() for WebGLTile layers during eox-map tour step transitions.
+ *
+ * eox-map's updateLayer (generate.js) only calls setStyle for Vector/VectorTile.
+ * When a tour step reuses a WebGLTile layer by id but changes the style, the new
+ * style is stored in _jsonDefinition but never applied to the OL layer.
+ *
+ * This hook intercepts the `layers` setter on every <eox-map> and, after the
+ * normal update runs, iterates the map's layers and calls setStyle() on any
+ * WebGLTile layer whose current style differs from the definition.
+ *
+ * TODO: remove once https://github.com/EOX-A/EOxElements merges the upstream fix.
+ */
+function patchWebGLTileStyle() {
+  if (import.meta.env.SSR) return;
+  customElements.whenDefined("eox-map").then(() => {
+    const EoxMapClass = customElements.get("eox-map");
+    const proto = EoxMapClass.prototype;
+    const desc = Object.getOwnPropertyDescriptor(proto, "layers")
+               || Object.getOwnPropertyDescriptor(EoxMapClass, "layers");
+    if (!desc || !desc.set) return;
+
+    const origSet = desc.set;
+    desc.set = function (newLayers) {
+      origSet.call(this, newLayers);
+      // After the normal setter runs, fix WebGLTile styles
+      if (!this.map) return;
+      this.map.getLayers().forEach((olLayer) => {
+        const def = olLayer.get("_jsonDefinition");
+        if (def?.type !== "WebGLTile" || !def.style) return;
+        if (typeof olLayer.setStyle === "function") {
+          try {
+            const current = JSON.stringify(olLayer.getStyle?.());
+            const wanted = JSON.stringify(def.style);
+            if (current !== wanted) {
+              olLayer.setStyle(def.style);
+            }
+          } catch (_) { /* style not comparable, skip */ }
+        }
+      });
+    };
+    Object.defineProperty(proto, "layers", desc);
+  });
+}
+patchWebGLTileStyle();
+
 const storyurl = ref('')
 
 onMounted(() => {
