@@ -18,10 +18,11 @@
     "@eox/jsonform": "^1.9.1",
     "@eox/layercontrol": "^1.4.1",
     "@eox/layout": "^1.0.0",
-    "@eox/map": "https://pkg.pr.new/EOX-A/EOxElements/@eox/map@05e91fb",
+    "@eox/map": "https://pkg.pr.new/EOX-A/EOxElements/@eox/map@037ae15b5c6ae22cafeb92a76fb21191a9ccfac2",
     "@eox/storytelling": "^1.10.1",
     "@eox/timecontrol": "^2.1.2",
     "chroma-js": "^3.2.0",
+    "ol": "10.8.1-dev.1772826953922",
     "stac-js": "^0.1.9"
   },
   "devDependencies": {
