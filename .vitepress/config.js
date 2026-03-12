@@ -56,6 +56,7 @@ export default defineConfig({
       { text: "Data Catalog", link: "https://api.explorer.eopf.copernicus.eu/browser" },
       { text: "Dynamic Browser", link: "/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a" },
       { text: "Software & Services", link: "/software-services" },
+      { text: "Webinars & Events", link: "/webinars-and-events" },
       { text: "Documentation", link: "https://eopf-explorer.github.io/data-model/" },
       { text: "Discussion", link: "https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" },
     ],
@@ -102,7 +103,6 @@ export default defineConfig({
             crossorigin: ''
           }
         ]
-
     ]
   },
 });
