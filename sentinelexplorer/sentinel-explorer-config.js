@@ -262,10 +262,8 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             properties: {
               onVnodeBeforeMount: async () => {
                 if (
-                  //@ts-expect-error todo
                   window.eodashStore.states.indicator.value !== "sentinel-2-l2a"
                 ) {
-                  //@ts-expect-error todo
                   await window.eodashStore.stac
                     .useSTAcStore()
                     .loadSelectedSTAC("sentinel-2-l2a");

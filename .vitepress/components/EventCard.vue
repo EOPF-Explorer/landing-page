@@ -29,22 +29,25 @@
             {{ event.description }}
           </p>
           <nav>
-            <template v-for="action in eventActions" :key="`${event.title}-${action.text}`">
-            <a
-              v-if="action.type === 'link'"
-              class="button border secondary-text"
-              :href="action.link"
-              :target="action.target || '_blank'"
+            <template
+              v-for="action in eventActions"
+              :key="`${event.title}-${action.text}`"
             >
-              {{ action.text }}
-            </a>
-            <button
-              v-else
-              class="button border secondary-text"
-              @click="$emit('open-dialog', action)"
-            >
-              {{ action.text }}
-            </button>
+              <a
+                v-if="action.type === 'link'"
+                class="button border secondary-text"
+                :href="action.link"
+                :target="action.target || '_blank'"
+              >
+                {{ action.text }}
+              </a>
+              <button
+                v-else
+                class="button border secondary-text"
+                @click="$emit('open-dialog', action)"
+              >
+                {{ action.text }}
+              </button>
             </template>
           </nav>
         </div>
