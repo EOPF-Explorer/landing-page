@@ -23,7 +23,8 @@
     ".vitepress/**/*.js",
     ".vitepress/**/*.vue",
     ".vitepress/**/*.md",
-    "**/*.md"
+    "**/*.md",
+    "**/*.d.ts"
   ],
   "vueCompilerOptions": {
     "vitePressExtensions": [".md"]

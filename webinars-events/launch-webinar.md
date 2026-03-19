@@ -20,7 +20,7 @@ In this session, experts from ESA, Development Seed, EOX, and thriveGEO demonstr
 
 The webinar walks through the full workflow: from STAC-based discovery to real-time visualisation and storytelling with satellite imagery.
 
-### What you’ll see in this webinar
+### What you'll see in this webinar
 
 * Browsing Sentinel data using STAC catalogs
 * Real-time visualisation of Sentinel imagery in the browser
@@ -34,8 +34,8 @@ Zarr is the planned future distribution format for Copernicus Sentinel data.
 
 The EOPF Explorer demonstrates how cloud-native data formats enable faster access, scalable analysis, and interactive exploration of Earth observation datasets.
 
-* [EOPF Sentinel Zarr Explorer](https://explorer.eopf.copernicus.eu/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a)
-* [Learn more about the data model](https://explorer.eopf.copernicus.eu/software-services/datamodel)
+* [EOPF Sentinel Zarr Explorer](/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a)
+* [Learn more about the data model](/software-services/datamodel/index)
 
 ### Upcoming webinar
 **📅 April 20 | 15:00-16:00 CET**

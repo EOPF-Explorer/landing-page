@@ -9,8 +9,6 @@ Join the EOPF community to learn about cloud-native Earth Observation, explore t
 <FeaturesGallery :cards="events" :columns="3" variant="poster" background="transparent" :sectionTitle="false" style="margin-top:-80px;z-index:0" />
 
 <script setup>
-// import FeaturesGallery from "../../pages-theme-eox/src/components/FeaturesGallery.vue"
-import FeaturesGallery from "../.vitepress/components/FeaturesGallery.vue"
 const events = [
   {
     id:1,

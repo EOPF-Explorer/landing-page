@@ -15,7 +15,7 @@ hero:
     #   link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
     - theme: brand
       text: Join Our Webinar
-      link: https://buytickets.at/thrivegeo/2073515/r/explorerwebsite
+      link: https://buytickets.at/thrivegeo/2073515/r/explorerweb
       taget: _blank
     - theme: brand
       text: Software & Services
