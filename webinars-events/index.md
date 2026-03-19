@@ -8,13 +8,58 @@ Join the EOPF community to learn about cloud-native Earth Observation, explore t
 
 <FeaturesGallery :cards="events" :columns="3" variant="poster" background="transparent" :sectionTitle="false" style="margin-top:-80px;z-index:0" />
 
+### News & Events from the EOPF Community
+
+<div class="large-space"/>
+<LogoSection :logos="newsLogos" :baseHeight="8" :strength="1.5" ></LogoSection>
+<div class="large-space"/>
+
+
+
+<CTASection style="margin-bottom:0px"
+  title="Join the discussion!"
+  tagline="We welcome your feedback and contributions."
+  primaryButton="Visit the EOPF Forum"
+  primaryLink="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17"
+  dark
+/>
+
 <script setup>
+
+const newsLogos = [
+  {
+    image: '/public/media/eopf-sample-service-logo.svg',
+    alt: 'EOPF Sentinel Zarr Samples / CDSE Events',
+    link: 'https://zarr.eopf.copernicus.eu/knowledge-hub/',
+    target:"_blank"
+  },
+  {
+    image: '/public/media/eopf-toolkit-logo.svg',
+    alt: 'EOPF Toolkit',
+    link: 'https://github.com/eopf-toolkit',
+    target:"_blank"
+  },
+  {
+    image: '/public/media/csdse-logo.png',
+    alt: 'CDSE',
+    link: 'https://dataspace.copernicus.eu/events',
+    target:"_blank"
+  },
+  {
+    image: '/public/media/sentinel-online-logo.png',
+    alt: 'Sentinel News',
+    link: 'https://sentinels.copernicus.eu/web/sentinel/sentinel-news',
+    target:"_blank"
+  }
+]
+
 const events = [
   {
     id:1,
     title: 'EOPF Explorer Webinar #2 - Advanced Analysis with Sentinel Zarr',
     image: '/assets/sentinel-2.png',
     chips: [
+      { text: 'Analysis', class:"mdi mdi-chart-box" },
       { text: 'Upcoming event' },
     ],
     metadata: [
@@ -38,8 +83,9 @@ const events = [
     title: 'Cloud-Native Sentinel Data: EOPF Sentinel Zarr Explorer Launch Webinar',
     image: '/assets/globe-hero.jpg',
     chips: [
-      { text: 'Past event', class:"" },
-      { text: 'Recording', class:""}
+      { text: 'Discovery' , class:"mdi mdi-compass"},
+      { text: 'Screening', class:"mdi mdi-map" },
+      { text: 'Recording', }
     ],
     metadata: [
       { text: new Date("03-09-2026").toString().split(" ").splice(0,4).join(" "), icon: 'mdi-calendar-blank' },
