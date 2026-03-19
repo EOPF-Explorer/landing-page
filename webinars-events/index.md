@@ -28,25 +28,25 @@ Join the EOPF community to learn about cloud-native Earth Observation, explore t
 
 const newsLogos = [
   {
-    image: '/public/media/eopf-sample-service-logo.svg',
+    image: '/media/eopf-sample-service-logo.svg',
     alt: 'EOPF Sentinel Zarr Samples / CDSE Events',
     link: 'https://zarr.eopf.copernicus.eu/knowledge-hub/',
     target:"_blank"
   },
   {
-    image: '/public/media/eopf-toolkit-logo.svg',
+    image: '/media/eopf-toolkit-logo.svg',
     alt: 'EOPF Toolkit',
     link: 'https://github.com/eopf-toolkit',
     target:"_blank"
   },
   {
-    image: '/public/media/csdse-logo.png',
+    image: '/media/csdse-logo.png',
     alt: 'CDSE',
     link: 'https://dataspace.copernicus.eu/events',
     target:"_blank"
   },
   {
-    image: '/public/media/sentinel-online-logo.png',
+    image: '/media/sentinel-online-logo.png',
     alt: 'Sentinel News',
     link: 'https://sentinels.copernicus.eu/web/sentinel/sentinel-news',
     target:"_blank"
