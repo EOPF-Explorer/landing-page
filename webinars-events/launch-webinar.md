@@ -42,6 +42,9 @@ The EOPF Explorer demonstrates how cloud-native data formats enable faster acces
 <br/>
 
 ### Recording {#recording}
+
+<div class="large-space"></div>
+
 <div  class="responsive margin-top" style="border-radius:16px">
 <iframe
   style="width: 100%; height: 30rem;"
@@ -51,6 +54,7 @@ The EOPF Explorer demonstrates how cloud-native data formats enable faster acces
   allowfullscreen>
 </iframe>
 </div>
+<div class="large-space"></div>
 
 <CTASection style="margin-bottom:0px"
   title="Join the discussion!"

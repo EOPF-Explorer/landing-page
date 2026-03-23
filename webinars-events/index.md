@@ -25,28 +25,29 @@ Join the EOPF community to learn about cloud-native Earth Observation, explore t
 />
 
 <script setup>
+import { withBase } from 'vitepress'
 
 const newsLogos = [
   {
-    image: '/media/eopf-sample-service-logo.svg',
+    image: withBase('/media/eopf-sample-service-logo.svg'),
     alt: 'EOPF Sentinel Zarr Samples / CDSE Events',
     link: 'https://zarr.eopf.copernicus.eu/knowledge-hub/',
     target:"_blank"
   },
   {
-    image: '/media/eopf-toolkit-logo.svg',
+    image: withBase('/media/eopf-toolkit-logo.svg'),
     alt: 'EOPF Toolkit',
     link: 'https://github.com/eopf-toolkit',
     target:"_blank"
   },
   {
-    image: '/media/csdse-logo.png',
+    image: withBase('/media/csdse-logo.png'),
     alt: 'CDSE',
     link: 'https://dataspace.copernicus.eu/events',
     target:"_blank"
   },
   {
-    image: '/media/sentinel-online-logo.png',
+    image: withBase('/media/sentinel-online-logo.png'),
     alt: 'Sentinel News',
     link: 'https://sentinels.copernicus.eu/web/sentinel/sentinel-news',
     target:"_blank"
@@ -57,7 +58,7 @@ const events = [
   {
     id:1,
     title: 'EOPF Explorer Webinar #2 - Advanced Analysis with Sentinel Zarr',
-    image: '/assets/sentinel-2.png',
+    image: withBase('/assets/sentinel-2.png'),
     chips: [
       { text: 'Analysis', class:"mdi mdi-chart-box" },
       { text: 'Upcoming event' },
@@ -81,7 +82,7 @@ const events = [
   {
     id:2,
     title: 'Cloud-Native Sentinel Data: EOPF Sentinel Zarr Explorer Launch Webinar',
-    image: '/assets/globe-hero.jpg',
+    image: withBase('/assets/globe-hero.jpg'),
     chips: [
       { text: 'Discovery' , class:"mdi mdi-compass"},
       { text: 'Screening', class:"mdi mdi-map" },
