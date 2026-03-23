@@ -37,13 +37,6 @@ The EOPF Explorer demonstrates how cloud-native data formats enable faster acces
 * [EOPF Sentinel Zarr Explorer](/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a)
 * [Learn more about the data model](/software-services/datamodel/index)
 
-### Upcoming webinar
-**📅 April 20 | 15:00-16:00 CET**
-
-Join our online workshop exploring advanced analysis workflows using Sentinel Zarr data, including server-side visualisation and analytical tools such as TiTiler and openEO.
-
-[Register here](https://buytickets.at/thrivegeo/20735...)
-
 *#EOPF #Copernicus #EarthObservation #GeoZarr #CloudNative #SentinelData #Geospatial #OpenSource*
 
 <br/>
