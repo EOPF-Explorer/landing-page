@@ -81,7 +81,7 @@ const events = [
   },
   {
     id:2,
-    title: 'EOPF Explorer Webinar #1 - Introducing Visualisation-Enhanced Sentinel Zarr,
+    title: 'EOPF Explorer Webinar #1 - Introducing Visualisation-Enhanced Sentinel Zarr',
     image: withBase('/assets/globe-hero.jpg'),
     chips: [
       { text: 'Discovery' , class:"mdi mdi-compass"},
