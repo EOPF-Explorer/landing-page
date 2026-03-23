@@ -81,7 +81,7 @@ const events = [
   },
   {
     id:2,
-    title: 'Cloud-Native Sentinel Data: EOPF Sentinel Zarr Explorer Launch Webinar',
+    title: 'EOPF Explorer Webinar #1 - Introducing Visualisation-Enhanced Sentinel Zarr,
     image: withBase('/assets/globe-hero.jpg'),
     chips: [
       { text: 'Discovery' , class:"mdi mdi-compass"},

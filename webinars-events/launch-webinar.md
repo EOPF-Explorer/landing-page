@@ -1,5 +1,5 @@
 ---
-title: EOPF Sentinel Zarr Explorer Launch Webinar
+title: "EOPF Explorer Webinar #1 - Introducing Visualisation-Enhanced Sentinel Zarr"
 layout: page
 ---
 
@@ -14,7 +14,7 @@ layout: page
     <a href="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" target="_blank" class="button border">Follow-up Questions</a>
 </div>
 
-This webinar marks the official launch of the EOPF Sentinel Zarr Explorer, a new platform enabling cloud-native visualisation of Copernicus Sentinel data directly in the browser.
+This webinar marks the official launch of the EOPF Sentinel Zarr Explorer, a new platform enabling cloud-native visualisation of Copernicus Sentinel data directly in the browser, as an enhancement of the new EOPF Zarr format.
 
 In this session, experts from ESA, Development Seed, EOX, and thriveGEO demonstrate how GeoZarr-formatted Sentinel data can be explored instantly without downloads or preprocessing. The Explorer shows how open-source technologies enable fast, scalable access to Earth observation data.
 

@@ -1,5 +1,5 @@
 ---
-title: EOPF Explorer Webinar #2 - Advanced Analysis with Sentinel Zarr
+title: "EOPF Explorer Webinar #2 - Advanced Analysis with Sentinel Zarr"
 layout: page
 ---
 
@@ -12,11 +12,9 @@ layout: page
     <a href="https://buytickets.at/thrivegeo/2073515/r/explorerweb" target="_blank" class="button primary">Register Now</a>
 </div>
 
-Following the launch session focused on discovery and screening, this second webinar dives deeper into analysis workflows enabled by the EOPF Sentinel Zarr Explorer.
+While the first webinar focused on discovery and screening, this second one dives deeper into analysis workflows enabled by the EOPF Sentinel Zarr Explorer.
 
-If Webinar #1 showed you what is possible, Webinar #2 explores how to go further.
-
-### What This Session Focuses On
+### What you'll see in this webinar
 
 We move beyond browsing and band combinations into:
 
@@ -47,15 +45,6 @@ For users and researchers, this means:
 - Immediate analytical capability
 - Less overhead
 - Faster experimentation and iteration
-
-### Addressing Common Questions
-
-- How the Explorer relates to the Zarr Sample Service
-- What is evolving in the GeoZarr conventions
-- When broader Sentinel distribution in this enhanced format may happen
-- How you can engage now and shape the direction of EOPF
-
-This is an exciting phase of development: community input matters.
 
 ### Who Should Attend
 
