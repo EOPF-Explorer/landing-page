@@ -37,8 +37,6 @@ The EOPF Explorer demonstrates how cloud-native data formats enable faster acces
 * [EOPF Sentinel Zarr Explorer](/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a)
 * [Learn more about the data model](/software-services/datamodel/index)
 
-*#EOPF #Copernicus #EarthObservation #GeoZarr #CloudNative #SentinelData #Geospatial #OpenSource*
-
 <br/>
 
 ### Recording {#recording}
