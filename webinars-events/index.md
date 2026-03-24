@@ -58,7 +58,7 @@ const events = [
   {
     id:1,
     title: 'EOPF Explorer Webinar #2 - Advanced Analysis with Sentinel Zarr',
-    image: withBase('/assets/sentinel-2.png'),
+    image: withBase('/media/webinar-2-background.png'),
     chips: [
       { text: 'Analysis', class:"mdi mdi-chart-box" },
       { text: 'Upcoming event' },
@@ -82,7 +82,7 @@ const events = [
   {
     id:2,
     title: 'EOPF Explorer Webinar #1 - Introducing Visualisation-Enhanced Sentinel Zarr',
-    image: withBase('/media/webinar-1.png'),
+    image: withBase('/media/webinar-1-background.png'),
     chips: [
       { text: 'Discovery' , class:"mdi mdi-compass"},
       { text: 'Screening', class:"mdi mdi-map" },
@@ -95,7 +95,7 @@ const events = [
     content: `This webinar marks the official launch of the EOPF Sentinel Zarr Explorer, a new platform enabling cloud-native visualisation of Copernicus Sentinel data directly in the browser.`,
     link: {
         text: 'View details',
-        href: './launch-webinar',
+        href: './webinar-1-visualisation',
        target:"_self"
       }
     
