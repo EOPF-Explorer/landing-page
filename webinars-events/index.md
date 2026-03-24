@@ -41,7 +41,7 @@ const newsLogos = [
     target:"_blank"
   },
   {
-    image: withBase('/media/csdse-logo.png'),
+    image: withBase('/media/cdse-logo.png'),
     alt: 'CDSE',
     link: 'https://dataspace.copernicus.eu/events',
     target:"_blank"
@@ -82,7 +82,7 @@ const events = [
   {
     id:2,
     title: 'EOPF Explorer Webinar #1 - Introducing Visualisation-Enhanced Sentinel Zarr',
-    image: withBase('/assets/globe-hero.jpg'),
+    image: withBase('/media/webinar-1.png'),
     chips: [
       { text: 'Discovery' , class:"mdi mdi-compass"},
       { text: 'Screening', class:"mdi mdi-map" },
