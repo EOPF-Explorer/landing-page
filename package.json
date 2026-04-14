@@ -22,7 +22,7 @@
     "@eox/storytelling": "^1.10.1",
     "@eox/timecontrol": "^2.1.1",
     "chroma-js": "^3.2.0",
-    "ol": "10.8.0",
+    "ol": "10.8.1-dev.1776075603065",
     "stac-js": "^0.1.9"
   },
   "devDependencies": {

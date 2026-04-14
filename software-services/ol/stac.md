@@ -266,16 +266,14 @@ async function loadScene(stacItem) {
     let sourceConfig
     
     if (zarrAsset && zarrUrl.includes('/measurements/reflectance')) {
-      const baseUrl = zarrUrl.replace('/measurements/reflectance', '')
+      const baseUrl = zarrUrl
       sourceConfig = {
         url: baseUrl,
-        group: 'measurements/reflectance',
         bands: ['b04', 'b03', 'b02']
       }
     } else {
       sourceConfig = {
         url: zarrUrl,
-        group: 'measurements/reflectance',
         bands: ['b04', 'b03', 'b02']
       }
     }
@@ -532,14 +530,6 @@ async function loadScene(stacItem) {
         return
     }
   }
-  // 2. Configure GeoZarr Source (RGB)
-  const source = new GeoZarr({
-    url: zarrLink.includes('/measurements/reflectance') 
-      ? zarrLink.replace('/measurements/reflectance', '') 
-      : zarrLink,
-    group: 'measurements/reflectance',
-    bands: ['b04', 'b03', 'b02'] // Red, Green, Blue
-  });
 
   // 3. Create Layer with Styling
   const layer = new WebGLTileLayer({

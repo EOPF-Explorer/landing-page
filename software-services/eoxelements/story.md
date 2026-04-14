@@ -32,7 +32,6 @@ function createLayers(url, bands) {
       source: {
           type: "GeoZarr",
           url: url,
-          group: "measurements/reflectance",
           bands: bands,
       },
       style:  {
@@ -132,7 +131,7 @@ import "@eox/storytelling";
 import "@eox/map";
 import "@eox/map/src/plugins/advancedLayersAndSources";
 
-const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr";
+const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr/measurements/reflectance";
 
 function createLayers(url, bands) {
   return JSON.stringify([
@@ -153,7 +152,6 @@ function createLayers(url, bands) {
       source: {
           type: "GeoZarr",
           url: url,
-          group: "measurements/reflectance",
           bands: bands,
       },
       style:  {
