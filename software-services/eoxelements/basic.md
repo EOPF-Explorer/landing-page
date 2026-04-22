@@ -234,6 +234,73 @@ const map = document.querySelector("#my-map");
   }
 }
 ```
+
+```python [Python (Jupyter)]
+%pip install ipyeoxelements  # run once, then restart kernel
+
+from ipywidgets import HBox, Layout
+from ipyeoxelements import EOxMap, EOxLayercontrol
+
+zarr_url = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr"
+
+layers = [
+    {
+        "type": "Group",
+        "properties": {"id": "base", "title": "Base Layers"},
+        "layers": [
+            {
+                "type": "Tile",
+                "properties": {"id": "osm", "title": "OpenStreetMap"},
+                "source": {
+                    "type": "XYZ",
+                    "url": "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg",
+                },
+            }
+        ],
+    },
+    {
+        "type": "Group",
+        "properties": {"id": "data", "title": "Data", "layerControlExpand": True},
+        "layers": [
+            {
+                "type": "WebGLTile",
+                "properties": {"id": "geozarr", "title": "Sentinel-2 GeoZarr"},
+                "source": {
+                    "type": "GeoZarr",
+                    "url": zarr_url,
+                    "group": "measurements/reflectance",
+                    "bands": ["b04", "b03", "b02"],
+                },
+                "style": {
+                    "gamma": 1.5,
+                    "color": [
+                        "color",
+                        ["interpolate", ["linear"], ["band", 1], 0, 0, 0.5, 255],
+                        ["interpolate", ["linear"], ["band", 2], 0, 0, 0.5, 255],
+                        ["interpolate", ["linear"], ["band", 3], 0, 0, 0.5, 255],
+                        ["case", ["==", ["+", ["band", 1], ["band", 2], ["band", 3]], 0], 0, 1],
+                    ],
+                },
+            }
+        ],
+    },
+]
+
+my_map = EOxMap(
+    id="my-map",
+    layers=layers,
+    center=[14.09, 41.1],
+    zoom=10,
+    layout=Layout(flex="3", height="500px"),
+)
+
+control = EOxLayercontrol(
+    for_="#my-map",
+    layout=Layout(flex="1", height="500px", overflow="auto"),
+)
+
+display(HBox([control, my_map]))
+```
 :::
 
   </template>

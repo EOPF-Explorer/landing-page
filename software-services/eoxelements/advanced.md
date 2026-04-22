@@ -379,6 +379,105 @@ Object.assign(eoxMap, {
   layers,
   });
 ```
+
+```python [Python (Jupyter)]
+%pip install ipyeoxelements  # run once, then restart kernel
+
+from ipywidgets import HBox, Layout
+from ipyeoxelements import EOxMap, EOxLayercontrol
+
+zarr_url = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20260120T125339_N0511_R138_T27VWL_20260120T131151.zarr"
+
+layers = [
+    {
+        "type": "Tile",
+        "properties": {"id": "basemap", "title": "OpenStreetMap"},
+        "source": {
+            "type": "XYZ",
+            "url": "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg",
+        },
+    },
+    {
+        "type": "WebGLTile",
+        "properties": {
+            "id": "s2-layer",
+            "title": "Sentinel-2 GeoZarr",
+            "layerControlExpand": True,
+            "layerControlToolsExpand": True,
+            "layerConfig": {
+                "type": "style",
+                "schema": {
+                    "type": "object",
+                    "title": "Visualization Settings",
+                    "properties": {
+                        "red": {
+                            "title": "Red Channel", "type": "number",
+                            "enum": [1, 2, 3, 4],
+                            "options": {"enum_titles": ["Blue (B02)", "Green (B03)", "Red (B04)", "SWIR (B11)"]},
+                            "default": 3,
+                        },
+                        "green": {
+                            "title": "Green Channel", "type": "number",
+                            "enum": [1, 2, 3, 4],
+                            "options": {"enum_titles": ["Blue (B02)", "Green (B03)", "Red (B04)", "SWIR (B11)"]},
+                            "default": 2,
+                        },
+                        "blue": {
+                            "title": "Blue Channel", "type": "number",
+                            "enum": [1, 2, 3, 4],
+                            "options": {"enum_titles": ["Blue (B02)", "Green (B03)", "Red (B04)", "SWIR (B11)"]},
+                            "default": 1,
+                        },
+                        "redMax": {"title": "Red Max", "type": "number", "minimum": 0.1, "maximum": 1, "default": 0.5, "format": "range"},
+                        "greenMax": {"title": "Green Max", "type": "number", "minimum": 0.1, "maximum": 1, "default": 0.5, "format": "range"},
+                        "blueMax": {"title": "Blue Max", "type": "number", "minimum": 0.1, "maximum": 1, "default": 0.5, "format": "range"},
+                        "gamma": {"title": "Gamma Correction", "type": "number", "minimum": 0.5, "maximum": 3.0, "default": 1.5, "step": 0.1, "format": "range"},
+                    },
+                },
+                "legend": {
+                    "title": "Sentinel-2 RGB Composite",
+                    "domain": ["Low", "High"],
+                    "range": ["#000000", "#FFFFFF"],
+                },
+            },
+        },
+        "source": {
+            "type": "GeoZarr",
+            "url": zarr_url,
+            "group": "measurements/reflectance",
+            "bands": ["b04", "b03", "b02", "b11"],
+        },
+        "style": {
+            "variables": {"gamma": 1.5, "red": 3, "green": 2, "blue": 1, "redMax": 0.5, "greenMax": 0.5, "blueMax": 0.5},
+            "gamma": ["var", "gamma"],
+            "color": [
+                "array",
+                ["/", ["band", ["var", "red"]], ["var", "redMax"]],
+                ["/", ["band", ["var", "green"]], ["var", "greenMax"]],
+                ["/", ["band", ["var", "blue"]], ["var", "blueMax"]],
+                ["case", ["==", ["+", ["band", ["var", "red"]], ["band", ["var", "green"]], ["band", ["var", "blue"]]], 0], 0, 1],
+            ],
+        },
+    },
+]
+
+my_map = EOxMap(
+    id="my-map",
+    layers=layers,
+    center=[-20.12, 63.54],
+    zoom=7,
+    layout=Layout(flex="3", height="650px"),
+)
+
+control = EOxLayercontrol(
+    for_="#my-map",
+    tools=["config", "opacity", "info", "legend"],
+    layout=Layout(flex="1", height="650px", overflow="auto"),
+)
+
+display(HBox([control, my_map]))
+```
+
 :::
 
   </template>
