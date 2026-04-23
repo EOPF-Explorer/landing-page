@@ -262,17 +262,6 @@ export const servicesContent = [
     order: 9
   },
   {
-    id: "zarr-layer-carbon-plan",
-    title: "Flexible zarr rendering for MapLibre/Mapbox",
-    content: "A interesting experiment by CarbonPlan on rendering zarr data in the browser using WebGLShaders.",
-    image: "/assets/zarr-layer-carbon-plan.png", 
-    tags: ["<i class='mdi mdi-map'></i> screening", "experimental", "web-mapping", "WebGL", "geozarr"],
-    category: "Screening",
-    type: "software",
-    link: "https://zarr-layer.demo.carbonplan.org/",
-    order: 11
-  },
-  {
     id: "openeo-studio",
     title: "openEO Studio",
     content: "Run and visualize openEO processes directly in your browser with openEO Studio.",
@@ -282,7 +271,30 @@ export const servicesContent = [
     type: "service",
     link: "https://studio.explorer.eopf.copernicus.eu/",
     order: 10
-  }
+  },
+  {
+    id: "eoxelements-jupyter",
+    title: "EOxElements Jupyter",
+    content: "Python wrapper for EOxElements web components in Jupyter Notebooks - visualize GeoZarr and EO data with EOxMap, EOxChart, and more.",
+    image: "/media/eoxelements-jupyter.png",
+    tags: ["<i class='mdi mdi-chart-box'></i> analysis", "jupyter", "python", "web-components", "ipywidgets"],
+    category: "Analysis",
+    type: "software",
+    link: "./EOxElements-Jupyter",
+    contain: true,
+    order: 11
+  },
+  {
+    id: "zarr-layer-carbon-plan",
+    title: "Flexible zarr rendering for MapLibre/Mapbox",
+    content: "A interesting experiment by CarbonPlan on rendering zarr data in the browser using WebGLShaders.",
+    image: "/assets/zarr-layer-carbon-plan.png", 
+    tags: ["<i class='mdi mdi-map'></i> screening", "experimental", "web-mapping", "WebGL", "geozarr"],
+    category: "Screening",
+    type: "software",
+    link: "https://zarr-layer.demo.carbonplan.org/",
+    order: 12
+  },
 ]
 
 
