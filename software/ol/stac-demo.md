@@ -485,16 +485,14 @@ async function loadScene(stacItem) {
 
     // Configure source based on URL type
     if (zarrAsset && zarrUrl.includes('/measurements/reflectance')) {
-      const baseUrl = zarrUrl.replace('/measurements/reflectance', '')
+      const baseUrl = zarrUrl
       sourceConfig = {
         url: baseUrl,
-        group: 'measurements/reflectance',
         bands: ['b04', 'b03', 'b02']
       }
     } else {
       sourceConfig = {
         url: zarrUrl,
-        group: 'measurements/reflectance',
         bands: ['b04', 'b03', 'b02']
       }
     }

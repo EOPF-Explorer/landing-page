@@ -22,7 +22,7 @@ const mapRef = ref()
 let map = null
 
 // EOPF Zarr URL (root store only, no group path)
-const zarrUrl = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr"
+const zarrUrl = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr/measurements/reflectance"
 
 
 onMounted(() => {
@@ -41,7 +41,6 @@ function initializeMap() {
     try {
       const source = new GeoZarr({
         url: zarrUrl,
-        group: "measurements/reflectance",
         bands: ["b04", "b03", "b02"],
       })
 
@@ -157,12 +156,11 @@ import XYZ from "ol/source/XYZ.js";
 
 // EOPF Zarr URL from STAC Browser (root store only, no group path)
 const zarrUrl =
-  "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr";
+  "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr/measurements/reflectance";
 
 // Create GeoZarr source
 const source = new GeoZarr({
   url: zarrUrl,
-  group: "measurements/reflectance", // Zarr group path
   bands: ["b04", "b03", "b02"], // RGB band mapping (Red, Green, Blue)
 });
 
