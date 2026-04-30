@@ -5,7 +5,7 @@ layout: page
 
 <script setup>
 
-const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr";
+const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260328T101021_N0512_R022_T32TPN_20260328T160223.zarr";
 
 /**
  * Creates an array of OpenLayers layer configurations for Sentinel-2 visualization
