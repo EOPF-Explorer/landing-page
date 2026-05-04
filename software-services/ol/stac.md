@@ -263,21 +263,12 @@ async function loadScene(stacItem) {
 
     console.log('Loading Zarr data from:', zarrUrl)
 
-    let sourceConfig
-    
-    if (zarrAsset && zarrUrl.includes('/measurements/reflectance')) {
-      const baseUrl = zarrUrl.replace('/measurements/reflectance', '')
-      sourceConfig = {
-        url: baseUrl,
-        group: 'measurements/reflectance',
-        bands: ['b04', 'b03', 'b02']
-      }
-    } else {
-      sourceConfig = {
-        url: zarrUrl,
-        group: 'measurements/reflectance',
-        bands: ['b04', 'b03', 'b02']
-      }
+    const groupUrl = zarrUrl.includes('/measurements/reflectance')
+      ? zarrUrl
+      : `${zarrUrl}/measurements/reflectance`
+    const sourceConfig = {
+      url: groupUrl,
+      bands: ['b04', 'b03', 'b02']
     }
     
     console.log('Creating GeoZarr source with config:', sourceConfig)
@@ -533,11 +524,11 @@ async function loadScene(stacItem) {
     }
   }
   // 2. Configure GeoZarr Source (RGB)
+  const groupUrl = zarrUrl.includes('/measurements/reflectance')
+    ? zarrUrl
+    : `${zarrUrl}/measurements/reflectance`
   const source = new GeoZarr({
-    url: zarrLink.includes('/measurements/reflectance') 
-      ? zarrLink.replace('/measurements/reflectance', '') 
-      : zarrLink,
-    group: 'measurements/reflectance',
+    url: groupUrl,
     bands: ['b04', 'b03', 'b02'] // Red, Green, Blue
   });
 
