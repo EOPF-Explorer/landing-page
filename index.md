@@ -15,7 +15,7 @@ hero:
     #   link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
     - theme: brand
       text: Webinars & Events
-      link: /webinars-events/
+      link: /webinars-events
     - theme: brand
       text: Software & Services
       link: /software-services

@@ -97,8 +97,12 @@ const events = [
         text: 'View details',
         href: './webinar-1-visualisation',
        target:"_self"
+      },
+    secondaryLink:{
+        text: 'Watch recording',
+        href: 'https://www.youtube.com/watch?v=ddR5OEF4-yM',
+        target: '_blank'
       }
-    
   }
 ]
 </script>
