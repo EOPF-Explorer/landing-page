@@ -325,11 +325,12 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               ? {
                   id: "mosaic-datetime",
                   type: "internal",
-                  layout: { x: 1, y: 8, w: 10, h: 3 },
+                  layout: { x: 1, y: 8, w: 10, h: 4 },
                   title: "Time Slider",
                   widget: {
                     name: "EodashTimeSlider",
                     properties: {
+                      style:"padding:12px",
                       animate: false,
                       useMosaic: true,
                       mosaicIndicators: ["sentinel-2-l2a"],
