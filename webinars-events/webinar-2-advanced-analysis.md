@@ -64,10 +64,12 @@ Be part of the conversation. Shape the future of Sentinel data use.
 
 ### Recording {#recording}
 
+<div class="large-space"></div>
+
 <div  class="responsive margin-top" style="border-radius:16px">
 <iframe
   style="width: 100%; height: 30rem;"
-  src="https://www.youtube.com/embed/ddR5OEF4-yM"
+  src="https://www.youtube.com/embed/UP8BNWb5JI8"
   title="Webinar recording"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   allowfullscreen>

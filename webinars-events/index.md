@@ -75,7 +75,7 @@ const events = [
       },
     secondaryLink:{
         text: 'Watch recording',
-        href: 'https://www.youtube.com/watch?v=ddR5OEF4-yM',
+        href: 'https://www.youtube.com/watch?v=UP8BNWb5JI8',
         target: '_blank'
       }
   },
