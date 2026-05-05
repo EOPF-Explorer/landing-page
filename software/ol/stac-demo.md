@@ -483,18 +483,12 @@ async function loadScene(stacItem) {
 
     console.log('Loading Zarr data from:', zarrUrl)
 
-    // Configure source based on URL type
-    if (zarrAsset && zarrUrl.includes('/measurements/reflectance')) {
-      const baseUrl = zarrUrl
-      sourceConfig = {
-        url: baseUrl,
-        bands: ['b04', 'b03', 'b02']
-      }
-    } else {
-      sourceConfig = {
-        url: zarrUrl,
-        bands: ['b04', 'b03', 'b02']
-      }
+    const groupUrl = zarrUrl.includes('/measurements/reflectance')
+      ? zarrUrl
+      : `${zarrUrl}/measurements/reflectance`
+    sourceConfig = {
+      url: groupUrl,
+      bands: ['b04', 'b03', 'b02']
     }
     
     console.log('Creating GeoZarr source with config:', sourceConfig)

@@ -21,7 +21,6 @@ const webglSupport = ref(null)
 const mapRef = ref()
 let map = null
 
-// EOPF Zarr URL (root store only, no group path)
 const zarrUrl = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr/measurements/reflectance"
 
 
@@ -154,7 +153,6 @@ import TileLayer from "ol/layer/Tile.js";
 import GeoZarr from "ol/source/GeoZarr.js";
 import XYZ from "ol/source/XYZ.js";
 
-// EOPF Zarr URL from STAC Browser (root store only, no group path)
 const zarrUrl =
   "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr/measurements/reflectance";
 
@@ -233,6 +231,7 @@ const map = new Map({
 
 **Band Mapping**
 
+- `url` includes the group path (e.g. `.zarr/measurements/reflectance`)
 - `bands: ["b04", "b03", "b02"]` maps to Red, Green, Blue channels
 - Sentinel-2 bands correspond to: B04 (Red), B03 (Green), B02 (Blue)
 

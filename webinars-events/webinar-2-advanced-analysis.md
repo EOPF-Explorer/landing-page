@@ -9,7 +9,6 @@ layout: page
     <div class="max">
       <div>April 20, 2025 | 15:00-16:00 CET</div>
     </div>
-    <a href="https://buytickets.at/thrivegeo/2073515/r/explorerweb" target="_blank" class="button primary">Register Now</a>
 </div>
 
 While the first webinar focused on discovery and screening, this second one dives deeper into analysis workflows enabled by the EOPF Sentinel Zarr Explorer.
@@ -63,19 +62,19 @@ Be part of the conversation. Shape the future of Sentinel data use.
 
 <br/>
 
-<!-- Uncomment after webinar
 ### Recording {#recording}
+
+<div class="large-space"></div>
 
 <div  class="responsive margin-top" style="border-radius:16px">
 <iframe
   style="width: 100%; height: 30rem;"
-  src="https://www.youtube.com/embed/ddR5OEF4-yM"
+  src="https://www.youtube.com/embed/UP8BNWb5JI8"
   title="Webinar recording"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   allowfullscreen>
 </iframe>
 </div>
--->
 
 <CTASection style="margin-bottom:0px"
   title="Join the discussion!"

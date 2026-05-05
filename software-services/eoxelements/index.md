@@ -71,7 +71,7 @@ const layers = [{
   type: "WebGLTile",
   source: {
     type: "GeoZarr",
-    url: "https://path/to/data.zarr/measurements/reflectance",
+    url: "https://path/to/data.zarr/path/to-group",
     bands: ["b04", "b03", "b02"]
   },
   style: { gamma: 1.5 }
