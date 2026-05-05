@@ -19,6 +19,14 @@ Key components available as Python classes:
 Learn how to use EOxElements web components within a Python environment. This guide covers installation, the automatic mapping of Python classes to web components, and how to create interactive maps and charts directly in your Jupyter notebooks.
 :::
 
+### Why EOxElements-Jupyter?
+
+The Jupyter geospatial ecosystem already covers a lot of ground.  [ipyleaflet](https://ipyleaflet.readthedocs.io/) and [Folium](https://python-visualization.github.io/folium/) are well established choices for general purpose interactive and static maps, [ipyopenlayers](https://github.com/geojupyter/ipyopenlayers) exposes OpenLayers as a generic Jupyter widget, [Lonboard](https://github.com/developmentseed/lonboard) accelerates rendering of large vector datasets, and [JupyterGIS](https://jupytergis.readthedocs.io/) provides a full collaborative GIS workspace inside JupyterLab. 
+
+`ipyeoxelements` does not try to compete with any of them — its purpose is to fill a specific gap, not to reinvent wheels that the broader geospatial community has already built well.
+
+Researchers, analysts, and educators working with EO datasets typically need more than a basemap: temporal navigation across long time series, band combinations and spectral indices, grouped layer controls, linked charts, and narrative views for communicating results. Building all of that from scratch on top of a generic mapping widget is real front-end work. [EOxElements](../eoxelements/) is built on OpenLayers (so it shares a foundation with `ipyopenlayers`), but rather than exposing raw map primitives it ships **pre-built EO-domain components** that match how EO data is actually explored and communicated. `ipyeoxelements` brings those higher-level building blocks into Python with a few lines of code.
+
 ### Installation
 
 ::: info **<i class="mdi mdi-download"></i> Get Started**
@@ -57,19 +65,30 @@ Layers are configured as Python dicts that mirror the JSON configuration used in
 ```python
 from ipyeoxelements import EOxMap
 
+zarr_url = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr/measurements/reflectance"
+
 layers = [
     {
         "type": "Tile",
-        "properties": {"id": "osm"},
-        "source": {"type": "OSM"}
+        "properties": {"id": "osm", "title": "OpenStreetMap"},
+        "source": {
+            "type": "XYZ",
+            "url": "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg",
+        },
     },
     {
-        "type": "STAC",
-        "properties": {"id": "geozarr-layer", "title": "GeoZarr Data"},
-        "url": "https://example.com/geozarr-item.json", # STAC Item pointing to GeoZarr
-    }
+        "type": "WebGLTile",
+        "properties": {"id": "geozarr", "title": "Sentinel-2 GeoZarr"},
+        "source": {
+            "type": "GeoZarr",
+            "url": zarr_url,
+            "bands": ["b04", "b03", "b02"],
+        },
+        "style": {"gamma": 1.5},
+    },
 ]
-map = EOxMap(layers=layers, zoom=5, center=[16, 48])
+
+map = EOxMap(layers=layers, zoom=10, center=[14.09, 41.1])
 display(map)
 ```
 
