@@ -61,7 +61,7 @@ const events = [
     image: withBase('/media/webinar-2-background.png'),
     chips: [
       { text: 'Analysis', class:"mdi mdi-chart-box" },
-      { text: 'Upcoming event' },
+      { text: 'Recording' },
     ],
     metadata: [
       { text: 'Mon 20 Apr 2026 15:00 - 16:00 CEST', icon: 'mdi-calendar-blank' },
@@ -74,8 +74,8 @@ const events = [
         target:"_self"
       },
     secondaryLink:{
-        text: 'Register now',
-        href: 'https://buytickets.at/thrivegeo/2073515/r/explorerwebsite',
+        text: 'Watch recording',
+        href: 'https://www.youtube.com/watch?v=ddR5OEF4-yM',
         target: '_blank'
       }
   },
