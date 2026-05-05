@@ -200,7 +200,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           widget: {
             name: "EodashItemCatalog",
             properties: {
-              useMosaic: true,
+              useMosaic: false,
               mosaicIndicators: ["sentinel-2-l2a"],
               layoutTarget: "mosaic",
               hoverProperties: ["datetime", "eo:cloud_cover"],
