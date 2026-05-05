@@ -68,8 +68,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
   stacEndpoint: {
     endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
     api: true,
-    rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
-    mosaicEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
+    rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/rstaging",
     supportedUpscalingEndpoints: ["api.explorer.eopf.copernicus.eu/raster/"],
   },
   brand: {
@@ -127,7 +126,6 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableZoom: true,
               enableExportMap: true,
               enableChangeProjection: true,
-              enableMosaic: false,
               enableCompareIndicators: {
                 fallbackTemplate: "explore",
                 compareTemplate: "compare",
@@ -202,6 +200,8 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           widget: {
             name: "EodashItemCatalog",
             properties: {
+              useMosaic: false,
+              mosaicIndicators: ["sentinel-2-l2a"],
               layoutTarget: "mosaic",
               hoverProperties: ["datetime", "eo:cloud_cover"],
             },
@@ -233,6 +233,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           properties: {
             zoomToExtent: false,
             enableCompare: true,
+            btnsPosition:{
+              gap: 8,
+            },
             btns: {
               enableZoom: true,
               enableExportMap: true,
@@ -329,6 +332,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
                     properties: {
                       animate: false,
                       useMosaic: true,
+                      mosaicIndicators: ["sentinel-2-l2a"],
                       filters: [
                         {
                           key: "eo:cloud_cover",
@@ -381,7 +385,6 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableZoom: true,
               enableExportMap: true,
               enableChangeProjection: true,
-              enableMosaic: false,
               enableCompareIndicators: {
                 fallbackTemplate: "explore",
                 compareTemplate: "compare",
