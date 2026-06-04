@@ -65,12 +65,26 @@ const baseLayers = [
 ];
 export default /*** @type {import("@eodash/eodash").Eodash} */ ({
   id: "eopf",
+  options: {
+    renders: {
+      "sentinel-2-l2a": {
+        true_color: {
+          title: "True Color",
+          assets: ["reflectance|bands=b04,b03,b02"],
+          rescale: [[0, 0.5]],
+          nodata: 0,
+          color_formula: "gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2",
+        },
+      },
+    },
+  },
   stacEndpoint: {
     endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
     api: true,
-    rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
-    mosaicEndpoint: "https://api.explorer.eopf.copernicus.eu/raster/",
-    supportedUpscalingEndpoints: ["api.explorer.eopf.copernicus.eu/raster/"],
+    rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster",
+    supportedUpscalingEndpoints: [
+      { url: "api.explorer.eopf.copernicus.eu/raster/", titilerVersion: 2 },
+    ],
   },
   brand: {
     name: "Sentinel Explorer",
@@ -127,7 +141,6 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableZoom: true,
               enableExportMap: true,
               enableChangeProjection: true,
-              enableMosaic: false,
               enableCompareIndicators: {
                 fallbackTemplate: "explore",
                 compareTemplate: "compare",
@@ -159,7 +172,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           id: "StacInfo",
           type: "internal",
           title: "Information",
-          layout: { x: "9/9/10", y: 7, w: "3/3/2", h: 5 },
+          layout: { x: "9/9/10", y: 7, w: "3/3/2", h: 4 },
           widget: {
             name: "EodashStacInfo",
             properties: {
@@ -202,6 +215,8 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           widget: {
             name: "EodashItemCatalog",
             properties: {
+              useMosaic: false,
+              mosaicIndicators: ["sentinel-2-l2a"],
               layoutTarget: "mosaic",
               hoverProperties: ["datetime", "eo:cloud_cover"],
             },
@@ -233,6 +248,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           properties: {
             zoomToExtent: false,
             enableCompare: true,
+            btnsPosition: {
+              gap: 8,
+            },
             btns: {
               enableZoom: true,
               enableExportMap: true,
@@ -322,13 +340,15 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               ? {
                   id: "mosaic-datetime",
                   type: "internal",
-                  layout: { x: 1, y: 8, w: 10, h: 3 },
+                  layout: { x: 1, y: 8, w: 10, h: 4 },
                   title: "Time Slider",
                   widget: {
                     name: "EodashTimeSlider",
                     properties: {
-                      animate: false,
+                      style: "padding:12px",
+                      animate: true,
                       useMosaic: true,
+                      mosaicIndicators: ["sentinel-2-l2a"],
                       filters: [
                         {
                           key: "eo:cloud_cover",
@@ -381,7 +401,6 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               enableZoom: true,
               enableExportMap: true,
               enableChangeProjection: true,
-              enableMosaic: false,
               enableCompareIndicators: {
                 fallbackTemplate: "explore",
                 compareTemplate: "compare",

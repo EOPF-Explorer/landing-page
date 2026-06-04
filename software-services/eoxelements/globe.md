@@ -15,8 +15,6 @@ const projection = ref("globe");
 
 /** @type {typeof import("@openglobus/og").LonLat} */
 let LonLat;
-/** @type {typeof import("@openglobus/og").GlobusRgbTerrain} */
-let GlobusRgbTerrain
 
 const cities = [
   { name: "Brussels", coords: [4.35,50.85], bbox: [4.25, 50.75, 4.45, 50.95], alt: 20000 },
@@ -53,33 +51,28 @@ const layers = [
 ];
 
 /**
- * Applies terrain to the globe with polling to ensure planet is ready
- * @param {number} initialDelay - Initial delay in ms before first attempt
+ * Applies terrain to the globe
  */
-function applyTerrain(initialDelay = 500) {
-  setTimeout(()=>{
-    if (mapRef.value.globe) {
-      const globe = mapRef.value.globe;
-      const terrain = new GlobusRgbTerrain(null, {heightFactor: 5})
-      globe.planet.setTerrain(terrain);
-    }
-  },500);
+function applyTerrain() {
+  if (mapRef.value) {
+    mapRef.value.globeConfig.terrain = true;
+  }
 }
 
 onMounted(async () => {
     const og = await import("@openglobus/og");
     LonLat = og.LonLat;
-    GlobusRgbTerrain = og.GlobusRgbTerrain;
     
   nextTick(() => {
     if (mapRef.value) {
+      applyTerrain();
       //@ts-expect-error
       mapRef.value.layers = layers;
       mapRef.value.center = cities[1].coords
       mapRef.value.zoom = 10;
+      
       mapRef.value.projection = "globe"
       
-      applyTerrain();
     }
   });
 });
@@ -203,7 +196,6 @@ Right click and drag to tilt the globe
 ```javascript [config.js]
 import "@eox/map";
 import "@eox/map/src/plugins/globe";
-import { GlobusTerrain } from "@openglobus/og";
 
 const map = document.querySelector("eox-map");
 
@@ -235,12 +227,47 @@ map.layers = [
   }
 ];
 
-const terrain = new GlobusTerrain("terrain", {
-   name: "Earth Terrain",
-   url: "https://terrain.openglobus.org/public/eu10",
-   maxZoom: 15
-});
-map.globe.planet.setTerrain(terrain);
+// Enable 3D terrain via globeConfig
+map.globeConfig.terrain = true;
+```
+
+
+```python [Python (Jupyter)]
+%pip install ipyeoxelements  # run once, then restart kernel
+
+from ipyeoxelements import EOxMap
+
+layers = [
+    {
+        "type": "Tile",
+        "properties": {"id": "basemap", "title": "OpenStreetMap"},
+        "source": {
+            "type": "XYZ",
+            "url": "https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg",
+            "crossOrigin": "anonymous",
+        },
+    },
+    {
+        "type": "Tile",
+        "properties": {"id": "mosaic", "title": "Sentinel-2 Mosaic"},
+        "source": {
+            "type": "XYZ",
+            "url": 'https://api.explorer.eopf.copernicus.eu/openeo/services/xyz/456c1e23-47f2-4567-98cf-dcde378a05f7/tiles/{z}/{x}/{y}?time=["2025-12-31","2026-01-23"]&cloud_cover=30',
+            "crossOrigin": "anonymous",
+        },
+    },
+]
+
+globe_map = EOxMap(
+    layers=layers,
+    projection="globe",
+    globe_config={"terrain": True},
+    center=[12.12, 46.54],
+    zoom=10,
+    layout={"height": "600px"},
+)
+
+display(globe_map)
 ```
 
 :::
