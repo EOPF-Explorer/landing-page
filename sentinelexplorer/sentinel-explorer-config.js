@@ -65,11 +65,26 @@ const baseLayers = [
 ];
 export default /*** @type {import("@eodash/eodash").Eodash} */ ({
   id: "eopf",
+  options: {
+    renders: {
+      "sentinel-2-l2a": {
+        true_color: {
+          title: "True Color",
+          assets: ["reflectance|bands=b04,b03,b02"],
+          rescale: [[0, 0.5]],
+          nodata: 0,
+          color_formula: "gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2",
+        },
+      },
+    },
+  },
   stacEndpoint: {
     endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
     api: true,
-    rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster",
-    supportedUpscalingEndpoints: [{url:"api.explorer.eopf.copernicus.eu/raster/",titilerVersion:2}],
+    rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/rstaging",
+    supportedUpscalingEndpoints: [
+      { url: "api.explorer.eopf.copernicus.eu/raster/", titilerVersion: 2 },
+    ],
   },
   brand: {
     name: "Sentinel Explorer",
@@ -157,7 +172,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           id: "StacInfo",
           type: "internal",
           title: "Information",
-          layout: { x: "9/9/10", y: 7, w: "3/3/2", h: 5 },
+          layout: { x: "9/9/10", y: 7, w: "3/3/2", h: 4 },
           widget: {
             name: "EodashStacInfo",
             properties: {
@@ -233,7 +248,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           properties: {
             zoomToExtent: false,
             enableCompare: true,
-            btnsPosition:{
+            btnsPosition: {
               gap: 8,
             },
             btns: {
@@ -330,8 +345,8 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
                   widget: {
                     name: "EodashTimeSlider",
                     properties: {
-                      style:"padding:12px",
-                      animate: false,
+                      style: "padding:12px",
+                      animate: true,
                       useMosaic: true,
                       mosaicIndicators: ["sentinel-2-l2a"],
                       filters: [
