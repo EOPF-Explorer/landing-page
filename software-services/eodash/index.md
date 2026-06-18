@@ -23,11 +23,6 @@ For more information and full documentation, visit:
 *   **Endpoint Integration**: Connect to various data sources and APIs, bringing your GeoZarr data into one place. Define and execute data processing workflows using a flexible configuration.
 *   **Customizable Themes**: Customize the look and feel of your dashboard through theme definitions.
 
-::: warning GeoZarr Support
-Currently, **eodash** only supports **server-side** GeoZarr rendering. **Client-side** GeoZarr rendering is an upcoming feature.
-Please check the [GitHub Releases](https://github.com/eodash/eodash/releases) to stay tuned for updates.
-:::
-
 ### STAC Catalog Generation
 
 The **[eodash_catalog](https://github.com/eodash/eodash_catalog)** is a Python library designed to simplify the creation of STAC catalogs that utilize the [eodash extension](https://github.com/eodash/eodash_extension) to support eodash instances.
