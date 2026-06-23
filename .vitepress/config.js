@@ -2,11 +2,9 @@ import { defineConfig } from "vitepress";
 //@ts-expect-error does not have types
 import baseConfig from "@eox/pages-theme-eox/config";
 
-//@ts-expect-error node global
-const base = process.argv[process.argv.indexOf("--base") + 1] ?? "/";
 const eopfConfig = await baseConfig("eopf");
 
-eopfConfig.themeConfig.theme.brandConfig.legal.privacyPolicy = `${base}privacy-policy`;
+eopfConfig.themeConfig.theme.brandConfig.legal.privacyPolicy = "/privacy-policy";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends:eopfConfig,
