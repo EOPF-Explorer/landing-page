@@ -53,10 +53,10 @@
             >
           </p>
           <p>
-            <a href="/privacy-policy" class="link">Privacy Policy</a>
+            <a :href="withBase('/privacy-policy')" class="link">Privacy Policy</a>
           </p>
           <p>
-            <a href="/cookie-settings" class="link">Cookie Settings</a>
+            <a :href="withBase('/cookie-settings')" class="link">Cookie Settings</a>
           </p>
         </div>
       </div>
@@ -89,7 +89,7 @@
   </footer>
 </template>
 <script setup>
-import { useData } from "vitepress";
+import { useData, withBase } from "vitepress";
 const { theme } = useData();
 </script>
 <style scoped>

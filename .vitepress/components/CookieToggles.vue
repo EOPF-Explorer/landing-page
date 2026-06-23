@@ -26,7 +26,7 @@
 
 <script setup>
 import { onMounted, onUnmounted } from "vue";
-import { useRouter } from "vitepress";
+import { useRouter, withBase } from "vitepress";
 import {
   enableTracking,
   showBanner,
@@ -49,7 +49,7 @@ const cookieCategories = {
 };
 
 router.onBeforeRouteChange = /** @param {string} to */ (to) => {
-  if (to === "/cookie-settings") {
+  if (to === withBase("/cookie-settings")) {
     showBanner(false);
   } else {
     showBanner(

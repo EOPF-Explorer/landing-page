@@ -1,6 +1,7 @@
 import { defineConfig } from "vitepress";
 //@ts-expect-error does not have types
 import baseConfig from "@eox/pages-theme-eox/config";
+
  const eopfConfig = await baseConfig("eopf");
 
  eopfConfig.themeConfig.theme.brandConfig.legal.privacyPolicy = "/privacy-policy"
@@ -40,7 +41,6 @@ export default defineConfig({
       },
     },
   },
-  base: "/",
   vite:{
     optimizeDeps:{
       include:["@eodash/eodash/webcomponent","@eox/map"]
