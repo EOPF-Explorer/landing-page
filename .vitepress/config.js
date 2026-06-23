@@ -1,10 +1,12 @@
 import { defineConfig } from "vitepress";
 //@ts-expect-error does not have types
 import baseConfig from "@eox/pages-theme-eox/config";
+ const eopfConfig = await baseConfig("eopf");
 
+ eopfConfig.themeConfig.theme.brandConfig.legal.privacyPolicy = "/privacy-policy"
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  extends: baseConfig("eopf"),
+  extends:eopfConfig,
   markdown: {
     config: (md) => {
       // Remember default renderer

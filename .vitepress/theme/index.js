@@ -2,6 +2,7 @@
 import EOX from "@eox/pages-theme-eox";
 import "./custom.css";
 import EOPFFooter from "../components/EOPFFooter.vue";
+import CookieToggles from "../components/CookieToggles.vue";
 
 /** @type {import('vitepress').Theme} */
 export default {
@@ -11,6 +12,7 @@ export default {
     // replace the default footer with EOPFFooter
     // eslint-disable-next-line vue/no-reserved-component-names
     app.component("Footer", EOPFFooter);
+    app.component("CookieToggles", CookieToggles);
 
     //@ts-expect-error special vitepress property
     if (!import.meta.env.SSR) {
