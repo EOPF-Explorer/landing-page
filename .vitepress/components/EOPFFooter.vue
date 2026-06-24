@@ -52,6 +52,12 @@
               >EOPF Sentinel Zarr Samples</a
             >
           </p>
+          <p>
+            <a :href="withBase('/privacy-policy')" class="link">Privacy Policy</a>
+          </p>
+          <p>
+            <a :href="withBase('/cookie-settings')" class="link">Cookie Settings</a>
+          </p>
         </div>
       </div>
       <LogoSection
@@ -83,6 +89,12 @@
   </footer>
 </template>
 <script setup>
-import { useData, inBrowser, useRouter } from "vitepress";
-const { theme, page } = useData();
+import { useData, withBase } from "vitepress";
+const { theme } = useData();
 </script>
+<style scoped>
+footer .link:hover,
+footer .link:focus {
+  color: white !important;
+}
+</style>
