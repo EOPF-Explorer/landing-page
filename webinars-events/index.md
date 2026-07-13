@@ -68,7 +68,7 @@ const events = [
       { text: 'Timișoara, Romania', icon: 'mdi-map-marker-outline' }
     ],
     content: `A hands-on FOSS4G Europe workshop on web visualisation techniques for the GeoZarr specification, building interactive maps from cloud-native Copernicus Sentinel data with EOxElements, eox-storytelling, TiTiler, eodash, and Jupyter.`,
-    link: {
+    secondaryLink: {
         text: 'View materials',
         href: 'https://github.com/EOPF-Explorer/foss4g-workshop',
         target: '_blank'
