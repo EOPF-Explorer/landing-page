@@ -56,6 +56,25 @@ const newsLogos = [
 
 const events = [
   {
+    id:3,
+    title: 'EOPF Sentinel Zarr Explorer - FOSS4G Europe 2026 Workshop',
+    image: withBase('/media/foss4g-bg.png'),
+    chips: [
+      { text: 'Workshop', class:"mdi mdi-school" },
+      { text: 'Screening', class:"mdi mdi-map" }
+    ],
+    metadata: [
+      { text: 'Fri 03 Jul 2026', icon: 'mdi-calendar-blank' },
+      { text: 'Timișoara, Romania', icon: 'mdi-map-marker-outline' }
+    ],
+    content: `A hands-on FOSS4G Europe workshop on web visualisation techniques for the GeoZarr specification, building interactive maps from cloud-native Copernicus Sentinel data with EOxElements, eox-storytelling, TiTiler, eodash, and Jupyter.`,
+    secondaryLink: {
+        text: 'View materials',
+        href: 'https://github.com/EOPF-Explorer/foss4g-workshop',
+        target: '_blank'
+      }
+  },
+  {
     id:1,
     title: 'EOPF Explorer Webinar #2 - Advanced Analysis with Sentinel Zarr',
     image: withBase('/media/webinar-2-background.png'),
