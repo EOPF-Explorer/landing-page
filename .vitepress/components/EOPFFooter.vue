@@ -53,10 +53,14 @@
             >
           </p>
           <p>
-            <a :href="withBase('/privacy-policy')" class="link">Privacy Policy</a>
+            <a :href="withBase('/privacy-policy')" class="link"
+              >Privacy Policy</a
+            >
           </p>
           <p>
-            <a :href="withBase('/cookie-settings')" class="link">Cookie Settings</a>
+            <a :href="withBase('/cookie-settings')" class="link"
+              >Cookie Settings</a
+            >
           </p>
         </div>
       </div>
