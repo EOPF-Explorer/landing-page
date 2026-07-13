@@ -64,7 +64,7 @@ let analyticsInput = null;
 
 const onAnalyticsToggle = () => {
   /** @type {any[]} */
-  //@ts-expect-error provided internally 
+  //@ts-expect-error provided internally
   const paq = window._paq;
   if (analyticsInput?.checked) {
     paq.push(["forgetUserOptOut"]);

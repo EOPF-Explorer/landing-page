@@ -2,67 +2,87 @@ import { mdiMapSearch } from "@mdi/js";
 
 const baseLayers = [
   {
-    type: "Group",
+    type: "Tile",
+    visible: false,
     properties: {
-      id: "BaseLayersGroup",
-      title: "Base Layers",
+      id: "OSM;:;EPSG:3857",
+      title: "OSM Background",
+      roles: ["baselayer", "invisible"],
+      group: "baselayer",
+      layerControlExclusive: true,
     },
-    layers: [
-      {
-        type: "Tile",
-        properties: {
-          id: "OSM;:;EPSG:3857",
-          title: "OSM Background",
-          roles: ["baselayer", "invisible"],
-          group: "baselayer",
-          visible: false,
-          layerControlExclusive: true,
-        },
-        source: {
-          type: "XYZ",
-          url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpeg",
-          projection: "EPSG:3857",
-        },
-        preload: Infinity,
-      },
-      {
-        type: "Tile",
-        properties: {
-          id: "terrain-light;:;EPSG:3857",
-          title: "Terrain Light",
-          roles: ["baselayer", "visible"],
-          group: "baselayer",
-          visible: true,
-          layerControlExclusive: true,
-        },
-        source: {
-          type: "XYZ",
-          url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
-          projection: "EPSG:3857",
-        },
-        preload: Infinity,
-      },
-      {
-        type: "Tile",
-        properties: {
-          id: "cloudless-2024;:;EPSG:3857",
-          title: "EOxCloudless 2024",
-          roles: ["baselayer", "invisible"],
-          group: "baselayer",
-          visible: false,
-          layerControlExclusive: true,
-        },
-        source: {
-          type: "XYZ",
-          url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg",
-          projection: "EPSG:3857",
-        },
-        preload: Infinity,
-      },
-    ],
-    interactions: [],
+    source: {
+      type: "XYZ",
+      url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpeg",
+      projection: "EPSG:3857",
+    },
+    preload: Infinity,
+  },
+  {
+    type: "Tile",
+    properties: {
+      id: "terrain-light;:;EPSG:3857",
+      title: "Terrain Light",
+      roles: ["baselayer", "visible"],
+      group: "baselayer",
+      visible: true,
+      layerControlExclusive: true,
+    },
+    source: {
+      type: "XYZ",
+      url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
+      projection: "EPSG:3857",
+    },
+    preload: Infinity,
+  },
+  {
+    type: "Tile",
+    properties: {
+      id: "cloudless-2024;:;EPSG:3857",
+      title: "EOxCloudless 2024",
+      roles: ["baselayer", "invisible"],
+      group: "baselayer",
+      visible: false,
+      layerControlExclusive: true,
+    },
+    source: {
+      type: "XYZ",
+      url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg",
+      projection: "EPSG:3857",
+    },
+    preload: Infinity,
   },
 ];
+
+const catalogFilters = [
+  {
+    property: "eo:cloud_cover",
+    type: "range",
+    title: "Cloud cover",
+    unitLabel: "%",
+    min: 0,
+    max: 100,
+    step: 5,
+  },
+  { property: "platform", type: "multiselect", title: "Platform" },
+  {
+    property: "sat:orbit_state",
+    type: "multiselect",
+    title: "Orbit direction",
+  },
+  {
+    property: "sar:polarizations",
+    type: "multiselect",
+    title: "Polarizations",
+  },
+];
+
+const catalogHoverProperties = [
+  "datetime",
+  "eo:cloud_cover",
+  "sat:orbit_state",
+];
+
 export default /*** @type {import("@eodash/eodash").Eodash} */ ({
   id: "eopf",
   options: {
@@ -82,6 +102,8 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
     endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
     api: true,
     rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster",
+    colormapRegistry:
+      "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/defaults/colormaps.json",
     supportedUpscalingEndpoints: [
       { url: "api.explorer.eopf.copernicus.eu/raster/", titilerVersion: 2 },
     ],
@@ -218,7 +240,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
               useMosaic: false,
               mosaicIndicators: ["sentinel-2-l2a"],
               layoutTarget: "mosaic",
-              hoverProperties: ["datetime", "eo:cloud_cover"],
+              datetimeFilter: true,
+              filters: catalogFilters,
+              hoverProperties: catalogHoverProperties,
             },
           },
         },
@@ -345,6 +369,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
                   widget: {
                     name: "EodashTimeSlider",
                     properties: {
+                      clustering: true,
                       style: "padding:12px",
                       animate: true,
                       useMosaic: true,
@@ -425,6 +450,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             name: "EodashItemCatalog",
             properties: {
               layoutTarget: "mosaic",
+              datetimeFilter: true,
+              filters: catalogFilters,
+              hoverProperties: catalogHoverProperties,
             },
           },
         },
@@ -438,6 +466,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             properties: {
               enableCompare: true,
               layoutTarget: "mosaic",
+              datetimeFilter: true,
+              filters: catalogFilters,
+              hoverProperties: catalogHoverProperties,
             },
           },
         },
