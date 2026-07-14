@@ -60,20 +60,17 @@ const catalogFilters = [
     type: "range",
     title: "Cloud cover",
     unitLabel: "%",
-    min: 0,
-    max: 100,
     step: 5,
   },
-  { property: "platform", type: "multiselect", title: "Platform" },
+  {
+    property: "platform",
+    type: "multiselect",
+    title: "Platform",
+  },
   {
     property: "sat:orbit_state",
     type: "multiselect",
     title: "Orbit direction",
-  },
-  {
-    property: "sar:polarizations",
-    type: "multiselect",
-    title: "Polarizations",
   },
 ];
 
@@ -81,6 +78,49 @@ const catalogHoverProperties = [
   "datetime",
   "eo:cloud_cover",
   "sat:orbit_state",
+];
+/** @type {NonNullable<import("@eodash/eodash").TEodashStacInfo["properties"]>["featured"]} */
+const stacInfoFeatured = [
+  "id",
+  "processing:software",
+  { key: "assets", filter: (asset) => !!asset },
+  {
+    key: "links",
+    filter: (link) =>
+      link.rel == "self" ||
+      (!!link.title && !["xyz", "tilejson"].includes(link.rel)),
+  },
+];
+
+const sentinel2InfoBody = [
+  "datetime",
+  "platform",
+  "constellation",
+  "instruments",
+  "eo:cloud_cover",
+  "eo:snow_cover",
+  "view:sun_elevation",
+  "view:sun_azimuth",
+  "processing:level",
+  "product:type",
+  "processing:facility",
+  "grid:code",
+];
+
+const sentinel1InfoBody = [
+  "datetime",
+  "platform",
+  "constellation",
+  "instruments",
+  "sat:orbit_state",
+  "sat:relative_orbit",
+  "sar:instrument_mode",
+  "sar:polarizations",
+  "sar:product_type",
+  "sar:frequency_band",
+  "processing:level",
+  "product:type",
+  "processing:facility",
 ];
 
 export default /*** @type {import("@eodash/eodash").Eodash} */ ({
@@ -191,42 +231,25 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           },
         },
         {
-          id: "StacInfo",
-          type: "internal",
-          title: "Information",
-          layout: { x: "9/9/10", y: 7, w: "3/3/2", h: 4 },
-          widget: {
-            name: "EodashStacInfo",
-            properties: {
-              level: "item",
-              allowHtml: true,
-              header: ["collection"],
-              // tags:["instruments"],
-              body: [
-                "datetime",
-                "platform",
-                "constellation",
-                "instruments",
-                "eo:cloud_cover",
-                "processing:level",
-                "product:type",
-                "eo:snow_cover",
-                "view:sun_elevation",
-                "processing:facility",
-              ],
-              footer: ["providers"],
-              featured: [
-                "id",
-                "processing:software",
-                { key: "assets", filter: (asset) => !!asset },
-                {
-                  key: "links",
-                  filter: (link) =>
-                    link.rel == "self" ||
-                    (!!link.title && !["xyz", "tilejson"].includes(link.rel)),
+          defineWidget: (selectedSTAC) => {
+            const isSentinel1 = selectedSTAC?.id?.includes("sentinel-1");
+            return {
+              id: isSentinel1 ? "StacInfo-s1" : "StacInfo-s2",
+              type: "internal",
+              title: "Information",
+              layout: { x: "9/9/10", y: 7, w: "3/3/2", h: 4 },
+              widget: {
+                name: "EodashStacInfo",
+                properties: {
+                  level: "item",
+                  allowHtml: true,
+                  header: ["collection"],
+                  body: isSentinel1 ? sentinel1InfoBody : sentinel2InfoBody,
+                  footer: ["providers"],
+                  featured: stacInfoFeatured,
                 },
-              ],
-            },
+              },
+            };
           },
         },
         {
@@ -238,7 +261,6 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             name: "EodashItemCatalog",
             properties: {
               useMosaic: false,
-              mosaicIndicators: ["sentinel-2-l2a"],
               layoutTarget: "mosaic",
               datetimeFilter: true,
               filters: catalogFilters,
@@ -272,9 +294,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           properties: {
             zoomToExtent: false,
             enableCompare: true,
-            btnsPosition: {
-              gap: 8,
-            },
+            // btnsPosition: {
+            //   gap: 8,
+            // },
             btns: {
               enableZoom: true,
               enableExportMap: true,
@@ -343,16 +365,19 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
                   type: "internal",
                   widget: {
                     name: "EodashStacInfo",
-                    body: ["description"],
-                    featured: [
-                      "satellite",
-                      "sensor",
-                      "agency",
-                      "extent",
-                      "providers",
-                      "assets",
-                      "links",
-                    ],
+                    properties: {
+                      level: "collection",
+                      body: ["description"],
+                      featured: [
+                        "satellite",
+                        "sensor",
+                        "agency",
+                        "extent",
+                        "providers",
+                        "assets",
+                        "links",
+                      ],
+                    },
                   },
                 }
               : null;
