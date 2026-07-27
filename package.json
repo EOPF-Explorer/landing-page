@@ -10,13 +10,13 @@
     "check": "vue-tsc && eslint ."
   },
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/@eodash/eodash@9c97499",
+    "@eodash/eodash": "https://pkg.pr.new/@eodash/eodash@08af85a",
     "@eox/chart": "^1.2.0",
     "@eox/drawtools": "^1.6.0",
     "@eox/elements-utils": "^1.2.0",
     "@eox/itemfilter": "^1.17.3",
     "@eox/jsonform": "^1.12.1",
-    "@eox/layercontrol": "^1.8.0",
+    "@eox/layercontrol": "https://pkg.pr.new/EOX-A/EOxElements/@eox/layercontrol@7eb12be",
     "@eox/layout": "^1.0.0",
     "@eox/map": "^2.7.0",
     "@eox/storytelling": "^1.13.0",

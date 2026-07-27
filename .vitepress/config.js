@@ -56,7 +56,7 @@ export default defineConfig({
     externalLinkIcon:true,
     nav: [
       { text: "Data Catalog", link: "https://api.explorer.eopf.copernicus.eu/browser" },
-      { text: "Dynamic Browser", link: "/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a" },
+      { text: "Dynamic Browser", link: "/sentinelexplorer/?template=explore" },
       { text: "Software & Services", link: "/software-services" },
       { text: "Webinars & Events", link: "/webinars-events" },
       { text: "Documentation", link: "https://eopf-explorer.github.io/data-model/" },
