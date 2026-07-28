@@ -2,67 +2,127 @@ import { mdiMapSearch } from "@mdi/js";
 
 const baseLayers = [
   {
-    type: "Group",
+    type: "Tile",
+    visible: false,
     properties: {
-      id: "BaseLayersGroup",
-      title: "Base Layers",
+      id: "OSM;:;EPSG:3857",
+      title: "OSM Background",
+      roles: ["baselayer", "invisible"],
+      group: "baselayer",
+      layerControlExclusive: true,
     },
-    layers: [
-      {
-        type: "Tile",
-        properties: {
-          id: "OSM;:;EPSG:3857",
-          title: "OSM Background",
-          roles: ["baselayer", "invisible"],
-          group: "baselayer",
-          visible: false,
-          layerControlExclusive: true,
-        },
-        source: {
-          type: "XYZ",
-          url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpeg",
-          projection: "EPSG:3857",
-        },
-        preload: Infinity,
-      },
-      {
-        type: "Tile",
-        properties: {
-          id: "terrain-light;:;EPSG:3857",
-          title: "Terrain Light",
-          roles: ["baselayer", "visible"],
-          group: "baselayer",
-          visible: true,
-          layerControlExclusive: true,
-        },
-        source: {
-          type: "XYZ",
-          url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
-          projection: "EPSG:3857",
-        },
-        preload: Infinity,
-      },
-      {
-        type: "Tile",
-        properties: {
-          id: "cloudless-2024;:;EPSG:3857",
-          title: "EOxCloudless 2024",
-          roles: ["baselayer", "invisible"],
-          group: "baselayer",
-          visible: false,
-          layerControlExclusive: true,
-        },
-        source: {
-          type: "XYZ",
-          url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg",
-          projection: "EPSG:3857",
-        },
-        preload: Infinity,
-      },
-    ],
-    interactions: [],
+    source: {
+      type: "XYZ",
+      url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpeg",
+      projection: "EPSG:3857",
+    },
+    preload: Infinity,
+  },
+  {
+    type: "Tile",
+    properties: {
+      id: "terrain-light;:;EPSG:3857",
+      title: "Terrain Light",
+      roles: ["baselayer", "visible"],
+      group: "baselayer",
+      visible: true,
+      layerControlExclusive: true,
+    },
+    source: {
+      type: "XYZ",
+      url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
+      projection: "EPSG:3857",
+    },
+    preload: Infinity,
+  },
+  {
+    type: "Tile",
+    properties: {
+      id: "cloudless-2024;:;EPSG:3857",
+      title: "EOxCloudless 2024",
+      roles: ["baselayer", "invisible"],
+      group: "baselayer",
+      visible: false,
+      layerControlExclusive: true,
+    },
+    source: {
+      type: "XYZ",
+      url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg",
+      projection: "EPSG:3857",
+    },
+    preload: Infinity,
   },
 ];
+
+const catalogFilters = [
+  {
+    property: "eo:cloud_cover",
+    type: "range",
+    title: "Cloud cover",
+    unitLabel: "%",
+    step: 5,
+  },
+  {
+    property: "platform",
+    type: "multiselect",
+    title: "Platform",
+  },
+  {
+    property: "sat:orbit_state",
+    type: "multiselect",
+    title: "Orbit direction",
+  },
+];
+
+const catalogHoverProperties = [
+  "datetime",
+  "eo:cloud_cover",
+  "sat:orbit_state",
+];
+/** @type {NonNullable<import("@eodash/eodash").TEodashStacInfo["properties"]>["featured"]} */
+const stacInfoFeatured = [
+  "id",
+  "processing:software",
+  { key: "assets", filter: (asset) => !!asset },
+  {
+    key: "links",
+    filter: (link) =>
+      link.rel == "self" ||
+      (!!link.title && !["xyz", "tilejson"].includes(link.rel)),
+  },
+];
+
+const sentinel2InfoBody = [
+  "datetime",
+  "platform",
+  "constellation",
+  "instruments",
+  "eo:cloud_cover",
+  "eo:snow_cover",
+  "view:sun_elevation",
+  "view:sun_azimuth",
+  "processing:level",
+  "product:type",
+  "processing:facility",
+  "grid:code",
+];
+
+const sentinel1InfoBody = [
+  "datetime",
+  "platform",
+  "constellation",
+  "instruments",
+  "sat:orbit_state",
+  "sat:relative_orbit",
+  "sar:instrument_mode",
+  "sar:polarizations",
+  "sar:product_type",
+  "sar:frequency_band",
+  "processing:level",
+  "product:type",
+  "processing:facility",
+];
+
 export default /*** @type {import("@eodash/eodash").Eodash} */ ({
   id: "eopf",
   options: {
@@ -82,6 +142,8 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
     endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
     api: true,
     rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster",
+    colormapRegistry:
+      "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/defaults/colormaps.json",
     supportedUpscalingEndpoints: [
       { url: "api.explorer.eopf.copernicus.eu/raster/", titilerVersion: 2 },
     ],
@@ -169,42 +231,25 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           },
         },
         {
-          id: "StacInfo",
-          type: "internal",
-          title: "Information",
-          layout: { x: "9/9/10", y: 7, w: "3/3/2", h: 4 },
-          widget: {
-            name: "EodashStacInfo",
-            properties: {
-              level: "item",
-              allowHtml: true,
-              header: ["collection"],
-              // tags:["instruments"],
-              body: [
-                "datetime",
-                "platform",
-                "constellation",
-                "instruments",
-                "eo:cloud_cover",
-                "processing:level",
-                "product:type",
-                "eo:snow_cover",
-                "view:sun_elevation",
-                "processing:facility",
-              ],
-              footer: ["providers"],
-              featured: [
-                "id",
-                "processing:software",
-                { key: "assets", filter: (asset) => !!asset },
-                {
-                  key: "links",
-                  filter: (link) =>
-                    link.rel == "self" ||
-                    (!!link.title && !["xyz", "tilejson"].includes(link.rel)),
+          defineWidget: (selectedSTAC) => {
+            const isSentinel1 = selectedSTAC?.id?.includes("sentinel-1");
+            return {
+              id: isSentinel1 ? "StacInfo-s1" : "StacInfo-s2",
+              type: "internal",
+              title: "Information",
+              layout: { x: "9/9/10", y: 7, w: "3/3/2", h: 4 },
+              widget: {
+                name: "EodashStacInfo",
+                properties: {
+                  level: "item",
+                  allowHtml: true,
+                  header: ["collection"],
+                  body: isSentinel1 ? sentinel1InfoBody : sentinel2InfoBody,
+                  footer: ["providers"],
+                  featured: stacInfoFeatured,
                 },
-              ],
-            },
+              },
+            };
           },
         },
         {
@@ -216,9 +261,10 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             name: "EodashItemCatalog",
             properties: {
               useMosaic: false,
-              mosaicIndicators: ["sentinel-2-l2a"],
               layoutTarget: "mosaic",
-              hoverProperties: ["datetime", "eo:cloud_cover"],
+              datetimeFilter: true,
+              filters: catalogFilters,
+              hoverProperties: catalogHoverProperties,
             },
           },
         },
@@ -248,9 +294,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           properties: {
             zoomToExtent: false,
             enableCompare: true,
-            btnsPosition: {
-              gap: 8,
-            },
+            // btnsPosition: {
+            //   gap: 8,
+            // },
             btns: {
               enableZoom: true,
               enableExportMap: true,
@@ -319,16 +365,19 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
                   type: "internal",
                   widget: {
                     name: "EodashStacInfo",
-                    body: ["description"],
-                    featured: [
-                      "satellite",
-                      "sensor",
-                      "agency",
-                      "extent",
-                      "providers",
-                      "assets",
-                      "links",
-                    ],
+                    properties: {
+                      level: "collection",
+                      body: ["description"],
+                      featured: [
+                        "satellite",
+                        "sensor",
+                        "agency",
+                        "extent",
+                        "providers",
+                        "assets",
+                        "links",
+                      ],
+                    },
                   },
                 }
               : null;
@@ -345,6 +394,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
                   widget: {
                     name: "EodashTimeSlider",
                     properties: {
+                      clustering: true,
                       style: "padding:12px",
                       animate: true,
                       useMosaic: true,
@@ -425,6 +475,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             name: "EodashItemCatalog",
             properties: {
               layoutTarget: "mosaic",
+              datetimeFilter: true,
+              filters: catalogFilters,
+              hoverProperties: catalogHoverProperties,
             },
           },
         },
@@ -438,6 +491,9 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             properties: {
               enableCompare: true,
               layoutTarget: "mosaic",
+              datetimeFilter: true,
+              filters: catalogFilters,
+              hoverProperties: catalogHoverProperties,
             },
           },
         },

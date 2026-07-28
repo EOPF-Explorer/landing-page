@@ -12,7 +12,7 @@ hero:
   actions:
     # - theme: brand
     #   text: Explore Data
-    #   link: /sentinelexplorer/?template=explore&indicator=sentinel-2-l2a
+    #   link: /sentinelexplorer/?template=explore
     - theme: brand
       text: Webinars & Events
       link: /webinars-events
@@ -78,7 +78,7 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
   image="media/cloudless.png"
   landing
   primaryButton="Open Explorer"
-  primaryLink="/sentinelexplorer/?template=explore&indicator=sentinel-2-l2a"
+  primaryLink="/sentinelexplorer/?template=explore"
   tagline="Explore Sentinel data in real time"
   title="Sentinels Browser"
 >

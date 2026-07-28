@@ -3,6 +3,7 @@ import EOX from "@eox/pages-theme-eox";
 import "./custom.css";
 import EOPFFooter from "../components/EOPFFooter.vue";
 import CookieToggles from "../components/CookieToggles.vue";
+import { resolveStacItemRedirect } from "../utils/redirects";
 
 /** @type {import('vitepress').Theme} */
 export default {
@@ -14,8 +15,14 @@ export default {
     app.component("Footer", EOPFFooter);
     app.component("CookieToggles", CookieToggles);
 
-    //@ts-expect-error special vitepress property
     if (!import.meta.env.SSR) {
+      // redirect items eopf-explorer link
+      const stacRedirect = resolveStacItemRedirect(window.location.pathname);
+      if (stacRedirect) {
+        window.location.replace(stacRedirect);
+        return;
+      }
+
       // Monkey patch customElements.define to prevent "already defined" errors
       const originalDefine = customElements.define;
       customElements.define = function (name, constructor, options) {
