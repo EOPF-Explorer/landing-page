@@ -71,7 +71,7 @@ const bandCombinations = {
   }
 }
 
-const sampleItem = 'S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954'
+const sampleItem = 'S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453'
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 
@@ -354,7 +354,7 @@ Size Limits: Large crop areas may take longer to process.
 // Using the correct bbox API endpoint
 const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
 const collection = "sentinel-2-l2a";
-const itemId = "S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704";
+const itemId = "S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453";
 
 // Define crop coordinates
 const bbox = "12.2,45.7,12.4,45.9"; // minLon,minLat,maxLon,maxLat

@@ -32,7 +32,7 @@ const maxColor = ref('#00FF00')  // Green
 const minValue = ref(0)
 const maxValue = ref(0.7)
 
-const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr/measurements/reflectance'
+const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance'
 
 // NDVI color scale configuration  
 const segments = 10
@@ -283,7 +283,7 @@ const ndvi = [
 ];
 
 const source = new GeoZarr({
-  url: 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr/measurements/reflectance',
+  url: 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance',
   bands: ['b04', 'b8a'], // Red, NIR
 });
 

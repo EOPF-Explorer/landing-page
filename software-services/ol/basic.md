@@ -21,7 +21,7 @@ const webglSupport = ref(null)
 const mapRef = ref()
 let map = null
 
-const zarrUrl = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr/measurements/reflectance"
+const zarrUrl = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance"
 
 
 onMounted(() => {
@@ -154,7 +154,7 @@ import GeoZarr from "ol/source/GeoZarr.js";
 import XYZ from "ol/source/XYZ.js";
 
 const zarrUrl =
-  "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a-staging/S2A_MSIL2A_20251227T100441_N0511_R122_T33TVF_20251227T121715.zarr/measurements/reflectance";
+  "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance";
 
 // Create GeoZarr source
 const source = new GeoZarr({
