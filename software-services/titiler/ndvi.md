@@ -85,7 +85,7 @@ const colormaps = [
   { value: 'spectral', name: 'Spectral', description: 'Rainbow spectrum' }
 ]
 
-const sampleItem = 'S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954'
+const sampleItem = 'S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453'
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 
@@ -344,7 +344,7 @@ import { fromLonLat } from 'ol/proj.js';
 
 const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
 const collection = "sentinel-2-l2a";
-const itemId = "S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704";
+const itemId = "S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453";
 
 // Vegetation index expressions
 const expressions = {
@@ -575,7 +575,7 @@ createApp({
 
 const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
 const collection = "sentinel-2-l2a";
-const itemId = "S2B_MSIL2A_20251123T101239_N0511_R022_T32TQR_20251123T105704";
+const itemId = "S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453";
 
 // 1. Get Tile with NDVI Expression
 const ndviExpression = "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";

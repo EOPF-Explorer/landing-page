@@ -72,7 +72,7 @@ const bandCombinations = {
   }
 }
 
-const sampleItem = 'S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954'
+const sampleItem = 'S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453'
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 
@@ -240,7 +240,7 @@ import { fromLonLat } from 'ol/proj.js';
 
 // Titiler tile URL with band variables
 const tileUrl =
-  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
   "variables=/measurements/reflectance:b04&" +
   "variables=/measurements/reflectance:b03&" +
   "variables=/measurements/reflectance:b02&" +
@@ -275,7 +275,7 @@ L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}
 
 // Build Titiler URL
 const tileUrl =
-  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20251024T101029_N0511_R022_T32TQR_20251024T122954/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
   "variables=/measurements/reflectance:b04&" +
   "variables=/measurements/reflectance:b03&" +
   "variables=/measurements/reflectance:b02&" +
@@ -295,7 +295,7 @@ sentinelLayer.addTo(map);
 // Direct API calls for custom processing
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster';
 const collection = 'sentinel-2-l2a';
-const itemId = 'S2B_MSIL2A_20251218T110359_N0511_R094_T32VLK_20251218T115223';
+const itemId = 'S2B_MSIL2A_20260709T110619_N0512_R137_T32VLK_20260709T151414';
 
 async function getTileInfo() {
   const response = await fetch(
