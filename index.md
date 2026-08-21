@@ -118,7 +118,7 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
   <summary>
     <p class="bold">+ What is Web-Optimized Zarr?</p>
   </summary>
-    <p class="small-text"><a href="https://developmentseed.org/geozarr-examples/web-optimized-zarr.html" target="_blank" class="link">Web-optimized Zarr (WOZ)</a> provides a set of additional recommendations on top of the GeoZarr specification for optimal browser-based analysis and visualization. The specific recommendations are still under development.</p>
+    Web-optimized Zarr (WOZ) provides a set of additional recommendations on top of the GeoZarr specification for optimal browser-based analysis and visualization. The specific recommendations are still under development.</p>
 </details>
 <details>
   <summary>
