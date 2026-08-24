@@ -16,6 +16,7 @@ import GeoZarr from 'ol/source/GeoZarr.js'
 import XYZ from 'ol/source/XYZ.js'
 import 'ol/ol.css'
 import { checkWebGLSupport } from '../index'
+import { data as items } from '../items.data.js'
 
 
 const sliderRef = useTemplateRef("rangeSlider")
@@ -32,7 +33,7 @@ const maxColor = ref('#00FF00')  // Green
 const minValue = ref(0)
 const maxValue = ref(0.7)
 
-const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance'
+const zarrUrl = `${items.naples.zarrUrl}/measurements/reflectance`
 
 // NDVI color scale configuration  
 const segments = 10
@@ -232,7 +233,7 @@ Your browser doesn't support WebGL, which is required for GeoZarr visualization 
 <div id="map" style="width: 100%; height: 500px;"></div>
 ```
 
-```javascript [JavaScript]
+```javascript-vue [JavaScript]
 import { scale as chromaScale } from 'chroma-js';
 import Map from 'ol/Map.js';
 import WebGLTileLayer from 'ol/layer/WebGLTile.js';
@@ -283,7 +284,7 @@ const ndvi = [
 ];
 
 const source = new GeoZarr({
-  url: 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance',
+  url: '{{ items.naples.zarrUrl }}/measurements/reflectance',
   bands: ['b04', 'b8a'], // Red, NIR
 });
 
