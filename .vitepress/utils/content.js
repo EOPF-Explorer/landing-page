@@ -292,7 +292,7 @@ export const servicesContent = [
     tags: ["<i class='mdi mdi-map'></i> screening", "experimental", "web-mapping", "WebGL", "geozarr"],
     category: "Screening",
     type: "software",
-    link: "https://zarr-layer.demo.carbonplan.org/",
+    link: "https://zarr-layer.demo.carbonplan.org/?dataset=sentinel_2_eopf",
     order: 12
   },
 ]
