@@ -11,6 +11,7 @@ import TileLayer from 'ol/layer/Tile.js'
 import XYZ from "ol/source/XYZ"
 import { fromLonLat } from 'ol/proj.js'
 import 'ol/ol.css'
+import { data as items } from '../items.data.js'
 
 /**
  * @typedef {Object} VegetationIndex
@@ -85,7 +86,7 @@ const colormaps = [
   { value: 'spectral', name: 'Spectral', description: 'Rainbow spectrum' }
 ]
 
-const sampleItem = 'S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453'
+const sampleItem = items.venice.id
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 
@@ -335,7 +336,7 @@ This example demonstrates how to calculate vegetation indices using Titiler's se
 
 ::: code-group
 
-```javascript [Map Setup]
+```javascript-vue [Map Setup]
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
 import TileLayer from 'ol/layer/Tile.js';
@@ -344,7 +345,7 @@ import { fromLonLat } from 'ol/proj.js';
 
 const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
 const collection = "sentinel-2-l2a";
-const itemId = "S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453";
+const itemId = "{{ items.venice.id }}";
 
 // Vegetation index expressions
 const expressions = {
@@ -570,12 +571,12 @@ createApp({
 }).mount('#app');
 ```
 
-```javascript [Direct API Usage]
+```javascript-vue [Direct API Usage]
 // Titiler API endpoints for direct usage
 
 const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
 const collection = "sentinel-2-l2a";
-const itemId = "S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453";
+const itemId = "{{ items.venice.id }}";
 
 // 1. Get Tile with NDVI Expression
 const ndviExpression = "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";

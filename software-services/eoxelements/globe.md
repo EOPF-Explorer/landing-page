@@ -7,6 +7,7 @@ layout: page
 import { onMounted, useTemplateRef, nextTick, ref } from "vue";
 import { inAndOut } from "ol/easing";
 import { transformExtent } from "ol/proj"
+import { data as items } from "../items.data.js"
 
 /** @type {import('vue').Ref<import("@eox/map").EOxMap>} */
 const mapRef = useTemplateRef("mapRef");
@@ -17,11 +18,20 @@ const projection = ref("globe");
 let LonLat;
 
 const cities = [
-  { name: "Brussels", coords: [4.35,50.85], bbox: [4.25, 50.75, 4.45, 50.95], alt: 20000 },
-  { name: "Milano Cortina Winter Olympics", coords: [12.12,46.54], bbox: [12.02, 46.44, 12.22, 46.64], alt: 20000 },
-  { name: "Lyon", coords: [4.83,45.76], bbox: [4.73, 45.66, 4.93, 45.86], alt: 20000 },
-  { name: "Lisbon", coords: [-9.14,38.73], bbox: [-9.24, 38.63, -9.04, 38.83], alt: 20000 }
+  { name: "Brussels", area: "brussels", coords: [4.35,50.85], bbox: [4.25, 50.75, 4.45, 50.95], alt: 20000 },
+  { name: "Milano Cortina Winter Olympics", area: "milanoCortina", coords: [12.12,46.54], bbox: [12.02, 46.44, 12.22, 46.64], alt: 20000 },
+  { name: "Lyon", area: "lyon", coords: [4.83,45.76], bbox: [4.73, 45.66, 4.93, 45.86], alt: 20000 },
+  { name: "Lisbon", area: "lisbon", coords: [-9.14,38.73], bbox: [-9.24, 38.63, -9.04, 38.83], alt: 20000 }
 ];
+
+const rasterUrl = "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items";
+const trueColor = new URLSearchParams([
+  ["variables", "/measurements/reflectance:b04"],
+  ["variables", "/measurements/reflectance:b03"],
+  ["variables", "/measurements/reflectance:b02"],
+  ["rescale", "0,1"],
+  ["color_formula", "gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2"],
+]).toString();
 
 const layers = [
   {
@@ -36,18 +46,21 @@ const layers = [
       crossOrigin: "anonymous",
     }
   },
-  {
+  // A scene spans about 110 km, so each city needs its own
+  ...cities.map((city) => ({
     type: "Tile",
     properties: {
-      id: "mosaic",
-      title: "Sentinel-2 Mosaic"
+      id: `s2-${city.area}`,
+      title: `Sentinel-2 ${city.name}`
     },
+    // Without this the map requests tiles outside the scene, which 404
+    extent: transformExtent(items[city.area].bbox, "EPSG:4326", "EPSG:3857"),
     source: {
       type: "XYZ",
-      url: 'https://api.explorer.eopf.copernicus.eu/openeo/services/xyz/456c1e23-47f2-4567-98cf-dcde378a05f7/tiles/{z}/{x}/{y}?time=["2025-12-31","2026-01-23"]&cloud_cover=30',
+      url: `${rasterUrl}/${items[city.area].id}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${trueColor}`,
       crossOrigin: "anonymous",
     }
-  }
+  }))
 ];
 
 /**
@@ -193,7 +206,7 @@ Right click and drag to tilt the globe
 ></eox-map>
 ```
 
-```javascript [config.js]
+```javascript-vue [config.js]
 import "@eox/map";
 import "@eox/map/src/plugins/globe";
 
@@ -216,12 +229,12 @@ map.layers = [
   {
     type: "Tile",
     properties: {
-      id: "mosaic",
-      title: "Sentinel-2 Mosaic"
+      id: "sentinel-2",
+      title: "Sentinel-2 Milano Cortina"
     },
     source: {
       type: "XYZ",
-      url: 'https://api.explorer.eopf.copernicus.eu/openeo/services/xyz/456c1e23-47f2-4567-98cf-dcde378a05f7/tiles/{z}/{x}/{y}?time=["2025-12-31","2026-01-23"]&cloud_cover=30',
+      url: "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.milanoCortina.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?variables=/measurements/reflectance:b04&variables=/measurements/reflectance:b03&variables=/measurements/reflectance:b02&rescale=0,1",
       crossOrigin: "anonymous",
     }
   }
@@ -232,7 +245,7 @@ map.globeConfig.terrain = true;
 ```
 
 
-```python [Python (Jupyter)]
+```python-vue [Python (Jupyter)]
 %pip install ipyeoxelements  # run once, then restart kernel
 
 from ipyeoxelements import EOxMap
@@ -249,10 +262,10 @@ layers = [
     },
     {
         "type": "Tile",
-        "properties": {"id": "mosaic", "title": "Sentinel-2 Mosaic"},
+        "properties": {"id": "sentinel-2", "title": "Sentinel-2 Milano Cortina"},
         "source": {
             "type": "XYZ",
-            "url": 'https://api.explorer.eopf.copernicus.eu/openeo/services/xyz/456c1e23-47f2-4567-98cf-dcde378a05f7/tiles/{z}/{x}/{y}?time=["2025-12-31","2026-01-23"]&cloud_cover=30',
+            "url": "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.milanoCortina.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?variables=/measurements/reflectance:b04&variables=/measurements/reflectance:b03&variables=/measurements/reflectance:b02&rescale=0,1",
             "crossOrigin": "anonymous",
         },
     },

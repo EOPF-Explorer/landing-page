@@ -5,8 +5,9 @@ layout: page
 
 <script setup>
 import { useTemplateRef, onMounted, nextTick } from "vue";
+import { data as items } from "../items.data.js";
 
-const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20260120T125339_N0511_R138_T27VWL_20260120T131151.zarr/measurements/reflectance';
+const zarrUrl = `${items.iceland.zarrUrl}/measurements/reflectance`;
 
 // Layer configuration using the layerConfig pattern
 const layers = [
@@ -235,7 +236,7 @@ enabling dynamic style and source updates without custom form components.
 <script type="module" src="config.js"></script>
 ```
 
-```javascript [config.js]
+```javascript-vue [config.js]
 import "@eox/map";
 import "@eox/map/src/plugins/advancedLayersAndSources"
 import "@eox/layercontrol";
@@ -340,7 +341,7 @@ export const layers = [
     },
     source: {
       type: "GeoZarr",
-      url: "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20260120T125339_N0511_R138_T27VWL_20260120T131151.zarr/measurements/reflectance",
+      url: "{{ items.iceland.zarrUrl }}/measurements/reflectance",
       bands: ["b04", "b03", "b02", "b11"]
     },
     style: {
@@ -378,13 +379,13 @@ Object.assign(eoxMap, {
   });
 ```
 
-```python [Python (Jupyter)]
+```python-vue [Python (Jupyter)]
 %pip install ipyeoxelements  # run once, then restart kernel
 
 from ipywidgets import HBox, Layout
 from ipyeoxelements import EOxMap, EOxLayercontrol
 
-zarr_url = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20260120T125339_N0511_R138_T27VWL_20260120T131151.zarr"
+zarr_url = "{{ items.iceland.zarrUrl }}"
 
 layers = [
     {

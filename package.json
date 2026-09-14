@@ -10,26 +10,25 @@
     "check": "vue-tsc && eslint ."
   },
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/@eodash/eodash@08af85a",
+    "@eodash/eodash": "https://pkg.pr.new/@eodash/eodash@4b0a4d8",
     "@eox/chart": "^1.2.0",
     "@eox/drawtools": "^1.6.0",
     "@eox/elements-utils": "^1.2.0",
-    "@eox/itemfilter": "^1.17.3",
-    "@eox/jsonform": "^1.12.1",
-    "@eox/layercontrol": "https://pkg.pr.new/EOX-A/EOxElements/@eox/layercontrol@7eb12be",
+    "@eox/itemfilter": "^1.17.5",
+    "@eox/jsonform": "^1.12.2",
+    "@eox/layercontrol": "^1.8.2",
     "@eox/layout": "^1.0.0",
-    "@eox/map": "^2.7.0",
+    "@eox/map": "^2.7.2",
     "@eox/storytelling": "^1.13.0",
     "@eox/timecontrol": "^2.6.0",
     "chroma-js": "^3.2.0",
-    "ol": "10.9.0",
-    "stac-js": "^0.1.9"
+    "ol": "10.10.0"
   },
   "devDependencies": {
     "@eox/pages-theme-eox": "^1.9.0",
     "@types/chroma-js": "^3.1.2",
-    "eslint-plugin-vue": "^10.9.2",
-    "typescript": "^5.9.3",
-    "vue-tsc": "^3.3.6"
+    "eslint-plugin-vue": "^10.10.0",
+    "typescript": "^6.0.2",
+    "vue-tsc": "^3.3.10"
   }
 }
