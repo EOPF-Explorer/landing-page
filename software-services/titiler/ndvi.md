@@ -44,7 +44,7 @@ const expressions = {
   'ndvi': {
     name: 'NDVI (Normalized Difference Vegetation Index)',
     description: 'Classic vegetation index highlighting healthy vegetation',
-    expression: '(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)',
+    expression: '(b08-b04)/(b08+b04)',
     rescale: '-0.3,0.8',
     colormap: 'ylgn',
     formula: '(NIR - Red) / (NIR + Red) = (B08 - B04) / (B08 + B04)'
@@ -52,7 +52,7 @@ const expressions = {
   'evi': {
     name: 'EVI (Enhanced Vegetation Index)',
     description: 'Improved vegetation index with reduced atmospheric effects',
-    expression: '2.5*((/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+6.0*/measurements/reflectance:b04-7.5*/measurements/reflectance:b02+1.0))',
+    expression: '2.5*((b08-b04)/(b08+6.0*b04-7.5*b02+1.0))',
     rescale: '-0.3,1.5',
     colormap: 'viridis',
     formula: '2.5 * ((NIR - Red) / (NIR + 6*Red - 7.5*Blue + 1))'
@@ -60,7 +60,7 @@ const expressions = {
   'ndwi': {
     name: 'NDWI (Normalized Difference Water Index)',
     description: 'Water body detection and monitoring index',
-    expression: '(/measurements/reflectance:b03-/measurements/reflectance:b08)/(/measurements/reflectance:b03+/measurements/reflectance:b08)',
+    expression: '(b03-b08)/(b03+b08)',
     rescale: '-1,1',
     colormap: 'blues',
     formula: '(Green - NIR) / (Green + NIR) = (B03 - B08) / (B03 + B08)'
@@ -68,7 +68,7 @@ const expressions = {
   'nbr': {
     name: 'NBR (Normalized Burn Ratio)',
     description: 'Fire scar and burn severity detection',
-    expression: '(/measurements/reflectance:b08-/measurements/reflectance:b12)/(/measurements/reflectance:b08+/measurements/reflectance:b12)',
+    expression: '(b08-b12)/(b08+b12)',
     rescale: '-1,1',
     colormap: 'rdpu',
     formula: '(NIR - SWIR2) / (NIR + SWIR2) = (B08 - B12) / (B08 + B12)'
@@ -87,7 +87,7 @@ const colormaps = [
 
 const sampleItem = 'S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453'
 const collection = 'sentinel-2-l2a'
-const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
+const baseUrl = 'https://api.explorer.eopf.copernicus.eu/rstaging'
 
 /** @type {import('vue').Ref<import('ol/layer/Tile').default | null>} */
 const tileLayer = ref(null)
@@ -112,7 +112,7 @@ function buildTileUrl() {
   const expr = expressions[selectedExpression.value]
   const params = new URLSearchParams()
   
-  params.set('expression', expr.expression)
+  params.set('assets', `reflectance|expression=${expr.expression}`)
   
   // Use custom rescale if different from default
   const rescaleRange = `${customRescaleMin.value},${customRescaleMax.value}`
@@ -346,25 +346,25 @@ const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
 const collection = "sentinel-2-l2a";
 const itemId = "S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453";
 
-// Vegetation index expressions
+// Vegetation index expressions.
 const expressions = {
   ndvi: {
-    expression: "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)",
+    expression: "(b08-b04)/(b08+b04)",
     rescale: "-0.3,0.8",
     colormap: "ylgn"
   },
   evi: {
-    expression: "2.5*((/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+6.0*/measurements/reflectance:b04-7.5*/measurements/reflectance:b02+1.0))",
+    expression: "2.5*((b08-b04)/(b08+6.0*b04-7.5*b02+1.0))",
     rescale: "-0.3,1.5",
     colormap: "viridis"
   },
   ndwi: {
-    expression: "(/measurements/reflectance:b03-/measurements/reflectance:b08)/(/measurements/reflectance:b03+/measurements/reflectance:b08)",
+    expression: "(b03-b08)/(b03+b08)",
     rescale: "-1,1",
     colormap: "blues"
   },
   nbr: {
-    expression: "(/measurements/reflectance:b08-/measurements/reflectance:b12)/(/measurements/reflectance:b08+/measurements/reflectance:b12)",
+    expression: "(b08-b12)/(b08+b12)",
     rescale: "-1,1",
     colormap: "rdpu"
   }
@@ -375,7 +375,7 @@ function buildTileUrl(expression, rescaleMin, rescaleMax, colormap) {
   const expr = expressions[expression];
   const params = new URLSearchParams();
   
-  params.set('expression', expr.expression);
+  params.set('assets', `reflectance|expression=${expr.expression}`);
   params.set('rescale', `${rescaleMin},${rescaleMax}`);
   params.set('colormap_name', colormap);
   
@@ -578,43 +578,46 @@ const collection = "sentinel-2-l2a";
 const itemId = "S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453";
 
 // 1. Get Tile with NDVI Expression
-const ndviExpression = "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
-const tileUrl = `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?expression=${encodeURIComponent(ndviExpression)}&rescale=-0.3,0.8&colormap_name=ylgn`;
+const ndviParams = new URLSearchParams({
+  assets: "reflectance|expression=(b08-b04)/(b08+b04)",
+});
+const tileUrl = `${baseUrl}/collections/${collection}/items/${itemId}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?${ndviParams}&rescale=-0.3,0.8&colormap_name=ylgn`;
 
 // 2. Get Statistics for an Area
 async function getVegetationStats(geometry) {
   const response = await fetch(
-    `${baseUrl}/collections/${collection}/items/${itemId}/statistics`,
+    `${baseUrl}/collections/${collection}/items/${itemId}/statistics?${ndviParams}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        expression: ndviExpression,
+        type: "Feature",
+        properties: {},
         geometry: geometry, // GeoJSON Polygon
-        rescale: "-1,1"
       }),
     }
   );
   
-  const stats = await response.json();
+  const feature = await response.json();
+  const [stats] = Object.values(feature.properties.statistics);
   console.log("NDVI Statistics:", stats);
-  // Returns: { min, max, mean, count, sum, std, median, ... }
   return stats;
 }
 
 // 3. Get Item Metadata
 async function getItemInfo() {
   const response = await fetch(
-    `${baseUrl}/collections/${collection}/items/${itemId}/info`
+    `${baseUrl}/collections/${collection}/items/${itemId}/info?assets=reflectance`
   );
   const info = await response.json();
+  // Keys are "<asset>_<band>", e.g. "reflectance_b04"
   console.log("Available bands:", Object.keys(info));
   return info;
 }
 
 // 4. Preview with Custom Expression
 async function getPreviewImage(width = 512, height = 512) {
-  const url = `${baseUrl}/collections/${collection}/items/${itemId}/preview.png?expression=${encodeURIComponent(ndviExpression)}&rescale=-0.3,0.8&colormap_name=ylgn&width=${width}&height=${height}`;
+  const url = `${baseUrl}/collections/${collection}/items/${itemId}/preview.png?${ndviParams}&rescale=-0.3,0.8&colormap_name=ylgn&width=${width}&height=${height}`;
   
   const response = await fetch(url);
   const blob = await response.blob();
@@ -674,24 +677,25 @@ Server-side calculations are cached, so subsequent requests for the same express
 
 **Server-Side Expressions**
 
-Titiler processes mathematical expressions on the server using band references:
+Titiler processes mathematical expressions on the server. The expression is passed inside the `assets` parameter, after the asset it reads from:
 
 ```javascript
-// NDVI calculation
-expression = "(B08 - B04) / (B08 + B04)";
+// NDVI calculation: (B08 - B04) / (B08 + B04)
+assets = "reflectance|expression=(b08-b04)/(b08+b04)";
 
-// URL-encoded for API
-expression =
-  "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
+// URL-encode before use: an unencoded "+" is read as a space
+url = `${itemUrl}/preview.png?assets=${encodeURIComponent(assets)}`;
 ```
 
 **Band References in Expressions**
 
-- **NIR Band**: `/measurements/reflectance:b08` (10m resolution)
-- **Red Band**: `/measurements/reflectance:b04` (10m resolution)
-- **Green Band**: `/measurements/reflectance:b03` (10m resolution)
-- **Blue Band**: `/measurements/reflectance:b02` (10m resolution)
-- **SWIR Bands**: `/measurements/reflectance:b11`, `/measurements/reflectance:b12` (20m resolution)
+Expressions reference bands of the `reflectance` asset by name:
+
+- **NIR Band**: `b08` (10m resolution)
+- **Red Band**: `b04` (10m resolution)
+- **Green Band**: `b03` (10m resolution)
+- **Blue Band**: `b02` (10m resolution)
+- **SWIR Bands**: `b11`, `b12` (20m resolution)
 
 **Color Mapping**
 

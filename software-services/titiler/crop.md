@@ -44,7 +44,7 @@ const imageError = ref(false)
 /**
  * @typedef {Object} BandCombination
  * @property {string} name
- * @property {string[]} [variables]
+ * @property {string[]} [bands]
  * @property {string} [expression]
  * @property {string} rescale
  * @property {string} [colorFormula]
@@ -55,17 +55,13 @@ const imageError = ref(false)
 const bandCombinations = {
   'rgb-true': {
     name: 'True Color RGB',
-    variables: [
-      '/measurements/reflectance:b04',
-      '/measurements/reflectance:b03',
-      '/measurements/reflectance:b02'
-    ],
+    bands: ['b04', 'b03', 'b02'],
     rescale: '0,1',
     colorFormula: 'gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2'
   },
   'ndvi': {
     name: 'NDVI',
-    expression: '(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)',
+    expression: '(b08-b04)/(b08+b04)',
     rescale: '-0.3,0.8',
     colormap: 'rdylgn'
   }
@@ -73,7 +69,7 @@ const bandCombinations = {
 
 const sampleItem = 'S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453'
 const collection = 'sentinel-2-l2a'
-const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
+const baseUrl = 'https://api.explorer.eopf.copernicus.eu/rstaging'
 
 /** @type {import('vue').Ref<import('ol/source/Vector').default | null>} */
 const drawSource = ref(null)
@@ -108,15 +104,13 @@ function buildBboxUrl() {
   const bbox = `${cropCoordinates.value.minLon},${cropCoordinates.value.minLat},${cropCoordinates.value.maxLon},${cropCoordinates.value.maxLat}`
 
   // Add band parameters
-  if (combo.variables) {
-    combo.variables.forEach(variable => {
-      params.append('variables', variable)
-    })
+  if (combo.bands) {
+    params.set('assets', `reflectance|bands=${combo.bands.join(',')}`)
     params.set('rescale', combo.rescale)
     //@ts-expect-error
     params.set('color_formula', combo.colorFormula)
   } else if (combo.expression) {
-    params.set('expression', combo.expression)
+    params.set('assets', `reflectance|expression=${combo.expression}`)
     params.set('rescale', combo.rescale)
     //@ts-expect-error
     params.set('colormap_name', combo.colormap)
@@ -134,15 +128,13 @@ function buildPreviewUrl() {
   const bbox = `${cropCoordinates.value.minLon},${cropCoordinates.value.minLat},${cropCoordinates.value.maxLon},${cropCoordinates.value.maxLat}`
   
   // Add band parameters
-  if (combo.variables) {
-    combo.variables.forEach(variable => {
-      params.append('variables', variable)
-    })
+  if (combo.bands) {
+    params.set('assets', `reflectance|bands=${combo.bands.join(',')}`)
     params.set('rescale', combo.rescale)
     //@ts-expect-error
     params.set('color_formula', combo.colorFormula)
   } else if (combo.expression) {
-    params.set('expression', combo.expression)
+    params.set('assets', `reflectance|expression=${combo.expression}`)
     params.set('rescale', combo.rescale)
     //@ts-expect-error
     params.set('colormap_name', combo.colormap)
@@ -362,9 +354,7 @@ const bbox = "12.2,45.7,12.4,45.9"; // minLon,minLat,maxLon,maxLat
 // Build crop URL with bbox in path
 const cropUrl =
   `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/1024x1024.png?` +
-  `variables=/measurements/reflectance:b04&` +
-  `variables=/measurements/reflectance:b03&` +
-  `variables=/measurements/reflectance:b02&` +
+  `assets=reflectance|bands=b04,b03,b02&` +
   `rescale=0,1&` +
   `color_formula=gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2`;
 
@@ -383,12 +373,11 @@ fetch(cropUrl)
 ```javascript [NDVI Crop Example]
 // Crop with NDVI calculation using bbox API
 const bbox = "12.05,45.32,12.6,45.57";
-const ndviExpression =
-  "(/measurements/reflectance:b08-/measurements/reflectance:b04)/(/measurements/reflectance:b08+/measurements/reflectance:b04)";
+const ndviExpression = "(b08-b04)/(b08+b04)";
 
 const ndviCropUrl =
   `${baseUrl}/collections/${collection}/items/${itemId}/bbox/${bbox}/1024x1024.png?` +
-  `expression=${encodeURIComponent(ndviExpression)}&` +
+  `assets=${encodeURIComponent(`reflectance|expression=${ndviExpression}`)}&` +
   `rescale=-0.3,0.8&` +
   `colormap_name=rdylgn`;
 
@@ -404,14 +393,12 @@ fetch(ndviCropUrl)
 async function getCropImage(bbox, bandConfig) {
   const params = new URLSearchParams();
 
-  if (bandConfig.variables) {
-    bandConfig.variables.forEach((variable) => {
-      params.append("variables", variable);
-    });
+  if (bandConfig.bands) {
+    params.set("assets", `reflectance|bands=${bandConfig.bands.join(",")}`);
     params.set("rescale", bandConfig.rescale);
     params.set("color_formula", bandConfig.colorFormula);
   } else if (bandConfig.expression) {
-    params.set("expression", bandConfig.expression);
+    params.set("assets", `reflectance|expression=${bandConfig.expression}`);
     params.set("rescale", bandConfig.rescale);
     params.set("colormap_name", bandConfig.colormap);
   }
@@ -503,7 +490,7 @@ Titiler supports several spatial operations for data extraction:
 **1. Bounding Box Crop**
 
 ```
-/crop?bbox=minx,miny,maxx,maxy
+GET .../items/{item}/bbox/{minx},{miny},{maxx},{maxy}.png
 ```
 
 Extracts a rectangular area defined by geographic coordinates.
@@ -511,15 +498,25 @@ Extracts a rectangular area defined by geographic coordinates.
 **2. Feature-Based Crop**
 
 ```
-/crop?geom={"type":"Polygon","coordinates":[[[...]]]}
+POST .../items/{item}/feature.png
+Content-Type: application/json
+
+{
+  "type": "Feature",
+  "properties": {},
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[[12.3, 45.2], [12.4, 45.2], [12.4, 45.3], [12.3, 45.3], [12.3, 45.2]]]
+  }
+}
 ```
 
-Crops using complex geometries (polygons, multi-polygons).
+Crops using complex geometries (polygons, multi-polygons), sent as a GeoJSON Feature in the request body.
 
 **3. Preview Generation**
 
 ```
-/preview?bbox=minx,miny,maxx,maxy&max_size=512
+GET .../items/{item}/bbox/{minx},{miny},{maxx},{maxy}.png?max_size=512
 ```
 
 Generates web-friendly previews with size constraints.
@@ -543,15 +540,14 @@ Cropped data can be returned in multiple formats:
 
 ### API Parameters
 
-| Parameter    | Description                         | Example                         |
-| ------------ | ----------------------------------- | ------------------------------- |
-| `bbox`       | Bounding box as minx,miny,maxx,maxy | `12.2,45.7,12.4,45.9`           |
-| `geom`       | GeoJSON geometry for complex shapes | `{"type":"Polygon",...}`        |
-| `max_size`   | Maximum output dimension (preview)  | `512`, `1024`                   |
-| `format`     | Output format                       | `png`, `jpeg`, `tiff`           |
-| `variables`  | Band selection (same as tiles)      | `/measurements/reflectance:b04` |
-| `expression` | Mathematical expressions            | NDVI, EVI calculations          |
-| `rescale`    | Value normalization                 | `0,1`, `-1,1`                   |
+| Parameter    | Description                                  | Example                                              |
+| ------------ | -------------------------------------------- | ---------------------------------------------------- |
+| `assets`     | Band selection (same as tiles)               | `assets=reflectance\|bands=b04,b03,b02`              |
+| `expression` | Index calculation, set inside `assets`       | `assets=reflectance\|expression=(b08-b04)/(b08+b04)` |
+| `rescale`    | Value normalization                          | `0,1`, `-1,1`                                        |
+| `max_size`   | Maximum output dimension (preview)           | `512`, `1024`                                        |
+
+The crop area and output format are part of the URL path, not parameters: `.../bbox/12.2,45.7,12.4,45.9.png`.
 
 
 ::: tip :bulb: TIP 
