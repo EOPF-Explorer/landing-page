@@ -108,20 +108,36 @@ Titiler-EOPF performs all data processing server-side, including:
 - **Color enhancement** with gamma correction and contrast adjustment
 - **Spatial operations** like cropping and reprojection
 
-**Variable Naming Convention**
+**Asset and Band Selection**
 
-Band references use the format:
+Titiler resolves each item through the STAC API and reads bands from its assets. Band selection uses the format:
 
 ```
-/measurements/reflectance:b04
+assets=reflectance|bands=b04,b03,b02
 ```
 
-- `measurements/reflectance` - Multiscales group path in Zarr structure
-- `b04` - Specific band identifier (Red band)
+- `reflectance` - STAC asset of the item (for Sentinel-2 L2A, the asset that holds the spectral bands)
+- `bands=b04,b03,b02` - Bands to read from that asset, by band name (`b04`) or by the common name the asset assigns to the band (`red`)
+
+To compute a band operation instead, pass an `expression` in place of `bands`. It references the asset's bands by name, for example NDVI from NIR (`b08`) and red (`b04`):
+
+```
+assets=reflectance|expression=(b08-b04)/(b08+b04)
+```
+
+URL-encode the `assets` value when building the URL by hand; an unencoded `+` is read as a space and the request fails. `URLSearchParams` and `encodeURIComponent` handle this.
 
 **URL Structure**
 
-Tile endpoints follow this pattern:
+Titiler exposes three route levels:
+
+| Route | Scope |
+| ----- | ----- |
+| `/raster/collections/{collection}` | Mosaic of all items in a collection |
+| `/raster/collections/{collection}/items/{item}` | One item; can combine bands from several assets |
+| `/raster/collections/{collection}/items/{item}/assets/{asset}` | One asset of one item |
+
+The examples in this guide use the item route. Tile endpoints follow this pattern:
 
 ```
 /raster/collections/{collection}/items/{item}/tiles/WebMercatorQuad/{z}/{x}/{y}.png
