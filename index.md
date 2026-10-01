@@ -59,6 +59,7 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
 
 <client-only>
   <eox-itemfilter
+    v-if="itemfilterReady"
     :items="items"
     titleProperty="title"
     imageProperty="image"
@@ -171,7 +172,13 @@ import { withBase, useRouter } from 'vitepress';
 //@ts-expect-error
 import { trackEvent } from "@eox/pages-theme-eox/src/helpers.js";
 import { cardsContent,tableData } from "./.vitepress/utils/content"
+import { loadModule } from "./.vitepress/utils/load-module"
 
+const itemfilterLoaded = Promise.all([
+  loadModule(() => import("@eox/itemfilter"), "eox-itemfilter"),
+  loadModule(() => import("@eox/layout"), "eox-layout"),
+]);
+const itemfilterReady = ref(false);
 const router = useRouter();
 /** @type {import("vue").Ref<any[]>} */
 const items = ref([]);
@@ -195,6 +202,7 @@ const items = ref([]);
 // ];
 
 onMounted(async () => {
+  itemfilterReady.value = (await itemfilterLoaded).every(Boolean);
   try {
     const response = await fetch('https://eopf-explorer.github.io/narratives/narratives.json');
     /** @type {any[]} */

@@ -4,7 +4,17 @@ layout: page
 ---
 
 <script setup>
-import { useTemplateRef, onMounted, nextTick } from "vue";
+import { useTemplateRef, onMounted, nextTick, ref } from "vue";
+import { loadModule } from "../../.vitepress/utils/load-module";
+
+const demoModulesLoaded = Promise.all([
+  loadModule(() => import("@eox/layout"), "eox-layout"),
+  loadModule(() => import("@eox/map"), "eox-map"),
+  loadModule(() => import("@eox/map/src/plugins/advancedLayersAndSources")),
+  loadModule(() => import("@eox/layercontrol"), "eox-layercontrol"),
+  loadModule(() => import("@eox/jsonform"), "eox-jsonform"),
+]);
+const demoReady = ref(false);
 
 const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20260120T125339_N0511_R138_T27VWL_20260120T131151.zarr/measurements/reflectance';
 
@@ -151,15 +161,15 @@ const eoxMap = useTemplateRef("eoxMap");
 /** @type {import('vue').Ref<import("@eox/layercontrol").EOxLayerControl>} */
 const eoxLayercontrol = useTemplateRef("eoxLayercontrol");
 
-onMounted(() => {
-  nextTick(() => {
-    if(!eoxMap.value) return
-    //@ts-expect-error
-    eoxMap.value.layers = layers;
-    eoxMap.value.center = center;
-    eoxMap.value.zoom = zoom;
-    eoxLayercontrol.value.for = "eox-map#map-layerconfig";
-  });
+onMounted(async () => {
+  demoReady.value = (await demoModulesLoaded).every(Boolean);
+  await nextTick();
+  if(!eoxMap.value) return
+  //@ts-expect-error
+  eoxMap.value.layers = layers;
+  eoxMap.value.center = center;
+  eoxMap.value.zoom = zoom;
+  eoxLayercontrol.value.for = "eox-map#map-layerconfig";
 });
 </script>
 
@@ -180,7 +190,7 @@ enabling dynamic style and source updates without custom form components.
 
   <template #demo>
     <ClientOnly>
-    <eox-layout gap="8" class="surface-variant" style="height: 650px;">
+    <eox-layout v-if="demoReady" gap="8" class="surface-variant" style="height: 650px;">
         <eox-layout-item x="0" y="0" w="3" h="12" class="scroll">
             <div class="card fill">
                 <div class="padding">

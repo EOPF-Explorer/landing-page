@@ -7,6 +7,13 @@ layout: page
 import { onMounted, useTemplateRef, nextTick, ref } from "vue";
 import { inAndOut } from "ol/easing";
 import { transformExtent } from "ol/proj"
+import { loadModule } from "../../.vitepress/utils/load-module";
+
+const demoModulesLoaded = Promise.all([
+  loadModule(() => import("@eox/map"), "eox-map"),
+  loadModule(() => import("@eox/map/src/plugins/globe")),
+]);
+const demoReady = ref(false);
 
 /** @type {import('vue').Ref<import("@eox/map").EOxMap>} */
 const mapRef = useTemplateRef("mapRef");
@@ -60,6 +67,7 @@ function applyTerrain() {
 }
 
 onMounted(async () => {
+    demoReady.value = (await demoModulesLoaded).every(Boolean);
     const og = await import("@openglobus/og");
     LonLat = og.LonLat;
     
@@ -174,6 +182,7 @@ Right click and drag to tilt the globe
   <template #demo>
     <ClientOnly>
       <eox-map
+        v-if="demoReady"
         id="globe"
         ref="mapRef"
         style="width: 100%; height: 100%;"
