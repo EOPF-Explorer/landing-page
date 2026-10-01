@@ -46,15 +46,14 @@ By default, connecting to the EOPF STAC API allows the dashboard to automaticall
 
 ```html [index.html]
 <head>
-  <!-- Load the bundled web component -->
-  <link rel="stylesheet" href="https://unpkg.com/@eodash/eodash/dist/style.css" />
-  <script type="module" src="https://unpkg.com/@eodash/eodash/dist/eodash.js"></script>
+  <!-- Import using a CDN, or with NPM: import "@eodash/eodash/webcomponent" -->
+  <script type="module" src="https://unpkg.com/@eodash/eodash/dist/client/eo-dash.js"></script>
 </head>
 
 <body>
   <!-- Pass configuration via property -->
 
-  <eo-dash style="height:100vh;" .config="config"></eo-dash>  
+  <eo-dash id="dashboard" style="height:100vh;"></eo-dash>
   
   <script type="module">
     

@@ -101,19 +101,19 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
   <summary>
     <p class="bold">+ What is EOPF?</p>
   </summary>
-    <p class="small-text">The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eopf.copernicus.eu/" target="_blank" class="link">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, download-based data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
+    <p class="small-text">The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eopf.copernicus.eu/" target="_blank" class="link vp-external-link-icon">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, download-based data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
 </details>
 <details>
   <summary>
     <p class="bold">+ What is Zarr?</p>
   </summary>
-    <p class="small-text"><a href="https://zarr.dev/" target="_blank" class="link">Zarr</a> is a container format for storage of large N-dimensional typed arrays. The development of Zarr is motivated by the need for a simple, transparent, open, and community-driven format that supports high-throughput distributed I/O on different storage systems. </p>
+    <p class="small-text"><a href="https://zarr.dev/" target="_blank" class="link vp-external-link-icon">Zarr</a> is a container format for storage of large N-dimensional typed arrays. The development of Zarr is motivated by the need for a simple, transparent, open, and community-driven format that supports high-throughput distributed I/O on different storage systems. </p>
 </details>
 <details>
   <summary>
     <p class="bold">+ What is GeoZarr?</p>
   </summary>
-    <p class="small-text"><a href="https://github.com/zarr-developers/geozarr-spec" target="_blank" class="link">GeoZarr</a> is an emerging convention to represent geo-spatial data in the Zarr container format.</p>
+    <p class="small-text"><a href="https://github.com/zarr-developers/geozarr-spec" target="_blank" class="link vp-external-link-icon">GeoZarr</a> is an emerging convention to represent geo-spatial data in the Zarr container format.</p>
 </details>
 <details>
   <summary>
@@ -137,7 +137,7 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
   <summary>
     <p class="bold">+ How is this project related to the EOPF Sentinel Zarr Samples?</p>
   </summary>
-    <p class="small-text">The <a href="https://zarr.eopf.copernicus.eu/" target="_blank" class="link">EOPF Sentinel Zarr Samples</a> platform provides reference Sentinels products in the harmonised EOPF data format.</p>
+    <p class="small-text">The <a href="https://zarr.eopf.copernicus.eu/" target="_blank" class="link vp-external-link-icon">EOPF Sentinel Zarr Samples</a> platform provides reference Sentinels products in the harmonised EOPF data format.</p>
     <p class="small-text">We are closely following this reference, providing feedback based on our learning from review and client implementation, and using the sample products as a basis for our web-optimised version.</p>
 </details>
 <br />

@@ -14,14 +14,23 @@
           <h6>Menu</h6>
           <client-only>
             <p v-for="nav in theme.nav" :key="nav.link">
-              <a :href="nav.link" class="link">{{ nav.text }}</a>
+              <a
+                :href="nav.link"
+                :target="nav.target"
+                class="link"
+                :class="{ 'vp-external-link-icon': nav.link.includes('://') }"
+                >{{ nav.text }}</a
+              >
             </p>
           </client-only>
         </div>
         <div class="s12 m6 l3">
           <h6>Credits</h6>
           <p>
-            <a href="https://www.esa.int/" target="_blank" class="link"
+            <a
+              href="https://www.esa.int/"
+              target="_blank"
+              class="link vp-external-link-icon"
               >European Space Agency (ESA)</a
             >
           </p>
@@ -32,7 +41,7 @@
             <a
               href="https://github.com/EOPF-Explorer"
               target="_blank"
-              class="link"
+              class="link vp-external-link-icon"
               >Our resources on GitHub</a
             >
           </p>
@@ -40,7 +49,7 @@
             <a
               href="https://eopf-toolkit.github.io/eopf-101/"
               target="_blank"
-              class="link"
+              class="link vp-external-link-icon"
               >EOPF Toolkit</a
             >
           </p>
@@ -48,7 +57,7 @@
             <a
               href="https://zarr.eopf.copernicus.eu/"
               target="_blank"
-              class="link"
+              class="link vp-external-link-icon"
               >EOPF Sentinel Zarr Samples</a
             >
           </p>
