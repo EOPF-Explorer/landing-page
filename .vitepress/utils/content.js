@@ -49,8 +49,8 @@ export const cardsContent = [
 ];
 
 
-const tick = `<button class="transparent square"><img src="${withBase('/assets/checkmark.svg')}"/></button>`
-const cross = `<button class="transparent square"><img src="${withBase('/assets/crossmark.svg')}"/></button>`
+const tick = `<img src="${withBase('/assets/checkmark.svg')}" alt="Yes" width="24" height="24"/>`
+const cross = `<img src="${withBase('/assets/crossmark.svg')}" alt="No" width="24" height="24"/>`
 
 export const tableData = [
   {
