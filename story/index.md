@@ -7,19 +7,23 @@ layout: page
 import { onMounted, ref } from 'vue';
 import { withBase } from 'vitepress';
 import { useData } from 'vitepress';
+import { loadModule } from "../.vitepress/utils/load-module";
 
 const { theme } = useData();
 
-if (!import.meta.env.SSR) {
-    if(window && !customElements.get('eox-map')) import("@eox/map");
-    if(window && !customElements.get('eox-storytelling')) import("@eox/storytelling");
-    if(window && !customElements.get('eox-jsonform')) import("@eox/jsonform");
-    if (window) import("@eox/map/src/plugins/advancedLayersAndSources");
-}
+// Narratives embed maps (incl. GeoZarr layers) and forms inside the story
+const storyModulesLoaded = Promise.all([
+    loadModule(() => import("@eox/map"), "eox-map"),
+    loadModule(() => import("@eox/map/src/plugins/advancedLayersAndSources")),
+    loadModule(() => import("@eox/jsonform"), "eox-jsonform"),
+    loadModule(() => import("@eox/storytelling"), "eox-storytelling"),
+]);
+const storytellingReady = ref(false);
 
 const storyurl = ref('')
 
-onMounted(() => {
+onMounted(async () => {
+    storytellingReady.value = (await storyModulesLoaded).every(Boolean);
     let storyfile;
     if (window && typeof window !== 'undefined' && 'URLSearchParams' in window) {
         const searchParams = new URLSearchParams(window.location.search);
@@ -31,7 +35,7 @@ onMounted(() => {
 
 <eox-storytelling 
     show-nav
-    v-if="storyurl" 
+    v-if="storytellingReady && storyurl" 
     :markdown-url="storyurl"
     class="full-width"
     style="transform: translateY(var(--vp-nav-height)); margin-top: calc(var(--vp-nav-height) * -1 - 90px - 48px); margin-bottom: var(--vp-nav-height);"

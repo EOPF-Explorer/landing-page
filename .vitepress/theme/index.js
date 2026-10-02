@@ -8,7 +8,7 @@ import { resolveStacItemRedirect } from "../utils/redirects";
 /** @type {import('vitepress').Theme} */
 export default {
   ...EOX,
-  async enhanceApp({ app, router, siteData }) {
+  enhanceApp({ app, router, siteData }) {
     EOX.enhanceApp({ app, router, siteData });
     // replace the default footer with EOPFFooter
     // eslint-disable-next-line vue/no-reserved-component-names
@@ -30,17 +30,6 @@ export default {
           originalDefine.call(customElements, name, constructor, options);
         }
       };
-
-      await import("@eodash/eodash/webcomponent");
-      await import("@eox/storytelling");
-      await import("@eox/layout");
-      await import("@eox/itemfilter");
-      await import("@eox/map");
-      await import("@eox/map/src/plugins/globe");
-      await import("@eox/map/src/plugins/advancedLayersAndSources");
-      await import("@eox/chart");
-      await import("@eox/jsonform");
-      await import("@eox/layercontrol");
     }
   },
 };
