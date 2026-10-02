@@ -1,0 +1,184 @@
+import { defineLoader } from "vitepress";
+
+/** @type {import("./services.data").Service[]} */
+const services = [
+  {
+    id: "stac-browser",
+    title: "EOPF Explorer STAC Browser",
+    content: "EOPF Sentinel Zarr catalog browser revealing Sentinel scenes at a glance.",
+    image: "https://stacspec.org/public/images-original/STAC-01.png",
+    tags: ["discovery", "catalog", "sentinel", "metadata"],
+    category: "Discovery",
+    type: "service",
+    link: "https://api.explorer.eopf.copernicus.eu/browser",
+    contain: true,
+    order: 1
+  },
+  {
+    id: "sentinel-explorer",
+    title: "Sentinel Explorer",
+    content: "Interactive viewer for Sentinel Zarr scenes based on eodash and TiTiler band combinations and indicators.",
+    image: "/assets/sentinel-2.png",
+    tags: ["screening", "interactive", "zarr", "sentinel-1", "sentinel-2"],
+    category: "Screening",
+    type: "service",
+    link: "/sentinelexplorer/",
+    order: 2
+  },
+  {
+    id: "ndvi",
+    title: "Normalized Difference Vegetation Index (NDVI) & More",
+    content: "Discover how to integrate popular spectral indices into your stories.",
+    image: "https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ndvi/fig/fig1.png",
+    tags: ["showcase", "ndvi", "vegetation", "indices", "Sentinel-2"],
+    category: "Showcases",
+    type: "story",
+    link: "/story/?id=ndvi",
+    order: 3
+  },
+  {
+    id: "titiler-eopf",
+    featured: true,
+    cover: "/assets/featured/titiler.jpg",
+    title: "TiTiler for EOPF Zarr",
+    content: "On-the-fly tile server for visualizing Sentinel Zarr data with custom styling, expressions, and reprojection.",
+    image: "https://user-images.githubusercontent.com/10407788/172718020-c2378b7e-a0d4-406e-924c-8ffe54e61596.png",
+    tags: ["screening", "arithmetic", "expressions", "band-math"],
+    category: "Screening",
+    type: "software",
+    link: "./titiler",
+    contain: true,
+    order: 4
+  },
+  {
+    id: "openlayers-geozarr",
+    featured: true,
+    cover: "/assets/featured/openlayers.jpg",
+    title: "OpenLayers",
+    content: "Web mapping library with GeoZarr support for visualizing Sentinel Zarr in the browser using Zarr conventions.",
+    image: "/assets/openlayers-logo.png",
+    tags: ["screening", "web-mapping", "visualization", "geozarr"],
+    category: "Screening",
+    type: "software",
+    link: "./ol",
+    contain: true,
+    order: 5
+  },
+  {
+    id: "eoxelements",
+    featured: true,
+    cover: "/assets/featured/eoxelements.jpg",
+    title: "EOxElements",
+    content: "Native Web Component support for GeoZarr visualization in the browser, enabling declarative map configuration and storytelling.",
+    image: "/media/EOxElements.png",
+    tags: ["screening", "web-components", "geospatial", "client-side"],
+    category: "Screening",
+    type: "software",
+    link: "./eoxelements",
+    contain: true,
+    order: 6
+  },
+  {
+    id: "eodash",
+    featured: true,
+    cover: "/assets/featured/eodash.jpg",
+    title: "eodash",
+    content: "Configuration-first dashboard builder for rapid deployment of EO portals.",
+    image: "https://eodash.org/eodash_logo.png",
+    tags: ["screening", "dashboard", "web-components", "geozarr"],
+    category: "Screening",
+    type: "software",
+    link: "./eodash",
+    contain: true,
+    order: 7
+  },
+  {
+    id: "openeo-web-editor",
+    title: "openEO Web editor",
+    content: "Build sophisticated analysis workflows with cloud-based processing.",
+    image: "/assets/openeo-logo.png",
+    tags: ["analysis", "workflow", "openeo", "cloud-processing"],
+    category: "Analysis",
+    type: "service",
+    link: "https://editor.openeo.org/?server=https%3A%2F%2Fapi.explorer.eopf.copernicus.eu%2Fopeneo%2F",
+    order: 6
+  },
+  {
+    id: "ndci",
+    title: "Monitoring Cyanobacteria in Venice Lagoon",
+    content: "Real-time chlorophyll-a detection using the Normalised Difference Chlorophyll Index and satellite data",
+    image: "https://raw.githubusercontent.com/EOPF-Explorer/eodash-assets/main/narratives/NDCI/hero.png",
+    tags: ["showcase", "ndci", "algae", "indices", "Sentinel-2"],
+    category: "Showcases",
+    type: "story",
+    link: "https://explorer.eopf.copernicus.eu/story/?id=ndci",
+    order: 7
+  },
+  {
+    id: "eoxmap-geozarr-story",
+    title: "EOPF Zarr Client Side Rendering",
+    content: "A story on how to visualize Sentinel Zarr data using EOxMap with GeoZarr support.",
+    image: "/assets/openlayers-story.png",
+    tags: ["screening", "web-mapping", "visualization", "geozarr"],
+    category: "Screening",
+    order: 8,
+    type: "story",
+    link: "/story/?id=cloud-native-eo"
+  },
+  {
+    id: "geozarr-data-model",
+    title: "Pioneering the GeoZarr Data Model",
+    content: "Learn how EOPF Explorer drives GeoZarr specification development and Zarr Conventions, establishing the foundation for cloud-native Earth Observation standards.",
+    image: "/assets/geozarr.png",
+    tags: ["documentation", "standards", "geozarr", "zarr", "conventions", "community"],
+    category: "Documentation",
+    type: "story",
+    link: "./datamodel/",
+    contain: true,
+    order: 9
+  },
+  {
+    id: "openeo-studio",
+    featured: true,
+    cover: "/assets/featured/openeo-studio.jpg",
+    title: "openEO Studio",
+    content: "Run and visualize openEO processes directly in your browser with openEO Studio.",
+    image: "/assets/openeo-studio.png",
+    tags: ["analysis", "workflow", "openeo", "cloud-processing"],
+    category: "Analysis",
+    type: "service",
+    link: "https://studio.explorer.eopf.copernicus.eu/",
+    order: 10
+  },
+  {
+    id: "eoxelements-jupyter",
+    featured: true,
+    cover: "/assets/featured/eoxelements-jupyter.jpg",
+    title: "EOxElements Jupyter",
+    content: "Python wrapper for EOxElements web components in Jupyter Notebooks - visualize GeoZarr and EO data with EOxMap, EOxChart, and more.",
+    image: "/media/eoxelements-jupyter.png",
+    tags: ["analysis", "jupyter", "python", "web-components", "ipywidgets"],
+    category: "Analysis",
+    type: "software",
+    link: "./EOxElements-Jupyter",
+    contain: true,
+    order: 11
+  },
+  {
+    id: "zarr-layer-carbon-plan",
+    title: "Flexible zarr rendering for MapLibre/Mapbox",
+    content: "A interesting experiment by CarbonPlan on rendering zarr data in the browser using WebGLShaders.",
+    image: "/assets/zarr-layer-carbon-plan.png",
+    tags: ["screening", "experimental", "web-mapping", "WebGL", "geozarr"],
+    category: "Screening",
+    type: "software",
+    link: "https://zarr-layer.demo.carbonplan.org/?dataset=sentinel_2_eopf",
+    order: 12
+  },
+];
+
+export default defineLoader({
+  load() {
+    return { services: [...services].sort((a, b) => (a.order ?? 999) - (b.order ?? 999)) };
+  },
+});

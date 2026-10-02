@@ -5,7 +5,19 @@ layout: page
 
 <script setup>
 import GeoZarrDiagram from "../../.vitepress/components/GeoZarrDiagram.vue"
-import { timelineItems, getStatusColor } from "../../.vitepress/utils/content.js"
+import { data } from "../../content/timeline.data.js"
+
+const { timelineItems } = data;
+
+/** @param {import("../../content/timeline.data").TimelineItem["status"]} status */
+const getStatusColor = (status) => {
+  const colors = {
+    completed: '#22c55e',
+    ongoing: '#f59e0b',
+    planned: 'var(--secondary)'
+  }
+  return colors[status] || 'var(--primary)'
+}
 </script>
 
 <div class="hero-section" style="text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 12px; margin-bottom: 2rem;">
