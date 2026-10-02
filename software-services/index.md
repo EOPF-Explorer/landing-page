@@ -5,30 +5,33 @@ layout: page
 
 ### Software & Services
 
-<client-only>
-  <eox-itemfilter
-    v-if="itemfilterReady"
-    ref="itemFilterRef"
-    :items="servicesContent"
-    :filterProperties="filterProps"
-    .showResults="false"
-    .inlineMode="true"
-    @filter="handleFilter"
-    style="--select-filter-max-items: 10; margin-block: 2rem; z-index: 1"
-  ></eox-itemfilter>
-  <FeaturesGallery
-    :key="galleryKey"
-    background="transparent"
-    sectionTitle=" "
-    :cards="servicesResults"
-    style="margin-top:-160px; z-index: 0"
-  />
-</client-only>
+<!-- Reserves the filter bar's height so the prerendered cards don't shift when it loads -->
+<div style="min-height: 48px; margin-block: 2rem; position: relative; z-index: 1">
+  <client-only>
+    <eox-itemfilter
+      v-if="itemfilterReady"
+      ref="itemFilterRef"
+      :items="data.services"
+      :filterProperties="filterProps"
+      .showResults="false"
+      .inlineMode="true"
+      @filter="handleFilter"
+      style="--select-filter-max-items: 10"
+    ></eox-itemfilter>
+  </client-only>
+</div>
+<FeaturesGallery
+  :key="galleryKey"
+  background="transparent"
+  sectionTitle=" "
+  :cards="servicesResults"
+  style="margin-top:-160px"
+/>
 
 <script setup>
   import { ref, onMounted } from 'vue';
-  import { withBase } from 'vitepress';
-  import { servicesContent, TAG_ICONS } from "../.vitepress/utils/content";
+  import { data } from "../content/services.data.js";
+  import { byOrder, toServiceCard } from "../.vitepress/utils/services";
   import { loadModule } from "../.vitepress/utils/load-module";
 
   const itemfilterLoaded = loadModule(() => import("@eox/itemfilter"), "eox-itemfilter");
@@ -83,46 +86,14 @@ layout: page
     window.history.replaceState({}, '', url);
   };
 
-  /**
-   * @typedef {Object} ServiceItem
-   * @property {string} title
-   * @property {string} content
-   * @property {string} image
-   * @property {string} link
-   * @property {string[]} tags
-   * @property {string} category
-   * @property {string} type
-   * @property {number} [order]
-   */
+  // All cards up front so they are prerendered; the itemfilter narrows them on the client
+  servicesResults.value = data.services.map(toServiceCard);
 
   /**
    * @param {CustomEvent} evt
    */
   const handleFilter = (evt) => {
-    /** @type {ServiceItem[]} */
-    const results = evt.detail.results;
-    servicesResults.value = results
-      .sort((a, b) => (a.order || 999) - (b.order || 999)) // Sort by order field
-      .map(r => {
-        /** @param {string[]} tags */
-        const renderTags = (tags) => tags.map(t => 
-          `<div class="chip" style="margin: 0 0.25rem 0.25rem 0; padding: 0.2rem 0.4rem; --_size: auto; font-size: small">${TAG_ICONS[t] ? `<i class='mdi ${TAG_ICONS[t]}'></i> ` : ''}${t}</div>`
-        ).join("");
-
-        return {
-          ...r,
-          content: `<div class="vertical-margin">${renderTags(r.tags)}</div>${r.content}`,
-          icon:{
-            html: `<img src="${withBase(r.image)}" style="height: 150px; width: 100%; object-fit:${r.contain ? 'contain' : 'cover'};" />`,
-            height: 200,
-            width: "100%"
-          },
-          link: {
-            href: r.link.startsWith("http") ? r.link : withBase(r.link),
-            target: r.link.startsWith("http") ? "_blank" : "_self"
-          }
-        };
-      });
+    servicesResults.value = [...evt.detail.results].sort(byOrder).map(toServiceCard);
     galleryKey.value++;
     syncCategoryParam(evt.detail.filters?.category?.state);
   };

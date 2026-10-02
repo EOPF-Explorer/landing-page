@@ -86,6 +86,15 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
 Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical imagery. Change color maps, adjust contrast, and zoom in instantly — powered by Zarr dynamic tiling.
 </FeatureSection>
 
+<h4 class="center-align">Build with EOPF Zarr</h4>
+<FeaturesGallery style="margin-top:-64px" variant="poster" columns="3/2/1" background="transparent" sectionTitle=" " :cards="featuredServices"/>
+<div class="center-align" style="margin-top:-64px">
+  <a :href="withBase('/software-services')" class="button primary medium-elevate no-margin responsive-mobile">
+    Browse all Software & Services <i class="mdi mdi-arrow-right"></i>
+  </a>
+</div>
+<div class="large-space"></div>
+
 
 <h4 class="center-align">Why Zarr</h4>
 <DataTable
@@ -171,7 +180,10 @@ import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
 //@ts-expect-error
 import { trackEvent } from "@eox/pages-theme-eox/src/helpers.js";
-import { cardsContent,tableData } from "./.vitepress/utils/content"
+import { data } from "./content/services.data.js"
+import { data as categoriesData } from "./content/categories.data.js"
+import { data as comparisonData } from "./content/zarr-comparison.data.js"
+import { toFeaturedCard } from "./.vitepress/utils/services"
 import { loadModule } from "./.vitepress/utils/load-module"
 
 const itemfilterLoaded = Promise.all([
@@ -180,6 +192,33 @@ const itemfilterLoaded = Promise.all([
 ]);
 const itemfilterReady = ref(false);
 const router = useRouter();
+const featuredServices = data.services.filter((service) => service.featured).map(toFeaturedCard);
+
+const cardsContent = categoriesData.categories.map((category) => ({
+  id: category.title,
+  title: category.title,
+  content: category.content,
+  icon: { html: `<i class="mdi ${category.icon}" style="font-size: 32px; height: 32px; width: 32px;"></i>` },
+  link: {
+    text: category.linkText,
+    href: withBase(`/software-services?category=${category.title}`)
+  }
+}));
+
+/** @param {boolean} supported */
+const mark = (supported) => supported
+  ? `<img src="${withBase('/assets/checkmark.svg')}" alt="Yes" width="24" height="24"/>`
+  : `<img src="${withBase('/assets/crossmark.svg')}" alt="No" width="24" height="24"/>`;
+
+const tableData = comparisonData.rows.map((row) => ({
+  summary: {
+    'Features': row.feature,
+    'Zarr (EOPF Explorer)': mark(row.explorer),
+    'Zarr (EOPF Sample Service)': mark(row.sampleService),
+    'SAFE': mark(row.safe),
+  },
+  content: row.content,
+}));
 /** @type {import("vue").Ref<any[]>} */
 const items = ref([]);
 
