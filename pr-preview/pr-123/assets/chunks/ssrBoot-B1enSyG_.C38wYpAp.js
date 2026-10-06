@@ -1,1 +1,0 @@
-import{v as t,S as e,aq as s,G as a}from"./framework.ifyLXRBT.js";function r(){const o=a(!1);return t(()=>{window.requestAnimationFrame(()=>{o.value=!0})}),{ssrBootStyles:s(()=>o.value?void 0:{transition:"none !important"}),isBooted:e(o)}}export{r as u};
