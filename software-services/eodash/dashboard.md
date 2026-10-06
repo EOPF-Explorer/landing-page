@@ -4,6 +4,15 @@ layout: page
 ---
 
 <script setup>
+import { ref, onMounted } from "vue";
+import { loadModule } from "../../.vitepress/utils/load-module";
+
+const eodashLoaded = loadModule(() => import("@eodash/eodash/webcomponent"), "eo-dash");
+const eodashReady = ref(false);
+onMounted(async () => {
+  eodashReady.value = await eodashLoaded;
+});
+
 const config = async() => (await import("./dashboard-config.js")).default
 </script>
 
@@ -26,7 +35,7 @@ By default, connecting to the EOPF STAC API allows the dashboard to automaticall
   <template #demo>
     <ClientOnly>
       <div style="height: 600px;">
-        <eo-dash style="height: 600px !important" .config="config"></eo-dash>
+        <eo-dash v-if="eodashReady" style="height: 600px !important" .config="config"></eo-dash>
       </div>
     </ClientOnly>
   </template>
@@ -37,15 +46,14 @@ By default, connecting to the EOPF STAC API allows the dashboard to automaticall
 
 ```html [index.html]
 <head>
-  <!-- Load the bundled web component -->
-  <link rel="stylesheet" href="https://unpkg.com/@eodash/eodash/dist/style.css" />
-  <script type="module" src="https://unpkg.com/@eodash/eodash/dist/eodash.js"></script>
+  <!-- Import using a CDN, or with NPM: import "@eodash/eodash/webcomponent" -->
+  <script type="module" src="https://unpkg.com/@eodash/eodash/dist/client/eo-dash.js"></script>
 </head>
 
 <body>
   <!-- Pass configuration via property -->
 
-  <eo-dash style="height:100vh;" .config="config"></eo-dash>  
+  <eo-dash id="dashboard" style="height:100vh;"></eo-dash>
   
   <script type="module">
     

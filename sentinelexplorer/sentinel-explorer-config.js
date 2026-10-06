@@ -54,6 +54,38 @@ const baseLayers = [
   },
 ];
 
+// Matched in order against collection id parts, so "rtc" wins over "grd"
+const PRODUCT_LEVELS = ["l1c", "l2a", "rtc", "efr", "grd", "slc"];
+
+/** @param {unknown} name e.g. "sentinel-2b" -> "S2B" */
+const toMissionCode = (name) => {
+  const match = /^sentinel-(\d[a-z]?)\b/i.exec(String(name ?? ""));
+  return match ? `S${match[1].toUpperCase()}` : undefined;
+};
+
+/** @param {unknown} collection e.g. "sentinel-2-l2a" -> "L2A" */
+const toProductLevel = (collection) => {
+  const parts = String(collection ?? "").split("-");
+  return PRODUCT_LEVELS.find((level) => parts.includes(level))?.toUpperCase();
+};
+
+/**
+ * "S2B L2A | 2026-09-30 | 37WEU"; relative orbit for Sentinel-3 (no grid tile).
+ * @param {import("@eodash/stac").STACItem} item
+ */
+const formatItemTitle = ({ id, collection, properties: p = {} }) => {
+  const missionCode = toMissionCode(p.platform) ?? toMissionCode(collection);
+  const level = toProductLevel(collection);
+  const mission = missionCode && [missionCode, level].filter(Boolean).join(" ");
+  const date = (p.datetime ?? p.start_datetime ?? "").slice(0, 10);
+  const location =
+    /** @type {string} */ (p["grid:code"] ?? "").replace("MGRS-", "") ||
+    (p["sat:relative_orbit"] && `R${p["sat:relative_orbit"]}`);
+  return mission && date && location
+    ? `${mission} | ${date} | ${location}`
+    : id;
+};
+
 const catalogFilters = [
   {
     property: "eo:cloud_cover",
@@ -260,6 +292,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           widget: {
             name: "EodashItemCatalog",
             properties: {
+              titleProperty: formatItemTitle,
               useMosaic: false,
               layoutTarget: "mosaic",
               datetimeFilter: true,
@@ -474,6 +507,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           widget: {
             name: "EodashItemCatalog",
             properties: {
+              titleProperty: formatItemTitle,
               layoutTarget: "mosaic",
               datetimeFilter: true,
               filters: catalogFilters,
@@ -489,6 +523,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           widget: {
             name: "EodashItemCatalog",
             properties: {
+              titleProperty: formatItemTitle,
               enableCompare: true,
               layoutTarget: "mosaic",
               datetimeFilter: true,

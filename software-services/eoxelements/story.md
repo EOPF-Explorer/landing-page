@@ -4,6 +4,18 @@ layout: page
 ---
 
 <script setup>
+import { ref, onMounted } from "vue";
+import { loadModule } from "../../.vitepress/utils/load-module";
+
+const storyModulesLoaded = Promise.all([
+  loadModule(() => import("@eox/map"), "eox-map"),
+  loadModule(() => import("@eox/map/src/plugins/advancedLayersAndSources")),
+  loadModule(() => import("@eox/storytelling"), "eox-storytelling"),
+]);
+const storytellingReady = ref(false);
+onMounted(async () => {
+  storytellingReady.value = (await storyModulesLoaded).every(Boolean);
+});
 
 const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance";
 
@@ -99,7 +111,7 @@ This tutorial demonstrates how to use the **eox-storytelling** component to buil
   </template>
   <template #demo>
   <div class="scroll" style="height:800px">
-   <eox-storytelling style="border-radius:0; overflow:auto" class="scroll" :markdown="markdown" :show-nav="true"></eox-storytelling>
+   <eox-storytelling v-if="storytellingReady" style="border-radius:0; overflow:auto" class="scroll" :markdown="markdown" :show-nav="true"></eox-storytelling>
   </div>
   </template>
 

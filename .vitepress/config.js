@@ -9,6 +9,7 @@ eopfConfig.themeConfig.theme.brandConfig.legal.privacyPolicy = "/privacy-policy"
 export default defineConfig({
   extends:eopfConfig,
   markdown: {
+    externalLinks: { class: "link vp-external-link-icon" },
     config: (md) => {
       // Remember default renderer
       const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, self) {
@@ -55,12 +56,12 @@ export default defineConfig({
   themeConfig: {
     externalLinkIcon:true,
     nav: [
-      { text: "Data Catalog", link: "https://api.explorer.eopf.copernicus.eu/browser" },
+      { text: "Data Catalog", link: "https://api.explorer.eopf.copernicus.eu/browser", target: "_blank", rel: "noopener" },
       { text: "Dynamic Browser", link: "/sentinelexplorer/?template=explore" },
       { text: "Software & Services", link: "/software-services" },
       { text: "Webinars & Events", link: "/webinars-events" },
-      { text: "Documentation", link: "https://eopf-explorer.github.io/data-model/" },
-      { text: "Discussion", link: "https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" },
+      { text: "Documentation", link: "https://eopf-explorer.github.io/data-model/", target: "_blank", rel: "noopener" },
+      { text: "Discussion", link: "https://discourse.eopf.copernicus.eu/c/eopf-explorer/17", target: "_blank", rel: "noopener" },
     ],
   },
   transformHead(){

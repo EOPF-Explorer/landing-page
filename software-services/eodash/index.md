@@ -25,7 +25,7 @@ For more information and full documentation, visit:
 
 ### STAC Catalog Generation
 
-The **[eodash_catalog](https://github.com/eodash/eodash_catalog)** is a Python library designed to simplify the creation of STAC catalogs that utilize the [eodash extension](https://github.com/eodash/eodash_extension) to support eodash instances.
+The **[eodash_catalog](https://github.com/eodash/eodash_catalog)** is a Python library designed to simplify the creation of STAC catalogs that utilize the [eodash extension](https://github.com/eodash/eodash-extension) to support eodash instances.
 
 It automates the generation of collection and item metadata, ensuring compatibility with the dashboard's visualization capabilities. Check the [Wiki](https://github.com/eodash/eodash_catalog/wiki) for detailed usage instructions and configuration examples.
 
@@ -38,6 +38,9 @@ It automates the generation of collection and item metadata, ensuring compatibil
 ```bash
 npm install @eodash/eodash
 ```
+```js
+import "@eodash/eodash/webcomponent";
+```
 :::
 
   </div>
@@ -45,7 +48,7 @@ npm install @eodash/eodash
 
 ::: info CDN (Quick Testing)
 ```html
-<script type="module" src="https://unpkg.com/@eodash/eodash/dist/eodash.js"></script>
+<script type="module" src="https://unpkg.com/@eodash/eodash/dist/client/eo-dash.js"></script>
 ```
 :::
 
