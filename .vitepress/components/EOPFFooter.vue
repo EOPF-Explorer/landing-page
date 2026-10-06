@@ -15,7 +15,7 @@
           <client-only>
             <p v-for="nav in theme.nav" :key="nav.link">
               <a
-                :href="nav.link"
+                :href="withBase(nav.link)"
                 :target="nav.target"
                 class="link"
                 :class="{ 'vp-external-link-icon': nav.link.includes('://') }"

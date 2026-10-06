@@ -180,7 +180,7 @@ import { ref, onMounted } from 'vue';
 import { withBase, useRouter } from 'vitepress';
 //@ts-expect-error
 import { trackEvent } from "@eox/pages-theme-eox/src/helpers.js";
-import { data } from "./content/services.data.js"
+import { data as servicesData } from "./content/services.data.js"
 import { data as categoriesData } from "./content/categories.data.js"
 import { data as comparisonData } from "./content/zarr-comparison.data.js"
 import { toFeaturedCard } from "./.vitepress/utils/services"
@@ -192,7 +192,7 @@ const itemfilterLoaded = Promise.all([
 ]);
 const itemfilterReady = ref(false);
 const router = useRouter();
-const featuredServices = data.services.filter((service) => service.featured).map(toFeaturedCard);
+const featuredServices = servicesData.services.filter((service) => service.featured).map(toFeaturedCard);
 
 const cardsContent = categoriesData.categories.map((category) => ({
   id: category.title,
@@ -219,6 +219,7 @@ const tableData = comparisonData.rows.map((row) => ({
   },
   content: row.content,
 }));
+
 /** @type {import("vue").Ref<any[]>} */
 const items = ref([]);
 
