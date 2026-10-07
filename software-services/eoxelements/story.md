@@ -6,6 +6,7 @@ layout: page
 <script setup>
 import { ref, onMounted } from "vue";
 import { loadModule } from "../../.vitepress/utils/load-module";
+import { data as items } from "../items.data.js"
 
 const storyModulesLoaded = Promise.all([
   loadModule(() => import("@eox/map"), "eox-map"),
@@ -17,7 +18,7 @@ onMounted(async () => {
   storytellingReady.value = (await storyModulesLoaded).every(Boolean);
 });
 
-const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance";
+const urlNapoli = `${items.naples.zarrUrl}/measurements/reflectance`;
 
 /**
  * Creates an array of OpenLayers layer configurations for Sentinel-2 visualization
@@ -138,12 +139,12 @@ This tutorial demonstrates how to use the **eox-storytelling** component to buil
 </html>
 ```
 
-```javascript [main.js]
+```javascript-vue [main.js]
 import "@eox/storytelling";
 import "@eox/map";
 import "@eox/map/src/plugins/advancedLayersAndSources";
 
-const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance";
+const urlNapoli = "{{ items.naples.zarrUrl }}/measurements/reflectance";
 
 function createLayers(url, bands) {
   return JSON.stringify([
