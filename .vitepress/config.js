@@ -58,9 +58,10 @@ export default defineConfig({
     nav: [
       { text: "Data Catalog", link: "https://api.explorer.eopf.copernicus.eu/browser", target: "_blank", rel: "noopener" },
       { text: "Dynamic Browser", link: "/sentinelexplorer/?template=explore" },
-      { text: "Software & Services", link: "/software-services" },
+      // Developer Resources lives under /software-services but has its own nav item
+      { text: "Software & Services", link: "/software-services", activeMatch: "/software-services(?!/developer-resources)" },
       { text: "Webinars & Events", link: "/webinars-events" },
-      { text: "Documentation", link: "https://eopf-explorer.github.io/data-model/", target: "_blank", rel: "noopener" },
+      { text: "Developer Resources", link: "/software-services/developer-resources/" },
       { text: "Discussion", link: "https://discourse.eopf.copernicus.eu/c/eopf-explorer/17", target: "_blank", rel: "noopener" },
     ],
   },

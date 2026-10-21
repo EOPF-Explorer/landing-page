@@ -88,9 +88,12 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 
 <h4 class="center-align">Build with EOPF Zarr</h4>
 <FeaturesGallery style="margin-top:-64px" variant="poster" columns="3/2/1" background="transparent" sectionTitle=" " :cards="featuredServices"/>
-<div class="center-align" style="margin-top:-64px">
+<div class="center-align" style="margin-top:-64px; display:flex; flex-wrap:wrap; justify-content:center; gap:1rem">
   <a :href="withBase('/software-services')" class="button primary medium-elevate no-margin responsive-mobile">
     Browse all Software & Services <i class="mdi mdi-arrow-right"></i>
+  </a>
+  <a :href="withBase('/software-services/developer-resources/')" class="button border primary-text no-margin responsive-mobile">
+    <i class="mdi mdi-code-tags"></i> Developer Resources
   </a>
 </div>
 <div class="large-space"></div>
@@ -110,44 +113,44 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
   <summary>
     <p class="bold">+ What is EOPF?</p>
   </summary>
-    <p class="small-text">The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eopf.copernicus.eu/" target="_blank" class="link vp-external-link-icon">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, download-based data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
+    <p>The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eopf.copernicus.eu/" target="_blank" class="link vp-external-link-icon">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, download-based data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
 </details>
 <details>
   <summary>
     <p class="bold">+ What is Zarr?</p>
   </summary>
-    <p class="small-text"><a href="https://zarr.dev/" target="_blank" class="link vp-external-link-icon">Zarr</a> is a container format for storage of large N-dimensional typed arrays. The development of Zarr is motivated by the need for a simple, transparent, open, and community-driven format that supports high-throughput distributed I/O on different storage systems. </p>
+    <p><a href="https://zarr.dev/" target="_blank" class="link vp-external-link-icon">Zarr</a> is a container format for storage of large N-dimensional typed arrays. The development of Zarr is motivated by the need for a simple, transparent, open, and community-driven format that supports high-throughput distributed I/O on different storage systems. </p>
 </details>
 <details>
   <summary>
     <p class="bold">+ What is GeoZarr?</p>
   </summary>
-    <p class="small-text"><a href="https://github.com/zarr-developers/geozarr-spec" target="_blank" class="link vp-external-link-icon">GeoZarr</a> is an emerging convention to represent geo-spatial data in the Zarr container format.</p>
+    <p><a href="https://github.com/zarr-developers/geozarr-spec" target="_blank" class="link vp-external-link-icon">GeoZarr</a> is an emerging convention to represent geo-spatial data in the Zarr container format.</p>
 </details>
 <details>
   <summary>
     <p class="bold">+ What is Web-Optimized Zarr?</p>
   </summary>
-    Web-optimized Zarr (WOZ) provides a set of additional recommendations on top of the GeoZarr specification for optimal browser-based analysis and visualization. The specific recommendations are still under development.
+    <p>Web-optimized Zarr (WOZ) provides a set of additional recommendations on top of the GeoZarr specification for optimal browser-based analysis and visualization. The specific recommendations are still under development.</p>
 </details>
 <details>
   <summary>
     <p class="bold">+ How are you engaged in open-source communities?</p>
   </summary>
-    <p class="small-text">Technical contributors on our EOPF Sentinel Zarr Explorer are also actively engaged in the ongoing Zarr, GeoZarr and Web-Optimized Zarr community efforts and closely connected to other organisations that contribute. We seek to use the community-developed conventions as basis for our data model and thereby further their maturity and fitness for purpose.</p>
+    <p>Technical contributors on our EOPF Sentinel Zarr Explorer are also actively engaged in the ongoing Zarr, GeoZarr and Web-Optimized Zarr community efforts and closely connected to other organisations that contribute. We seek to use the community-developed conventions as basis for our data model and thereby further their maturity and fitness for purpose.</p>
 </details>
 <details>
   <summary>
     <p class="bold">+ Will all EOPF Sentinel Zarr data be web-optimised?</p>
   </summary>
-    <p class="small-text">The objective of this project is to demonstrate the benefits and prove the fitness for purpose of accessing Sentinel products as web-optimised Zarr. We hope that the success of our effort will drive a new value-added distribution format. Please follow our project for updates on our goals and outcome and share your questions and comments.</p>
+    <p>The objective of this project is to demonstrate the benefits and prove the fitness for purpose of accessing Sentinel products as web-optimised Zarr. We hope that the success of our effort will drive a new value-added distribution format. Please follow our project for updates on our goals and outcome and share your questions and comments.</p>
 </details>
 <details>
   <summary>
     <p class="bold">+ How is this project related to the EOPF Sentinel Zarr Samples?</p>
   </summary>
-    <p class="small-text">The <a href="https://zarr.eopf.copernicus.eu/" target="_blank" class="link vp-external-link-icon">EOPF Sentinel Zarr Samples</a> platform provides reference Sentinels products in the harmonised EOPF data format.</p>
-    <p class="small-text">We are closely following this reference, providing feedback based on our learning from review and client implementation, and using the sample products as a basis for our web-optimised version.</p>
+    <p>The <a href="https://zarr.eopf.copernicus.eu/" target="_blank" class="link vp-external-link-icon">EOPF Sentinel Zarr Samples</a> platform provides reference Sentinels products in the harmonised EOPF data format.</p>
+    <p>We are closely following this reference, providing feedback based on our learning from review and client implementation, and using the sample products as a basis for our web-optimised version.</p>
 </details>
 <br />
 <br />

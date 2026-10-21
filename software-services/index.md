@@ -60,10 +60,11 @@ layout: page
         "content",
         "tags"
       ],
-      "title": "By keyword",
+      "title": "Search",
       "type": "text",
       "placeholder": "Search for keyword",
-      "expanded": false
+      "expanded": false,
+      "inlineSearch": true
     },
     {
       "key": 'tags',
