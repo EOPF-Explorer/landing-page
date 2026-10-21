@@ -160,6 +160,19 @@ const services = [
     order: 11,
   },
   {
+    id: "developer-resources",
+    title: "Developer Resources",
+    content:
+      "Endpoints and docs for the STAC, raster and openEO APIs, direct Zarr access over HTTPS and S3, and the data model specifications.",
+    image: "/assets/developer-resources.png",
+    tags: ["documentation", "api", "stac", "openeo", "s3", "developers"],
+    category: "Documentation",
+    type: "documentation",
+    link: "./developer-resources/",
+    contain: true,
+    order: 12,
+  },
+  {
     id: "openeo-studio",
     featured: true,
     cover: "/assets/featured/openeo-studio.jpg",
@@ -171,7 +184,7 @@ const services = [
     category: "Analysis",
     type: "service",
     link: "https://studio.explorer.eopf.copernicus.eu/",
-    order: 12,
+    order: 13,
   },
   {
     id: "eoxelements-jupyter",
@@ -186,7 +199,7 @@ const services = [
     type: "software",
     link: "./EOxElements-Jupyter",
     contain: true,
-    order: 13,
+    order: 14,
   },
   {
     id: "zarr-layer-carbon-plan",
@@ -198,7 +211,7 @@ const services = [
     category: "Screening",
     type: "software",
     link: "https://zarr-layer.demo.carbonplan.org/?dataset=sentinel_2_eopf",
-    order: 14,
+    order: 15,
   },
 ];
 

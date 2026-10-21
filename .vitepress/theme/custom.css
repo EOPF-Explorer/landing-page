@@ -186,3 +186,8 @@ div[class*="language-"] > span.lang {
   -webkit-mask-image: var(--icon);
   mask-image: var(--icon);
 }
+
+/* FeatureCard renders an empty link row for whole-card links, leaving dead space */
+.cards-gallery article > nav:empty {
+  display: none;
+}
