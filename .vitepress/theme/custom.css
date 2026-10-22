@@ -12,6 +12,7 @@ header img.background-image {
   opacity: 0.9 !important;
 }
 
+/* Service interruption banner (themeConfig.newsBanner in config.js), see https://github.com/EOPF-Explorer/landing-page/issues/118 */
 .news-banner {
   top: calc(var(--vp-nav-height) - 10px) !important;
 }
