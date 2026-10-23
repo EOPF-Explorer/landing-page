@@ -47,6 +47,15 @@ hero:
 </FeatureSection>
 
 
+<h4 class="center-align">Build with EOPF Zarr</h4>
+<FeaturesGallery style="margin-top:-64px" variant="poster" columns="3/2/1" background="transparent" sectionTitle=" " :cards="featuredServices"/>
+<div class="center-align" style="margin-top:-64px">
+  <a :href="withBase('/software-services')" class="button primary medium-elevate no-margin responsive-mobile">
+    Browse all Software & Services <i class="mdi mdi-arrow-right"></i>
+  </a>
+</div>
+<div class="large-space"></div>
+
 
 <h4> Dynamic Data Visualisation and Storytelling</h4>
 <br>
@@ -85,15 +94,6 @@ Experience how EOPF Sentinel Zarr powers effortless exploration of Sentinel data
 >
 Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical imagery. Change color maps, adjust contrast, and zoom in instantly — powered by Zarr dynamic tiling.
 </FeatureSection>
-
-<h4 class="center-align">Build with EOPF Zarr</h4>
-<FeaturesGallery style="margin-top:-64px" variant="poster" columns="3/2/1" background="transparent" sectionTitle=" " :cards="featuredServices"/>
-<div class="center-align" style="margin-top:-64px">
-  <a :href="withBase('/software-services')" class="button primary medium-elevate no-margin responsive-mobile">
-    Browse all Software & Services <i class="mdi mdi-arrow-right"></i>
-  </a>
-</div>
-<div class="large-space"></div>
 
 
 <h4 class="center-align">Why Zarr</h4>
