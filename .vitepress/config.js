@@ -63,6 +63,13 @@ export default defineConfig({
       { text: "Documentation", link: "https://eopf-explorer.github.io/data-model/", target: "_blank", rel: "noopener" },
       { text: "Discussion", link: "https://discourse.eopf.copernicus.eu/c/eopf-explorer/17", target: "_blank", rel: "noopener" },
     ],
+    // Service interruption banner, shown on every page below the nav bar.
+    // See https://github.com/EOPF-Explorer/landing-page/issues/118
+    // Uncomment during planned maintenance; styled in theme/custom.css (.news-banner).
+    // newsBanner: `
+    //   <i class="small mdi mdi-progress-wrench"></i>
+    //   <span>Planned maintenance: some data services may be temporarily unavailable.</span>
+    // `,
   },
   transformHead(){
     return [
