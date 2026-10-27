@@ -56,6 +56,30 @@ const newsLogos = [
 
 const events = [
   {
+    id:4,
+    title: 'EOPF Explorer Webinar #3: Updates on EOPF Zarr & Cloud-Native S1/S2 Data Fusion',
+    image: withBase('/media/webinar-3-background.png'),
+    chips: [
+      { text: 'Analysis', class:"mdi mdi-chart-box" },
+      { text: 'Upcoming event' },
+    ],
+    metadata: [
+      { text: 'Wed 25 Nov 2026 15:00 - 16:00 CET', icon: 'mdi-calendar-blank' },
+      { text: 'Online', icon: 'mdi-map-marker-outline' }
+    ],
+    content: `Join the next EOPF Explorer webinar, where we walk through the latest EOPF Zarr developments: Sentinel-1 + Sentinel-2 data fusion, COG vs EOPF Zarr benchmarking, and EOPF Zarr updates & roadmap.`,
+    link: {
+        text: 'View details',
+        href: './webinar-3-data-fusion',
+        target:"_self"
+      },
+    secondaryLink:{
+        text: 'Register now',
+        href: 'https://www.tickettailor.com/events/thrivegeo/2495266',
+        target: '_blank'
+      }
+  },
+  {
     id:3,
     title: 'EOPF Sentinel Zarr Explorer - FOSS4G Europe 2026 Workshop',
     image: withBase('/media/foss4g-bg.png'),
