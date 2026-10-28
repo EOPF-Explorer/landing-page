@@ -12,8 +12,17 @@ header img.background-image {
   opacity: 0.9 !important;
 }
 
+/* Service interruption banner (themeConfig.newsBanner in config.js), see https://github.com/EOPF-Explorer/landing-page/issues/118 */
 .news-banner {
   top: calc(var(--vp-nav-height) - 10px) !important;
+}
+/* Element + classes to outrank the theme's scoped background and beercss padding */
+div.news-banner.primary {
+  /* The top 10px sit under the nav bar; add them back so the text is centered */
+  padding-top: calc(0.5rem + 10px) !important;
+  /* EOPF warning colour (Enlight Yellow) with Deep Space text */
+  background: color-mix(in srgb, #fbab18 75%, transparent) !important;
+  color: #003047 !important;
 }
 p,
 li,
