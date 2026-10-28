@@ -44,7 +44,7 @@ Transparency Handling - Makes zero values transparent&#xA;&#xA;
 </html>
 ```
 
-```javascript [main.js]
+```javascript-vue [main.js]
 import Map from "ol/Map.js";
 import {
   getView,
@@ -59,7 +59,7 @@ import GeoZarr from "ol/source/GeoZarr.js";
 import XYZ from "ol/source/XYZ.js";
 
 const zarrUrl =
-  "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance";
+  "{{ items.naples.zarrUrl }}/measurements/reflectance";
 
 // Create GeoZarr source
 const source = new GeoZarr({

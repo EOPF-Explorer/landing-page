@@ -48,7 +48,7 @@ This setup includes:
 <script type="module" src="config.js"></script>
 ```
 
-```javascript [config.js]
+```javascript-vue [config.js]
 import "@eox/map";
 import "@eox/map/src/plugins/advancedLayersAndSources"
 
@@ -78,7 +78,7 @@ export const layers = [
         properties: { id: "geozarr", title: "Sentinel-2 GeoZarr" },
         source: {
           type: "GeoZarr",
-          url:"https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance",
+          url:"{{ items.naples.zarrUrl }}/measurements/reflectance",
           bands: ["b04", "b03", "b02"],
         },
         style: {
@@ -122,13 +122,13 @@ const map = document.querySelector("#my-map");
 }
 ```
 
-```python [Python (Jupyter)]
+```python-vue [Python (Jupyter)]
 %pip install ipyeoxelements  # run once, then restart kernel
 
 from ipywidgets import HBox, Layout
 from ipyeoxelements import EOxMap, EOxLayercontrol
 
-zarr_url = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr"
+zarr_url = "{{ items.naples.zarrUrl }}"
 
 layers = [
     {

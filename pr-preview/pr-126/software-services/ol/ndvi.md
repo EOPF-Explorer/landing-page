@@ -53,7 +53,7 @@ step="0.01"
 <div id="map" style="width: 100%; height: 500px;"></div>
 ```
 
-```javascript [JavaScript]
+```javascript-vue [JavaScript]
 import { scale as chromaScale } from 'chroma-js';
 import Map from 'ol/Map.js';
 import WebGLTileLayer from 'ol/layer/WebGLTile.js';
@@ -104,7 +104,7 @@ const ndvi = [
 ];
 
 const source = new GeoZarr({
-  url: 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance',
+  url: '{{ items.naples.zarrUrl }}/measurements/reflectance',
   bands: ['b04', 'b8a'], // Red, NIR
 });
 

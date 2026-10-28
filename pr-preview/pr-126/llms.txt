@@ -39,6 +39,6 @@ Cloud-native data access and visualisation for the Earth Observation Processor F
 ## Stories
 
 - [Monitoring Cyanobacteria in Venice Lagoon](https://EOPF-Explorer.github.io/narratives/ndci.md): Real-time chlorophyll-a detection using the Normalised Difference Chlorophyll Index and satellite data. Story page: /pr-preview/pr-126?id=ndci
-- [Unveiling the Green: Visualizing NDVI from Zarr](https://EOPF-Explorer.github.io/narratives/ndvi.md): Showing the classical NDVI example powered by the Zarr file format. Scroll down to get started!. Story page: /pr-preview/pr-126?id=ndvi
 - [River of Fire: La Palma Visualized](https://EOPF-Explorer.github.io/narratives/lava-flow.md): Tracing the 85-day eruption of Cumbre Vieja through the eyes of Copernicus Sentinel-2, from the first explosion on September 19, 2021 to the silent aftermath in January 2022.. Story page: /pr-preview/pr-126?id=lava-flow
 - [A Journey into Cloud-Native Earth Observation](https://EOPF-Explorer.github.io/narratives/cloud-native-eo.md): Replicating in the Browser. Story page: /pr-preview/pr-126?id=cloud-native-eo
+- [Unveiling the Green: Visualizing NDVI from Zarr](https://EOPF-Explorer.github.io/narratives/ndvi.md): Showing the classical NDVI example powered by the Zarr file format. Scroll down to get started!. Story page: /pr-preview/pr-126?id=ndvi

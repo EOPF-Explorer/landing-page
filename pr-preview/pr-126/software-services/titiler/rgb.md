@@ -16,7 +16,7 @@ Generated Tile URL&#xA;&#xA;
 
 ::: code-group
 
-```javascript [OpenLayers Integration]
+```javascript-vue [OpenLayers Integration]
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
 import TileLayer from 'ol/layer/Tile.js';
@@ -25,7 +25,7 @@ import { fromLonLat } from 'ol/proj.js';
 
 // Titiler tile URL with band variables
 const tileUrl =
-  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.venice.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
   "variables=/measurements/reflectance:b04&" +
   "variables=/measurements/reflectance:b03&" +
   "variables=/measurements/reflectance:b02&" +
@@ -49,7 +49,7 @@ const map = new Map({
 });
 ```
 
-```javascript [Leaflet Integration]
+```javascript-vue [Leaflet Integration]
 import L from 'leaflet';
 
 // Create Leaflet map
@@ -60,7 +60,7 @@ L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}
 
 // Build Titiler URL
 const tileUrl =
-  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.venice.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
   "variables=/measurements/reflectance:b04&" +
   "variables=/measurements/reflectance:b03&" +
   "variables=/measurements/reflectance:b02&" +
@@ -76,11 +76,11 @@ const sentinelLayer = L.tileLayer(tileUrl, {
 sentinelLayer.addTo(map);
 ```
 
-```javascript [API Direct Usage]
+```javascript-vue [API Direct Usage]
 // Direct API calls for custom processing
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster';
 const collection = 'sentinel-2-l2a';
-const itemId = 'S2B_MSIL2A_20260709T110619_N0512_R137_T32VLK_20260709T151414';
+const itemId = '{{ items.venice.id }}';
 
 async function getTileInfo() {
   const response = await fetch(

@@ -34,12 +34,12 @@ By using custom HTML comments `<!--{ ... }-->`, you can define map sections and 
 </html>
 ```
 
-```javascript [main.js]
+```javascript-vue [main.js]
 import "@eox/storytelling";
 import "@eox/map";
 import "@eox/map/src/plugins/advancedLayersAndSources";
 
-const urlNapoli = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance";
+const urlNapoli = "{{ items.naples.zarrUrl }}/measurements/reflectance";
 
 function createLayers(url, bands) {
   return JSON.stringify([

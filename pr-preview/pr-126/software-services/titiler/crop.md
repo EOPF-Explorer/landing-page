@@ -36,11 +36,11 @@ Copy URL&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;
 
 ::: code-group
 
-```javascript [Bbox Crop API]
+```javascript-vue [Bbox Crop API]
 // Using the correct bbox API endpoint
 const baseUrl = "https://api.explorer.eopf.copernicus.eu/raster";
 const collection = "sentinel-2-l2a";
-const itemId = "S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453";
+const itemId = "{{ items.venice.id }}";
 
 // Define crop coordinates
 const bbox = "12.2,45.7,12.4,45.9"; // minLon,minLat,maxLon,maxLat

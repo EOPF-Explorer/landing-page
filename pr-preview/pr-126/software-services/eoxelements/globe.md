@@ -47,7 +47,7 @@ class="chip fill surface-variant"
 ></eox-map>
 ```
 
-```javascript [config.js]
+```javascript-vue [config.js]
 import "@eox/map";
 import "@eox/map/src/plugins/globe";
 
@@ -70,12 +70,12 @@ map.layers = [
   {
     type: "Tile",
     properties: {
-      id: "mosaic",
-      title: "Sentinel-2 Mosaic"
+      id: "sentinel-2",
+      title: "Sentinel-2 Milano Cortina"
     },
     source: {
       type: "XYZ",
-      url: 'https://api.explorer.eopf.copernicus.eu/openeo/services/xyz/456c1e23-47f2-4567-98cf-dcde378a05f7/tiles/{z}/{x}/{y}?time=["2025-12-31","2026-01-23"]&cloud_cover=30',
+      url: "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.milanoCortina.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?variables=/measurements/reflectance:b04&variables=/measurements/reflectance:b03&variables=/measurements/reflectance:b02&rescale=0,1",
       crossOrigin: "anonymous",
     }
   }
@@ -85,7 +85,7 @@ map.layers = [
 map.globeConfig.terrain = true;
 ```
 
-```python [Python (Jupyter)]
+```python-vue [Python (Jupyter)]
 %pip install ipyeoxelements  # run once, then restart kernel
 
 from ipyeoxelements import EOxMap
@@ -102,10 +102,10 @@ layers = [
     },
     {
         "type": "Tile",
-        "properties": {"id": "mosaic", "title": "Sentinel-2 Mosaic"},
+        "properties": {"id": "sentinel-2", "title": "Sentinel-2 Milano Cortina"},
         "source": {
             "type": "XYZ",
-            "url": 'https://api.explorer.eopf.copernicus.eu/openeo/services/xyz/456c1e23-47f2-4567-98cf-dcde378a05f7/tiles/{z}/{x}/{y}?time=["2025-12-31","2026-01-23"]&cloud_cover=30',
+            "url": "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.milanoCortina.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?variables=/measurements/reflectance:b04&variables=/measurements/reflectance:b03&variables=/measurements/reflectance:b02&rescale=0,1",
             "crossOrigin": "anonymous",
         },
     },
