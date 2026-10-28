@@ -5,12 +5,13 @@
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
+    "postbuild": "rm -rf blog.md team.md tag.md tag author",
     "serve": "vitepress serve",
     "format": "npx prettier --write **/*.{js,css,json,vue}",
     "check": "vue-tsc && eslint ."
   },
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/eodash/eodash/@eodash/eodash@dfbe97b",
+    "@eodash/eodash": "^5.10.0",
     "@eox/chart": "^1.2.1",
     "@eox/drawtools": "^1.6.0",
     "@eox/elements-utils": "^1.2.0",
@@ -26,7 +27,7 @@
     "stac-js": "^0.1.9"
   },
   "devDependencies": {
-    "@eox/pages-theme-eox": "^1.9.0",
+    "@eox/pages-theme-eox": "2.0.0-alpha.7",
     "@types/chroma-js": "^3.1.2",
     "eslint-plugin-vue": "^10.9.2",
     "typescript": "^5.9.3",

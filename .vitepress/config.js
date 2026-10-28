@@ -8,6 +8,8 @@ eopfConfig.themeConfig.theme.brandConfig.legal.privacyPolicy = "/privacy-policy"
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends:eopfConfig,
+  // Blog, team, tag and author pages the theme copies into the project; not used on this site
+  srcExclude: ["blog.md", "team.md", "tag.md", "tag/**", "author/**"],
   markdown: {
     externalLinks: { class: "link vp-external-link-icon" },
     config: (md) => {
