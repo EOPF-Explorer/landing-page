@@ -12,6 +12,94 @@ header img.background-image {
   opacity: 0.9 !important;
 }
 
+/* [pages-theme 2.0] Home hero: keep the pre-2.0 sizing (theme 2.0 switched to fixed padding and a 380px minimum) */
+header.primary.primary-gradient-bg {
+  height: 76dvh;
+  max-height: 1000px;
+  padding-top: 10rem !important;
+  padding-bottom: 10rem !important;
+}
+@media (max-width: 1024px) {
+  header.primary.primary-gradient-bg {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  header.primary.primary-gradient-bg {
+    height: auto;
+    padding-top: 7rem !important;
+  }
+}
+
+/* [pages-theme 2.0] Content pages use ## for the page title and ### for sections; the theme sizes them for # / ##.
+   Sizes follow the EOPF type scale (4XL 40/48, XL 28/36). */
+.layout-page .VPPage h1,
+.layout-page .VPPage h2 {
+  font-size: 2.5rem;
+  line-height: 3rem;
+}
+.layout-page .VPPage h3 {
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+}
+@media (max-width: 640px) {
+  .layout-page .VPPage h1,
+  .layout-page .VPPage h2 {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+  .layout-page .VPPage h3 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+/* [pages-theme 2.0] The theme's h2/h3 top margin assumes a section heading; the page title is the first element */
+.layout-page .VPPage > div > div > :is(h1, h2, h3):first-child {
+  margin-block-start: 0;
+}
+
+/* [pages-theme 2.0] The story page offsets the pre-2.0 48px top padding (story/index.md) */
+.layout-page .VPPage:has(eox-storytelling) {
+  padding-block-start: 48px !important;
+}
+
+/* [pages-theme 2.0] Full-width sections on content pages: the theme drops the holder padding,
+   so galleries and CTAs start left of the text. Restore the page padding to align them. */
+.layout-page .VPPage section .holder {
+  padding-inline: 32px !important;
+}
+@media (max-width: 960px) {
+  .layout-page .VPPage section .holder {
+    padding-inline: 24px !important;
+  }
+}
+@media (max-width: 640px) {
+  .layout-page .VPPage section .holder {
+    padding-inline: 16px !important;
+  }
+}
+
+/* [pages-theme 2.0] The theme pads the bottom of content pages; pages ending in a full-width
+   section (CTA, gallery) should meet the footer as before */
+.layout-page .VPPage:has(> div > div > section.full-width:last-child) {
+  padding-block-end: 0 !important;
+}
+
+/* [pages-theme 2.0] The content page typography also hits the CTA; keep its white text and pre-2.0 sizing */
+.layout-page .VPPage .cta-section :is(h3, p) {
+  color: inherit;
+}
+.layout-page .VPPage .cta-section h3 {
+  font-size: 2.75rem;
+  line-height: normal;
+  margin: 0;
+}
+.layout-page .VPPage .cta-section p {
+  line-height: 1.5;
+  margin-block-end: 0.5rem;
+}
+
 /* Service interruption banner (themeConfig.newsBanner in config.js), see https://github.com/EOPF-Explorer/landing-page/issues/118 */
 .news-banner {
   top: calc(var(--vp-nav-height) - 10px) !important;
@@ -49,13 +137,6 @@ h4,
 h5,
 h6 {
   font-family: "Exo 2", sans-serif !important;
-}
-
-@media (max-width: 768px) {
-  header {
-    height: auto;
-    padding-top: 7rem !important;
-  }
 }
 
 /* Move navigation buttons to the right */
@@ -194,4 +275,9 @@ div[class*="language-"] > span.lang {
   --icon: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath d='M0 0h24v24H0V0z' fill='none' /%3E%3Cpath d='M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5H9z' /%3E%3C/svg%3E");
   -webkit-mask-image: var(--icon);
   mask-image: var(--icon);
+}
+
+/* FeatureCard renders an empty link row for whole-card links, leaving dead space */
+.cards-gallery article > nav:empty {
+  display: none;
 }

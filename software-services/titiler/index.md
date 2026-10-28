@@ -156,6 +156,7 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
 For the latest updates and advanced features, follow the [Titiler-EOPF project](https://github.com/EOPF-Explorer/titiler-eopf) and [EOPF Explorer platform](https://github.com/EOPF-Explorer) on GitHub.
 
 <FeaturesGallery
+  id="integration-examples"
   background="transparent"
   sectionTitle="Integration Examples"
   :cards="[
@@ -170,7 +171,7 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './rgb',
+        href: '/software-services/titiler/rgb',
         target:'_self'
       }
     },
@@ -185,7 +186,7 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './ndvi',
+        href: '/software-services/titiler/ndvi',
         target:'_self'
       }
     },
@@ -200,7 +201,7 @@ For the latest updates and advanced features, follow the [Titiler-EOPF project](
       ],
       link: {
         text: 'View Example',
-        href: './crop',
+        href: '/software-services/titiler/crop',
         target:'_self'
       }
     }

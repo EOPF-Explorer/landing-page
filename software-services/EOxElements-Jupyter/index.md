@@ -149,7 +149,7 @@ Each EOxElements tutorial below includes a **Python (Jupyter)** tab alongside th
       ],
       link: {
         text: 'View Tutorial',
-        href: '../eoxelements/basic',
+        href: '/software-services/eoxelements/basic',
         target: '_self'
       }
     },
@@ -164,7 +164,7 @@ Each EOxElements tutorial below includes a **Python (Jupyter)** tab alongside th
       ],
       link: {
         text: 'View Tutorial',
-        href: '../eoxelements/advanced',
+        href: '/software-services/eoxelements/advanced',
         target: '_self'
       }
     },
@@ -179,7 +179,7 @@ Each EOxElements tutorial below includes a **Python (Jupyter)** tab alongside th
       ],
       link: {
         text: 'View Tutorial',
-        href: '../eoxelements/globe',
+        href: '/software-services/eoxelements/globe',
         target: '_self'
       }
     }

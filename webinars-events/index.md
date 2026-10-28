@@ -6,7 +6,7 @@ layout: page
 
 Join the EOPF community to learn about cloud-native Earth Observation, explore the Sentinel Zarr Explorer, and see how open-source developers and scientists are adopting GeoZarr conventions.
 
-<FeaturesGallery :cards="events" :columns="3" variant="poster" background="transparent" :sectionTitle="false" style="margin-top:-80px;z-index:0" />
+<FeaturesGallery :cards="events" :columns="3" variant="poster" background="transparent" :sectionTitle="false" />
 
 ### News & Events from the EOPF Community
 
@@ -89,7 +89,7 @@ const events = [
     content: `Webinar #2 focuses on advanced cloud-native analysis with Sentinel Zarr, covering TiTiler server-side rendering, openEO integration, and practical workflows that take users from exploration to actionable insights.`,
     link: {
         text: 'View details',
-        href: './webinar-2-advanced-analysis',
+        href: '/webinars-events/webinar-2-advanced-analysis',
         target:"_self"
       },
     secondaryLink:{
@@ -114,7 +114,7 @@ const events = [
     content: `This webinar marks the official launch of the EOPF Sentinel Zarr Explorer, a new platform enabling cloud-native visualisation of Copernicus Sentinel data directly in the browser.`,
     link: {
         text: 'View details',
-        href: './webinar-1-visualisation',
+        href: '/webinars-events/webinar-1-visualisation',
        target:"_self"
       },
     secondaryLink:{

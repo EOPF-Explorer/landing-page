@@ -5,30 +5,34 @@
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
+    "postbuild": "rm -rf blog.md team.md tag.md tag author",
     "serve": "vitepress serve",
     "format": "npx prettier --write **/*.{js,css,json,vue}",
     "check": "vue-tsc && eslint ."
   },
   "dependencies": {
-    "@eodash/eodash": "https://pkg.pr.new/@eodash/eodash@43546bb",
-    "@eox/chart": "^1.2.0",
+    "@eodash/eodash": "^5.10.0",
+    "@eox/chart": "^1.2.1",
     "@eox/drawtools": "^1.6.0",
     "@eox/elements-utils": "^1.2.0",
-    "@eox/itemfilter": "^1.17.5",
-    "@eox/jsonform": "^1.12.2",
-    "@eox/layercontrol": "^1.8.2",
-    "@eox/layout": "^1.0.0",
-    "@eox/map": "^2.7.2",
+    "@eox/itemfilter": "^1.18.0",
+    "@eox/jsonform": "^1.14.2",
+    "@eox/layercontrol": "^1.10.1",
+    "@eox/layout": "^1.2.0",
+    "@eox/map": "^2.8.2",
     "@eox/storytelling": "^1.13.0",
-    "@eox/timecontrol": "^2.6.0",
+    "@eox/timecontrol": "^2.10.0",
     "chroma-js": "^3.2.0",
     "ol": "10.10.0"
   },
   "devDependencies": {
-    "@eox/pages-theme-eox": "^1.9.0",
+    "@eox/pages-theme-eox": "2.0.0-alpha.7",
     "@types/chroma-js": "^3.1.2",
     "eslint-plugin-vue": "^10.10.0",
     "typescript": "^6.0.2",
     "vue-tsc": "^3.3.10"
+  },
+  "overrides": {
+    "@eodash/stac": "^0.2.0"
   }
 }

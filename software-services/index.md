@@ -25,7 +25,7 @@ layout: page
   background="transparent"
   sectionTitle=" "
   :cards="servicesResults"
-  style="margin-top:-160px"
+  style="margin-top:-64px"
 />
 
 <script setup>
@@ -60,10 +60,11 @@ layout: page
         "content",
         "tags"
       ],
-      "title": "By keyword",
+      "title": "Search",
       "type": "text",
       "placeholder": "Search for keyword",
-      "expanded": false
+      "expanded": false,
+      "inlineSearch": true
     },
     {
       "key": 'tags',

@@ -1,4 +1,5 @@
 ---
+title: Cookie Notice
 layout: page
 ---
 

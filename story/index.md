@@ -1,4 +1,5 @@
 ---
+title: Story
 layout: page
 ---
 
