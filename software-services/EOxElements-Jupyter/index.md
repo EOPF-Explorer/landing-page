@@ -3,6 +3,10 @@ title: EOxElements Jupyter
 layout: page
 ---
 
+<script setup>
+import { data as items } from '../items.data.js'
+</script>
+
 ## EOxElements Jupyter <img src="/media/eoxelements-jupyter.png" alt="EOxElements-Jupyter Logo" style="height:70px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
 ### Overview
@@ -60,10 +64,10 @@ EOxElements Jupyter is built on [anywidget](https://anywidget.dev/), which allow
 
 Layers are configured as Python dicts that mirror the JSON configuration used in the web component. This allows you to use the same GeoZarr or STAC configurations across both web and Jupyter environments:
 
-```python
+```python-vue
 from ipyeoxelements import EOxMap
 
-zarr_url = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance"
+zarr_url = "{{ items.naples.zarrUrl }}/measurements/reflectance"
 
 layers = [
     {

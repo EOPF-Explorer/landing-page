@@ -23,15 +23,14 @@
     "@eox/storytelling": "^1.13.0",
     "@eox/timecontrol": "^2.10.0",
     "chroma-js": "^3.2.0",
-    "ol": "10.9.0",
-    "stac-js": "^0.1.9"
+    "ol": "10.10.0"
   },
   "devDependencies": {
     "@eox/pages-theme-eox": "2.0.0-alpha.7",
     "@types/chroma-js": "^3.1.2",
-    "eslint-plugin-vue": "^10.9.2",
-    "typescript": "^5.9.3",
-    "vue-tsc": "^3.3.6"
+    "eslint-plugin-vue": "^10.10.0",
+    "typescript": "^6.0.2",
+    "vue-tsc": "^3.3.10"
   },
   "overrides": {
     "@eodash/stac": "^0.2.0"
