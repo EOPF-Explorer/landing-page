@@ -169,6 +169,7 @@ const sentinel1InfoBody = [
 export default /*** @type {import("@eodash/eodash").Eodash} */ ({
   id: "eopf",
   options: {
+    layerExtent: true,
     renders: {
       "sentinel-2-l2a": {
         true_color: {
