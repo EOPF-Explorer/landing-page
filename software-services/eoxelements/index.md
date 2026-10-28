@@ -115,6 +115,7 @@ If you are using an AI assistant, you can point it to the **[LLM Documentation](
 For more information, visit the [EOxElements GitHub repository](https://github.com/EOX-A/EOxElements) and the [EOPF Explorer project](https://github.com/EOPF-Explorer).
 
 <FeaturesGallery
+  id="integration-examples"
   background="transparent"
   sectionTitle="Integration Examples"
   :cards="[
@@ -129,7 +130,7 @@ For more information, visit the [EOxElements GitHub repository](https://github.c
       ],
       link: {
         text: 'View Tutorial',
-        href: './basic',
+        href: '/software-services/eoxelements/basic',
         target:'_self'
       }
     },
@@ -144,7 +145,7 @@ For more information, visit the [EOxElements GitHub repository](https://github.c
       ],
       link: {
         text: 'View Tutorial',
-        href: './advanced',
+        href: '/software-services/eoxelements/advanced',
         target:'_self'
       }
     },
@@ -159,7 +160,7 @@ For more information, visit the [EOxElements GitHub repository](https://github.c
       ],
       link: {
         text: 'View Tutorial',
-        href: './globe',
+        href: '/software-services/eoxelements/globe',
         target:'_self'
       }
     },
@@ -174,7 +175,7 @@ For more information, visit the [EOxElements GitHub repository](https://github.c
       ],
       link: {
         text: 'View Tutorial',
-        href: './story',
+        href: '/software-services/eoxelements/story',
         target:'_self'
       }
     }
