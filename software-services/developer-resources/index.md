@@ -136,7 +136,6 @@ How EOPF Explorer structures Sentinel data as GeoZarr, and the software that con
 Libraries with EOPF Zarr support, each with tutorials on this site:
 
 <FeaturesGallery
-  style="margin-top:-64px"
   :sectionTitle="false"
   variant="poster"
   columns="4/2/1"
@@ -163,12 +162,12 @@ const icon = (name) => ({
 });
 
 const quickLinks = [
-  { id: "stac-api", title: "STAC API", icon: icon("mdi-database-search-outline"), content: "Find collections and items; the entry point to everything else.", link: { href: "#stac-api" } },
-  { id: "raster-api", title: "Raster API", icon: icon("mdi-layers-triple-outline"), content: "Tiles, previews and point values rendered from Zarr.", link: { href: "#raster-api" } },
-  { id: "openeo-api", title: "openEO API", icon: icon("mdi-function-variant"), content: "Run openEO processes on the EOPF collections.", link: { href: "#openeo-api" } },
-  { id: "data-access", title: "Data access", icon: icon("mdi-cloud-download-outline"), content: "Read the Zarr stores directly over HTTPS or S3.", link: { href: "#data-access" } },
-  { id: "data-model", title: "Data model", icon: icon("mdi-file-tree-outline"), content: "GeoZarr conventions and conversion software.", link: { href: "#data-model" } },
-  { id: "clients", title: "Client libraries", icon: icon("mdi-code-tags"), content: "Libraries and tutorials for building with EOPF Zarr.", link: { href: "#clients" } },
+  { id: "stac-api", title: "STAC API", icon: icon("mdi-database-search-outline"), content: "Find collections and items; the entry point to everything else.", link: { href: "/software-services/developer-resources/#stac-api" } },
+  { id: "raster-api", title: "Raster API", icon: icon("mdi-layers-triple-outline"), content: "Tiles, previews and point values rendered from Zarr.", link: { href: "/software-services/developer-resources/#raster-api" } },
+  { id: "openeo-api", title: "openEO API", icon: icon("mdi-function-variant"), content: "Run openEO processes on the EOPF collections.", link: { href: "/software-services/developer-resources/#openeo-api" } },
+  { id: "data-access", title: "Data access", icon: icon("mdi-cloud-download-outline"), content: "Read the Zarr stores directly over HTTPS or S3.", link: { href: "/software-services/developer-resources/#data-access" } },
+  { id: "data-model", title: "Data model", icon: icon("mdi-file-tree-outline"), content: "GeoZarr conventions and conversion software.", link: { href: "/software-services/developer-resources/#data-model" } },
+  { id: "clients", title: "Client libraries", icon: icon("mdi-code-tags"), content: "Libraries and tutorials for building with EOPF Zarr.", link: { href: "/software-services/developer-resources/#clients" } },
 ];
 
 const CLIENT_IDS = ["openlayers-geozarr", "eoxelements", "eodash", "eoxelements-jupyter"];
@@ -188,6 +187,11 @@ const clientCards = servicesData.services.filter((service) => CLIENT_IDS.include
     var(--resource-color) 0%,
     color-mix(in srgb, var(--resource-color) 65%, black) 100%
   );
+}
+/* The theme sets dark card titles and grey card text; keep both white on the coloured cards */
+.quick-links :deep(.card-title-text a),
+.quick-links :deep(.card-body-text) {
+  color: inherit !important;
 }
 .section-icon {
   color: var(--resource-color);
