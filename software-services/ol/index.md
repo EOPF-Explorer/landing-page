@@ -50,7 +50,7 @@ Ready to dive in? Start with the [Basic Setup example](./basic) to see OpenLayer
 ::: info NPM (Recommended)
 
 ```bash
-npm install ol stac-js@^0.1.2
+npm install ol
 ```
 :::
 
