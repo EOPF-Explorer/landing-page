@@ -215,11 +215,23 @@ const services = [
   },
 ];
 
+// Shown in the Developer Resources "Client libraries" section
+const CLIENT_LIBRARY_IDS = [
+  "openlayers-geozarr",
+  "eoxelements",
+  "eodash",
+  "eoxelements-jupyter",
+];
+
 export default defineLoader({
   load() {
+    const sorted = [...services].sort(
+      (a, b) => (a.order ?? 999) - (b.order ?? 999),
+    );
     return {
-      services: [...services].sort(
-        (a, b) => (a.order ?? 999) - (b.order ?? 999),
+      services: sorted,
+      clientLibraries: sorted.filter((service) =>
+        CLIENT_LIBRARY_IDS.includes(service.id),
       ),
     };
   },

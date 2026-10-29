@@ -1,6 +1,16 @@
 ---
 title: Developer Resources
 layout: page
+llm:
+  - heading: Client libraries
+    source: ../../content/services.data.js
+    items: clientLibraries
+    title: title
+    link:
+      field: link
+      prefix: /software-services/
+    fields:
+      - content
 ---
 
 ## Developer Resources
@@ -170,8 +180,7 @@ const quickLinks = [
   { id: "clients", title: "Client libraries", icon: icon("mdi-code-tags"), content: "Libraries and tutorials for building with EOPF Zarr.", link: { href: "/software-services/developer-resources/#clients" } },
 ];
 
-const CLIENT_IDS = ["openlayers-geozarr", "eoxelements", "eodash", "eoxelements-jupyter"];
-const clientCards = servicesData.services.filter((service) => CLIENT_IDS.includes(service.id)).map(toFeaturedCard);
+const clientCards = servicesData.clientLibraries.map(toFeaturedCard);
 </script>
 
 <style scoped>
