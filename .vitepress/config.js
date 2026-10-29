@@ -1,10 +1,13 @@
 import { defineConfig } from "vitepress";
 //@ts-expect-error does not have types
 import baseConfig from "@eox/pages-theme-eox/config";
+import { llmSections } from "./plugins/llm-sections.js";
 
 const eopfConfig = await baseConfig("eopf");
 
 eopfConfig.themeConfig.theme.brandConfig.legal.privacyPolicy = "/privacy-policy";
+// Ahead of the theme's llms plugin, which reads the transformed page source
+eopfConfig.vite.plugins.unshift(llmSections());
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends:eopfConfig,

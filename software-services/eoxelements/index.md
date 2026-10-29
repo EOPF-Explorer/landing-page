@@ -1,7 +1,21 @@
 ---
 title: EOxElements
 layout: page
+llm:
+  - heading: Integration Examples
+    source: ../../content/tutorials.data.js
+    items: eoxelements
+    title: title
+    link:
+      field: link
+    fields:
+      - content
+      - features
 ---
+
+<script setup>
+import { data as tutorials } from "../../content/tutorials.data.js";
+</script>
 
 ## EOxElements <img src="/media/EOxElements.png" alt="EOxElements Logo" style="height:50px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
@@ -118,66 +132,5 @@ For more information, visit the [EOxElements GitHub repository](https://github.c
   id="integration-examples"
   background="transparent"
   sectionTitle="Integration Examples"
-  :cards="[
-    {
-      title: '1. Basic Usage',
-      content: 'Learn the fundamentals of rendering GeoZarr data with a layer control and drawing tools.',
-      features: [
-        'Layer Control',
-        'Draw Tools',
-        'GeoZarr Source Configuration',
-        'Basic Map Setup'
-      ],
-      link: {
-        text: 'View Tutorial',
-        href: '/software-services/eoxelements/basic',
-        target:'_self'
-      }
-    },
-    {
-      title: '2. Advanced Visualization',
-      content: 'Create interactive dashboards with JSON Forms to control band combinations and arithmetic indices.',
-      features: [
-        'JSON Forms Integration',
-        'Dynamic Band Combinations',
-        'Spectral Indices (NDVI/NDWI)',
-        'Time Control'
-      ],
-      link: {
-        text: 'View Tutorial',
-        href: '/software-services/eoxelements/advanced',
-        target:'_self'
-      }
-    },
-    {
-      title: '3. 3D Globe Visualization',
-      content: 'Experience 3D visualization with terrain rendering, camera tours, and seamless 2D/3D projection switching.',
-      features: [
-        'Hybrid 3D Engine',
-        'Terrain Visualization',
-        'Interactive Tours',
-        'Projection Switching'
-      ],
-      link: {
-        text: 'View Tutorial',
-        href: '/software-services/eoxelements/globe',
-        target:'_self'
-      }
-    },
-    {
-      title: '4. Storytelling',
-      content: 'Build immersive map tours and stories using EOxLayout and globe projections.',
-      features: [
-        'Interactive Map Tour',
-        'Globe Projection (EPSG:4326)',
-        'Sidebar Layout',
-        'Animation Control'
-      ],
-      link: {
-        text: 'View Tutorial',
-        href: '/software-services/eoxelements/story',
-        target:'_self'
-      }
-    }
-  ]"
+  :cards="tutorials.eoxelements"
 />
