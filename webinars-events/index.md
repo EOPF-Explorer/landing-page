@@ -70,7 +70,7 @@ const events = [
     content: `Join the next EOPF Explorer webinar, where we walk through the latest EOPF Zarr developments: Sentinel-1 + Sentinel-2 data fusion, COG vs EOPF Zarr benchmarking, and EOPF Zarr updates & roadmap.`,
     link: {
         text: 'View details',
-        href: './webinar-3-data-fusion',
+        href: '/webinars-events/webinar-3-data-fusion',
         target:"_self"
       },
     secondaryLink:{
