@@ -75,7 +75,7 @@ const events = [
       },
     secondaryLink:{
         text: 'Register now',
-        href: 'https://www.tickettailor.com/events/thrivegeo/2495266',
+        href: 'https://buytickets.at/thrivegeo/2495266',
         target: '_blank'
       }
   },

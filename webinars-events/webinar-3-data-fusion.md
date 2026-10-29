@@ -9,7 +9,7 @@ layout: page
     <div class="max">
       <div>November 25, 2026 | 15:00-16:00 CET</div>
     </div>
-    <a href="https://www.tickettailor.com/events/thrivegeo/2495266" target="_blank" class="button primary">Register Now</a>
+    <a href="https://buytickets.at/thrivegeo/2495266" target="_blank" class="button primary">Register Now</a>
 </div>
 
 Join ESA, Development Seed, EOX and thriveGEO for the third EOPF Explorer webinar. We move beyond visualisation to show what EOPF Zarr can do for serious multi-mission analysis, and compare its performance against other data formats.
