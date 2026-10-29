@@ -14,6 +14,7 @@ Cloud-native data access and visualisation for the Earth Observation Processor F
 - [eodash Tutorial](/software-services/eodash/dashboard.md)
 - [EOPF Explorer Webinar #1 - Introducing Visualisation-Enhanced Sentinel Zarr](/webinars-events/webinar-1-visualisation.md)
 - [EOPF Explorer Webinar #2 - Advanced Analysis with Sentinel Zarr](/webinars-events/webinar-2-advanced-analysis.md)
+- [EOPF Explorer Webinar #3: Updates on EOPF Zarr & Cloud-Native S1/S2 Data Fusion](/webinars-events/webinar-3-data-fusion.md)
 - [EOxElements](/software-services/eoxelements.md)
 - [EOxElements Advanced Tutorial](/software-services/eoxelements/advanced.md)
 - [EOxElements Basic Tutorial](/software-services/eoxelements/basic.md)
