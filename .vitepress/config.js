@@ -8,6 +8,8 @@ eopfConfig.themeConfig.theme.brandConfig.legal.privacyPolicy = "/privacy-policy"
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends:eopfConfig,
+  // Blog, team, tag and author pages the theme copies into the project; not used on this site
+  srcExclude: ["blog.md", "team.md", "tag.md", "tag/**", "author/**"],
   markdown: {
     externalLinks: { class: "link vp-external-link-icon" },
     config: (md) => {
@@ -58,11 +60,19 @@ export default defineConfig({
     nav: [
       { text: "Data Catalog", link: "https://api.explorer.eopf.copernicus.eu/browser", target: "_blank", rel: "noopener" },
       { text: "Dynamic Browser", link: "/sentinelexplorer/?template=explore" },
-      { text: "Software & Services", link: "/software-services" },
+      // Developer Resources lives under /software-services but has its own nav item
+      { text: "Software & Services", link: "/software-services", activeMatch: "/software-services(?!/developer-resources)" },
       { text: "Webinars & Events", link: "/webinars-events" },
-      { text: "Documentation", link: "https://eopf-explorer.github.io/data-model/", target: "_blank", rel: "noopener" },
+      { text: "Developer Resources", link: "/software-services/developer-resources/" },
       { text: "Discussion", link: "https://discourse.eopf.copernicus.eu/c/eopf-explorer/17", target: "_blank", rel: "noopener" },
     ],
+    // Service interruption banner, shown on every page below the nav bar.
+    // See https://github.com/EOPF-Explorer/landing-page/issues/118
+    // Uncomment during planned maintenance; styled in theme/custom.css (.news-banner).
+    // newsBanner: `
+    //   <i class="small mdi mdi-progress-wrench"></i>
+    //   <span>Planned maintenance: some data services may be temporarily unavailable.</span>
+    // `,
   },
   transformHead(){
     return [

@@ -50,7 +50,7 @@ Ready to dive in? Start with the [Basic Setup example](./basic) to see OpenLayer
 ::: info NPM (Recommended)
 
 ```bash
-npm install ol stac-js@^0.1.2
+npm install ol
 ```
 :::
 
@@ -81,6 +81,7 @@ GeoZarr source requires `ol` v10.8.0 or later. The GeoZarr source functionality 
 For more advanced features and the latest updates, follow the [OpenLayers development](https://github.com/openlayers/openlayers) and [EOPF Explorer project](https://github.com/EOPF-Explorer) on GitHub.
 
 <FeaturesGallery
+  id="interactive-examples"
   background="transparent"
   sectionTitle="Interactive Examples"
   :cards="[
@@ -95,7 +96,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       ],
       link: {
         text: 'View Example',
-        href: './basic',
+        href: '/software-services/ol/basic',
         target:'_self'
       }
     },
@@ -110,7 +111,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       ],
       link: {
         text: 'View Example',
-        href: './ndvi',
+        href: '/software-services/ol/ndvi',
         target:'_self'
       }
     },
@@ -125,7 +126,7 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
       ],
       link: {
         text: 'View Example',
-        href: './stac',
+        href: '/software-services/ol/stac',
         target:'_self'
       }
     }

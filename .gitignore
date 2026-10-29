@@ -2,3 +2,10 @@ cache
 dist
 node_modules
 temp
+
+# Pages copied in by @eox/pages-theme-eox on every config load
+/blog.md
+/team.md
+/tag.md
+/tag/
+/author/

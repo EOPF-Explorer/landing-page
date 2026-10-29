@@ -1,4 +1,5 @@
 ---
+title: Dynamic Browser
 layout: page
 footer: false
 ---

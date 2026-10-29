@@ -102,15 +102,16 @@ const services = [
     order: 7,
   },
   {
-    id: "openeo-web-editor",
-    title: "openEO Web editor",
+    id: "ol-stac",
+    title: "ol-stac",
     content:
-      "Build sophisticated analysis workflows with cloud-based processing.",
-    image: "/assets/openeo-logo.png",
-    tags: ["analysis", "workflow", "openeo", "cloud-processing"],
-    category: "Analysis",
-    type: "service",
-    link: "https://editor.openeo.org/?server=https%3A%2F%2Fapi.explorer.eopf.copernicus.eu%2Fopeneo%2F",
+      "OpenLayers extension that turns STAC items and collections into map layers automatically, including GeoZarr assets.",
+    image: "/assets/ol-stac.png",
+    tags: ["screening", "web-mapping", "stac", "geozarr"],
+    category: "Screening",
+    type: "software",
+    link: "https://github.com/moregeo-it/ol-stac#readme",
+    contain: true,
     order: 8,
   },
   {
@@ -159,6 +160,19 @@ const services = [
     order: 11,
   },
   {
+    id: "developer-resources",
+    title: "Developer Resources",
+    content:
+      "Endpoints and docs for the STAC, raster and openEO APIs, direct Zarr access over HTTPS and S3, and the data model specifications.",
+    image: "/assets/developer-resources.png",
+    tags: ["documentation", "api", "stac", "openeo", "s3", "developers"],
+    category: "Documentation",
+    type: "documentation",
+    link: "./developer-resources/",
+    contain: true,
+    order: 12,
+  },
+  {
     id: "openeo-studio",
     featured: true,
     cover: "/assets/featured/openeo-studio.jpg",
@@ -170,7 +184,7 @@ const services = [
     category: "Analysis",
     type: "service",
     link: "https://studio.explorer.eopf.copernicus.eu/",
-    order: 12,
+    order: 13,
   },
   {
     id: "eoxelements-jupyter",
@@ -185,7 +199,7 @@ const services = [
     type: "software",
     link: "./EOxElements-Jupyter",
     contain: true,
-    order: 13,
+    order: 14,
   },
   {
     id: "zarr-layer-carbon-plan",
@@ -197,7 +211,7 @@ const services = [
     category: "Screening",
     type: "software",
     link: "https://zarr-layer.demo.carbonplan.org/?dataset=sentinel_2_eopf",
-    order: 14,
+    order: 15,
   },
 ];
 
