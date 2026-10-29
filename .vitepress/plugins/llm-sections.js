@@ -1,3 +1,33 @@
+/**
+ * @file Adds data-driven lists (cards, events, services) to the LLM output.
+ *
+ * vitepress-plugin-llms builds llms.txt, llms-full.txt and the per-page .md files from the raw
+ * markdown, so lists that Vue components render from JS data are missing there. A page declares
+ * such lists in its `llm` frontmatter; this plugin renders them as markdown inside `<llm-only>`,
+ * which vitepress-plugin-llms keeps in the LLM output and removes from the HTML.
+ *
+ * Usage: keep the list in a VitePress data loader that the page also reads, then add an `llm` entry:
+ *
+ * ```yaml
+ * llm:
+ *   - heading: Client libraries        # optional, rendered as "## Client libraries"
+ *     source: ../../content/services.data.js  # data loader, relative to the page
+ *     items: clientLibraries           # key of the item array in the loader result
+ *     title: title                     # item field used as the entry text
+ *     link:                            # optional, links the title
+ *       field: link                    # item field (string or { href }); a list tries each in order
+ *       prefix: /software-services/    # "./x" links resolve against it, default "/"
+ *     fields:                          # optional, one "  - Label: value" line each
+ *       - content                      # label is the capitalised field name
+ *       - field: [link, secondaryLink] # several fields on one line
+ *         label: Links
+ * ```
+ *
+ * Output per item: `- [title](link)` (or `- **title**` without a link), then the field lines.
+ * Arrays are joined with ", ", `{ text }` objects print their text and `{ text, href }` objects become
+ * links; HTML tags are removed and markdown characters escaped. Site-absolute links get the VitePress base.
+ * Invalid entries fail the build with the page and entry index. Full contract: `LlmSection` in ./types.d.ts.
+ */
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 // Installed with vitepress-plugin-llms, which parses frontmatter with it too

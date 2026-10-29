@@ -5,7 +5,8 @@ import { defineLoader } from "vitepress";
 const events = [
   {
     id: 4,
-    title: "EOPF Explorer Webinar #3: Updates on EOPF Zarr & Cloud-Native S1/S2 Data Fusion",
+    title:
+      "EOPF Explorer Webinar #3: Updates on EOPF Zarr & Cloud-Native S1/S2 Data Fusion",
     image: "/media/webinar-3-background.png",
     chips: [
       { text: "Analysis", class: "mdi mdi-chart-box" },

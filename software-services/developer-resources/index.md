@@ -1,5 +1,6 @@
 ---
 title: Developer Resources
+description: "Start here to build on EOPF Sentinel Zarr: STAC, raster and openEO APIs, direct Zarr access over HTTPS and S3, and the data model specifications."
 layout: page
 llm:
   - heading: Client libraries
