@@ -73,11 +73,6 @@ const events = [
         href: '/webinars-events/webinar-3-data-fusion',
         target:"_self"
       },
-    secondaryLink:{
-        text: 'Register now',
-        href: 'https://buytickets.at/thrivegeo/2495266',
-        target: '_blank'
-      }
   },
   {
     id:3,
