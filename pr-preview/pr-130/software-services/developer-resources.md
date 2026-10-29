@@ -1,5 +1,8 @@
 ---
 url: /pr-preview/pr-130/software-services/developer-resources.md
+description: >-
+  Start here to build on EOPF Sentinel Zarr: STAC, raster and openEO APIs,
+  direct Zarr access over HTTPS and S3, and the data model specifications.
 ---
 
 ## Developer Resources
