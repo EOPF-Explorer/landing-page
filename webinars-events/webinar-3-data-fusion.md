@@ -24,13 +24,13 @@ We will also put EOPF Zarr under the microscope. We will share benchmark results
 
 ### Why It Matters
 
-GeoZarr is the official format for EOPF Zarr, and it is the planned future distribution format for Copernicus Sentinel data. A format is only as useful as the work it enables. The fusion scenarios show that EOPF Zarr supports analysis through a standard processing API, not just viewing. The benchmarks give you evidence to plan your own transition with confidence.
+GeoZarr is the (visualisation) format for EOPF Zarr, and it is planned in the future distribution of Copernicus Sentinel data. A format is only as useful as the work it enables. The fusion scenarios show that EOPF Zarr supports analysis through a standard processing API, not just viewing. The benchmarks give you evidence to plan your own transition with confidence.
 
 Everything is built with open-source technology, including TiTiler, openEO, GDAL, OpenLayers and STAC, so what you see can be reused, adapted and improved by the community.
 
 ### Be Part of the Change
 
-The EOPF Explorer is a community-driven project, and your voice shapes how Sentinel data will be accessed in the future. With growing adoption and ecosystem support, this is your opportunity to engage during development. This webinar is a continuation of a capacity-building series started at the beginning of 2026. Join us to try the next step with us, and tell us which fusion workflows and performance questions matter most to you. There will be plenty of time for questions and discussion.
+The EOPF Explorer is a community-driven project, and your voice shapes how Sentinel data will be accessed in the future. With growing adoption and ecosystem support, this is your opportunity to engage during development. This webinar is a continuation of a capacity-building series that started at the beginning of 2026. Join us to explore the next steps together.
 
 ### Who Should Attend
 
