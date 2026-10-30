@@ -20,11 +20,11 @@ Join ESA, Development Seed, EOX and thriveGEO for the third EOPF Explorer webina
 
 Many applications need data from more than one Sentinel mission, but combining Sentinel-1 radar with Sentinel-2 optical imagery still requires stitching together separate access paths and processing stacks. In this webinar, you will see data fusion scenarios that bring Sentinel-1 and Sentinel-2 together with titiler-openeo, packaged as reusable process graphs that you can adapt to your own area and question.
 
-We will also put EOPF Zarr under the microscope. We will share benchmark results showing how the format performs in practice, and how design choices such as chunking and multiscale pyramids affect access and rendering speed. By the end, you will know how the EOPF Zarr format compares to traditional data formats.
+We will also share benchmark results showing how the format performs in practice, and how design choices such as chunking and multiscale pyramids affect access and rendering speed. By the end, you will know how the EOPF Zarr format compares to Cloud-Optimised GeoTIFFs (COGs).
 
 ### Why It Matters
 
-GeoZarr is the (visualisation) format for EOPF Zarr, and it is planned in the future distribution of Copernicus Sentinel data. A format is only as useful as the work it enables. The fusion scenarios show that EOPF Zarr supports analysis through a standard processing API, not just viewing. The benchmarks give you evidence to plan your own transition with confidence.
+GeoZarr is the (visualisation) format for EOPF Zarr, and it is planned in the future distribution of Copernicus Sentinel data. A format is only as useful as the work it enables. The fusion scenarios show that EOPF Zarr supports analysis through a standard processing API, not just viewing. The benchmarks will help you to plan your own transition with more confidence.
 
 Everything is built with open-source technology, including TiTiler, openEO, GDAL, OpenLayers and STAC, so what you see can be reused, adapted and improved by the community.
 
