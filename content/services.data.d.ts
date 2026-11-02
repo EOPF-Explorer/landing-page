@@ -17,4 +17,4 @@ export interface Service {
   cover?: string;
 }
 
-export declare const data: { services: Service[] };
+export declare const data: { services: Service[]; clientLibraries: Service[] };

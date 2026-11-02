@@ -4,7 +4,7 @@ layout: page
 ---
 
 <script setup>
-import { useTemplateRef, onMounted, nextTick, ref } from "vue";
+import { shallowRef, onMounted, nextTick, ref } from "vue";
 import { loadModule } from "../../.vitepress/utils/load-module";
 import { data as items } from "../items.data.js";
 
@@ -157,15 +157,15 @@ const layers = [
 const center = [-20.12, 63.54]; 
 const zoom = 7;
 
-/** @type {import('vue').Ref<import("@eox/map").EOxMap>} */
-const eoxMap = useTemplateRef("eoxMap");
-/** @type {import('vue').Ref<import("@eox/layercontrol").EOxLayerControl>} */
-const eoxLayercontrol = useTemplateRef("eoxLayercontrol");
+/** @type {import("vue").ShallowRef<import("@eox/map").EOxMap | null>} */
+const eoxMap = shallowRef(null);
+/** @type {import("vue").ShallowRef<import("@eox/layercontrol").EOxLayerControl | null>} */
+const eoxLayercontrol = shallowRef(null);
 
 onMounted(async () => {
   demoReady.value = (await demoModulesLoaded).every(Boolean);
   await nextTick();
-  if(!eoxMap.value) return
+  if (!eoxMap.value || !eoxLayercontrol.value) return
   //@ts-expect-error
   eoxMap.value.layers = layers;
   eoxMap.value.center = center;

@@ -1,9 +1,20 @@
 ---
 title: OpenLayers Integration
 layout: page
+llm:
+  - heading: Interactive Examples
+    source: ../../content/tutorials.data.js
+    items: ol
+    title: title
+    link:
+      field: link
+    fields:
+      - content
+      - features
 ---
 
 <script setup>
+import { data as tutorials } from "../../content/tutorials.data.js";
 import { ref, onMounted } from 'vue'
 import { checkWebGLSupport } from '../index.js'
 /** @type {import("vue").Ref<boolean|null>} */
@@ -84,51 +95,5 @@ For more advanced features and the latest updates, follow the [OpenLayers develo
   id="interactive-examples"
   background="transparent"
   sectionTitle="Interactive Examples"
-  :cards="[
-    {
-      title: '1. Basic Map Setup and band combination',
-      content: 'Learn the fundamental configuration needed to load and display EOPF Zarr data with OpenLayers.',
-      features: [
-        'Minimal configuration',
-        'OSM base layer integration', 
-        'Automatic extent fitting',
-        'WebGL rendering'
-      ],
-      link: {
-        text: 'View Example',
-        href: '/software-services/ol/basic',
-        target:'_self'
-      }
-    },
-    {
-      title: '2. NDVI Calculation',
-      content: 'Perform real-time vegetation index calculations directly in the browser using WebGL expressions.',
-      features: [
-        'Real-time NDVI calculation',
-        'Vegetation classification',
-        'Agricultural applications', 
-        'Environmental monitoring'
-      ],
-      link: {
-        text: 'View Example',
-        href: '/software-services/ol/ndvi',
-        target:'_self'
-      }
-    },
-    {
-      title: '3. STAC Catalog Integration',
-      content: 'Search and visualize Sentinel data from EOPF\'s STAC catalog using spatial-temporal filters.',
-      features: [
-        'STAC API integration',
-        'Spatial-temporal search',
-        'Scene footprints display',
-        'Interactive data discovery'
-      ],
-      link: {
-        text: 'View Example',
-        href: '/software-services/ol/stac',
-        target:'_self'
-      }
-    }
-  ]"
+  :cards="tutorials.ol"
 />

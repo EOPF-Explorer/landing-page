@@ -1,6 +1,18 @@
 ---
 title: Software and Services
 layout: page
+llm:
+  - heading: Software and services
+    source: ../content/services.data.js
+    items: services
+    title: title
+    link:
+      field: link
+      prefix: /software-services/
+    fields:
+      - category
+      - tags
+      - content
 ---
 
 ### Software & Services

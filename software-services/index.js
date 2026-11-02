@@ -80,10 +80,10 @@ export function createCopyUrlFunction(buildTileUrlFn) {
  * Picks the newest scene covering the area centre and at least minSizeKm wide.
  * A bbox search also returns corner-clipping neighbours and swath-edge strips.
  *
- * @param {import("stac-ts").StacItem[]} features
+ * @param {import("@eodash/stac").STACItem[]} features
  * @param {number[]} area - [west, south, east, north]
  * @param {number} minSizeKm
- * @returns {import("stac-ts").StacItem | undefined}
+ * @returns {import("@eodash/stac").STACItem | undefined}
  */
 function pickCovering(features, [west, south, east, north], minSizeKm) {
   const lon = (west + east) / 2;
@@ -164,7 +164,7 @@ export async function fetchLatestItem(options = {}) {
     throw new Error(`STAC search failed with status ${response.status}`);
   }
 
-  /** @type {import("stac-ts").StacItem[]} */
+  /** @type {import("@eodash/stac").STACItem[]} */
   const features = (await response.json()).features ?? [];
   const item = bbox ? pickCovering(features, bbox, minSizeKm) : features[0];
   if (!item)

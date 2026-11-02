@@ -1,7 +1,21 @@
 ---
 title: eodash
 layout: page
+llm:
+  - heading: Integration Examples
+    source: ../../content/tutorials.data.js
+    items: eodash
+    title: title
+    link:
+      field: link
+    fields:
+      - content
+      - features
 ---
+
+<script setup>
+import { data as tutorials } from "../../content/tutorials.data.js";
+</script>
 
 ## eodash <img src="https://eodash.org/eodash_logo.png" alt="eodash Logo" style="height:60px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
@@ -79,21 +93,5 @@ eodash is built on a **reactive core architecture** that decouples state managem
 <FeaturesGallery
   background="transparent"
   sectionTitle="Integration Examples"
-  :cards="[
-    {
-      title: 'Web Component Tutorial',
-      content: 'Learn how to embed a full STAC-powered dashboard into your application using the eo-dash web component.',
-      features: [
-        'Web Component',
-        'STAC Integration',
-        'Custom Branding',
-        'Widget Layout'
-      ],
-      link: {
-        text: 'Start Tutorial',
-        href: '/software-services/eodash/dashboard',
-        target:'_self'
-      }
-    }
-  ]"
+  :cards="tutorials.eodash"
 />
