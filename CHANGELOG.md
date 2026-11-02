@@ -25,6 +25,7 @@ Notable changes to the EOPF Sentinel Zarr Explorer website. Versions follow [Sem
 - Home page sections reordered (#125).
 - openEO Web Editor removed from Software & Services, and service entries updated (#112, #126).
 - Updated to eodash 5.10 and pages-theme-eox 2.0 (#108, #126).
+- Performance enhancements for the Dynamic Browser.
 
 ### Fixed
 
