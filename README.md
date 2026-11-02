@@ -4,12 +4,12 @@ This repository contains the source code for the EOPF-Explorer client, which inc
 
 ## Setup
 
-To set up and run the project locally, follow these steps:
+Install all the required dependencies after cloning or downloading the repository using Node v24 or higher:
 
 1.  **Clone the repository**:
 ```bash
 git clone https://github.com/EOPF-Explorer/landing-page
-cd eopf-explorer
+cd landing-page
 ```
 
 2.  **Install dependencies**:
@@ -26,10 +26,12 @@ npm run dev
 ```bash
 npm run check
 ```
+
 5. **Build for production**
 ```bash
 npm run build
 ```
+
 ## High-level Overview
 
 The EOPF-Explorer is the product of the integration of the following:
@@ -45,3 +47,24 @@ You can create your own instance of a similar dashboard by following these steps
 - Start by creating a new repository from the [eodash pages template](https://github.com/eodash/eodash-pages-template). The template sets up a Vitepress site where you can create pages using Markdown. You can also embed custom Vue components to add more complex features.
 - The template includes a page with an `eodash` instance already set up. You can customize this instance to build your own browser for Zarr-powered data or other sources.
 - To further customize your dashboard, you can refer to [eodash client documentation](https://eodash.github.io/eodash) and https://eodash.org to learn more.
+
+## Contributing
+
+- Open pull requests against `main`. Each PR gets a preview at `https://explorer.eopf.copernicus.eu/pr-preview/pr-<number>/`
+- Run `npm run check` and `npm run build` before asking for a review.
+- Data driven lists such as services, events and tutorial examples live in `content/`. To include one in `llms.txt`, add an `llm` entry to the page frontmatter, as described in `.vitepress/plugins/llm-sections.js`.
+- Add changes visitors will notice under `Unreleased` in `CHANGELOG.md`.
+
+## Releases
+
+Versions follow [SemVer](https://semver.org/): patch for fixes, minor for new pages or features, major when pages are removed or moved. The changelog is written by hand.
+
+1. In a pull request, rename `Unreleased` in `CHANGELOG.md` to the new version and date, add a new empty `Unreleased` above it, and update the links at the bottom. Bump `version` in `package.json`.
+2. Once merged, tag that commit on `main`:
+```bash
+git fetch origin
+git log origin/main --oneline -5   # copy the release commit
+git tag -a vX.Y.Z -m "Release X.Y.Z" <commit>
+git push origin vX.Y.Z
+```
+3. On [Releases](https://github.com/EOPF-Explorer/landing-page/releases), click **Draft a new release**, pick the tag, and paste the version's section from `CHANGELOG.md` as the description.
