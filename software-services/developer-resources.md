@@ -1,5 +1,8 @@
 ---
 url: /software-services/developer-resources.md
+description: >-
+  Start here to build on EOPF Sentinel Zarr: STAC, raster and openEO APIs,
+  direct Zarr access over HTTPS and S3, and the data model specifications.
 ---
 
 ## Developer Resources
@@ -78,3 +81,14 @@ How EOPF Explorer structures Sentinel data as GeoZarr, and the software that con
 ### &#x20;Client libraries {#clients}
 
 Libraries with EOPF Zarr support, each with tutorials on this site:
+
+## Client libraries
+
+* [OpenLayers](/software-services/ol)
+  * Content: Web mapping library with GeoZarr support for visualizing Sentinel Zarr in the browser using Zarr conventions.
+* [EOxElements](/software-services/eoxelements)
+  * Content: Native Web Component support for GeoZarr visualization in the browser, enabling declarative map configuration and storytelling.
+* [eodash](/software-services/eodash)
+  * Content: Configuration-first dashboard builder for rapid deployment of EO portals.
+* [EOxElements Jupyter](/software-services/EOxElements-Jupyter)
+  * Content: Python wrapper for EOxElements web components in Jupyter Notebooks - visualize GeoZarr and EO data with EOxMap, EOxChart, and more.

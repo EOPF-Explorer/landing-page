@@ -69,3 +69,9 @@ eodash is built on a **reactive core architecture** that decouples state managem
 1. **Start with Examples**: Work through the [example](./dashboard) to understand the how it can be configured
 2. **Explore API Documentation**: checkout the [eodash](https://eodash.org) website for more information
 3. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
+
+## Integration Examples
+
+* [Web Component Tutorial](/software-services/eodash/dashboard)
+  * Content: Learn how to embed a full STAC-powered dashboard into your application using the eo-dash web component.
+  * Features: Web Component, STAC Integration, Custom Branding, Widget Layout

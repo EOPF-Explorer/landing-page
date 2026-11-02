@@ -200,6 +200,9 @@ Email: <DPO@ESA.int>
 
 ---
 url: /software-services/developer-resources.md
+description: >-
+  Start here to build on EOPF Sentinel Zarr: STAC, raster and openEO APIs,
+  direct Zarr access over HTTPS and S3, and the data model specifications.
 ---
 
 ## Developer Resources
@@ -278,6 +281,17 @@ How EOPF Explorer structures Sentinel data as GeoZarr, and the software that con
 ### &#x20;Client libraries {#clients}
 
 Libraries with EOPF Zarr support, each with tutorials on this site:
+
+## Client libraries
+
+* [OpenLayers](/software-services/ol)
+  * Content: Web mapping library with GeoZarr support for visualizing Sentinel Zarr in the browser using Zarr conventions.
+* [EOxElements](/software-services/eoxelements)
+  * Content: Native Web Component support for GeoZarr visualization in the browser, enabling declarative map configuration and storytelling.
+* [eodash](/software-services/eodash)
+  * Content: Configuration-first dashboard builder for rapid deployment of EO portals.
+* [EOxElements Jupyter](/software-services/EOxElements-Jupyter)
+  * Content: Python wrapper for EOxElements web components in Jupyter Notebooks - visualize GeoZarr and EO data with EOxMap, EOxChart, and more.
 
 ---
 
@@ -359,6 +373,12 @@ eodash is built on a **reactive core architecture** that decouples state managem
 1. **Start with Examples**: Work through the [example](./dashboard) to understand the how it can be configured
 2. **Explore API Documentation**: checkout the [eodash](https://eodash.org) website for more information
 3. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
+
+## Integration Examples
+
+* [Web Component Tutorial](/software-services/eodash/dashboard)
+  * Content: Learn how to embed a full STAC-powered dashboard into your application using the eo-dash web component.
+  * Features: Web Component, STAC Integration, Custom Branding, Widget Layout
 
 ---
 
@@ -761,6 +781,21 @@ If you are using an AI assistant, you can point it to the **[LLM Documentation](
 5. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
 
 For more information, visit the [EOxElements GitHub repository](https://github.com/EOX-A/EOxElements) and the [EOPF Explorer project](https://github.com/EOPF-Explorer).
+
+## Integration Examples
+
+* [1. Basic Usage](/software-services/eoxelements/basic)
+  * Content: Learn the fundamentals of rendering GeoZarr data with a layer control and drawing tools.
+  * Features: Layer Control, Draw Tools, GeoZarr Source Configuration, Basic Map Setup
+* [2. Advanced Visualization](/software-services/eoxelements/advanced)
+  * Content: Create interactive dashboards with JSON Forms to control band combinations and arithmetic indices.
+  * Features: JSON Forms Integration, Dynamic Band Combinations, Spectral Indices (NDVI/NDWI), Time Control
+* [3. 3D Globe Visualization](/software-services/eoxelements/globe)
+  * Content: Experience 3D visualization with terrain rendering, camera tours, and seamless 2D/3D projection switching.
+  * Features: Hybrid 3D Engine, Terrain Visualization, Interactive Tours, Projection Switching
+* [4. Storytelling](/software-services/eoxelements/story)
+  * Content: Build immersive map tours and stories using EOxLayout and globe projections.
+  * Features: Interactive Map Tour, Globe Projection (EPSG:4326), Sidebar Layout, Animation Control
 
 ---
 
@@ -1458,6 +1493,18 @@ display(HBox([my_map, control]))
 ### Tutorials
 
 Each EOxElements tutorial below includes a **Python (Jupyter)** tab alongside the HTML and JavaScript code. Switch between tabs to see the equivalent implementation in both environments. For the full source and development setup, visit the [EOxElements-Jupyter GitHub repository](https://github.com/EOX-A/EOxElements-Jupyter).
+
+## Integration Examples
+
+* [1. Basic Setup](/software-services/eoxelements/basic)
+  * Content: Render a Sentinel-2 GeoZarr layer with an OpenStreetMap base layer and layer control.
+  * Features: GeoZarr Source, EOxLayercontrol, Group Layers, Python + HTML tabs
+* [2. Advanced Visualization](/software-services/eoxelements/advanced)
+  * Content: Dynamic band selection and gamma control via the layerConfig pattern.
+  * Features: Band Combination Selector, Gamma Slider, layerConfig Schema, Python + HTML tabs
+* [3. 3D Globe](/software-services/eoxelements/globe)
+  * Content: Render Sentinel-2 mosaic data on a 3D globe with terrain and city fly-tos.
+  * Features: Globe Projection, Sentinel-2 Mosaic, Terrain Rendering, Python + HTML tabs
 
 ---
 
@@ -2657,6 +2704,18 @@ GeoZarr source requires `ol` v10.8.0 or later. The GeoZarr source functionality 
 
 For more advanced features and the latest updates, follow the [OpenLayers development](https://github.com/openlayers/openlayers) and [EOPF Explorer project](https://github.com/EOPF-Explorer) on GitHub.
 
+## Interactive Examples
+
+* [1. Basic Map Setup and band combination](/software-services/ol/basic)
+  * Content: Learn the fundamental configuration needed to load and display EOPF Zarr data with OpenLayers.
+  * Features: Minimal configuration, OSM base layer integration, Automatic extent fitting, WebGL rendering
+* [2. NDVI Calculation](/software-services/ol/ndvi)
+  * Content: Perform real-time vegetation index calculations directly in the browser using WebGL expressions.
+  * Features: Real-time NDVI calculation, Vegetation classification, Agricultural applications, Environmental monitoring
+* [3. STAC Catalog Integration](/software-services/ol/stac)
+  * Content: Search and visualize Sentinel data from EOPF's STAC catalog using spatial-temporal filters.
+  * Features: STAC API integration, Spatial-temporal search, Scene footprints display, Interactive data discovery
+
 ---
 
 ---
@@ -3075,6 +3134,69 @@ url: /software-services.md
 ---
 
 ### Software & Services
+
+## Software and services
+
+* [EOPF Explorer STAC Browser](https://api.explorer.eopf.copernicus.eu/browser)
+  * Category: Discovery
+  * Tags: discovery, catalog, sentinel, metadata
+  * Content: EOPF Sentinel Zarr catalog browser revealing Sentinel scenes at a glance.
+* [Sentinel Explorer](/sentinelexplorer/)
+  * Category: Screening
+  * Tags: screening, interactive, zarr, sentinel-1, sentinel-2
+  * Content: Interactive viewer for Sentinel Zarr scenes based on eodash and TiTiler band combinations and indicators.
+* [Normalized Difference Vegetation Index (NDVI) & More](/story/?id=ndvi)
+  * Category: Showcases
+  * Tags: showcase, ndvi, vegetation, indices, Sentinel-2
+  * Content: Discover how to integrate popular spectral indices into your stories.
+* [TiTiler for EOPF Zarr](/software-services/titiler)
+  * Category: Screening
+  * Tags: screening, arithmetic, expressions, band-math
+  * Content: On-the-fly tile server for visualizing Sentinel Zarr data with custom styling, expressions, and reprojection.
+* [OpenLayers](/software-services/ol)
+  * Category: Screening
+  * Tags: screening, web-mapping, visualization, geozarr
+  * Content: Web mapping library with GeoZarr support for visualizing Sentinel Zarr in the browser using Zarr conventions.
+* [EOxElements](/software-services/eoxelements)
+  * Category: Screening
+  * Tags: screening, web-components, geospatial, client-side
+  * Content: Native Web Component support for GeoZarr visualization in the browser, enabling declarative map configuration and storytelling.
+* [eodash](/software-services/eodash)
+  * Category: Screening
+  * Tags: screening, dashboard, web-components, geozarr
+  * Content: Configuration-first dashboard builder for rapid deployment of EO portals.
+* [ol-stac](https://github.com/moregeo-it/ol-stac#readme)
+  * Category: Screening
+  * Tags: screening, web-mapping, stac, geozarr
+  * Content: OpenLayers extension that turns STAC items and collections into map layers automatically, including GeoZarr assets.
+* [Monitoring Cyanobacteria in Venice Lagoon](https://explorer.eopf.copernicus.eu/story/?id=ndci)
+  * Category: Showcases
+  * Tags: showcase, ndci, algae, indices, Sentinel-2
+  * Content: Real-time chlorophyll-a detection using the Normalised Difference Chlorophyll Index and satellite data
+* [EOPF Zarr Client Side Rendering](/story/?id=cloud-native-eo)
+  * Category: Screening
+  * Tags: screening, web-mapping, visualization, geozarr
+  * Content: A story on how to visualize Sentinel Zarr data using EOxMap with GeoZarr support.
+* [Pioneering the GeoZarr Data Model](/software-services/datamodel/)
+  * Category: Documentation
+  * Tags: documentation, standards, geozarr, zarr, conventions, community
+  * Content: Learn how EOPF Explorer drives GeoZarr specification development and Zarr Conventions, establishing the foundation for cloud-native Earth Observation standards.
+* [Developer Resources](/software-services/developer-resources/)
+  * Category: Documentation
+  * Tags: documentation, api, stac, openeo, s3, developers
+  * Content: Endpoints and docs for the STAC, raster and openEO APIs, direct Zarr access over HTTPS and S3, and the data model specifications.
+* [openEO Studio](https://studio.explorer.eopf.copernicus.eu/)
+  * Category: Analysis
+  * Tags: analysis, workflow, openeo, cloud-processing
+  * Content: Run and visualize openEO processes directly in your browser with openEO Studio.
+* [EOxElements Jupyter](/software-services/EOxElements-Jupyter)
+  * Category: Analysis
+  * Tags: analysis, jupyter, python, web-components, ipywidgets
+  * Content: Python wrapper for EOxElements web components in Jupyter Notebooks - visualize GeoZarr and EO data with EOxMap, EOxChart, and more.
+* [Flexible zarr rendering for MapLibre/Mapbox](https://zarr-layer.demo.carbonplan.org/?dataset=sentinel_2_eopf)
+  * Category: Screening
+  * Tags: screening, experimental, web-mapping, WebGL, geozarr
+  * Content: A interesting experiment by CarbonPlan on rendering zarr data in the browser using WebGLShaders.
 
 ---
 
@@ -3674,6 +3796,18 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
 
 For the latest updates and advanced features, follow the [Titiler-EOPF project](https://github.com/EOPF-Explorer/titiler-eopf) and [EOPF Explorer platform](https://github.com/EOPF-Explorer) on GitHub.
 
+## Integration Examples
+
+* [1. RGB Band Combinations](/software-services/titiler/rgb)
+  * Content: Learn to create true color and false color visualizations using Titiler's tile endpoints with OpenLayers or Leaflet.
+  * Features: True color RGB (B04, B03, B02), False color infrared composites, Color enhancement formulas, Web mapping integration
+* [2. Vegetation Indices](/software-services/titiler/ndvi)
+  * Content: Calculate vegetation indices server-side using mathematical expressions and visualize with custom color schemes.
+  * Features: Real-time NDVI calculation, Server-side expressions, Custom color mapping, Environmental monitoring
+* [3. Spatial Cropping](/software-services/titiler/crop)
+  * Content: Extract specific areas from satellite scenes using bounding box and feature-based spatial operations.
+  * Features: Bounding box cropping, Polygon-based extraction, Coordinate system handling, Export capabilities
+
 ---
 
 ---
@@ -3685,6 +3819,29 @@ url: /webinars-events.md
 Join the EOPF community to learn about cloud-native Earth Observation, explore the Sentinel Zarr Explorer, and see how open-source developers and scientists are adopting GeoZarr conventions.
 
 ### News & Events from the EOPF Community
+
+## Webinars and events
+
+* **EOPF Explorer Webinar #3: Updates on EOPF Zarr & Cloud-Native S1/S2 Data Fusion**
+  * Topics: Analysis, Upcoming event
+  * When and where: Wed 25 Nov 2026 15:00 - 16:00 CET, Online
+  * Content: Join the next EOPF Explorer webinar, where we walk through the latest EOPF Zarr developments: Sentinel-1 + Sentinel-2 data fusion, COG vs EOPF Zarr benchmarking, and EOPF Zarr updates & roadmap.
+  * Links: [View details](/webinars-events/webinar-3-data-fusion)
+* **EOPF Sentinel Zarr Explorer - FOSS4G Europe 2026 Workshop**
+  * Topics: Workshop, Screening
+  * When and where: Fri 03 Jul 2026, Timișoara, Romania
+  * Content: A hands-on FOSS4G Europe workshop on web visualisation techniques for the GeoZarr specification, building interactive maps from cloud-native Copernicus Sentinel data with EOxElements, eox-storytelling, TiTiler, eodash, and Jupyter.
+  * Links: [View materials](https://github.com/EOPF-Explorer/foss4g-workshop)
+* **EOPF Explorer Webinar #2 - Advanced Analysis with Sentinel Zarr**
+  * Topics: Analysis, Recording
+  * When and where: Mon 20 Apr 2026 15:00 - 16:00 CEST, Online
+  * Content: Webinar #2 focuses on advanced cloud-native analysis with Sentinel Zarr, covering TiTiler server-side rendering, openEO integration, and practical workflows that take users from exploration to actionable insights.
+  * Links: [View details](/webinars-events/webinar-2-advanced-analysis), [Watch recording](https://www.youtube.com/watch?v=UP8BNWb5JI8)
+* **EOPF Explorer Webinar #1 - Introducing Visualisation-Enhanced Sentinel Zarr**
+  * Topics: Discovery, Screening, Recording
+  * When and where: Mon Mar 09 2026, Online
+  * Content: This webinar marks the official launch of the EOPF Sentinel Zarr Explorer, a new platform enabling cloud-native visualisation of Copernicus Sentinel data directly in the browser.
+  * Links: [View details](/webinars-events/webinar-1-visualisation), [Watch recording](https://www.youtube.com/watch?v=ddR5OEF4-yM)
 
 
 # Stories

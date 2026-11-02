@@ -129,3 +129,15 @@ display(HBox([my_map, control]))
 ### Tutorials
 
 Each EOxElements tutorial below includes a **Python (Jupyter)** tab alongside the HTML and JavaScript code. Switch between tabs to see the equivalent implementation in both environments. For the full source and development setup, visit the [EOxElements-Jupyter GitHub repository](https://github.com/EOX-A/EOxElements-Jupyter).
+
+## Integration Examples
+
+* [1. Basic Setup](/software-services/eoxelements/basic)
+  * Content: Render a Sentinel-2 GeoZarr layer with an OpenStreetMap base layer and layer control.
+  * Features: GeoZarr Source, EOxLayercontrol, Group Layers, Python + HTML tabs
+* [2. Advanced Visualization](/software-services/eoxelements/advanced)
+  * Content: Dynamic band selection and gamma control via the layerConfig pattern.
+  * Features: Band Combination Selector, Gamma Slider, layerConfig Schema, Python + HTML tabs
+* [3. 3D Globe](/software-services/eoxelements/globe)
+  * Content: Render Sentinel-2 mosaic data on a 3D globe with terrain and city fly-tos.
+  * Features: Globe Projection, Sentinel-2 Mosaic, Terrain Rendering, Python + HTML tabs

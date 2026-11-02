@@ -8,7 +8,7 @@ Cloud-native data access and visualisation for the Earth Observation Processor F
 
 - [3D Globe](/software-services/eoxelements/globe.md)
 - [Cookie Notice](/cookie-settings.md)
-- [Developer Resources](/software-services/developer-resources.md)
+- [Developer Resources](/software-services/developer-resources.md): Start here to build on EOPF Sentinel Zarr: STAC, raster and openEO APIs, direct Zarr access over HTTPS and S3, and the data model specifications.
 - [Dynamic Browser](/sentinelexplorer.md)
 - [eodash](/software-services/eodash.md)
 - [eodash Tutorial](/software-services/eodash/dashboard.md)

@@ -108,3 +108,18 @@ If you are using an AI assistant, you can point it to the **[LLM Documentation](
 5. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
 
 For more information, visit the [EOxElements GitHub repository](https://github.com/EOX-A/EOxElements) and the [EOPF Explorer project](https://github.com/EOPF-Explorer).
+
+## Integration Examples
+
+* [1. Basic Usage](/software-services/eoxelements/basic)
+  * Content: Learn the fundamentals of rendering GeoZarr data with a layer control and drawing tools.
+  * Features: Layer Control, Draw Tools, GeoZarr Source Configuration, Basic Map Setup
+* [2. Advanced Visualization](/software-services/eoxelements/advanced)
+  * Content: Create interactive dashboards with JSON Forms to control band combinations and arithmetic indices.
+  * Features: JSON Forms Integration, Dynamic Band Combinations, Spectral Indices (NDVI/NDWI), Time Control
+* [3. 3D Globe Visualization](/software-services/eoxelements/globe)
+  * Content: Experience 3D visualization with terrain rendering, camera tours, and seamless 2D/3D projection switching.
+  * Features: Hybrid 3D Engine, Terrain Visualization, Interactive Tours, Projection Switching
+* [4. Storytelling](/software-services/eoxelements/story)
+  * Content: Build immersive map tours and stories using EOxLayout and globe projections.
+  * Features: Interactive Map Tour, Globe Projection (EPSG:4326), Sidebar Layout, Animation Control

@@ -54,3 +54,15 @@ GeoZarr source requires `ol` v10.8.0 or later. The GeoZarr source functionality 
 4. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
 
 For more advanced features and the latest updates, follow the [OpenLayers development](https://github.com/openlayers/openlayers) and [EOPF Explorer project](https://github.com/EOPF-Explorer) on GitHub.
+
+## Interactive Examples
+
+* [1. Basic Map Setup and band combination](/software-services/ol/basic)
+  * Content: Learn the fundamental configuration needed to load and display EOPF Zarr data with OpenLayers.
+  * Features: Minimal configuration, OSM base layer integration, Automatic extent fitting, WebGL rendering
+* [2. NDVI Calculation](/software-services/ol/ndvi)
+  * Content: Perform real-time vegetation index calculations directly in the browser using WebGL expressions.
+  * Features: Real-time NDVI calculation, Vegetation classification, Agricultural applications, Environmental monitoring
+* [3. STAC Catalog Integration](/software-services/ol/stac)
+  * Content: Search and visualize Sentinel data from EOPF's STAC catalog using spatial-temporal filters.
+  * Features: STAC API integration, Spatial-temporal search, Scene footprints display, Interactive data discovery

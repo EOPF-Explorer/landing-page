@@ -102,3 +102,15 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
 5. **Community**: Join [discussions](https://discourse.eopf.copernicus.eu/c/eopf-explorer/17) and contribute to the growing EOPF ecosystem
 
 For the latest updates and advanced features, follow the [Titiler-EOPF project](https://github.com/EOPF-Explorer/titiler-eopf) and [EOPF Explorer platform](https://github.com/EOPF-Explorer) on GitHub.
+
+## Integration Examples
+
+* [1. RGB Band Combinations](/software-services/titiler/rgb)
+  * Content: Learn to create true color and false color visualizations using Titiler's tile endpoints with OpenLayers or Leaflet.
+  * Features: True color RGB (B04, B03, B02), False color infrared composites, Color enhancement formulas, Web mapping integration
+* [2. Vegetation Indices](/software-services/titiler/ndvi)
+  * Content: Calculate vegetation indices server-side using mathematical expressions and visualize with custom color schemes.
+  * Features: Real-time NDVI calculation, Server-side expressions, Custom color mapping, Environmental monitoring
+* [3. Spatial Cropping](/software-services/titiler/crop)
+  * Content: Extract specific areas from satellite scenes using bounding box and feature-based spatial operations.
+  * Features: Bounding box cropping, Polygon-based extraction, Coordinate system handling, Export capabilities
