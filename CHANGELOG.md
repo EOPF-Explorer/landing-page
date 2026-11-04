@@ -4,6 +4,10 @@ Notable changes to the EOPF Sentinel Zarr Explorer website. Versions follow [Sem
 
 ## [Unreleased]
 
+### Fixed
+
+- TiTiler how-to pages and the 3D Globe use the titiler-eopf 0.12 URL syntax (`assets=reflectance|bands=…`) on `/raster` (#121).
+
 ## [2.5.0] - 2026-11-02
 
 ### Added
