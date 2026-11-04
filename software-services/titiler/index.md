@@ -1,6 +1,16 @@
 ---
 title: Titiler Integration
 layout: page
+llm:
+  - heading: Integration Examples
+    source: ../../content/tutorials.data.js
+    items: titiler
+    title: title
+    link:
+      field: link
+    fields:
+      - content
+      - features
 ---
 
 
@@ -11,6 +21,7 @@ layout: page
 </style>
 
 <script setup>
+import { data as tutorials } from "../../content/tutorials.data.js";
 import { ref, onMounted } from 'vue'
 
 const apiStatus = ref(false)
@@ -172,55 +183,10 @@ For custom deployments, see the [titiler-eopf repository](https://github.com/EOP
 For the latest updates and advanced features, follow the [Titiler-EOPF project](https://github.com/EOPF-Explorer/titiler-eopf) and [EOPF Explorer platform](https://github.com/EOPF-Explorer) on GitHub.
 
 <FeaturesGallery
+  id="integration-examples"
   background="transparent"
   sectionTitle="Integration Examples"
-  :cards="[
-    {
-      title: '1. RGB Band Combinations',
-      content: 'Learn to create true color and false color visualizations using Titiler\'s tile endpoints with OpenLayers or Leaflet.',
-      features: [
-        'True color RGB (B04, B03, B02)',
-        'False color infrared composites',
-        'Color enhancement formulas',
-        'Web mapping integration'
-      ],
-      link: {
-        text: 'View Example',
-        href: './rgb',
-        target:'_self'
-      }
-    },
-    {
-      title: '2. Vegetation Indices',
-      content: 'Calculate vegetation indices server-side using mathematical expressions and visualize with custom color schemes.',
-      features: [
-        'Real-time NDVI calculation',
-        'Server-side expressions',
-        'Custom color mapping',
-        'Environmental monitoring'
-      ],
-      link: {
-        text: 'View Example',
-        href: './ndvi',
-        target:'_self'
-      }
-    },
-    {
-      title: '3. Spatial Cropping',
-      content: 'Extract specific areas from satellite scenes using bounding box and feature-based spatial operations.',
-      features: [
-        'Bounding box cropping',
-        'Polygon-based extraction',
-        'Coordinate system handling',
-        'Export capabilities'
-      ],
-      link: {
-        text: 'View Example',
-        href: './crop',
-        target:'_self'
-      }
-    }
-  ]"
+  :cards="tutorials.titiler"
 />
 
 

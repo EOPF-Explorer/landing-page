@@ -4,9 +4,19 @@ layout: page
 ---
 
 <script setup>
-import { useTemplateRef, onMounted, nextTick } from "vue"
+import { shallowRef, onMounted, nextTick, ref } from "vue"
+import { loadModule } from "../../.vitepress/utils/load-module";
+import { data as items } from "../items.data.js"
 
-const zarrUrl = 'https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2B_MSIL2A_20260120T125339_N0511_R138_T27VWL_20260120T131151.zarr/measurements/reflectance';
+const demoModulesLoaded = Promise.all([
+  loadModule(() => import("@eox/layout"), "eox-layout"),
+  loadModule(() => import("@eox/map"), "eox-map"),
+  loadModule(() => import("@eox/map/src/plugins/advancedLayersAndSources")),
+  loadModule(() => import("@eox/layercontrol"), "eox-layercontrol"),
+]);
+const demoReady = ref(false);
+
+const zarrUrl = `${items.iceland.zarrUrl}/measurements/reflectance`;
 
 const layers = [
   {
@@ -73,19 +83,20 @@ const layers = [
 
 const center = [-20.12, 63.54]; 
 const zoom = 10;
-/** @type {import('vue').Ref<import("@eox/map").EOxMap>} */
-const eoxMap = useTemplateRef("eoxMap")
-/** @type {import('vue').Ref<import("@eox/layercontrol").EOxLayerControl>} */
-const eoxLayercontrol = useTemplateRef("eoxLayercontrol")
+/** @type {import("vue").ShallowRef<import("@eox/map").EOxMap | null>} */
+const eoxMap = shallowRef(null)
+/** @type {import("vue").ShallowRef<import("@eox/layercontrol").EOxLayerControl | null>} */
+const eoxLayercontrol = shallowRef(null)
 
-onMounted(() => {
-  nextTick(() => {
-    //@ts-expect-error
-    eoxMap.value.layers = layers
-    eoxMap.value.zoom = zoom
-    eoxMap.value.center = center
-    eoxLayercontrol.value.for = "eox-map#map-basic"
-  })
+onMounted(async () => {
+  demoReady.value = (await demoModulesLoaded).every(Boolean)
+  await nextTick()
+  if (!eoxMap.value || !eoxLayercontrol.value) return
+  //@ts-expect-error
+  eoxMap.value.layers = layers
+  eoxMap.value.zoom = zoom
+  eoxMap.value.center = center
+  eoxLayercontrol.value.for = "eox-map#map-basic"
 })
 </script>
 
@@ -107,7 +118,7 @@ This setup includes:
 
   <template #demo>
     <ClientOnly>
-    <eox-layout gap="8" style="height: 500px;" class="fill">
+    <eox-layout v-if="demoReady" gap="8" style="height: 500px;" class="fill">
       <eox-layout-item x="0" y="0" w="3" h="12">
         <eox-layercontrol
           ref="eoxLayercontrol"
@@ -159,7 +170,7 @@ This setup includes:
 <script type="module" src="config.js"></script>
 ```
 
-```javascript [config.js]
+```javascript-vue [config.js]
 import "@eox/map";
 import "@eox/map/src/plugins/advancedLayersAndSources"
 
@@ -189,7 +200,7 @@ export const layers = [
         properties: { id: "geozarr", title: "Sentinel-2 GeoZarr" },
         source: {
           type: "GeoZarr",
-          url:"https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance",
+          url:"{{ items.naples.zarrUrl }}/measurements/reflectance",
           bands: ["b04", "b03", "b02"],
         },
         style: {
@@ -233,13 +244,13 @@ const map = document.querySelector("#my-map");
 }
 ```
 
-```python [Python (Jupyter)]
+```python-vue [Python (Jupyter)]
 %pip install ipyeoxelements  # run once, then restart kernel
 
 from ipywidgets import HBox, Layout
 from ipyeoxelements import EOxMap, EOxLayercontrol
 
-zarr_url = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr"
+zarr_url = "{{ items.naples.zarrUrl }}"
 
 layers = [
     {

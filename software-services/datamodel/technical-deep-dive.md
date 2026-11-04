@@ -117,7 +117,7 @@ Contributions to the core zarr-python library:
 | Main PR | [PR #17194](https://github.com/openlayers/openlayers/pull/17194) |
 | Additional PR | [PR #17255](https://github.com/openlayers/openlayers/pull/17255) |
 | Live Example | [GeoZarr Example](https://openlayers.org/en/main/examples/geozarr.html) |
-| Stretch Example | [GeoZarr Stretch Example](https://deploy-preview-17194--ol-site.netlify.app/en/latest/examples/geozarr-stretch.html) |
+| Stretch Example | [GeoZarr Stretch Example](https://openlayers.org/en/latest/examples/geozarr-stretch.html) |
 
 **Features:**
 - Native GeoZarr rendering in the browser
@@ -235,5 +235,5 @@ Following GeoZarr 0.4:
 
 <div style="margin-top: 2rem; padding: 1.5rem; background: var(--vp-c-bg-soft, #f6f6f7); border-radius: 8px;">
   <p style="margin: 0 0 1rem 0;"><strong>Questions or contributions?</strong></p>
-  <a href="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" target="_blank" style="color: var(--vp-c-brand);">Join the discussion on EOPF Discourse →</a>
+  <a href="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" target="_blank" class="vp-external-link-icon" style="color: var(--vp-c-brand);">Join the discussion on EOPF Discourse</a>
 </div>
