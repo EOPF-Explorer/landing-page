@@ -18,7 +18,7 @@ import { data as items } from '../items.data.js'
  * @typedef {Object} BandCombination
  * @property {string} name
  * @property {string} description
- * @property {string[]} variables
+ * @property {string[]} bands
  * @property {string} rescale
  * @property {string} colorFormula
  */
@@ -41,33 +41,21 @@ const bandCombinations = {
   'rgb-true': {
     name: 'True Color (RGB)',
     description: 'Natural color composite using red, green, and blue bands',
-    variables: [
-      '/measurements/reflectance:b04',
-      '/measurements/reflectance:b03', 
-      '/measurements/reflectance:b02'
-    ],
+    bands: ['b04', 'b03', 'b02'],
     rescale: '0,1',
     colorFormula: 'gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2'
   },
   'rgb-false': {
     name: 'False Color Infrared',
     description: 'False color composite highlighting vegetation using NIR, red, and green bands',
-    variables: [
-      '/measurements/reflectance:b08',
-      '/measurements/reflectance:b04',
-      '/measurements/reflectance:b03'
-    ],
+    bands: ['b08', 'b04', 'b03'],
     rescale: '0,0.3',
     colorFormula: 'gamma rgb 1.2, saturation 1.1'
   },
   'swir-color': {
     name: 'SWIR False Color',
     description: 'Short-wave infrared composite for geology and urban analysis',
-    variables: [
-      '/measurements/reflectance:b11',
-      '/measurements/reflectance:b08',
-      '/measurements/reflectance:b04'
-    ],
+    bands: ['b11', 'b08', 'b04'],
     rescale: '0,0.4',
     colorFormula: 'gamma rgb 1.5, saturation 1.3'
   }
@@ -76,6 +64,16 @@ const bandCombinations = {
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 const sampleItem = items.venice.id
+const asset = 'reflectance'
+
+/**
+ * Builds the `assets` parameter value, e.g. `reflectance|bands=b04,b03,b02`
+ * @param {string[]} bands
+ * @returns {string}
+ */
+function assetsParam(bands) {
+  return `${asset}|bands=${bands.join(',')}`
+}
 
 /**
  * Builds the Titiler tile URL with current band combination settings
@@ -85,10 +83,7 @@ function buildTileUrl() {
   const combo = bandCombinations[selectedBands.value]
   const params = new URLSearchParams()
   
-  combo.variables.forEach(variable => {
-    params.append('variables', variable)
-  })
-  
+  params.set('assets', assetsParam(combo.bands))
   params.set('rescale', combo.rescale)
   params.set('color_formula', combo.colorFormula)
   
@@ -191,7 +186,7 @@ This example demonstrates how to create RGB band combinations using Titiler's ti
         <article class="surface-variant padding no-elevate">
           <div class="bold">Description</div>
           <p class="">{{ bandCombinations[selectedBands].description }}</p>
-          <pre class=" scroll"><code>{{ bandCombinations[selectedBands].variables.join('\n') }}</code></pre>
+          <pre class=" scroll"><code>assets={{ assetsParam(bandCombinations[selectedBands].bands) }}</code></pre>
         </article>
       </div>
     </div>
@@ -232,12 +227,10 @@ import TileLayer from 'ol/layer/Tile.js';
 import { XYZ } from 'ol/source.js';
 import { fromLonLat } from 'ol/proj.js';
 
-// Titiler tile URL with band variables
+// Titiler tile URL: bands b04, b03, b02 from the reflectance asset
 const tileUrl =
   "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.venice.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
-  "variables=/measurements/reflectance:b04&" +
-  "variables=/measurements/reflectance:b03&" +
-  "variables=/measurements/reflectance:b02&" +
+  "assets=reflectance|bands=b04,b03,b02&" +
   "rescale=0,1&" +
   "color_formula=gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2";
 
@@ -270,9 +263,7 @@ L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}
 // Build Titiler URL
 const tileUrl =
   "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.venice.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
-  "variables=/measurements/reflectance:b04&" +
-  "variables=/measurements/reflectance:b03&" +
-  "variables=/measurements/reflectance:b02&" +
+  "assets=reflectance|bands=b04,b03,b02&" +
   "rescale=0,1&" +
   "color_formula=gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2";
 
@@ -302,7 +293,7 @@ async function getTileInfo() {
 
 async function getItemMetadata() {
   const response = await fetch(
-    `${baseUrl}/collections/${collection}/items/${itemId}`
+    `${baseUrl}/collections/${collection}/items/${itemId}/info?assets=reflectance`
   );
   const metadata = await response.json();
   console.log('Item metadata:', metadata);
@@ -310,13 +301,10 @@ async function getItemMetadata() {
 }
 
 // Build custom tile URL
-function buildTileUrl(variables, rescale, colorFormula) {
+function buildTileUrl(bands, rescale, colorFormula) {
   const params = new URLSearchParams();
   
-  variables.forEach(variable => {
-    params.append('variables', variable);
-  });
-  
+  params.set('assets', `reflectance|bands=${bands.join(',')}`);
   params.set('rescale', rescale);
   params.set('color_formula', colorFormula);
   
@@ -325,7 +313,7 @@ function buildTileUrl(variables, rescale, colorFormula) {
 
 // Usage
 const trueColorUrl = buildTileUrl(
-  ['/measurements/reflectance:b04', '/measurements/reflectance:b03', '/measurements/reflectance:b02'],
+  ['b04', 'b03', 'b02'],
   '0,1',
   'gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2'
 );
@@ -338,23 +326,22 @@ const trueColorUrl = buildTileUrl(
 
 ### API Parameters
 
-| Parameter       | Description                      | Example                         |
-| --------------- | -------------------------------- | ------------------------------- |
-| `variables`     | Band path in Zarr structure      | `/measurements/reflectance:b04` |
-| `rescale`       | Min,max values for normalization | `0,1` or `0,0.3`                |
-| `color_formula` | Color enhancement pipeline       | `gamma rgb 1.3, saturation 1.2` |
-| `format`        | Output image format              | `png` (default), `webp`, `jpeg` |
+| Parameter       | Description                      | Example                            |
+| --------------- | -------------------------------- | ---------------------------------- |
+| `assets`        | STAC asset and bands to read     | `reflectance\|bands=b04,b03,b02`   |
+| `rescale`       | Min,max values for normalization | `0,1` or `0,0.3`                   |
+| `color_formula` | Color enhancement pipeline       | `gamma rgb 1.3, saturation 1.2`    |
 
 
 ### Key Concepts
 
-**Variable Format**
+**Asset and Band Selection**
 
-Titiler uses specific paths to reference bands in Zarr data in the form of `group:variable`. For Sentinel-2 reflectance data, the relevant group is `/measurements/reflectance`. Example band paths:
+Titiler reads bands from the item's STAC assets. The `assets` parameter names an asset and, after a `|`, the bands to read from it. For Sentinel-2 L2A, the `reflectance` asset holds all spectral bands:
 
 ```
-/measurements/reflectance:b04  # Red band (10m resolution)
-/measurements/reflectance:b11  # SWIR band (20m resolution)
+assets=reflectance|bands=b04,b03,b02  # Red, green and blue bands (10m resolution)
+assets=reflectance|bands=b11          # SWIR band (20m resolution)
 ```
 
 **Color Enhancement**
