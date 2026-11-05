@@ -363,7 +363,7 @@ Titiler processes mathematical expressions on the server. The expression is pass
 assets = "reflectance|expression=(b08-b04)/(b08+b04)";
 
 // URL-encode before use: an unencoded "+" is read as a space
-url = `${itemUrl}/preview.png?assets=${encodeURIComponent(assets)}`;
+url = `${itemUrl}/preview.png?assets=${encodeURIComponent(assets)}&rescale=-1,1&colormap_name=rdylgn`;
 ```
 
 **Band References in Expressions**
