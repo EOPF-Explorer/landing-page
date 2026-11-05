@@ -1,16 +1,22 @@
 ---
+title: Dynamic Browser
 layout: page
 footer: false
 ---
 
 <script setup>
-import {onMounted} from "vue"
+import {onMounted, ref} from "vue"
+import { loadModule } from "../.vitepress/utils/load-module";
+
+const eodashLoaded = loadModule(() => import("@eodash/eodash/webcomponent"), "eo-dash");
+const eodashReady = ref(false);
 
 onMounted(async()=>{
   if (document.querySelector(".layout-home")) {
     window.location.reload();
     await import("@eox/map");
   }
+  eodashReady.value = await eodashLoaded;
 })
   
 const config = async() => (await import("./sentinel-explorer-config")).default
@@ -32,5 +38,5 @@ eo-dash {
 </style>
 
 <ClientOnly>
-<eo-dash id="sentinel-explorer" .config="config"></eo-dash>
+<eo-dash v-if="eodashReady" id="sentinel-explorer" .config="config"></eo-dash>
 </ClientOnly>

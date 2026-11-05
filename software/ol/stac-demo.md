@@ -203,7 +203,8 @@ body {
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import Map from 'ol/Map.js'
 import View from 'ol/View.js'
-import TileLayer from 'ol/layer/WebGLTile.js'
+import WebGLTileLayer from 'ol/layer/WebGLTile.js'
+import TileLayer from 'ol/layer/Tile.js'
 import VectorLayer from 'ol/layer/Vector.js'
 import GeoZarr from 'ol/source/GeoZarr.js'
 import VectorSource from 'ol/source/Vector.js'
@@ -214,15 +215,19 @@ import { Feature } from 'ol'
 import { Polygon } from 'ol/geom.js'
 import { Style, Stroke, Fill } from 'ol/style.js'
 import { transformExtent } from 'ol/proj.js'
+import { isEmpty } from 'ol/extent.js'
 import 'ol/ol.css'
 import { checkWebGLSupport } from '../../software-services/index'
 
+/** @type {import("vue").Ref<boolean | null>} */
 const webglSupport = ref(null)
 const mapRef = ref()
-let map = null
+/** @type {Map | undefined} */
+let map
 let drawInteraction = null
-let boundingBoxLayer = null
-let footprintsLayer = null
+const bboxSource = new VectorSource()
+const footprintsSource = new VectorSource()
+/** @type {WebGLTileLayer[]} */
 let currentDataLayers = []
 
 const startDate = ref('')
@@ -230,8 +235,11 @@ const endDate = ref('')
 const maxDate = ref('')
 const isSearching = ref(false)
 const searchResults = ref([])
+/** @type {import("vue").Ref<number[] | null>} */
 const selectedBbox = ref(null)
+/** @type {import("vue").Ref<string[]>} */
 const loadingScenes = ref([])
+/** @type {import("vue").Ref<string[]>} */
 const loadedScenes = ref([])
 
 onMounted(() => {
@@ -300,8 +308,7 @@ function initializeMap() {
         source: new OSM(),
       })
 
-      const bboxSource = new VectorSource()
-      boundingBoxLayer = new VectorLayer({
+      const boundingBoxLayer = new VectorLayer({
         source: bboxSource,
         style: new Style({
           stroke: new Stroke({
@@ -314,8 +321,7 @@ function initializeMap() {
         }),
       })
 
-      const footprintsSource = new VectorSource()
-      footprintsLayer = new VectorLayer({
+      const footprintsLayer = new VectorLayer({
         source: footprintsSource,
         style: new Style({
           stroke: new Stroke({
@@ -356,7 +362,9 @@ function initializeMap() {
       })
 
       drawInteraction.on('drawend', (event) => {
-        const extent = event.feature.getGeometry().getExtent()
+        const geometry = event.feature.getGeometry()
+        if (!geometry) return
+        const extent = geometry.getExtent()
         const bbox = transformExtent(extent, 'EPSG:3857', 'EPSG:4326')
         selectedBbox.value = bbox
         console.log('Selected bbox:', bbox)
@@ -416,12 +424,12 @@ async function searchSTAC() {
   }
 }
 
+/** @param {import("@eodash/stac").STACItem[]} features */
 function displayFootprints(features) {
-  const footprintsSource = footprintsLayer.getSource()
   footprintsSource.clear()
   
   features.forEach((stacItem) => {
-    if (stacItem.geometry) {
+    if (stacItem.geometry?.type === 'Polygon') {
       const feature = new Feature({
         geometry: new Polygon(stacItem.geometry.coordinates).transform('EPSG:4326', 'EPSG:3857')
       })
@@ -440,7 +448,7 @@ function displayFootprints(features) {
   // Fit view to footprints
   if (features.length > 0) {
     const extent = footprintsSource.getExtent()
-    map.getView().fit(extent, { padding: [50, 50, 50, 50] })
+    if (map && extent && !isEmpty(extent)) map.getView().fit(extent, { padding: [50, 50, 50, 50] })
     
     // Auto-load all scenes with a slight delay between each
     console.log('Auto-loading all scenes...')
@@ -452,6 +460,7 @@ function displayFootprints(features) {
   }
 }
 
+/** @param {import("@eodash/stac").STACItem} stacItem */
 async function loadScene(stacItem) {
   console.log('Loading scene:', stacItem.id)
   
@@ -496,7 +505,7 @@ async function loadScene(stacItem) {
     const source = new GeoZarr(sourceConfig)
 
     // Create WebGL tile layer with styling
-    const dataLayer = new TileLayer({
+    const dataLayer = new WebGLTileLayer({
       source,
       style: {
         gamma: 1.5,
@@ -515,6 +524,7 @@ async function loadScene(stacItem) {
       },
     })
 
+    if (!map) throw new Error('The map is not initialised')
     map.addLayer(dataLayer)
     currentDataLayers.push(dataLayer)
     
@@ -532,21 +542,22 @@ async function loadScene(stacItem) {
 
 function clearDataLayers() {
   currentDataLayers.forEach(layer => {
-    map.removeLayer(layer)
+    map?.removeLayer(layer)
   })
   currentDataLayers = []
 }
 
 function clearAll() {
-  boundingBoxLayer.getSource().clear()
+  bboxSource.clear()
   selectedBbox.value = null
-  footprintsLayer.getSource().clear()
+  footprintsSource.clear()
   searchResults.value = []
   loadingScenes.value = []
   loadedScenes.value = []
   clearDataLayers()
 }
 
+/** @param {string} dateString */
 function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString('en-GB', {
     day: '2-digit',

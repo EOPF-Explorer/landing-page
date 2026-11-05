@@ -5,7 +5,19 @@ layout: page
 
 <script setup>
 import GeoZarrDiagram from "../../.vitepress/components/GeoZarrDiagram.vue"
-import { timelineItems, getStatusColor } from "../../.vitepress/utils/content.js"
+import { data } from "../../content/timeline.data.js"
+
+const { timelineItems } = data;
+
+/** @param {import("../../content/timeline.data").TimelineItem["status"]} status */
+const getStatusColor = (status) => {
+  const colors = {
+    completed: '#22c55e',
+    ongoing: '#f59e0b',
+    planned: 'var(--secondary)'
+  }
+  return colors[status] || 'var(--primary)'
+}
 </script>
 
 <div class="hero-section" style="text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 12px; margin-bottom: 2rem;">
@@ -134,10 +146,10 @@ We authored the first comprehensive [STAC best practices for Zarr integration](h
   <a href="./technical-deep-dive" class="button">
     <i class="mdi mdi-library"></i> Technical Deep Dive
   </a>
-  <a href="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" target="_blank" class="button border">
+  <a href="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" target="_blank" class="button border vp-external-link-icon">
     <i class="mdi mdi-chat"></i> Join the Discussion
   </a>
-  <a href="https://github.com/zarr-conventions/" target="_blank" class="button border">
+  <a href="https://github.com/zarr-conventions/" target="_blank" class="button border vp-external-link-icon">
     <i class="mdi mdi-tools"></i> Zarr Conventions
   </a>
 </div>

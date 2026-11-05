@@ -10,8 +10,8 @@ layout: page
       <div>{{new Date("03-09-2026").toString().split(" ").splice(0,4).join(" ") }}</div>
     </div>
     <a href="#recording" class="button border">Watch Recording</a>
-    <a href="https://drive.google.com/file/d/14nW0F_I5o6CTZYwZYc4t6GEz9ngsWMiR/view" target="_blank" class="button border">See Slides</a>
-    <a href="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" target="_blank" class="button border">Follow-up Questions</a>
+    <a href="https://drive.google.com/file/d/14nW0F_I5o6CTZYwZYc4t6GEz9ngsWMiR/view" target="_blank" class="button border vp-external-link-icon">See Slides</a>
+    <a href="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17" target="_blank" class="button border vp-external-link-icon">Follow-up Questions</a>
 </div>
 
 This webinar marks the official launch of the EOPF Sentinel Zarr Explorer, a new platform enabling cloud-native visualisation of Copernicus Sentinel data directly in the browser, as an enhancement of the new EOPF Zarr format.

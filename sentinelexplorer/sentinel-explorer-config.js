@@ -1,5 +1,10 @@
 import { mdiMapSearch } from "@mdi/js";
 
+const OSM_ATTRIBUTION =
+  '{ OSM: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="https://maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }';
+const CLOUDLESS_ATTRIBUTION =
+  '{ EOxCloudless 2024: <a xmlns:dct="http://purl.org/dc/terms/" href="https://s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2024) }';
+
 const baseLayers = [
   {
     type: "Tile",
@@ -15,6 +20,8 @@ const baseLayers = [
       type: "XYZ",
       url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpeg",
       projection: "EPSG:3857",
+      attributions: OSM_ATTRIBUTION,
+      tileGrid: { tileSize: [256, 256] },
     },
     preload: Infinity,
   },
@@ -32,6 +39,8 @@ const baseLayers = [
       type: "XYZ",
       url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg",
       projection: "EPSG:3857",
+      attributions: OSM_ATTRIBUTION,
+      tileGrid: { tileSize: [256, 256] },
     },
     preload: Infinity,
   },
@@ -49,10 +58,44 @@ const baseLayers = [
       type: "XYZ",
       url: "https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg",
       projection: "EPSG:3857",
+      attributions: CLOUDLESS_ATTRIBUTION,
+      tileGrid: { tileSize: [256, 256] },
     },
     preload: Infinity,
   },
 ];
+
+// Matched in order against collection id parts, so "rtc" wins over "grd"
+const PRODUCT_LEVELS = ["l1c", "l2a", "rtc", "efr", "grd", "slc"];
+
+/** @param {unknown} name e.g. "sentinel-2b" -> "S2B" */
+const toMissionCode = (name) => {
+  const match = /^sentinel-(\d[a-z]?)\b/i.exec(String(name ?? ""));
+  return match ? `S${match[1].toUpperCase()}` : undefined;
+};
+
+/** @param {unknown} collection e.g. "sentinel-2-l2a" -> "L2A" */
+const toProductLevel = (collection) => {
+  const parts = String(collection ?? "").split("-");
+  return PRODUCT_LEVELS.find((level) => parts.includes(level))?.toUpperCase();
+};
+
+/**
+ * "S2B L2A | 2026-09-30 | 37WEU"; relative orbit for Sentinel-3 (no grid tile).
+ * @param {import("@eodash/stac").STACItem} item
+ */
+const formatItemTitle = ({ id, collection, properties: p = {} }) => {
+  const missionCode = toMissionCode(p.platform) ?? toMissionCode(collection);
+  const level = toProductLevel(collection);
+  const mission = missionCode && [missionCode, level].filter(Boolean).join(" ");
+  const date = (p.datetime ?? p.start_datetime ?? "").slice(0, 10);
+  const location =
+    /** @type {string} */ (p["grid:code"] ?? "").replace("MGRS-", "") ||
+    (p["sat:relative_orbit"] && `R${p["sat:relative_orbit"]}`);
+  return mission && date && location
+    ? `${mission} | ${date} | ${location}`
+    : id;
+};
 
 const catalogFilters = [
   {
@@ -126,6 +169,7 @@ const sentinel1InfoBody = [
 export default /*** @type {import("@eodash/eodash").Eodash} */ ({
   id: "eopf",
   options: {
+    layerExtent: true,
     renders: {
       "sentinel-2-l2a": {
         true_color: {
@@ -142,10 +186,12 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
     endpoint: "https://api.explorer.eopf.copernicus.eu/stac",
     api: true,
     rasterEndpoint: "https://api.explorer.eopf.copernicus.eu/raster",
-    colormapRegistry:
-      "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/defaults/colormaps.json",
     supportedUpscalingEndpoints: [
-      { url: "api.explorer.eopf.copernicus.eu/raster/", titilerVersion: 2 },
+      {
+        url: "api.explorer.eopf.copernicus.eu",
+        titilerVersion: 2,
+        scaleFactor: 2,
+      },
     ],
   },
   brand: {
@@ -225,9 +271,6 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           layout: { x: "9/9/10", y: 0, w: "3/3/2", h: 7 },
           widget: {
             name: "EodashLayerControl",
-            properties: {
-              tools: ["info", "config", "legend", "opacity"],
-            },
           },
         },
         {
@@ -260,6 +303,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           widget: {
             name: "EodashItemCatalog",
             properties: {
+              titleProperty: formatItemTitle,
               useMosaic: false,
               layoutTarget: "mosaic",
               datetimeFilter: true,
@@ -474,6 +518,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           widget: {
             name: "EodashItemCatalog",
             properties: {
+              titleProperty: formatItemTitle,
               layoutTarget: "mosaic",
               datetimeFilter: true,
               filters: catalogFilters,
@@ -489,6 +534,7 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           widget: {
             name: "EodashItemCatalog",
             properties: {
+              titleProperty: formatItemTitle,
               enableCompare: true,
               layoutTarget: "mosaic",
               datetimeFilter: true,
@@ -504,9 +550,6 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
           layout: { x: 0, y: 6, w: "3/3/2", h: 6 },
           widget: {
             name: "EodashLayerControl",
-            properties: {
-              tools: ["info", "config", "legend", "opacity"],
-            },
           },
         },
         {
@@ -518,7 +561,6 @@ export default /*** @type {import("@eodash/eodash").Eodash} */ ({
             name: "EodashLayerControl",
             properties: {
               map: "second",
-              tools: ["info", "config", "legend", "opacity"],
             },
           },
         },

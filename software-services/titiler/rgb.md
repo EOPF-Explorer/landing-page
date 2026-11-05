@@ -12,6 +12,7 @@ import XYZ from "ol/source/XYZ"
 import { fromLonLat } from 'ol/proj'
 import 'ol/ol.css'
 import { createCopyUrlFunction } from '../index'
+import { data as items } from '../items.data.js'
 
 /**
  * @typedef {Object} BandCombination
@@ -60,9 +61,9 @@ const bandCombinations = {
   }
 }
 
-const sampleItem = 'S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453'
 const collection = 'sentinel-2-l2a'
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/rstaging'
+const sampleItem = items.venice.id
 const asset = 'reflectance'
 
 /**
@@ -135,11 +136,9 @@ onMounted(() => {
 function initializeMap() {
   if (!mapContainer.value) return
   
-  const initialUrl = buildTileUrl()
-  
   tileLayer.value = new TileLayer({
     source: new XYZ({
-      url: initialUrl,
+      url: buildTileUrl(),
       crossOrigin: 'anonymous',
       maxZoom: 18
     }),
@@ -162,12 +161,7 @@ function initializeMap() {
     })
   })
   
-  // Add the Titiler layer after map initialization
-  setTimeout(() => {
-    if (tileLayer.value && map.value) {
-      map.value.addLayer(tileLayer.value)
-    }
-  }, 1000)
+  map.value.addLayer(tileLayer.value)
 }
 </script>
 
@@ -226,7 +220,7 @@ This example demonstrates how to create RGB band combinations using Titiler's ti
 
 ::: code-group
 
-```javascript [OpenLayers Integration]
+```javascript-vue [OpenLayers Integration]
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
 import TileLayer from 'ol/layer/Tile.js';
@@ -235,7 +229,7 @@ import { fromLonLat } from 'ol/proj.js';
 
 // Titiler tile URL: bands b04, b03, b02 from the reflectance asset
 const tileUrl =
-  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.venice.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
   "assets=reflectance|bands=b04,b03,b02&" +
   "rescale=0,1&" +
   "color_formula=gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2";
@@ -257,7 +251,7 @@ const map = new Map({
 });
 ```
 
-```javascript [Leaflet Integration]
+```javascript-vue [Leaflet Integration]
 import L from 'leaflet';
 
 // Create Leaflet map
@@ -268,7 +262,7 @@ L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}
 
 // Build Titiler URL
 const tileUrl =
-  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/S2B_MSIL2A_20260810T101019_N0512_R022_T32TQR_20260810T143453/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
+  "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.venice.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?" +
   "assets=reflectance|bands=b04,b03,b02&" +
   "rescale=0,1&" +
   "color_formula=gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2";
@@ -282,11 +276,11 @@ const sentinelLayer = L.tileLayer(tileUrl, {
 sentinelLayer.addTo(map);
 ```
 
-```javascript [API Direct Usage]
+```javascript-vue [API Direct Usage]
 // Direct API calls for custom processing
 const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster';
 const collection = 'sentinel-2-l2a';
-const itemId = 'S2B_MSIL2A_20260709T110619_N0512_R137_T32VLK_20260709T151414';
+const itemId = '{{ items.venice.id }}';
 
 async function getTileInfo() {
   const response = await fetch(

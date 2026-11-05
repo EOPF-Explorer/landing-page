@@ -1,7 +1,22 @@
 ---
 title: EOxElements Jupyter
 layout: page
+llm:
+  - heading: Integration Examples
+    source: ../../content/tutorials.data.js
+    items: jupyter
+    title: title
+    link:
+      field: link
+    fields:
+      - content
+      - features
 ---
+
+<script setup>
+import { data as tutorials } from "../../content/tutorials.data.js";
+import { data as items } from '../items.data.js'
+</script>
 
 ## EOxElements Jupyter <img src="/media/eoxelements-jupyter.png" alt="EOxElements-Jupyter Logo" style="height:70px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
@@ -60,10 +75,10 @@ EOxElements Jupyter is built on [anywidget](https://anywidget.dev/), which allow
 
 Layers are configured as Python dicts that mirror the JSON configuration used in the web component. This allows you to use the same GeoZarr or STAC configurations across both web and Jupyter environments:
 
-```python
+```python-vue
 from ipyeoxelements import EOxMap
 
-zarr_url = "https://s3.explorer.eopf.copernicus.eu/esa-zarr-sentinel-explorer-fra/tests-output/sentinel-2-l2a/S2C_MSIL2A_20260809T095031_N0512_R079_T33TVF_20260809T150411.zarr/measurements/reflectance"
+zarr_url = "{{ items.naples.zarrUrl }}/measurements/reflectance"
 
 layers = [
     {
@@ -133,51 +148,5 @@ Each EOxElements tutorial below includes a **Python (Jupyter)** tab alongside th
 <FeaturesGallery
   background="transparent"
   sectionTitle="Integration Examples"
-  :cards="[
-    {
-      title: '1. Basic Setup',
-      content: 'Render a Sentinel-2 GeoZarr layer with an OpenStreetMap base layer and layer control.',
-      features: [
-        'GeoZarr Source',
-        'EOxLayercontrol',
-        'Group Layers',
-        'Python + HTML tabs'
-      ],
-      link: {
-        text: 'View Tutorial',
-        href: '../eoxelements/basic',
-        target: '_self'
-      }
-    },
-    {
-      title: '2. Advanced Visualization',
-      content: 'Dynamic band selection and gamma control via the layerConfig pattern.',
-      features: [
-        'Band Combination Selector',
-        'Gamma Slider',
-        'layerConfig Schema',
-        'Python + HTML tabs'
-      ],
-      link: {
-        text: 'View Tutorial',
-        href: '../eoxelements/advanced',
-        target: '_self'
-      }
-    },
-    {
-      title: '3. 3D Globe',
-      content: 'Render Sentinel-2 mosaic data on a 3D globe with terrain and city fly-tos.',
-      features: [
-        'Globe Projection',
-        'Sentinel-2 Mosaic',
-        'Terrain Rendering',
-        'Python + HTML tabs'
-      ],
-      link: {
-        text: 'View Tutorial',
-        href: '../eoxelements/globe',
-        target: '_self'
-      }
-    }
-  ]"
+  :cards="tutorials.jupyter"
 />

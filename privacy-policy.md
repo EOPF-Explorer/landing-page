@@ -1,4 +1,5 @@
 ---
+title: Privacy Notice
 layout: page
 ---
 

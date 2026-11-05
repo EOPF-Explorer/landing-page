@@ -1,7 +1,21 @@
 ---
 title: eodash
 layout: page
+llm:
+  - heading: Integration Examples
+    source: ../../content/tutorials.data.js
+    items: eodash
+    title: title
+    link:
+      field: link
+    fields:
+      - content
+      - features
 ---
+
+<script setup>
+import { data as tutorials } from "../../content/tutorials.data.js";
+</script>
 
 ## eodash <img src="https://eodash.org/eodash_logo.png" alt="eodash Logo" style="height:60px;vertical-align:middle;margin-left:0.5rem;float:right;" />
 
@@ -25,7 +39,7 @@ For more information and full documentation, visit:
 
 ### STAC Catalog Generation
 
-The **[eodash_catalog](https://github.com/eodash/eodash_catalog)** is a Python library designed to simplify the creation of STAC catalogs that utilize the [eodash extension](https://github.com/eodash/eodash_extension) to support eodash instances.
+The **[eodash_catalog](https://github.com/eodash/eodash_catalog)** is a Python library designed to simplify the creation of STAC catalogs that utilize the [eodash extension](https://github.com/eodash/eodash-extension) to support eodash instances.
 
 It automates the generation of collection and item metadata, ensuring compatibility with the dashboard's visualization capabilities. Check the [Wiki](https://github.com/eodash/eodash_catalog/wiki) for detailed usage instructions and configuration examples.
 
@@ -38,6 +52,9 @@ It automates the generation of collection and item metadata, ensuring compatibil
 ```bash
 npm install @eodash/eodash
 ```
+```js
+import "@eodash/eodash/webcomponent";
+```
 :::
 
   </div>
@@ -45,7 +62,7 @@ npm install @eodash/eodash
 
 ::: info CDN (Quick Testing)
 ```html
-<script type="module" src="https://unpkg.com/@eodash/eodash/dist/eodash.js"></script>
+<script type="module" src="https://unpkg.com/@eodash/eodash/dist/client/eo-dash.js"></script>
 ```
 :::
 
@@ -76,21 +93,5 @@ eodash is built on a **reactive core architecture** that decouples state managem
 <FeaturesGallery
   background="transparent"
   sectionTitle="Integration Examples"
-  :cards="[
-    {
-      title: 'Web Component Tutorial',
-      content: 'Learn how to embed a full STAC-powered dashboard into your application using the eo-dash web component.',
-      features: [
-        'Web Component',
-        'STAC Integration',
-        'Custom Branding',
-        'Widget Layout'
-      ],
-      link: {
-        text: 'Start Tutorial',
-        href: './dashboard',
-        target:'_self'
-      }
-    }
-  ]"
+  :cards="tutorials.eodash"
 />
