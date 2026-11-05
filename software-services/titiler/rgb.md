@@ -62,7 +62,7 @@ const bandCombinations = {
 }
 
 const collection = 'sentinel-2-l2a'
-const baseUrl = 'https://api.explorer.eopf.copernicus.eu/rstaging'
+const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 const sampleItem = items.venice.id
 const asset = 'reflectance'
 

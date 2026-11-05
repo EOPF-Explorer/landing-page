@@ -88,7 +88,7 @@ const colormaps = [
 
 const sampleItem = items.venice.id
 const collection = 'sentinel-2-l2a'
-const baseUrl = 'https://api.explorer.eopf.copernicus.eu/rstaging'
+const baseUrl = 'https://api.explorer.eopf.copernicus.eu/raster'
 
 /** @type {import('vue').Ref<import('ol/layer/Tile').default | null>} */
 const tileLayer = ref(null)
