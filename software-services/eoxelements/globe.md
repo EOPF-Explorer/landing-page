@@ -33,9 +33,7 @@ const cities = [
 
 const rasterUrl = "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items";
 const trueColor = new URLSearchParams([
-  ["variables", "/measurements/reflectance:b04"],
-  ["variables", "/measurements/reflectance:b03"],
-  ["variables", "/measurements/reflectance:b02"],
+  ["assets", "reflectance|bands=b04,b03,b02"],
   ["rescale", "0,1"],
   ["color_formula", "gamma rgb 1.3, sigmoidal rgb 6 0.1, saturation 1.2"],
 ]).toString();
@@ -243,7 +241,7 @@ map.layers = [
     },
     source: {
       type: "XYZ",
-      url: "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.milanoCortina.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?variables=/measurements/reflectance:b04&variables=/measurements/reflectance:b03&variables=/measurements/reflectance:b02&rescale=0,1",
+      url: "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.milanoCortina.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?assets=reflectance|bands=b04,b03,b02&rescale=0,1",
       crossOrigin: "anonymous",
     }
   }
@@ -274,7 +272,7 @@ layers = [
         "properties": {"id": "sentinel-2", "title": "Sentinel-2 Milano Cortina"},
         "source": {
             "type": "XYZ",
-            "url": "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.milanoCortina.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?variables=/measurements/reflectance:b04&variables=/measurements/reflectance:b03&variables=/measurements/reflectance:b02&rescale=0,1",
+            "url": "https://api.explorer.eopf.copernicus.eu/raster/collections/sentinel-2-l2a/items/{{ items.milanoCortina.id }}/tiles/WebMercatorQuad/{z}/{x}/{y}.png?assets=reflectance|bands=b04,b03,b02&rescale=0,1",
             "crossOrigin": "anonymous",
         },
     },
