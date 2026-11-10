@@ -3,6 +3,12 @@
 Notable changes to the EOPF Sentinel Zarr Explorer website. Versions follow [SemVer](https://semver.org/).
 
 ## [Unreleased]
+### Added
+
+### Changed
+- Updated privacy policy data retention period (⁠https://github.com/EOPF-Explorer/landing-page/pull/134)
+
+### Fixed
 
 ## [2.5.0] - 2026-11-02
 
