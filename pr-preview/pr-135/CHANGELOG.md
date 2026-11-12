@@ -9,7 +9,7 @@ Notable changes to the EOPF Sentinel Zarr Explorer website. Versions follow [Sem
 
 ### Added
 
-* Allow bands manipulation and arithemtics on the Mosaic view
+* Support bands manipulation and arithmetics on the Mosaic view
 
 ### Changed
 
