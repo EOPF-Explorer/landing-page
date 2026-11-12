@@ -9,6 +9,8 @@ Notable changes to the EOPF Sentinel Zarr Explorer website. Versions follow [Sem
 
 ### Added
 
+* Support bands manipulation and arithmetics on the Mosaic view
+
 ### Changed
 
 * Updated privacy policy data retention period (⁠https://github.com/EOPF-Explorer/landing-page/pull/134)
