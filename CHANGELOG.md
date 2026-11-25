@@ -10,12 +10,16 @@ Notable changes to the EOPF Sentinel Zarr Explorer website. Versions follow [Sem
 ### Added
 
 * Support bands manipulation and arithmetics on the Mosaic view
+* Webinar #3 recording; the ticket widget is removed now that the event is over
 
 ### Changed
 
 * Updated privacy policy data retention period (⁠https://github.com/EOPF-Explorer/landing-page/pull/134)
+* The "Why Zarr" feature matrix compares EOPF Zarr with SAFE only, as the EOPF Samples now share the Explorer data model (#138)
 
 ### Fixed
+
+* The "What is EOPF?" link points to the new EOPF site at eof.esa.int (#136)
 
 ## [2.5.0] - 2026-11-02
 

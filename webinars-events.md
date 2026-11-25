@@ -11,10 +11,10 @@ Join the EOPF community to learn about cloud-native Earth Observation, explore t
 ## Webinars and events
 
 * **EOPF Explorer Webinar #3: Updates on EOPF Zarr & Cloud-Native S1/S2 Data Fusion**
-  * Topics: Analysis, Upcoming event
+  * Topics: Analysis, Recording
   * When and where: Wed 25 Nov 2026 15:00 - 16:00 CET, Online
-  * Content: Join the next EOPF Explorer webinar, where we walk through the latest EOPF Zarr developments: Sentinel-1 + Sentinel-2 data fusion, COG vs EOPF Zarr benchmarking, and EOPF Zarr updates & roadmap.
-  * Links: [View details](/webinars-events/webinar-3-data-fusion)
+  * Content: Webinar #3 walks through the latest EOPF Zarr developments: Sentinel-1 + Sentinel-2 data fusion, COG vs EOPF Zarr benchmarking, and EOPF Zarr updates & roadmap.
+  * Links: [View details](/webinars-events/webinar-3-data-fusion), [Watch recording](https://www.youtube.com/watch?v=UsKr-tT6few)
 * **EOPF Sentinel Zarr Explorer - FOSS4G Europe 2026 Workshop**
   * Topics: Workshop, Screening
   * When and where: Fri 03 Jul 2026, Timișoara, Romania

@@ -34,3 +34,5 @@ The EOPF Explorer is a community-driven project, and your voice shapes how Senti
 * Software and services: [https://explorer.eopf.copernicus.eu/software-services](/software-services/index)
 * Data model: [https://explorer.eopf.copernicus.eu/software-services/datamodel/](/software-services/datamodel/index)
 * Project site: [https://explorer.eopf.copernicus.eu/](/)
+
+### Recording {#recording}
