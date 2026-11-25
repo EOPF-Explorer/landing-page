@@ -10,17 +10,22 @@ const events = [
     image: "/media/webinar-3-background.png",
     chips: [
       { text: "Analysis", class: "mdi mdi-chart-box" },
-      { text: "Upcoming event" },
+      { text: "Recording" },
     ],
     metadata: [
       { text: "Wed 25 Nov 2026 15:00 - 16:00 CET", icon: "mdi-calendar-blank" },
       { text: "Online", icon: "mdi-map-marker-outline" },
     ],
-    content: `Join the next EOPF Explorer webinar, where we walk through the latest EOPF Zarr developments: Sentinel-1 + Sentinel-2 data fusion, COG vs EOPF Zarr benchmarking, and EOPF Zarr updates & roadmap.`,
+    content: `Webinar #3 walks through the latest EOPF Zarr developments: Sentinel-1 + Sentinel-2 data fusion, COG vs EOPF Zarr benchmarking, and EOPF Zarr updates & roadmap.`,
     link: {
       text: "View details",
       href: "/webinars-events/webinar-3-data-fusion",
       target: "_self",
+    },
+    secondaryLink: {
+      text: "Watch recording",
+      href: "https://www.youtube.com/watch?v=UsKr-tT6few",
+      target: "_blank",
     },
   },
   {
