@@ -101,7 +101,7 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
 
 <h4 class="center-align">Why Zarr</h4>
 <DataTable
-:headers="['Features', 'Zarr (EOPF Explorer)', 'Zarr (EOPF Sample Service)', 'SAFE']"
+:headers="['Features', 'EOPF Zarr', 'SAFE']"
 :data="tableData"/>
 
 <div class="large-space"></div>
@@ -113,7 +113,7 @@ Use the interactive viewer to explore Sentinel-1 radar or Sentinel-2 optical ima
   <summary>
     <p class="bold">+ What is EOPF?</p>
   </summary>
-    <p>The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eopf.copernicus.eu/" target="_blank" class="link vp-external-link-icon">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, download-based data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
+    <p>The European Space Agency (ESA) is spearheading a significant modernization of its Earth observation data processing through the <a href="https://eof.esa.int/eopf/" target="_blank" class="link vp-external-link-icon">Earth Observation Processor Framework (EOPF)</a> initiative. The initiative represents a fundamental shift away from traditional, download-based data processing pipelines and towards a more flexible and efficient cloud-based environment.</p>
 </details>
 <details>
   <summary>
@@ -216,8 +216,7 @@ const mark = (supported) => supported
 const tableData = comparisonData.rows.map((row) => ({
   summary: {
     'Features': row.feature,
-    'Zarr (EOPF Explorer)': mark(row.explorer),
-    'Zarr (EOPF Sample Service)': mark(row.sampleService),
+    'EOPF Zarr': mark(row.zarr),
     'SAFE': mark(row.safe),
   },
   content: row.content,

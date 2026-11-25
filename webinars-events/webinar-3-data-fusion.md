@@ -11,9 +11,6 @@ layout: page
     </div>
 </div>
 
-<div class="grid">
-<div class="s12 l8">
-
 Join ESA, Development Seed, EOX and thriveGEO for the third EOPF Explorer webinar. We move beyond visualisation to show what EOPF Zarr can do for serious multi-mission analysis, and compare its performance against other data formats.
 
 ### What You Will Learn
@@ -45,17 +42,20 @@ The EOPF Explorer is a community-driven project, and your voice shapes how Senti
 - Data model: [https://explorer.eopf.copernicus.eu/software-services/datamodel/](/software-services/datamodel/index)
 - Project site: [https://explorer.eopf.copernicus.eu/](/)
 
-</div>
-<div class="s12 l4">
-  <div ref="ticketWidget" class="tt-widget" style="isolation: isolate">
-    <div class="tt-widget-fallback">
-      <p>
-        <a :href="TICKET_CHECKOUT_URL" target="_blank">Click here to buy tickets</a><br />
-        <small><a href="https://www.tickettailor.com?rf=wdg_180159" class="tt-widget-powered">Sell tickets online with Ticket Tailor</a></small>
-      </p>
-    </div>
-  </div>
-</div>
+<br/>
+
+### Recording {#recording}
+
+<div class="large-space"></div>
+
+<div  class="responsive margin-top" style="border-radius:16px">
+<iframe
+  style="width: 100%; height: 30rem;"
+  src="https://www.youtube.com/embed/UsKr-tT6few"
+  title="Webinar recording"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen>
+</iframe>
 </div>
 
 <CTASection style="margin-bottom:0px"
@@ -65,29 +65,3 @@ The EOPF Explorer is a community-driven project, and your voice shapes how Senti
   primaryLink="https://discourse.eopf.copernicus.eu/c/eopf-explorer/17"
   dark
 />
-
-<script setup>
-import { ref, onMounted } from "vue";
-
-const TICKET_CHECKOUT_URL =
-  "https://www.tickettailor.com/checkout/new-session/id/9360788/chk/f5dbebcb4f3051f4b519eb6bdc489850/?ref=website_widget&show_search_filter=true&show_date_filter=true&show_sort=true";
-
-/** @type {import('vue').Ref<HTMLDivElement | null>} */
-const ticketWidget = ref(null);
-
-// VitePress strips <script> tags from markdown, so the widget script is injected on mount.
-onMounted(() => {
-  const script = document.createElement("script");
-  script.src = "https://cdn.tickettailor.com/js/widgets/min/widget.js";
-  Object.assign(script.dataset, {
-    url: TICKET_CHECKOUT_URL,
-    type: "inline",
-    inlineMinimal: "true",
-    inlineShowLogo: "false",
-    inlineBgFill: "true",
-    inlineInheritRefFromUrlParam: "",
-    inlineRef: "website_widget",
-  });
-  ticketWidget.value?.appendChild(script);
-});
-</script>
